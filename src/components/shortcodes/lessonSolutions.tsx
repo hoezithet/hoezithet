@@ -83,9 +83,11 @@ export const LessonSolutions = ({}) => {
     }
 
     return (
-       <div className={classes.solutionsWrapper}>
-           <h2>Oplossingen</h2>
-           { solutionElements }
-       </div>
+       solutionElements.length > 0 ?
+         <div className={classes.solutionsWrapper}>
+             <h2>Oplossingen</h2>
+             { solutionElements }
+         </div>
+       : null
     );
 };
