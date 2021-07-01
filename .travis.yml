@@ -6,9 +6,7 @@ node_js:
 before_install:
 - npm config set //npm.greensock.com/:_authToken=$GSAP_TOKEN
 - npm config set @gsap:registry=https://npm.greensock.com
-- yarn add gsap@npm:@gsap/shockingly
-cache:
-  yarn: true
+- npm install gsap@npm:@gsap/shockingly
 script:
 - gatsby build
 - rsync -r --delete-after $TRAVIS_BUILD_DIR/public/ $HZH_USER@$HZH_IP:$HZH_DIR/public_$TRAVIS_BRANCH
