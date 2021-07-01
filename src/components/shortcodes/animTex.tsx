@@ -7,6 +7,7 @@ import COLORS from '../../colors';
 import { gsap } from 'gsap';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import { nanoid } from '@reduxjs/toolkit'
 
 
 type AnimTexPropsType = {
@@ -15,26 +16,50 @@ type AnimTexPropsType = {
 
 const useStyles = makeStyles({
     root: {
-        display: 'relative',
+        position: 'relative',
     }
 });
 
+const hideAllChildrenWithoutClass = (svg, className) => {
+    if (svg?.className?.baseVal === className.baseVal) {
+        return;
+    }
+
+    const children = Array.from(svg.children);
+    if (children.length === 0
+        && typeof svg.style !== 'undefined') {
+        svg.style.opacity = 0;
+    } else {
+        children.forEach(child => {
+            hideAllChildrenWithoutClass(child, className);
+        });
+    }
+};
+
 /**
- * Return an animateable clone of a node. We assume that the parent
- * of the node is positioned.
+ * Return animatable clones of the given MathJax SVG node, along with the
+ * callback functions to properly clean it up.
  */
-const getAnimateableClone = (node) => {
-    const nodeRect = node.getBoundingClientRect();
-    const nodeParent = node.parentNode;
-    const parentRect = nodeParent.getBoundingClientRect(); 
-    const nodeClone = node.cloneNode(true);
+const getAnimateableClone = (node, parentNode) => {
+    const svg = node.closest('svg');
+    const svgWrapper = svg.parentNode;
 
-    nodeClone.style.display = "block";  
-    nodeClone.style.position = "absolute";
-    nodeClone.style.left = `${nodeRect.left - parentRect.left}px`;
-    nodeClone.style.top = `${nodeRect.top - parentRect.top}px`;
+    const svgRect = svg.getBoundingClientRect();
+    const parentRect = parentNode.getBoundingClientRect();
 
-    return nodeClone;
+    const wrapperClone = svgWrapper.cloneNode(true);
+    const svgClone = wrapperClone.firstChild;
+    hideAllChildrenWithoutClass(svgClone, node.className);
+    svgClone.style.position = "absolute";
+    svgClone.style.left = `${svgRect.left - parentRect.left}px`;
+    svgClone.style.top = `${svgRect.top - parentRect.top}px`;
+
+    parentNode.appendChild(wrapperClone);
+
+    return [
+        svgClone,
+        () => wrapperClone.remove()
+    ];
 };
 
 /**
@@ -138,22 +163,36 @@ const nodeCenterToNodeCenter = (fromNode, toNode) => {
     return nodeCenterToViewportPoint(fromNode, toCenter);    
 };
 
+
+/**
+ * Return animatable clones of the given MathJax SVG nodes, along with a
+ * callback function that properly cleans them up.
+ */
+const getAnimatableClones = (nodes, parentNode) => {
+    const clonesWithCallback = nodes.map(c => getAnimateableClone(c, parentNode));
+    const clones = clonesWithCallback.map(cloneWithCb => cloneWithCb[0]);
+    const cleanUpCallbacks = clonesWithCallback.map(cloneWithCb => cloneWithCb[1]);
+    const cleanUpClones = () => {
+        cleanUpCallbacks.forEach(callback => callback());
+    };
+    return [clones, cleanUpClones];
+};
+
 /**
  * Return a gsap timeline that morphs the fromNodes into the toNodes.
  */
-const getMorphSequence = (fromNodes, toNodes) => {
-    const fromClones =  fromNodes.map(c => getAnimateableClone(c));
-    const toClones =  toNodes.map(c => getAnimateableClone(c));
-    fromClones.forEach((c, i) => fromNodes[i].parentNode.appendChild(c));
-    toClones.forEach((c, i) => toNodes[i].parentNode.appendChild(c));
+const getMorphSequence = (fromNodes, toNodes, parentNode) => {
+    const [fromClones, cleanUpFromClones] = getAnimatableClones(fromNodes, parentNode);
+    const [toClones, cleanUpToClones] =  getAnimatableClones(toNodes, parentNode);
 
     const midpoint = getCenterBetweenNodes(...fromClones, ...toClones);
 
+    gsap.set(fromClones, { opacity: 0 });
     gsap.set(toNodes, { opacity: 0 });
     const tl = gsap.timeline({
         onComplete: () => {
-            fromClones.forEach(c => c.remove());
-            toClones.forEach(c => c.remove());
+            cleanUpToClones();
+            cleanUpFromClones();
             gsap.set(toNodes, { opacity: 1 });
         },
     });
@@ -163,16 +202,17 @@ const getMorphSequence = (fromNodes, toNodes) => {
             const animVars = nodeCenterToViewportPoint(fromClone, midpoint);
             tl.to(fromClone, {
                 scale: 1.5,
-                duration: 0.2,
+                duration: 0.5,
+                opacity: 1,
                 color: COLORS.ORANGE,
                 ease: "power2.inOut",
             }, 0).to(fromClone, {
                 ...animVars,
                 scale: 1,
-                duration: 0.5,
+                duration: 1,
                 opacity: 0,
                 ease: "power2.in",
-            }, 0.1);
+            }, 0.5);
         });
 
         tl.from(toClone, {
@@ -189,16 +229,15 @@ const getMorphSequence = (fromNodes, toNodes) => {
 /**
  * Return a gsap timeline that moves the fromNodes to the toNodes.
  */
-const getMoveSequence = (fromNodes, toNodes) => {
-    const toClones =  toNodes.map(c => getAnimateableClone(c));
-    toClones.forEach((c, i) => toNodes[i].parentNode.appendChild(c));
+const getMoveSequence = (fromNodes, toNodes, parentNode) => {
+    const [toClones, cleanUpToClones] = getAnimatableClones(toNodes, parentNode);
 
     const midpoint = getCenterBetweenNodes(...fromNodes);
 
     gsap.set(toNodes, { opacity: 0 });
     const tl = gsap.timeline({
         onComplete: () => {
-            toClones.forEach(c => c.remove());
+            cleanUpToClones();
             gsap.set(toNodes, { opacity: 1 });
         },
     });
@@ -214,7 +253,7 @@ const getMoveSequence = (fromNodes, toNodes) => {
     return tl;
 };
 
-const getAnimSequence = (anims) => {
+const getAnimSequence = (anims, parentNode) => {
     const animTypes = [...new Set(anims.map(a => a.animType))];
     if (animTypes.length !== 1) {
         throw `Expected anims to contain a single animation type, found: ${JSON.stringify(animTypes)}`;
@@ -225,16 +264,16 @@ const getAnimSequence = (anims) => {
 
     switch (animType) {
         case 'move':
-            return getMoveSequence(fromNodes, toNodes);
+            return getMoveSequence(fromNodes, toNodes, parentNode);
         case 'morph':
-            return getMorphSequence(fromNodes, toNodes); 
+            return getMorphSequence(fromNodes, toNodes, parentNode); 
     }
 };
 
 const getLabels = (nodes) => {
     return nodes.map(node => {
         const rgx = /\banimLabel(\S+)/;
-        const className = node.className.split(' ').find(c => rgx.test(c));
+        const className = node.className.baseVal.split(' ').find(c => rgx.test(c));
         if (className === null) { return '0'; }
         else { return className.match(rgx)[1]; }
     });
@@ -246,6 +285,7 @@ const cartesian =
 export const AnimTex = ({ children }: AnimTexPropsType) => {
     const classes = useStyles();
     const [rootNode, setRootNode] = useState(null);
+    const [isAnimating, setIsAnimating] = useState(false);
 
     const nodeRefCallback = useCallback((node) => {
         setRootNode(node);
@@ -276,22 +316,26 @@ export const AnimTex = ({ children }: AnimTexPropsType) => {
         anims = sortBy(anims, 'label');
         anims.sort((a, b) => a.time - b.time);
 
-        const tl = gsap.timeline({ paused: true });
+        const tl = gsap.timeline({
+            paused: true,
+            onComplete: () => setIsAnimating(false)
+        });
 
         // For each label
         const byLabel = groupBy(anims, 'label');
         Object.entries(byLabel).forEach(([label, animsWithLabel]) => {
             // Animate fromNodes to toNodes
-            tl.add(getAnimSequence(animsWithLabel));
+            tl.add(getAnimSequence(animsWithLabel, rootNode));
         });
+
+        setIsAnimating(true);
         tl.play();
     };
 
-
     return (
         <div ref={nodeRefCallback} className={classes.root} >
-            { md2react(children) }
-            <Button onClick={handleClick} color="primary" variant="contained" disabled={rootNode === null} >Animate</Button>
+            { md2react(children, 'mathjax') }
+            <Button onClick={handleClick} color="primary" variant="contained" disabled={rootNode === null || isAnimating} >Animate</Button>
         </div>
     );
 };
