@@ -62,7 +62,7 @@
     "gatsby-transformer-sharp": "^3.5.0",
     "glob": "^7.1.7",
     "gsap": "npm:@gsap/shockingly@^3.6.0",
-    "hast-util-from-dom": "^4.0.0",
+    "hast-util-from-dom": "3.0.0",
     "hast-util-is-element": "^1.1.0",
     "katex": "^0.12.0",
     "minimist": "^1.2.5",
