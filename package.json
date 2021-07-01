@@ -84,6 +84,7 @@
     "rehype-stringify": "^8.0.0",
     "remark": "^13.0.0",
     "remark-html-katex": "^3.0.0",
+    "remark-math": "^3.0.1",
     "remark-parse": "^6.0.3",
     "remark-rehype": "^8.0.0",
     "remark-stringify": "^9.0.0",
@@ -110,7 +111,6 @@
     "puppeteer": "^9.1.1",
     "react-refresh": "^0.8.3",
     "redux-devtools": "^3.7.0",
-    "remark-math": "^3.0.1",
     "start-server-and-test": "^1.11.6",
     "typescript": "^3.9.7"
   },
