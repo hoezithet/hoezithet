@@ -22,7 +22,8 @@ const options = {
             ...macros,
             Lrarr: '\\Leftrightarrow',
         }
-    }
+    },
+    fontCache: 'none',
 };
 
 export default options;
