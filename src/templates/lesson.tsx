@@ -45,7 +45,7 @@ import { Line } from "../components/shortcodes/line";
 import { Point } from "../components/shortcodes/point";
 import { Rectangle } from "../components/shortcodes/rectangle";
 import { HairLines } from "../components/shortcodes/hairlines";
-import { AnimTex } from "../components/shortcodes/animTex";
+import { AnimTex, ExplanationStep, EqnSqrtStep } from "../components/shortcodes/animTex";
 import { Link } from 'gatsby-theme-material-ui';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -75,7 +75,7 @@ export const shortcodes = {
     Exercise, ExerciseStepper,
     MdWithExVars, ExVar,
     Plot, Drawing, Fx, Point, Annot, HairLines, Line, ArrowLine, Rectangle, SvgNote,
-    AnimTex,
+    AnimTex, ExplanationStep, EqnSqrtStep,
 };
 
 export const components = {

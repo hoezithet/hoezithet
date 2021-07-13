@@ -9,6 +9,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { nanoid } from '@reduxjs/toolkit'
 
+const inClient = typeof window !== "undefined";
+const MorphSVGPlugin = inClient ? require("gsap/dist/MorphSVGPlugin").MorphSVGPlugin : null;
+const DrawSVGPlugin = inClient ? require("gsap/dist/DrawSVGPlugin").DrawSVGPlugin : null;
+
+if (inClient) {
+    gsap.registerPlugin(MorphSVGPlugin);
+    gsap.registerPlugin(DrawSVGPlugin);
+}
 
 type AnimTexPropsType = {
     children: string
@@ -337,5 +345,122 @@ export const AnimTex = ({ children }: AnimTexPropsType) => {
             { md2react(children, 'mathjax') }
             <Button onClick={handleClick} color="primary" variant="contained" disabled={rootNode === null || isAnimating} >Animate</Button>
         </div>
+    );
+};
+
+type ExplanationStepPropsType = {
+    children: React.ReactNode,
+    before: string,
+    after: string,
+    explanation: string,
+    detailedExplanation?: string,
+    arrow: string,
+}
+
+const drawMath = (pathNode, highlight=true) => {
+    const tl = gsap.timeline();
+    const colorTo = gsap.getProperty(pathNode, "color");
+    const strokeWidthTo = gsap.getProperty(pathNode, "strokeWidth");
+    return tl.fromTo(pathNode, {
+        drawSVG: 0,
+        strokeWidth: 100,
+        color: highlight ? COLORS.GOLD : colorTo,
+        fillOpacity: 0,
+    }, {
+        drawSVG: "100%",
+        duration: 0.5,
+    }).to(pathNode, {
+        fillOpacity: 1,
+        strokeWidth: strokeWidthTo,
+        duration: 0.5,
+        color: colorTo,
+    });
+};
+
+/**
+ * Children contains optional substeps.
+ */
+export const ExplanationStep = ({ children=null, before, after, selector, explanation, arrow='equivalence', detailedExplanation=null }: ExplanationStepPropsType) => {
+    const classes = useStyles();
+    const [rootNode, setRootNode] = useState(null);
+    const [isAnimating, setIsAnimating] = useState(false);
+
+    const nodeRefCallback = useCallback((node) => {
+        setRootNode(node);
+    }, []);
+
+    const handleClick = () => {
+        if (!rootNode) { return; }
+
+        const tl = gsap.timeline({
+            paused: true,
+            onComplete: () => setIsAnimating(false)
+        });
+
+
+        const eqnArrowPath = rootNode.querySelector(
+            '.eqnArrow g[data-mml-node="math"] path'
+        )
+        tl.add(drawMath(eqnArrowPath));
+        
+        const mathPaths = Array.from(rootNode.querySelectorAll(selector));
+        Array.from(rootNode.querySelectorAll(
+           `.eqnAfter path, .eqnAfter rect`
+        )).filter(
+            pathOrRect => !mathPaths.includes(pathOrRect)
+        ).forEach(
+            pathOrRect => tl.add(drawMath(pathOrRect), "-=50%")
+        );
+
+        tl.add(() => {}, "+=1");
+
+        mathPaths.forEach((radicalPath, i) => tl.add(drawMath(radicalPath), "-=50%"));
+
+        setIsAnimating(true);
+        tl.play();
+    };
+    
+    let arrowTeX;
+    switch (arrow) {
+        case 'equivalence':
+            arrowTeX = "\\Updownarrow";
+            break;
+        case 'implication':
+            arrowTeX = "\\Downarrow";
+            break;
+    }
+    
+    return (
+        <div ref={nodeRefCallback} className={classes.root} >
+            { md2react(`${explanation.endsWith(':') ? explanation.slice(-1) : explanation}:`) }
+            <div className="eqnBefore">
+                { md2react(`$$\n${before}\n$$`, 'mathjax') }
+            </div>
+            <div className="eqnArrow">
+                { md2react(`$$\n${arrowTeX}\n$$`, 'mathjax') }
+            </div>
+            <div className="eqnAfter">
+                { md2react(`$$\n${after}\n$$`, 'mathjax') }
+            </div>
+            <Button onClick={handleClick} color="primary" variant="contained" disabled={rootNode === null || isAnimating} >Animate</Button>
+        </div>
+    );
+};
+
+
+export const EqnSqrtStep = ({ before }) => {
+    const lhsRhs = before.split("=");
+    if (lhsRhs.length !== 2) {
+        throw 'Equation should be written like "<lhs> = <rhs>"';
+    }
+
+    const [lhs, rhs] = lhsRhs;
+    const eqnAfter = String.raw`\class{sqrtLhs}{\sqrt{${lhs}}} \class{eqnSign}{=} \class{pm}{\pm}\class{sqrtRhs}{\sqrt{${rhs}}}`;
+    
+    const sqrtSel = '.sqrtLhs > [data-mml-node="mo"] path, .sqrtLhs > rect, .pm > path, .sqrtRhs > [data-mml-node="mo"] path, .sqrtRhs > rect';
+
+    return (
+        <ExplanationStep before={before} after={eqnAfter} selector={sqrtSel}
+            explanation="Neem de vierkantswortel aan beide zijden van het gelijkteken" />
     );
 };
