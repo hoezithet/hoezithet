@@ -54,6 +54,7 @@ import Table from '../components/table';
 import { LayoutProps } from "../components/layout";
 import Comments from "../components/comments";
 import SectionCard, { CardImage } from "./sectionCard";
+import { EqnSolver } from "../components/shortcodes/solvers/eqnSolver";
 
 export const shortcodes = {
     Mute,
@@ -76,6 +77,7 @@ export const shortcodes = {
     MdWithExVars, ExVar,
     Plot, Drawing, Fx, Point, Annot, HairLines, Line, ArrowLine, Rectangle, SvgNote,
     AnimTex, ExplanationStep, EqnSqrtStep,
+    EqnSolver,
 };
 
 export const components = {

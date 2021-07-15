@@ -380,7 +380,7 @@ const drawMath = (pathNode, highlight=true) => {
 /**
  * Children contains optional substeps.
  */
-export const ExplanationStep = ({ children=null, before, after, selector, explanation, arrow='equivalence', detailedExplanation=null }: ExplanationStepPropsType) => {
+export const ExplanationStep = ({ children=null, beforeLhs, beforeRhs, afterLhs, afterRhs, selector, explanation, arrow='equivalence', detailedExplanation=null }: ExplanationStepPropsType) => {
     const classes = useStyles();
     const [rootNode, setRootNode] = useState(null);
     const [isAnimating, setIsAnimating] = useState(false);
@@ -434,13 +434,13 @@ export const ExplanationStep = ({ children=null, before, after, selector, explan
         <div ref={nodeRefCallback} className={classes.root} >
             { md2react(`${explanation.endsWith(':') ? explanation.slice(-1) : explanation}:`) }
             <div className="eqnBefore">
-                { md2react(`$$\n${before}\n$$`, 'mathjax') }
+                { md2react(`$$\n${beforeLhs} = ${beforeRhs}\n$$`, 'mathjax') }
             </div>
             <div className="eqnArrow">
                 { md2react(`$$\n${arrowTeX}\n$$`, 'mathjax') }
             </div>
             <div className="eqnAfter">
-                { md2react(`$$\n${after}\n$$`, 'mathjax') }
+                { md2react(`$$\n${afterLhs} = ${afterRhs}\n$$`, 'mathjax') }
             </div>
             <Button onClick={handleClick} color="primary" variant="contained" disabled={rootNode === null || isAnimating} >Animate</Button>
         </div>
@@ -448,19 +448,14 @@ export const ExplanationStep = ({ children=null, before, after, selector, explan
 };
 
 
-export const EqnSqrtStep = ({ before }) => {
-    const lhsRhs = before.split("=");
-    if (lhsRhs.length !== 2) {
-        throw 'Equation should be written like "<lhs> = <rhs>"';
-    }
+export const EqnSqrtStep = ({ lhs, rhs }) => {
+    const afterLhs = String.raw`\class{sqrtLhs}{\sqrt{${lhs}}}`;
+    const afterRhs = String.raw`\class{pm}{\pm}\class{sqrtRhs}{\sqrt{${rhs}}}`;
 
-    const [lhs, rhs] = lhsRhs;
-    const eqnAfter = String.raw`\class{sqrtLhs}{\sqrt{${lhs}}} \class{eqnSign}{=} \class{pm}{\pm}\class{sqrtRhs}{\sqrt{${rhs}}}`;
-    
     const sqrtSel = '.sqrtLhs > [data-mml-node="mo"] path, .sqrtLhs > rect, .pm > path, .sqrtRhs > [data-mml-node="mo"] path, .sqrtRhs > rect';
 
     return (
-        <ExplanationStep before={before} after={eqnAfter} selector={sqrtSel}
+        <ExplanationStep beforeLhs={lhs} beforeRhs={rhs} afterLhs={afterLhs} afterRhs={afterRhs} selector={sqrtSel}
             explanation="Neem de vierkantswortel aan beide zijden van het gelijkteken" />
     );
 };
