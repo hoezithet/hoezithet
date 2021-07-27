@@ -81,6 +81,22 @@ function getChangeDescr(step) {
 	return change;
 }
 
+const getSubstepDashArray = (nSubsteps: number, strokeLength: number, spacing: number = 5) => {
+    if (nSubsteps === 0) {
+        return strokeLength;
+    }
+    const nSpaces = nSubsteps + 1;
+    const startStroke = (strokeLength - nSpaces*spacing) / 2;
+    const endStroke = startStroke;
+    const stroke = [
+        startStroke,
+        ...Array(nSubsteps).fill(null).reduce((r) => r.concat(0, spacing), [spacing]),
+        endStroke
+    ].join(' ');
+
+    return stroke;
+};
+
 const useStyles = makeStyles(theme => ({
     connectorGrid: {
         display: 'flex',
