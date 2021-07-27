@@ -58,6 +58,7 @@ const useStyles = makeStyles<Theme, UseStylesProps>(theme => ({
     descrWrapperDiv: {
         position: "relative",
         height: ({descrHeight}) => `${descrHeight}px`,
+        width: "100%",
     },
     descrSvg: {
         position: "absolute",
@@ -66,11 +67,19 @@ const useStyles = makeStyles<Theme, UseStylesProps>(theme => ({
     }
 }));
 
+type MathJaxProps = {
+    children: string
+}
+
+const MathJax = ({ children }: MathJaxProps) => {
+    return <Markdown mathProcessor="mathjax">{`$$\n${children}\n$$`}</Markdown>;
+}
+
 type EqnSolutionStepProps = {
     step: StepType,
     substeps?: StepType[],
-    showBefore?: boolean,  // If true, show the old equation
-    showAfter?: boolean,  // If true, show the new equation
+    hideBefore?: boolean,  // If true, hide the old equation
+    hideAfter?: boolean,  // If true, hide the new equation
     ignoreSubsteps?: boolean,
     key?: number,
 }
@@ -80,7 +89,7 @@ type DimsType = {
     height: number,
 }
 
-const EqnSolutionStep = ({ step, substeps = [], showBefore = false, showAfter = true, ignoreSubsteps = false }: EqnSolutionStepProps) => {
+const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = false, ignoreSubsteps = false }: EqnSolutionStepProps) => {
     const [showingSubsteps, setShowSubsteps] = useState(false);
 
     const [descrDims, setDescrDims] = useState<DimsType>({width: 0, height: 0});
@@ -111,6 +120,7 @@ const EqnSolutionStep = ({ step, substeps = [], showBefore = false, showAfter = 
 
     return (
         <>
+            {!hideBefore ? <MathJax>{ step.before }</MathJax> : null}
             <div className={classes.descrWrapperDiv}>
                 <svg width={descrDims.width} height={descrDims.height} className={classes.descrSvg}>
                     <path
@@ -129,7 +139,7 @@ const EqnSolutionStep = ({ step, substeps = [], showBefore = false, showAfter = 
                     <Markdown mathProcessor="mathjax">{step.description}</Markdown>
                 </div>
             </div>
-            <div>{showAfter ? <Markdown mathProcessor="mathjax">{`$$\n${step.before}\n$$`}</Markdown> : null}</div>
+            {!hideAfter ? <MathJax>{ step.after }</MathJax> : null}
         </>
     );
 };
@@ -146,9 +156,9 @@ const EqnSolutionSteps = ({ steps, nextStepIdx }: EqnSolutionStepsProps) => {
 
     return (
         <div>
-            <Markdown mathProcessor="mathjax">{`$$\n${steps[0].before}\n$$`}</Markdown>
+            <MathJax>{ steps[0].before }</MathJax>
             {steps.slice(0, nextStepIdx).map((step: StepType, idx: number) => (
-                <EqnSolutionStep step={step} key={idx} />
+                <EqnSolutionStep step={step} key={idx} hideBefore/>
             ))}
         </div>
     );
