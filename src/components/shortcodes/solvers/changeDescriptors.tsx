@@ -1,4 +1,8 @@
-export default {
+type ChangeDescrType = {
+	[key: string]: string|((cgrp: string) => string)
+};
+
+const CHANGE_DESCRIPTORS: ChangeDescrType = {
 	NO_CHANGE: 'Pas niets aan',
 
 	// ARITHMETIC
@@ -29,7 +33,7 @@ export default {
 	// e.g. x * -1 -> -x
 	REMOVE_MULTIPLYING_BY_NEGATIVE_ONE: 'Er wordt vermenigvuldigd met $-1$. Vervang de vermenigvuldiging door haar tegengestelde',
 	// e.g. x * 1 -> x
-	REMOVE_MULTIPLYING_BY_ONE: 'Schrap de vermeningvuldiging met $1$',
+	REMOVE_MULTIPLYING_BY_ONE: 'Schrap de vermenigvuldiging met $1$',
 	// e.g. 2 - - 3 -> 2 + 3
 	RESOLVE_DOUBLE_MINUS: 'Vervang de twee opeenvolgende mintekens door een plus',
 
@@ -109,7 +113,7 @@ export default {
 	// MULTIPLYING FRACTIONS
 
 	// e.g. 1/2 * 2/3 -> 2/6
-	MULTIPLY_FRACTIONS: 'Vermengivuldig de breuken',
+	MULTIPLY_FRACTIONS: 'Vermenigvuldig de breuken',
 
 	// DIVISION
 
@@ -218,3 +222,5 @@ export default {
 	// e.g. 3*(x - 1) + 2*(1 - x) -> 3*(x - 1) + 2*(-1)*(-1 + x)
 	NEGATE_OP_FACS: 'NEGATE_OP_FACS',
 };
+
+export default CHANGE_DESCRIPTORS;

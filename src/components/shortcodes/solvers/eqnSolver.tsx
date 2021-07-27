@@ -1,79 +1,12 @@
 import React, { useCallback, useState, useContext } from "react";
-import mathsteps from "mathsteps";
-import _ from "lodash";
-import changeDescr from "./changeDescrs";
 import { Markdown } from "../../../utils/md2react";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import colors from "../../../colors";
 import { ExerciseContext } from "../exercise";
-
-function customTex(node, options) {
-    if (node.changeGroup) {
-        return String.raw`\class{cgrp${node.changeGroup}}{${node.toTex()}}`;
-    } else {
-        return node.value;
-    }
-}
-
-function getChangeGroup(node) {
-    if (node.changeGroup) {
-        return node;
-    } else if (node.args && node.args.length > 0) {
-        for (let i = 0; i < node.args.length; i++) {
-            let cgrpNode = getChangeGroup(node.args[i]);
-            if (cgrpNode && cgrpNode.changeGroup) {
-                return cgrpNode;
-            }
-        }
-    }
-    return;
-}
-
-function compToTex(comp) {
-    if (comp == ">=") {
-        return "\\ge";
-    } else if (comp == "<=") {
-        return "\\le";
-    } else {
-        return comp;
-    }
-}
-
-function texSingleNode(node) {
-    let rgx = /([ ~]*?)\+[ ~]*?((\\[^{]*{)?[ ~]*?\-[ ~]*?)/gm;
-    let rgxMinBrack = /([ ~]*?\\cdot[ ~]*?)((\\[^{]*{)?[ ~]*?)(\-[ ~]*?\d+)/gm;
-    return node.toTex({ handler: customTex }); //.replace(rgx, '$1$2').replace(rgxMinBrack, '$1$2$4');
-}
-
-function texSingleEqn(eqn) {
-    let texEq = texSingleNode(eqn.leftNode);
-    texEq += compToTex(eqn.comparator);
-    texEq += texSingleNode(eqn.rightNode);
-    return texEq;
-}
-
-function getChangeDescr(step) {
-    let change = changeDescr[step.changeType];
-    if (typeof change === "function") {
-        let cgrpNode = undefined;
-        if (_.has(step, "newEquation")) {
-            cgrpNode = getChangeGroup(step.newEquation.leftNode);
-            if (cgrpNode == null) {
-                cgrpNode = getChangeGroup(step.newEquation.rightNode);
-            }
-        } else if (_.has(step, "newNode")) {
-            cgrpNode = getChangeGroup(step.newNode);
-        } else {
-            console.log("" + step + " has no property newEquation or newNode");
-        }
-        if (cgrpNode) {
-            change = change("$" + cgrpNode.toTex({ handler: customTex }) + "$");
-        }
-    }
-    return change;
-}
+import { StepType, getSolveEquationSteps } from "./mathsteps_utils";
+import { ExVarsType } from "../exerciseVar";
 
 const getSubstepDashArray = (nSubsteps: number, strokeLength: number, spacing: number = 5) => {
     if (nSubsteps === 0) {
@@ -91,14 +24,20 @@ const getSubstepDashArray = (nSubsteps: number, strokeLength: number, spacing: n
     return stroke;
 };
 
-const useStyles = makeStyles(theme => ({
+type UseStylesProps = {
+    showSubsteps: boolean,
+    descrWidth: number,
+    descrHeight: number,
+};
+
+const useStyles = makeStyles<Theme, UseStylesProps>(theme => ({
     connectorGrid: {
         display: "flex",
         justifyContent: "end",
     },
-    explnGrid: {
+    descrGrid: {
         textAlign: "start",
-        paddingLeft: props => (props.showSubsteps ? 0 : theme.spacing(2)),
+        paddingLeft: ({showSubsteps}) => (showSubsteps ? 0 : theme.spacing(2)),
     },
     substepsDiv: {
         textAlign: "center",
@@ -111,139 +50,132 @@ const useStyles = makeStyles(theme => ({
         paddingRight: theme.spacing(2),
         color: colors.LIGHT_GRAY,
     },
-    explnTextDiv: {
-        textAlign: props => (props.showSubsteps ? "center" : "left"),
+    descrTextDiv: {
+        textAlign: ({showSubsteps}) => (showSubsteps ? "center" : "left"),
         position: "absolute",
-        left: props => `${props.explnTextLeft + theme.spacing(2)}px`,
+        left: ({descrWidth}) => `${descrWidth / 2 + theme.spacing(2)}px`,
     },
-    explnWrapperDiv: {
+    descrWrapperDiv: {
         position: "relative",
-        height: props => `${props.explnHeight}px`,
+        height: ({descrHeight}) => `${descrHeight}px`,
     },
-    explnSvg: {
+    descrSvg: {
         position: "absolute",
         top: 0,
         left: 0
     }
 }));
 
-const EqnStep = ({ step, showResult = true, ignoreSubsteps = false }) => {
-    const [showSubsteps, setShowSubsteps] = useState(false);
-    let change = getChangeDescr(step);
+type EqnSolutionStepProps = {
+    step: StepType,
+    substeps?: StepType[],
+    showBefore?: boolean,  // If true, show the old equation
+    showAfter?: boolean,  // If true, show the new equation
+    ignoreSubsteps?: boolean,
+    key?: number,
+}
 
-    let oldStep = undefined;
-    let newStep = undefined;
-    if (_.has(step, "newEquation")) {
-        oldStep = texSingleEqn(step.oldEquation);
-        newStep = texSingleEqn(step.newEquation);
-    } else if (_.has(step, "newNode")) {
-        oldStep = texSingleNode(step.oldNode);
-        newStep = texSingleNode(step.newNode);
-    }
+type DimsType = {
+    width: number,
+    height: number,
+}
 
-    const substeps = !ignoreSubsteps && step.substeps && step.substeps.length > 0 ? step.substeps : null;
+const EqnSolutionStep = ({ step, substeps = [], showBefore = false, showAfter = true, ignoreSubsteps = false }: EqnSolutionStepProps) => {
+    const [showingSubsteps, setShowSubsteps] = useState(false);
 
-    const [explnHeight, setExplnHeight] = useState(0);
-    const explnRef = useCallback(node => {
+    const [descrDims, setDescrDims] = useState<DimsType>({width: 0, height: 0});
+    const descrRef = useCallback(node => {
         if (node !== null) {
-            setExplnHeight(prevHeight => {
-                if (prevHeight === 0) {
-                    return node.getBoundingClientRect().height;
+            setDescrDims(prevDims => {
+                if (prevDims.width === 0 && prevDims.height === 0) {
+                    const rect = node.getBoundingClientRect();
+                    return {
+                        width: rect.width,
+                        height: rect.height,
+                    };
                 } else {
-                    return prevHeight;
-                }
-            });
-        }
-    }, []);
-
-    const [explnDivWidth, setExplnDivWidth] = useState(0);
-    const explnDivRef = useCallback(node => {
-        if (node !== null) {
-            setExplnDivWidth(prevWidth => {
-                if (prevWidth === 0) {
-                    return node.getBoundingClientRect().width;
-                } else {
-                    return prevWidth;
+                    return prevDims;
                 }
             });
         }
     }, []);
 
     const classes = useStyles({
-        showSubsteps: showSubsteps,
-        explnTextLeft: explnDivWidth / 2,
-        explnTextTop: explnHeight / 2,
-        explnHeight: explnHeight,
+        showSubsteps: showingSubsteps,
+        descrWidth: descrDims.width,
+        descrHeight: descrDims.height,
     });
 
     const strokeWidth = 3;
-    const strokeLength = explnHeight - strokeWidth;
+    const strokeLength = descrDims.height - strokeWidth;
 
     return (
         <>
-            <div className={classes.explnWrapperDiv} ref={explnDivRef}>
-                <svg width={explnDivWidth} height={explnHeight} className={classes.explnSvg}>
+            <div className={classes.descrWrapperDiv}>
+                <svg width={descrDims.width} height={descrDims.height} className={classes.descrSvg}>
                     <path
-                        d={`M ${explnDivWidth / 2} ${strokeWidth / 2} v ${strokeLength}`}
+                        d={`M ${descrDims.width / 2} ${strokeWidth / 2} v ${strokeLength}`}
                         stroke={colors.LIGHT_GRAY}
                         strokeWidth={strokeWidth}
                         strokeLinecap="round"
                         strokeDasharray={
-                            substeps && !showSubsteps
+                            substeps && !showingSubsteps && !ignoreSubsteps
                                 ? getSubstepDashArray(substeps.length, strokeLength)
                                 : strokeLength
                         }
                     />
                 </svg>
-                <div className={classes.explnTextDiv} ref={explnRef}>
-                    <Markdown mathProcessor="mathjax">{change}</Markdown>
+                <div className={classes.descrTextDiv} ref={descrRef}>
+                    <Markdown mathProcessor="mathjax">{step.description}</Markdown>
                 </div>
             </div>
-            <div>{showResult ? <Markdown mathProcessor="mathjax">{`$$\n${newStep}\n$$`}</Markdown> : null}</div>
+            <div>{showAfter ? <Markdown mathProcessor="mathjax">{`$$\n${step.before}\n$$`}</Markdown> : null}</div>
         </>
     );
 };
 
-const EqnSteps = ({ steps, nextStep }) => {
+type EqnSolutionStepsProps = {
+    steps: StepType[],
+    nextStepIdx: number,
+};
+
+const EqnSolutionSteps = ({ steps, nextStepIdx }: EqnSolutionStepsProps) => {
     if (steps.length === 0) {
         return null;
     }
 
-    const firstStep = steps[0];
-    let firstEqTex;
-    if (_.has(firstStep, "newEquation")) {
-        firstEqTex = texSingleEqn(firstStep.oldEquation);
-    } else if (_.has(firstStep, "newNode")) {
-        firstEqTex = texSingleNode(firstStep.oldNode);
-    }
     return (
         <div>
-            <Markdown mathProcessor="mathjax">{`$$\n${firstEqTex}\n$$`}</Markdown>
-            {steps.slice(0, nextStep).map((step, idx) => (
-                <EqnStep step={step} key={idx} />
+            <Markdown mathProcessor="mathjax">{`$$\n${steps[0].before}\n$$`}</Markdown>
+            {steps.slice(0, nextStepIdx).map((step: StepType, idx: number) => (
+                <EqnSolutionStep step={step} key={idx} />
             ))}
         </div>
     );
 };
 
-export const EqnSolver = ({ eqn }) => {
+type EqnSolverProps = {
+    eqn: string|((exVars: ExVarsType) => string)
+};
+
+export const EqnSolver = ({ eqn }: EqnSolverProps) => {
     const exCtx = useContext(ExerciseContext);
-    eqn = typeof eqn === "function" ? eqn(exCtx.vars) : eqn;
-    const [nextStep, setNextStep] = useState(0);
-    const steps = mathsteps.solveEquation(eqn);
+    eqn = eqn instanceof Function ? eqn(exCtx.vars) : eqn;
+    const [nextStepIdx, setNextStepIdx] = useState(0);
+    const steps = getSolveEquationSteps(eqn);
 
     const handleNext = () => {
-        setNextStep(prevStep => {
-            if (prevStep === steps.length) {
-                return prevStep;
+        setNextStepIdx(prevStepIdx => {
+            if (prevStepIdx === steps.length) {
+                return prevStepIdx;
             } else {
-                return prevStep + 1;
+                return prevStepIdx + 1;
             }
         });
     };
 
     const handlePrev = () => {
-        setNextStep(prevStep => {
+        setNextStepIdx(prevStep => {
             if (prevStep === 0) {
                 return prevStep;
             } else {
@@ -252,16 +184,12 @@ export const EqnSolver = ({ eqn }) => {
         });
     };
 
-    const handleReset = () => {
-        setNextStep(0);
-    };
-
     return (
         <>
-            <EqnSteps steps={steps} nextStep={nextStep} />
+            <EqnSolutionSteps steps={steps} nextStepIdx={nextStepIdx} />
             <Grid container spacing={2}>
                 <Grid item>
-                    <Button onClick={handlePrev} disabled={nextStep === 0}>
+                    <Button onClick={handlePrev} disabled={nextStepIdx === 0}>
                         Vorige stap
                     </Button>
                 </Grid>
@@ -269,7 +197,7 @@ export const EqnSolver = ({ eqn }) => {
                     <Button
                         color="primary"
                         variant="contained"
-                        disabled={nextStep === steps.length}
+                        disabled={nextStepIdx === steps.length}
                         onClick={handleNext}
                     >
                         Volgende stap

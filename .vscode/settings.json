@@ -1,13 +1,19 @@
 {
     "cSpell.words": [
-        "shortcodes",
+        "COEFF",
+        "COEFFS",
         "Descr",
+        "FACS",
         "Substep",
         "Substeps",
+        "cgrp",
         "convolutional",
+        "distributiviteit",
         "mathjax",
+        "mathsteps",
         "preds",
         "refs",
+        "shortcodes",
         "vars"
     ],
     "cSpell.language": "en,nl"
