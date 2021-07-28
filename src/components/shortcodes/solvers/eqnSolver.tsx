@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useCallback, useEffect, DOMElement } from "react";
 import { Markdown } from "../../../utils/md2react";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -8,6 +8,11 @@ import { ExerciseContext } from "../exercise";
 import { StepType, getSolveEquationSteps } from "./mathsteps_utils";
 import { ExVarsType } from "../exerciseVar";
 import useClientRect from "../../../hooks/useClientRect";
+import { useGsapFrom, useGsapTo } from "../../../hooks/useGsap";
+import gsap from 'gsap';
+import { SplitText } from "gsap/SplitText";
+
+gsap.registerPlugin(SplitText);
 
 const getSubstepDashArray = (nSubsteps: number, strokeLength: number, spacing: number = 5) => {
     if (nSubsteps === 0) {
@@ -43,20 +48,27 @@ const useStyles = makeStyles<Theme, UseStylesProps>(theme => ({
         paddingRight: theme.spacing(2),
         color: colors.LIGHT_GRAY,
     },
-    descrTextDiv: {
-        textAlign: ({showSubsteps}) => (showSubsteps ? "center" : "left"),
+    descrText: {
+        textAlign: ({ showSubsteps }) => (showSubsteps ? "center" : "left"),
         position: "absolute",
-        left: ({descrWidth}) => `${descrWidth / 2 + theme.spacing(2)}px`,
+        left: ({ descrWidth }) => `${descrWidth / 2 + theme.spacing(2)}px`,
     },
-    descrWrapperDiv: {
+    descrWrapper: {
         position: "relative",
-        height: ({descrHeight}) => `${descrHeight}px`,
+        height: ({ descrHeight }) => `${descrHeight}px`,
         width: "100%",
     },
     descrSvg: {
         position: "absolute",
+        opacity: 0,
         top: 0,
-        left: 0
+        left: 0,
+    },
+    afterEqn: {
+        opacity: 0,
+    },
+    descrTextAnim: {
+        opacity: 0,
     }
 }));
 
@@ -93,11 +105,36 @@ const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = 
     const strokeWidth = 3;
     const strokeLength = descrHeight - strokeWidth;
 
+    const tl = gsap.timeline();
+    const pathRef = useGsapFrom<SVGPathElement>({
+        drawSVG: '0',
+        duration: 1.0,
+        ease: "power2.out"
+    }, tl, 0);
+
+    const descrSvgAnimRef = useGsapTo<SVGElement>({
+        opacity: 1.0,
+        duration: 1.0,
+        ease: "power2.out"
+    }, tl, 0);
+
+    const descrTextAnimRef = useGsapTo<HTMLDivElement>({
+        opacity: 1.0,
+        duration: 0.5,
+        ease: "power2.out"
+    }, tl, 0.5);
+
+    const afterEqnRef = useGsapTo<HTMLDivElement>({
+        opacity: 1.0,
+        duration: 0.5,
+        ease: "power2.out"
+    }, tl, 1.0);
+
     return (
         <>
-            {!hideBefore ? <MathJax>{ step.before }</MathJax> : null}
-            <div className={classes.descrWrapperDiv} ref={descrWrapperRef}>
-                <svg width={descrWidth} height={descrHeight} className={classes.descrSvg}>
+            {!hideBefore ? <MathJax>{step.before}</MathJax> : null}
+            <div className={classes.descrWrapper} ref={descrWrapperRef}>
+                <svg width={descrWidth} height={descrHeight} className={classes.descrSvg} ref={descrSvgAnimRef}>
                     <path
                         d={`M ${descrWidth / 2} ${strokeWidth / 2} v ${strokeLength}`}
                         stroke={colors.LIGHT_GRAY}
@@ -108,13 +145,20 @@ const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = 
                                 ? getSubstepDashArray(substeps.length, strokeLength)
                                 : strokeLength
                         }
+                        ref={pathRef}
                     />
                 </svg>
-                <div className={classes.descrTextDiv} ref={descrTextRef}>
-                    <Markdown mathProcessor="mathjax">{step.description}</Markdown>
+                <div className={classes.descrTextAnim} ref={descrTextAnimRef}>
+                    <div className={classes.descrText} ref={descrTextRef}>
+                        <Markdown mathProcessor="mathjax">{step.description}</Markdown>
+                    </div>
                 </div>
             </div>
-            {!hideAfter ? <MathJax>{ step.after }</MathJax> : null}
+            {!hideAfter ? (
+                <div ref={afterEqnRef} className={classes.afterEqn}>
+                    <MathJax>{step.after}</MathJax>
+                </div>
+            ) : null}
         </>
     );
 };
