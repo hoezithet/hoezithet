@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Markdown } from "../../../utils/md2react";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -7,6 +7,7 @@ import colors from "../../../colors";
 import { ExerciseContext } from "../exercise";
 import { StepType, getSolveEquationSteps } from "./mathsteps_utils";
 import { ExVarsType } from "../exerciseVar";
+import useClientRect from "../../../hooks/useClientRect";
 
 const getSubstepDashArray = (nSubsteps: number, strokeLength: number, spacing: number = 5) => {
     if (nSubsteps === 0) {
@@ -31,14 +32,6 @@ type UseStylesProps = {
 };
 
 const useStyles = makeStyles<Theme, UseStylesProps>(theme => ({
-    connectorGrid: {
-        display: "flex",
-        justifyContent: "end",
-    },
-    descrGrid: {
-        textAlign: "start",
-        paddingLeft: ({showSubsteps}) => (showSubsteps ? 0 : theme.spacing(2)),
-    },
     substepsDiv: {
         textAlign: "center",
         border: `3px dotted ${colors.LIGHT_GRAY}`,
@@ -84,47 +77,29 @@ type EqnSolutionStepProps = {
     key?: number,
 }
 
-type DimsType = {
-    width: number,
-    height: number,
-}
-
 const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = false, ignoreSubsteps = false }: EqnSolutionStepProps) => {
     const [showingSubsteps, setShowSubsteps] = useState(false);
 
-    const [descrDims, setDescrDims] = useState<DimsType>({width: 0, height: 0});
-    const descrRef = useCallback(node => {
-        if (node !== null) {
-            setDescrDims(prevDims => {
-                if (prevDims.width === 0 && prevDims.height === 0) {
-                    const rect = node.getBoundingClientRect();
-                    return {
-                        width: rect.width,
-                        height: rect.height,
-                    };
-                } else {
-                    return prevDims;
-                }
-            });
-        }
-    }, []);
+    const [descrTextRect, descrTextRef] = useClientRect();
+    const [descrWrapperRect, descrWrapperRef] = useClientRect();
 
+    const [descrWidth, descrHeight] = [descrWrapperRect?.width || 0, descrTextRect?.height || 0];
     const classes = useStyles({
         showSubsteps: showingSubsteps,
-        descrWidth: descrDims.width,
-        descrHeight: descrDims.height,
+        descrWidth: descrWidth,
+        descrHeight: descrHeight,
     });
 
     const strokeWidth = 3;
-    const strokeLength = descrDims.height - strokeWidth;
+    const strokeLength = descrHeight - strokeWidth;
 
     return (
         <>
             {!hideBefore ? <MathJax>{ step.before }</MathJax> : null}
-            <div className={classes.descrWrapperDiv}>
-                <svg width={descrDims.width} height={descrDims.height} className={classes.descrSvg}>
+            <div className={classes.descrWrapperDiv} ref={descrWrapperRef}>
+                <svg width={descrWidth} height={descrHeight} className={classes.descrSvg}>
                     <path
-                        d={`M ${descrDims.width / 2} ${strokeWidth / 2} v ${strokeLength}`}
+                        d={`M ${descrWidth / 2} ${strokeWidth / 2} v ${strokeLength}`}
                         stroke={colors.LIGHT_GRAY}
                         strokeWidth={strokeWidth}
                         strokeLinecap="round"
@@ -135,7 +110,7 @@ const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = 
                         }
                     />
                 </svg>
-                <div className={classes.descrTextDiv} ref={descrRef}>
+                <div className={classes.descrTextDiv} ref={descrTextRef}>
                     <Markdown mathProcessor="mathjax">{step.description}</Markdown>
                 </div>
             </div>
