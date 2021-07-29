@@ -30,6 +30,37 @@ const getSubstepDashArray = (nSubsteps: number, strokeLength: number, spacing: n
     return stroke;
 };
 
+type MathJaxProps = {
+    children: string
+}
+
+const MathJax = ({ children }: MathJaxProps) => {
+    return <Markdown mathProcessor="mathjax">{`$$\n${children}\n$$`}</Markdown>;
+}
+
+type LightBulbProps = {
+    size?: number,
+    off?: boolean,
+}
+
+const LightBulb = ({ size = 100, off = false }: LightBulbProps) => {
+    const scale = size / 100;
+    return (
+        <g transform={`scale(${scale})`}>
+            <path
+                d="m 41.632641,25.273112 c -0.389282,7.200323 -2.917049,14.007852 -7.392878,19.262155 -3.113612,3.697309 -4.86313,8.563861 -4.86313,13.428882 0,11.286915 9.143792,20.625153 20.625228,20.625153 0.778429,0 1.554907,-0.190244 2.333306,-0.190244 9.146224,-1.167996 16.739356,-8.370135 18.101574,-17.321883 0.97301,-5.837881 -0.582318,-11.484543 -4.279807,-16.154997 -4.670395,-6.032597 -7.396586,-12.643324 -7.785868,-19.648916 z"
+                fill={off ? colors.LIGHT_GRAY : colors.GOLD} />
+            <path d="m 72.768276,77.231617 c -0.389282,-0.390257 -0.973011,-0.583292 -1.362293,-0.583292 -0.583713,0 -0.97301,0.19443 -1.362142,0.583292 -0.778444,0.777739 -0.778444,1.946006 0,2.72445 l 7.394859,7.589455 c 0.77843,0.777739 1.945991,0.777739 2.72436,0 0.778429,-0.777739 0.778429,-1.946005 0,-2.724434 z m -53.125992,-47.482481 7.978647,7.978602 c 0.77843,0.777739 1.946021,0.777739 2.724405,0 0.778429,-0.777739 0.778429,-1.946155 0,-2.724434 l -7.978617,-7.978753 c -0.973011,-0.777724 -1.946021,-0.777724 -2.724435,0 -0.583713,0.583293 -0.583713,1.946156 0,2.724585 z m 50.012365,7.783886 c 0.778429,0.777739 1.94602,0.777739 2.72442,0 l 7.784006,-7.783886 c 0.778429,-0.777739 0.778429,-1.946156 0,-2.724585 -0.972995,-0.777724 -1.751394,-0.777724 -2.72436,0 l -7.784066,7.784036 c -0.778429,0.777724 -0.778429,1.946141 0,2.724435 z M 28.788523,76.453323 c -0.583713,0 -0.972996,0.194446 -1.362143,0.583308 l -7.58944,7.589605 c -0.778429,0.777724 -0.778429,1.945856 0,2.7243 0.778444,0.777723 1.946006,0.777723 2.724405,0 l 7.589425,-7.58932 c 0.778444,-0.777739 0.778444,-1.946156 0,-2.724585 -0.389282,-0.388862 -0.972995,-0.583308 -1.362142,-0.583308 z m 21.211462,9.146194 c -1.167576,0 -1.94599,0.777723 -1.94599,1.946005 v 10.508336 c 0,1.167996 0.778429,1.946137 1.94599,1.946137 1.167726,0 1.94602,-0.777721 1.94602,-1.946137 V 87.545522 c 0,-1.167996 -0.778429,-1.946005 -1.94602,-1.946005 z M 77.827877,57.187686 c 0,1.167996 0.77843,1.94614 1.946006,1.94614 h 11.092244 c 1.167576,0 1.946005,-0.777723 1.946005,-1.94614 0,-1.167996 -0.778429,-1.94587 -1.946005,-1.94587 H 79.773883 c -1.167576,0 -1.946006,0.973565 -1.946006,1.94587 z M 9.1338584,59.133826 H 20.226102 c 1.167726,0 1.946006,-0.777723 1.946006,-1.94614 0,-1.167996 -0.778445,-1.94587 -1.946006,-1.94587 H 9.1338584 c -1.1675762,0 -1.9459903,0.777724 -1.9459903,1.94587 0,1.167996 0.9729951,1.94614 1.9459903,1.94614 z"
+                fill={colors.GOLD}
+                fillOpacity={off ? 0 : 1}
+                strokeWidth={1}
+                stroke={colors.GOLD}
+                strokeOpacity={off ? 0 : 1} />
+            <rect width={20} height={30} x={40} y={0} rx={5} ry={5} fill={colors.BLACK} />
+        </g>
+    );
+};
+
 type UseStylesProps = {
     showSubsteps: boolean,
     descrWidth: number,
@@ -69,64 +100,11 @@ const useStyles = makeStyles<Theme, UseStylesProps>(theme => ({
     },
     descrTextAnim: {
         opacity: 0,
+    },
+    bulbWrapper: {
+        textAlign: "center",
     }
 }));
-
-type MathJaxProps = {
-    children: string
-}
-
-const MathJax = ({ children }: MathJaxProps) => {
-    return <Markdown mathProcessor="mathjax">{`$$\n${children}\n$$`}</Markdown>;
-}
-
-type LightBulbProps = {
-    size?: number,
-    flicker?: boolean,
-    on?: boolean,
-}
-
-const LightBulb = ({ size = 100, flicker = false, on = true }: LightBulbProps) => {
-    const tl = gsap.timeline({
-        paused: true,
-        yoyo: true,
-        repeat: -1,
-        defaults: { ease: "rough({strength: 3, points: 50})", duration: 5},
-    });
-    
-    const bulbRef = useGsapTo<SVGPathElement>({
-        fill: on ? colors.LIGHT_GRAY : colors.GOLD,
-    }, tl, "0");
-    const raysRef = useGsapTo<SVGPathElement>({
-        opacity: on ? 0 : 1,
-    }, tl, "0");
-
-    if (flicker) {
-        tl.play();
-    }
-    
-    return (
-        <svg width={size} height={size}>
-            <g transform={`scale(${size / 100})`}>
-                <path
-                    d="m 44.42523,50.21306 c -0.25936,4.79723 -1.94349,9.33276 -4.92552,12.83345 -2.07445,2.46334 -3.24007,5.70569 -3.24007,8.94702 0,7.51993 6.09207,13.74155 13.7416,13.74155 0.51863,0 1.03596,-0.12675 1.55457,-0.12675 6.09369,-0.77818 11.15263,-5.57662 12.06021,-11.54074 0.64827,-3.8895 -0.38797,-7.6516 -2.85143,-10.7633 -3.11166,-4.01923 -4.92799,-8.42364 -5.18735,-13.09113 z"
-                    fill={on ? colors.GOLD : colors.LIGHT_GRAY}
-                    ref={bulbRef}
-                />
-                <path
-                    d="m 65.16941,84.83052 c -0.25936,-0.26001 -0.64827,-0.38862 -0.90763,-0.38862 -0.3889,0 -0.64827,0.12954 -0.90753,0.38862 -0.51864,0.51817 -0.51864,1.29653 0,1.81517 l 4.92684,5.05649 c 0.51863,0.51817 1.29652,0.51817 1.81511,0 0.51863,-0.51817 0.51863,-1.29653 0,-1.81516 z m -35.3953,-31.6353 5.31579,5.31576 c 0.51863,0.51817 1.29654,0.51817 1.81514,0 0.51863,-0.51817 0.51863,-1.29663 0,-1.81516 l -5.31577,-5.31586 c -0.64827,-0.51816 -1.29654,-0.51816 -1.81516,0 -0.3889,0.38862 -0.3889,1.29663 0,1.81526 z m 33.32084,5.18603 c 0.51863,0.51817 1.29654,0.51817 1.81515,0 l 5.18611,-5.18603 c 0.51863,-0.51817 0.51863,-1.29663 0,-1.81526 -0.64826,-0.51816 -1.16687,-0.51816 -1.81511,0 l -5.18615,5.18613 c -0.51863,0.51816 -0.51863,1.29662 0,1.81516 z M 35.86781,84.31198 c -0.3889,0 -0.64826,0.12955 -0.90753,0.38863 L 29.9038,89.7572 c -0.51863,0.51816 -0.51863,1.29643 0,1.81507 0.51864,0.51816 1.29653,0.51816 1.81514,0 l 5.05647,-5.0564 c 0.51864,-0.51817 0.51864,-1.29663 0,-1.81526 -0.25936,-0.25908 -0.64826,-0.38863 -0.90753,-0.38863 z m 14.13218,6.09367 c -0.7779,0 -1.29652,0.51816 -1.29652,1.29653 v 7.0012 c 0,0.77818 0.51863,1.29662 1.29652,1.29662 0.778,0 1.29654,-0.51816 1.29654,-1.29662 v -7.0012 c 0,-0.77818 -0.51863,-1.29653 -1.29654,-1.29653 z M 68.54038,71.47621 c 0,0.77818 0.51863,1.29662 1.29653,1.29662 h 7.39023 c 0.7779,0 1.29653,-0.51816 1.29653,-1.29662 0,-0.77818 -0.51863,-1.29644 -1.29653,-1.29644 h -7.39023 c -0.7779,0 -1.29653,0.64864 -1.29653,1.29644 z m -45.76753,1.29662 h 7.39023 c 0.778,0 1.29653,-0.51816 1.29653,-1.29662 0,-0.77818 -0.51864,-1.29644 -1.29653,-1.29644 h -7.39023 c -0.7779,0 -1.29652,0.51816 -1.29652,1.29644 0,0.77818 0.64826,1.29662 1.29652,1.29662 z"
-                    fill={colors.GOLD}
-                    fillOpacity={on ? 1 : 0}
-                    strokeWidth={1}
-                    stroke={colors.GOLD}
-                    strokeOpacity={on ? 1 : 0}
-                    ref={raysRef}
-                />
-                <rect width={14} height={20} x={43} y={34} rx={4} ry={4} fill={colors.BLACK} />
-            </g>
-        </svg>
-    );
-};
 
 type EqnSolutionStepProps = {
     step: StepType,
@@ -135,47 +113,57 @@ type EqnSolutionStepProps = {
     hideAfter?: boolean,  // If true, hide the new equation
     ignoreSubsteps?: boolean,
     key?: number,
+    showBulb?: boolean,
 }
 
-const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = false, ignoreSubsteps = false }: EqnSolutionStepProps) => {
+const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = false, ignoreSubsteps = false, showBulb = false }: EqnSolutionStepProps) => {
     const [showingSubsteps, setShowSubsteps] = useState(false);
 
     const [descrTextRect, descrTextRef] = useClientRect();
     const [descrWrapperRect, descrWrapperRef] = useClientRect();
 
-    const [descrWidth, descrHeight] = [descrWrapperRect?.width || 0, descrTextRect?.height || 0];
+    const strokeWidth = 2;
+    const bulbSize = 30;
+    const [descrWidth, descrHeight] = [descrWrapperRect?.width || 0, (descrTextRect?.height || 0) + (descrTextRect !== null && showBulb ? bulbSize : 0)];
+    const strokeLength = descrHeight - strokeWidth - (showBulb ? bulbSize : 0);
+
     const classes = useStyles({
         showSubsteps: showingSubsteps,
         descrWidth: descrWidth,
         descrHeight: descrHeight,
     });
 
-    const strokeWidth = 3;
-    const strokeLength = descrHeight - strokeWidth;
-
-    const tl = gsap.timeline();
-    const pathRef = useGsapFrom<SVGPathElement>({
-        drawSVG: '0',
-        duration: 1.0,
-        ease: "power2.out"
-    }, tl, 0);
+    const tl = gsap.timeline({
+        defaults: {
+            ease: "power2.out"
+        }
+    });
 
     const descrSvgAnimRef = useGsapTo<SVGElement>({
         opacity: 1.0,
         duration: 1.0,
-        ease: "power2.out"
+    }, tl, 0);
+
+    const pathRef = useGsapFrom<SVGPathElement>({
+        drawSVG: '0',
+        duration: 1.0,
+        ease: "power2.inOut",
     }, tl, 0);
 
     const descrTextAnimRef = useGsapTo<HTMLDivElement>({
         opacity: 1.0,
-        duration: 0.5,
-        ease: "power2.out"
-    }, tl, 0.5);
+        duration: 1.0,
+        ease: "power2.inOut",
+    }, tl, 0);
+
+    const bulbAnimRef = useGsapFrom<SVGGElement>({
+        opacity: 0,
+        duration: 1.0,
+    }, tl, 1.0)
 
     const afterEqnRef = useGsapTo<HTMLDivElement>({
         opacity: 1.0,
-        duration: 0.5,
-        ease: "power2.out"
+        duration: 1.0,
     }, tl, 1.0);
 
     return (
@@ -185,7 +173,7 @@ const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = 
                 <svg width={descrWidth} height={descrHeight} className={classes.descrSvg} ref={descrSvgAnimRef}>
                     <path
                         d={`M ${descrWidth / 2} ${strokeWidth / 2} v ${strokeLength}`}
-                        stroke={colors.LIGHT_GRAY}
+                        stroke={colors.BLACK}
                         strokeWidth={strokeWidth}
                         strokeLinecap="round"
                         strokeDasharray={
@@ -195,6 +183,11 @@ const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = 
                         }
                         ref={pathRef}
                     />
+                    {showBulb ?
+                    <g ref={bulbAnimRef} transform={`translate(${descrWidth/2 - bulbSize/2} ${strokeLength})`}>
+                        <LightBulb size={bulbSize} />
+                    </g>
+                    : null}
                 </svg>
                 <div className={classes.descrTextAnim} ref={descrTextAnimRef}>
                     <div className={classes.descrText} ref={descrTextRef}>
@@ -207,7 +200,6 @@ const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = 
                     <MathJax>{step.after}</MathJax>
                 </div>
             ) : null}
-            <LightBulb size={50} flicker />
         </>
     );
 };
@@ -221,12 +213,11 @@ const EqnSolutionSteps = ({ steps, nextStepIdx }: EqnSolutionStepsProps) => {
     if (steps.length === 0) {
         return null;
     }
-
     return (
         <div>
             <MathJax>{ steps[0].before }</MathJax>
             {steps.slice(0, nextStepIdx).map((step: StepType, idx: number) => (
-                <EqnSolutionStep step={step} key={idx} hideBefore/>
+                <EqnSolutionStep step={step} key={idx} hideBefore showBulb={idx === steps.length - 1}/>
             ))}
         </div>
     );
@@ -272,12 +263,7 @@ export const EqnSolver = ({ eqn }: EqnSolverProps) => {
                     </Button>
                 </Grid>
                 <Grid item>
-                    <Button
-                        color="primary"
-                        variant="contained"
-                        disabled={nextStepIdx === steps.length}
-                        onClick={handleNext}
-                    >
+                    <Button variant="contained" color="primary" onClick={handleNext} disabled={nextStepIdx === steps.length}>
                         Volgende stap
                     </Button>
                 </Grid>
