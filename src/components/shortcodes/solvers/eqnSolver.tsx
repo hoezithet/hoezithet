@@ -111,6 +111,7 @@ type EqnSolutionStepProps = {
 
 const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = false, ignoreSubsteps = false, showBulb = false }: EqnSolutionStepProps) => {
     const [showingSubsteps, setShowSubsteps] = useState(false);
+    const [bulbOn, setBulbOn] = useState(false);
 
     const [descrTextRect, descrTextRef] = useClientRect();
     const [descrWrapperRect, descrWrapperRef] = useClientRect();
@@ -136,20 +137,26 @@ const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = 
     const pathRef = useGsapFrom<SVGPathElement>({
         drawSVG: '0',
         ease: "power2.inOut",
-    }, (anim) => tl.add(anim, ">svgGrow"));
+    }, (anim) => tl.add(anim, "wire"));
 
     const descrTextAnimRef = useGsapFrom<HTMLDivElement>({
         opacity: 0,
         ease: "power2.inOut",
-    }, (anim) => tl.add(anim, 0));
+    }, (anim) => tl.add(anim, "wire"));
 
     const bulbAnimRef = useGsapFrom<SVGGElement>({
         opacity: 0,
-    }, (anim) => tl.add(anim, 1.0));
+    }, (anim) => tl.add(anim, "wire+=0.5"));
 
-    const afterEqnRef = useGsapFrom<HTMLDivElement>({
-        opacity: 0,
-    }, (anim) => tl.add(anim, 1.0));
+    const afterEqnRef = useGsapFrom<HTMLDivElement>(
+        {
+            opacity: 0,
+            onStart: () => {
+                setBulbOn(true);
+            },
+        },
+        anim => tl.add(anim, "wire+=1.0")
+    );
 
     return (
         <>
@@ -170,7 +177,7 @@ const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = 
                     />
                     {showBulb ?
                     <g ref={bulbAnimRef} transform={`translate(${descrWidth/2 - bulbSize/2} ${strokeLength})`}>
-                        <LightBulb size={bulbSize} />
+                        <LightBulb size={bulbSize} off={!bulbOn} />
                     </g>
                     : null}
                 </svg>
