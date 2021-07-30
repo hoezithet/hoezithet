@@ -91,15 +91,8 @@ const useStyles = makeStyles<Theme, UseStylesProps>(theme => ({
     },
     descrSvg: {
         position: "absolute",
-        opacity: 0,
         top: 0,
         left: 0,
-    },
-    afterEqn: {
-        opacity: 0,
-    },
-    descrTextAnim: {
-        opacity: 0,
     },
     bulbWrapper: {
         textAlign: "center",
@@ -135,42 +128,34 @@ const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = 
 
     const tl = gsap.timeline({
         defaults: {
-            ease: "power2.out"
-        }
+            ease: "power2.out",
+            duration: 1.0,
+        },
     });
-
-    const descrSvgAnimRef = useGsapTo<SVGElement>({
-        opacity: 1.0,
-        duration: 1.0,
-    }, tl, 0);
 
     const pathRef = useGsapFrom<SVGPathElement>({
         drawSVG: '0',
-        duration: 1.0,
         ease: "power2.inOut",
-    }, tl, 0);
+    }, (anim) => tl.add(anim, ">svgGrow"));
 
-    const descrTextAnimRef = useGsapTo<HTMLDivElement>({
-        opacity: 1.0,
-        duration: 1.0,
+    const descrTextAnimRef = useGsapFrom<HTMLDivElement>({
+        opacity: 0,
         ease: "power2.inOut",
-    }, tl, 0);
+    }, (anim) => tl.add(anim, 0));
 
     const bulbAnimRef = useGsapFrom<SVGGElement>({
         opacity: 0,
-        duration: 1.0,
-    }, tl, 1.0)
+    }, (anim) => tl.add(anim, 1.0));
 
-    const afterEqnRef = useGsapTo<HTMLDivElement>({
-        opacity: 1.0,
-        duration: 1.0,
-    }, tl, 1.0);
+    const afterEqnRef = useGsapFrom<HTMLDivElement>({
+        opacity: 0,
+    }, (anim) => tl.add(anim, 1.0));
 
     return (
         <>
             {!hideBefore ? <MathJax>{step.before}</MathJax> : null}
             <div className={classes.descrWrapper} ref={descrWrapperRef}>
-                <svg width={descrWidth} height={descrHeight} className={classes.descrSvg} ref={descrSvgAnimRef}>
+                <svg width={descrWidth} height={descrHeight} className={classes.descrSvg}>
                     <path
                         d={`M ${descrWidth / 2} ${strokeWidth / 2} v ${strokeLength}`}
                         stroke={colors.BLACK}
