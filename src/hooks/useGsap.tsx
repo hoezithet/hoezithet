@@ -17,6 +17,7 @@ const useGsap = <T extends Element> (
     callback: CallbackType,
     fromVars?: gsap.TweenVars,
     toVars?: gsap.TweenVars,
+    deps?: any[],
 ) => {
     const nodeRef = useCallback((node: T|null) => {
         if (node !== null) {
@@ -28,7 +29,7 @@ const useGsap = <T extends Element> (
                 callback(gsap.to(node, toVars));
             }
         }
-    }, []);
+    }, deps || []);
 
     return nodeRef;
 };
@@ -36,23 +37,26 @@ const useGsap = <T extends Element> (
 export const useGsapFrom = <T extends Element> (
     fromVars: gsap.TweenVars,
     callback: CallbackType,
+    deps?: any[],
 ) => {
-    return useGsap<T>(callback, fromVars);
+    return useGsap<T>(callback, fromVars, undefined, deps);
 };
 
 export const useGsapTo = <T extends Element> (
     toVars: gsap.TweenVars,
     callback: CallbackType,
+    deps?: any[],
 ) => {
-    return useGsap<T>(callback, toVars);
+    return useGsap<T>(callback, undefined, toVars, deps);
 };
 
 export const useGsapFromTo = <T extends Element> (
     fromVars: gsap.TweenVars,
     toVars: gsap.TweenVars,
     callback: CallbackType,
+    deps?: any[],
 ) => {
-    return useGsap<T>(callback, fromVars, toVars);
+    return useGsap<T>(callback, fromVars, toVars, deps);
 };
 
 export default useGsap;

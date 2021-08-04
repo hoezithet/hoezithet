@@ -8,9 +8,10 @@ import { ExerciseContext } from "../exercise";
 import { StepType, getSolveEquationSteps } from "./mathsteps_utils";
 import { ExVarsType } from "../exerciseVar";
 import useClientRect from "../../../hooks/useClientRect";
-import { useGsapFrom, useGsapTo } from "../../../hooks/useGsap";
+import { useGsapFrom, useGsapFromTo, useGsapTo } from "../../../hooks/useGsap";
 import gsap from 'gsap';
 import { RoughEase } from "gsap/EasePack";
+import getOuterHeight from "../../../utils/outerHeight";
 
 gsap.registerPlugin(RoughEase);
 
@@ -94,9 +95,6 @@ const useStyles = makeStyles<Theme, UseStylesProps>(theme => ({
         top: 0,
         left: 0,
     },
-    bulbWrapper: {
-        textAlign: "center",
-    }
 }));
 
 type EqnSolutionStepProps = {
@@ -115,11 +113,14 @@ const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = 
 
     const [descrTextRect, descrTextRef] = useClientRect();
     const [descrWrapperRect, descrWrapperRef] = useClientRect();
+    const [afterEqnHeight, afterEqnWrapperRef] = useMjxOuterHeight();
+    const [beforeEqnHeight, beforeEqnWrapperRef] = useMjxOuterHeight();
 
     const strokeWidth = 2;
     const bulbSize = 30;
     const [descrWidth, descrHeight] = [descrWrapperRect?.width || 0, (descrTextRect?.height || 0) + (descrTextRect !== null && showBulb ? bulbSize : 0)];
     const strokeLength = descrHeight - strokeWidth - (showBulb ? bulbSize : 0);
+    const totalHeight = (beforeEqnHeight || 0) + descrHeight + (afterEqnHeight || 0);
 
     const classes = useStyles({
         showSubsteps: showingSubsteps,
@@ -134,19 +135,44 @@ const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = 
         },
     });
 
+    const stepWrapperRef = useGsapFromTo<HTMLDivElement>(
+        {
+            height: 0,
+        },
+        {
+            height: totalHeight,
+        },
+        anim => {
+            if (totalHeight > 0) {
+                tl.add(anim, 0).addLabel("stepWrapper");
+                console.log("Added stepWrapper animation");
+            }
+        },
+        [totalHeight]
+    );
+
     const pathRef = useGsapFrom<SVGPathElement>({
         drawSVG: '0',
         ease: "power2.inOut",
-    }, (anim) => tl.add(anim, "wire"));
+    }, (anim) => {
+        tl.add(anim, "stepWrapper+=0.5").addLabel("wire")
+        console.log("Added path animation");
+    });
 
     const descrTextAnimRef = useGsapFrom<HTMLDivElement>({
         opacity: 0,
         ease: "power2.inOut",
-    }, (anim) => tl.add(anim, "wire"));
+    }, (anim) => {
+        tl.add(anim, "wire")
+        console.log("Added descrText animation");
+    });
 
     const bulbAnimRef = useGsapFrom<SVGGElement>({
         opacity: 0,
-    }, (anim) => tl.add(anim, "wire+=0.5"));
+    }, (anim) => {
+        tl.add(anim, "wire+=0.5")
+        console.log("Added bulb animation");
+    });
 
     const afterEqnRef = useGsapFrom<HTMLDivElement>(
         {
@@ -155,12 +181,19 @@ const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = 
                 setBulbOn(true);
             },
         },
-        anim => tl.add(anim, "wire+=1.0")
+        anim => {
+            tl.add(anim, "wire+=1.0")
+            console.log("Added afterEqn animation");
+        }
     );
 
     return (
-        <>
-            {!hideBefore ? <MathJax>{step.before}</MathJax> : null}
+        <div ref={stepWrapperRef}>
+            {!hideBefore ? (
+                <div ref={beforeEqnWrapperRef}>
+                    <MathJax>{step.before}</MathJax>
+                </div>
+            ) : null}
             <div className={classes.descrWrapper} ref={descrWrapperRef}>
                 <svg width={descrWidth} height={descrHeight} className={classes.descrSvg}>
                     <path
@@ -175,11 +208,11 @@ const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = 
                         }
                         ref={pathRef}
                     />
-                    {showBulb ?
-                    <g ref={bulbAnimRef} transform={`translate(${descrWidth/2 - bulbSize/2} ${strokeLength})`}>
-                        <LightBulb size={bulbSize} off={!bulbOn} />
-                    </g>
-                    : null}
+                    {showBulb ? (
+                        <g ref={bulbAnimRef} transform={`translate(${descrWidth / 2 - bulbSize / 2} ${strokeLength})`}>
+                            <LightBulb size={bulbSize} off={!bulbOn} />
+                        </g>
+                    ) : null}
                 </svg>
                 <div className={classes.descrTextAnim} ref={descrTextAnimRef}>
                     <div className={classes.descrText} ref={descrTextRef}>
@@ -188,11 +221,13 @@ const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = 
                 </div>
             </div>
             {!hideAfter ? (
-                <div ref={afterEqnRef} className={classes.afterEqn}>
-                    <MathJax>{step.after}</MathJax>
+                <div ref={afterEqnWrapperRef}>
+                    <div ref={afterEqnRef} className={classes.afterEqn}>
+                        <MathJax>{step.after}</MathJax>
+                    </div>
                 </div>
             ) : null}
-        </>
+        </div>
     );
 };
 
@@ -262,4 +297,16 @@ export const EqnSolver = ({ eqn }: EqnSolverProps) => {
             </Grid>
         </>
     );
+};
+
+
+function useMjxOuterHeight(): [number|null, (node: any) => void] {
+    const [outerHeight, setOuterHeight] = useState<number|null>(null);
+    const wrapperRef = useCallback((node: HTMLElement) => {
+        const mjxContainer = node?.querySelector("mjx-container") as HTMLElement;
+        if (mjxContainer !== null) {
+            setOuterHeight(getOuterHeight(mjxContainer));
+        }
+    }, []);
+    return [outerHeight, wrapperRef];
 };
