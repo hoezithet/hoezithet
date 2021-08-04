@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback, useEffect, DOMElement } from "react";
+import React, { useState, useContext, useCallback, useEffect, DOMElement, useRef, useLayoutEffect } from "react";
 import { Markdown } from "../../../utils/md2react";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -10,10 +10,8 @@ import { ExVarsType } from "../exerciseVar";
 import useClientRect from "../../../hooks/useClientRect";
 import { useGsapFrom, useGsapFromTo, useGsapTo } from "../../../hooks/useGsap";
 import gsap from 'gsap';
-import { RoughEase } from "gsap/EasePack";
 import getOuterHeight from "../../../utils/outerHeight";
 
-gsap.registerPlugin(RoughEase);
 
 const getSubstepDashArray = (nSubsteps: number, strokeLength: number, spacing: number = 5) => {
     if (nSubsteps === 0) {
@@ -105,11 +103,20 @@ type EqnSolutionStepProps = {
     ignoreSubsteps?: boolean,
     key?: number,
     showBulb?: boolean,
+    hide?: boolean,
 }
 
-const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = false, ignoreSubsteps = false, showBulb = false }: EqnSolutionStepProps) => {
+const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = false, ignoreSubsteps = false, showBulb = false, hide = false }: EqnSolutionStepProps) => {
     const [showingSubsteps, setShowSubsteps] = useState(false);
     const [bulbOn, setBulbOn] = useState(false);
+    const tlRef = useRef(gsap.timeline({
+        defaults: {
+            ease: "power2.out",
+            duration: 1.0,
+        },
+        paused: true,
+    }));
+    const tl = tlRef.current;
 
     const [descrTextRect, descrTextRef] = useClientRect();
     const [descrWrapperRect, descrWrapperRef] = useClientRect();
@@ -128,13 +135,6 @@ const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = 
         descrHeight: descrHeight,
     });
 
-    const tl = gsap.timeline({
-        defaults: {
-            ease: "power2.out",
-            duration: 1.0,
-        },
-    });
-
     const stepWrapperRef = useGsapFromTo<HTMLDivElement>(
         {
             height: 0,
@@ -145,34 +145,41 @@ const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = 
         anim => {
             if (totalHeight > 0) {
                 tl.add(anim, 0).addLabel("stepWrapper");
-                console.log("Added stepWrapper animation");
+            } else {
+                anim.kill();
             }
         },
         [totalHeight]
     );
 
-    const pathRef = useGsapFrom<SVGPathElement>({
-        drawSVG: '0',
-        ease: "power2.inOut",
-    }, (anim) => {
-        tl.add(anim, "stepWrapper+=0.5").addLabel("wire")
-        console.log("Added path animation");
-    });
+    const pathRef = useGsapFrom<SVGPathElement>(
+        {
+            drawSVG: "0",
+            ease: "power2.inOut",
+        },
+        anim => {
+            tl.add(anim, "stepWrapper+=0.5").addLabel("wire");
+        }
+    );
 
-    const descrTextAnimRef = useGsapFrom<HTMLDivElement>({
-        opacity: 0,
-        ease: "power2.inOut",
-    }, (anim) => {
-        tl.add(anim, "wire")
-        console.log("Added descrText animation");
-    });
+    const descrTextAnimRef = useGsapFrom<HTMLDivElement>(
+        {
+            opacity: 0,
+            ease: "power2.inOut",
+        },
+        anim => {
+            tl.add(anim, "wire");
+        }
+    );
 
-    const bulbAnimRef = useGsapFrom<SVGGElement>({
-        opacity: 0,
-    }, (anim) => {
-        tl.add(anim, "wire+=0.5")
-        console.log("Added bulb animation");
-    });
+    const bulbAnimRef = useGsapFrom<SVGGElement>(
+        {
+            opacity: 0,
+        },
+        anim => {
+            tl.add(anim, "wire+=0.5");
+        }
+    );
 
     const afterEqnRef = useGsapFrom<HTMLDivElement>(
         {
@@ -183,9 +190,16 @@ const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = 
         },
         anim => {
             tl.add(anim, "wire+=1.0")
-            console.log("Added afterEqn animation");
         }
     );
+
+    useEffect(() => {
+        if (!hide) {
+            tl.timeScale(1.0).play();
+        } else {
+            tl.timeScale(3.0).reverse();
+        }
+    }, [hide])
 
     return (
         <div ref={stepWrapperRef}>
@@ -243,8 +257,8 @@ const EqnSolutionSteps = ({ steps, nextStepIdx }: EqnSolutionStepsProps) => {
     return (
         <div>
             <MathJax>{ steps[0].before }</MathJax>
-            {steps.slice(0, nextStepIdx).map((step: StepType, idx: number) => (
-                <EqnSolutionStep step={step} key={idx} hideBefore showBulb={idx === steps.length - 1}/>
+            {steps.map((step: StepType, idx: number) => (
+                <EqnSolutionStep step={step} key={idx} hideBefore showBulb={idx === steps.length - 1} hide={idx >= nextStepIdx}/>
             ))}
         </div>
     );
