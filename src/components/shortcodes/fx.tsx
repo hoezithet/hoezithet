@@ -10,10 +10,10 @@ import { useStyles } from "./line";
 
 export const Fx = ({fx, nSamples=null, xStart=null, xEnd=null, color="blue", opacity=1, lineWidth=3}) => {
     const classes = useStyles({color: getColor(color), lineWidth: lineWidth, opacity: opacity});
-    const {xScale, yScale} = useContext(DrawingContext);
+    const {xScale, yScale, xMargin, yMargin} = useContext(DrawingContext);
     const [xMin, xMax] = xScale.domain();
-    xStart = xStart === null ? xMin : xStart;
-    xEnd = xEnd === null ? xMax : xEnd;
+    xStart = xStart === null ? xMin - 0.5*(xMax - xMin) : xStart;
+    xEnd = xEnd === null ? xMax + 0.5*(xMax - xMin) : xEnd;
     nSamples = nSamples ? Math.round(nSamples) : Math.round(xScale(xEnd) - xScale(xStart));
     const xs = [...Array(nSamples + 1).keys()].map((x, i) => x*(xEnd - xStart)/nSamples + xStart).filter(x => !isNaN(fx(x)));
     return (

@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { theme } from "../theme";
 import { DrawingContext } from "./drawing";
+import Markdown from "../markdown";
 
 
 const useStylesNote = makeStyles({
@@ -12,13 +13,13 @@ const useStylesNote = makeStyles({
             margin: "0",  // Remove paragraph margin
         },
         backgroundColor: props => props.showBackground ? props.backgroundColor : "none",
-        borderRadius: `${theme.spacing(0.5)}px`,
+        borderRadius: props => props.showBackground ? `${theme.spacing(0.5)}px` : "0",
         padding: props => props.showBackground ? `${theme.spacing(1)}px` : "0",
     }
 });
 
-export const SvgNote = ({x, y, backgroundColor="light_gray", backgroundOpacity=1, showBackground=true, hAlign="center",
-    vAlign="center", useContextScale=true, children}) => {
+export const SvgNote = ({x, y, backgroundColor="light_gray", backgroundOpacity=1, showBackground=false, hAlign="center",
+    vAlign="center", useContextScale=true, className="", children}) => {
     const {xScale, yScale, width, height} = useContext(DrawingContext);
 
     if (xScale && yScale && useContextScale) {
@@ -82,8 +83,10 @@ export const SvgNote = ({x, y, backgroundColor="light_gray", backgroundOpacity=1
     return (
         <foreignObject x={x} y={y} width={`${width}`} height={`${height}`}>
             <div xmlns="http://www.w3.org/1999/xhtml" style={divParentStyle}>
-                <div className={classes.divNoteChild}>
-                    { children }
+                <div className={`${classes.divNoteChild} ${className}`}>
+                    <Markdown>
+                        { children }
+                    </Markdown>
                 </div>
             </div>
         </foreignObject>
