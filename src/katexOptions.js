@@ -51,6 +51,11 @@ module.exports = {
         "\\si": "\\text",
 
         "\\exVar": "\\htmlClass{exVar #1}{}",
+
+        "\\moveFrom": "\\htmlClass{moveFrom animLabel#2}{#1}",
+        "\\moveTo": "\\htmlClass{moveTo animLabel#2}{#1}",
+        "\\morphFrom": "\\htmlClass{morphFrom animLabel#2}{#1}",
+        "\\morphTo": "\\htmlClass{morphTo animLabel#2}{#1}",
     },
     colorIsTextColor: true,
     strict: "ignore",

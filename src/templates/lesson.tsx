@@ -45,6 +45,7 @@ import { Line } from "../components/shortcodes/line";
 import { Point } from "../components/shortcodes/point";
 import { Rectangle } from "../components/shortcodes/rectangle";
 import { HairLines } from "../components/shortcodes/hairlines";
+import { AnimTex, ExplanationStep, EqnSqrtStep } from "../components/shortcodes/animTex";
 import { Link } from 'gatsby-theme-material-ui';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -53,6 +54,7 @@ import Table from '../components/table';
 import { LayoutProps } from "../components/layout";
 import Comments from "../components/comments";
 import SectionCard, { CardImage } from "./sectionCard";
+import { EqnSolver } from "../components/shortcodes/solvers/eqnSolver";
 
 export const shortcodes = {
     Mute,
@@ -74,6 +76,8 @@ export const shortcodes = {
     Exercise, ExerciseStepper,
     MdWithExVars, ExVar,
     Plot, Drawing, Fx, Point, Annot, HairLines, Line, ArrowLine, Rectangle, SvgNote,
+    AnimTex, ExplanationStep, EqnSqrtStep,
+    EqnSolver,
 };
 
 export const components = {
