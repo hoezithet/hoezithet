@@ -1,5 +1,5 @@
 import React, { useState, useContext, useCallback, useEffect, DOMElement, useRef, useLayoutEffect } from "react";
-import { Markdown } from "../../../utils/md2react";
+import Markdown from "../../markdown";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { makeStyles, Theme } from "@material-ui/core/styles";

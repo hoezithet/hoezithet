@@ -25,13 +25,4 @@ const md2react = (md_text: string, mathProcessor: string = 'katex') => {
     return processor.processSync(md_text).result as JSX.Element;
 }; 
 
-type MarkdownPropTypes = {
-    children: string,
-    mathProcessor: string
-}
-
-export const Markdown = ({children, mathProcessor}: MarkdownPropTypes) => {
-    return md2react(children, mathProcessor);
-};
-
 export default md2react;
