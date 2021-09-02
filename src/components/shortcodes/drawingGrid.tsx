@@ -5,7 +5,7 @@ import { getColor } from "../../colors";
 import { DrawingContext } from "./drawing";
 import { useStyles } from "./line";
 
-const DrawingGrid = ({color="light_gray", major=10, opacity=1, lineWidth=1}) => {
+const DrawingGrid = ({color="blue", major=10, opacity=0.1, lineWidth=1}) => {
     const {xScale, yScale, width, height} = useContext(DrawingContext);
     color = getColor(color);
     const minorClasses = useStyles({color: color, lineWidth: lineWidth, opacity: opacity});
@@ -24,7 +24,7 @@ const DrawingGrid = ({color="light_gray", major=10, opacity=1, lineWidth=1}) => 
                     <>
                     <path d={`M ${xScale(i)},0 v ${height}`} className={isMajor ? majorClasses.line : minorClasses.line} key={i}/>
                     { isMajor ?
-                        <text x={xScale(i)} y="12" fontSize="12" fontFamily="sans-serif">{ i }</text>
+                        <text x={xScale(i)} y={height}>{ i }</text>
                         : null
                     }
                     </>
@@ -40,7 +40,7 @@ const DrawingGrid = ({color="light_gray", major=10, opacity=1, lineWidth=1}) => 
                     <>
                     <path d={`M 0,${yScale(i)} h ${width}`} className={isMajor ? majorClasses.line : minorClasses.line} key={i}/>
                     { isMajor ?
-                        <text x="0" y={yScale(i)} fontSize="12" fontFamily="sans-serif">{ i }</text>
+                        <text x="0" y={yScale(i)}>{ i }</text>
                         : null
                     }
                     </>
