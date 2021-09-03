@@ -55,6 +55,11 @@ import { LayoutProps } from "../components/layout";
 import Comments from "../components/comments";
 import SectionCard, { CardImage } from "./sectionCard";
 import { EqnSolver } from "../components/shortcodes/solvers/eqnSolver";
+import Spring from "../components/shortcodes/spring";
+import Ruler from "../components/shortcodes/ruler";
+import Wall from "../components/shortcodes/wall";
+import Mass from "../components/shortcodes/mass";
+import DrawingGrid from "../components/shortcodes/drawingGrid";
 
 export const shortcodes = {
     Mute,
@@ -78,6 +83,7 @@ export const shortcodes = {
     Plot, Drawing, Fx, Point, Annot, HairLines, Line, ArrowLine, Rectangle, SvgNote,
     AnimTex, ExplanationStep, EqnSqrtStep,
     EqnSolver,
+    Spring, Ruler, DrawingGrid, Wall, Mass
 };
 
 export const components = {
