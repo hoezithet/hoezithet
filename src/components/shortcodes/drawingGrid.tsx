@@ -21,13 +21,13 @@ const DrawingGrid = ({color="blue", major=10, opacity=0.1, lineWidth=1}) => {
                 const isMajor = major && i % major == 0;
 
                 return (
-                    <>
-                    <path d={`M ${xScale(i)},0 v ${height}`} className={isMajor ? majorClasses.line : minorClasses.line} key={i}/>
+                    <g key={i}>
+                    <path d={`M ${xScale(i)},0 v ${height}`} className={isMajor ? majorClasses.line : minorClasses.line}/>
                     { isMajor ?
                         <text x={xScale(i)} y={height}>{ i }</text>
                         : null
                     }
-                    </>
+                    </g>
                 );
             }
             )
@@ -37,13 +37,13 @@ const DrawingGrid = ({color="blue", major=10, opacity=0.1, lineWidth=1}) => {
                 const isMajor = major && i % major == 0;
 
                 return (
-                    <>
-                    <path d={`M 0,${yScale(i)} h ${width}`} className={isMajor ? majorClasses.line : minorClasses.line} key={i}/>
+                    <g key={i}>
+                    <path d={`M 0,${yScale(i)} h ${width}`} className={isMajor ? majorClasses.line : minorClasses.line}/>
                     { isMajor ?
                         <text x="0" y={yScale(i)}>{ i }</text>
                         : null
                     }
-                    </>
+                    </g>
                 );
             }
             )
