@@ -59,6 +59,7 @@ import Spring from "../components/shortcodes/spring";
 import Ruler from "../components/shortcodes/ruler";
 import Wall from "../components/shortcodes/wall";
 import Mass from "../components/shortcodes/mass";
+import VMassSpring from "../components/shortcodes/v_mass_spring";
 import DrawingGrid from "../components/shortcodes/drawingGrid";
 
 export const shortcodes = {
@@ -83,7 +84,7 @@ export const shortcodes = {
     Plot, Drawing, Fx, Point, Annot, HairLines, Line, ArrowLine, Rectangle, SvgNote,
     AnimTex, ExplanationStep, EqnSqrtStep,
     EqnSolver,
-    Spring, Ruler, DrawingGrid, Wall, Mass
+    Spring, Ruler, DrawingGrid, Wall, Mass, VMassSpring
 };
 
 export const components = {

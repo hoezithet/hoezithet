@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import {Rectangle} from "./rectangle";
 
 import { DrawingContext } from "./drawing";
 import { getColor } from "../../colors";

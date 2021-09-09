@@ -11,8 +11,7 @@ const Spring = ({x=0, y=0, restLength=30, elongation=0, endsLength=5, numLoops=5
     const loopSize = loopRestSize + elongation / numLoops;
     const scaledLoopSize = xScale(loopSize) - xScale(0);
     const scaledEndsLength = xScale(endsLength) - xScale(0);
-    const heightFac = 4.0;
-    const loopStr = `l ${scaledLoopSize/4},-${loopRestSize/2*heightFac} l ${scaledLoopSize/2},${loopRestSize*heightFac} l ${scaledLoopSize/4},-${loopRestSize/2*heightFac}`;
+    const loopStr = `l ${scaledLoopSize/4},-${endsLength} l ${scaledLoopSize/2},${endsLength*2} l ${scaledLoopSize/4},-${endsLength}`;
     return (
         <g transform={`translate(${xScale(x)} ${yScale(y)}) rotate(${angle})`} >
             <path d={`M 0,0 h ${scaledEndsLength} ${loopStr.repeat(numLoops)} h ${scaledEndsLength}`} className={classes.line}/>
