@@ -39,7 +39,7 @@ const Mass = ({x, y, angle=0, size=10, fill="black", ringFill="black", text="", 
                     <path d={`M 0,0 L ${size*1/5},${-height} h ${size*3/5} L ${size},0 z`}
                         fill={fill} stroke={fill} strokeWidth={strokeWidth}
                         strokeLinejoin="round"/>
-                    <text x={size/2} y={-height/2} fill={textFill} textAnchor="middle" dominant-baseline="middle" fontSize="x-small">
+                    <text x={size/2} y={-height/2} fill={textFill} textAnchor="middle" dominantBaseline="middle" fontSize="x-small">
                         { text }
                     </text>
                 </g>
