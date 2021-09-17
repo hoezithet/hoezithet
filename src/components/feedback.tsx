@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { makeStyles } from '@material-ui/core/styles';
 
 import { trackEvent } from "./matomo";
-import { LessonContext } from "../templates/lesson";
+import LessonContext from "../contexts/lessonContext";
 
 const feedbackBtnsQuery = graphql`{
   allFile(filter: {absolutePath: {glob: "**/images/feedback/lamp_*.png"}}) {

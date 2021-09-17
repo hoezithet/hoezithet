@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { getColor } from "../../colors";
-import { Drawing, DrawingContext, SaveableDrawing } from "./drawing";
+import { Drawing } from "./drawing";
 import { Axes } from "./axes";
-import { withSave } from "../withSave";
+import withSave from "../withSave";
 
 
 const useStyles = makeStyles({

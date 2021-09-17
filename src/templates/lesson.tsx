@@ -4,6 +4,7 @@ import "katex/dist/katex.min.css";
 import { MDXProvider } from "@mdx-js/react"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import { getSrc } from "gatsby-plugin-image";
+import LessonContext from "../contexts/lessonContext";
 import { Attention } from "../components/shortcodes/attention";
 import { Expand } from "../components/shortcodes/expand";
 import { ToggleImage } from "../components/shortcodes/toggleImage";
@@ -124,8 +125,6 @@ export interface LessonData {
       crumbs: LayoutProps["crumbs"];
     };
 }
-
-export const LessonContext = createContext({title: "", slug: ""});
 
 export default function Template(
     { data, pageContext }: LessonData // this prop will be injected by the GraphQL query below.

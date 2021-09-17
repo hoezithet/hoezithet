@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import SaveIcon from '@material-ui/icons/Save';
 import { Link, IconButton } from 'gatsby-theme-material-ui';
 
-import { LessonContext } from "../templates/lesson";
+import LessonContext from "../contexts/lessonContext";
 import { getColor } from "../colors";
 
 
@@ -31,7 +31,7 @@ const useStyles = makeStyles({
     },
 });
 
-export const withSave = (Component, fileExtension) => {
+const withSave = (Component, fileExtension) => {
     return (props) => {
         const [isHovering, setIsHovering] = useState(false);
         const fileNrRef = useRef(0);
@@ -76,3 +76,5 @@ export const withSave = (Component, fileExtension) => {
         );
     };
 };
+
+export default withSave;

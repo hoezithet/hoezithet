@@ -5,7 +5,7 @@ import { scaleLinear } from '@visx/scale';
 import { Text } from '@visx/text';
 
 import { getColor } from "../../colors";
-import { withSave } from "../withSave";
+import withSave from "../withSave";
 
 
 const useStyles = makeStyles({
