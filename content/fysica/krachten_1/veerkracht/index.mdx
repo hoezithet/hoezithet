@@ -6,11 +6,44 @@ weight: 6
 
 Je hebt wellicht al gemerkt dat het uitrekken van een veer steeds moeilijker wordt naarmate je de veer verder en verder uitrekt of indrukt. We moeten steeds een grotere kracht uitoefenen op de veer. Met de **wet van Hooke** kunnen we die [kracht](../intro) gaan berekenen.
 
-(krachtpatser die veer steeds verder uit elkaar trekt)
+(krachtpatser die veer steeds verder uitrekt)
 
-## De wet van Hooke
+## De lengte en rustlengte van een veer
 
-We willen te weten komen wat de uitrekking van een veer zal zijn wanneer er een bepaalde kracht inwerkt op de veer. Er zijn verschillende manieren waarop we dit kunnen onderzoeken, maar de eenvoudigste manier is wellicht om een massa aan een veer op te hangen.
+De wet van Hooke zal ons vertellen met welke kracht we aan een bepaalde veer zullen moeten trekken (of duwen) om de veer uit te rekken (of in te drukken) tot een bepaalde lengte. Die lengte kunnen we eenvoudig meten met een meetlat. We gebruiken het symbool $l$ om de lengte van de veer aan te duiden.
+
+import { LengthOfSpring } from './drawings';
+
+<Drawing xMax={50} yMax={30} aspect={5/3} >
+  <LengthOfSpring xSpring={10} ySpring={20} springSize={30} rulerSize={30} xAnnot={45} yAnnot={5} yTarget={15} yRuler={15} />
+</Drawing>
+
+**Wanneer een veer niet wordt ingedrukt of uitgerekt**, zal de veer een bepaalde lengte hebben. Die lengte noemen we de **rustlengte** van de veer. We gebruiken het symbool $l_0$ voor de rustlengte. Het nulletje zetten we erbij omdat de rustlengte een soort *begin*lengte is, voordat iets of iemand de veer begint uit te rekken of in te duwen.
+
+| Je schrijft | Je leest |
+|-------------|----------|
+| $l_0$       | De rustlengte van een veer. |
+
+De rustlengte $l_0$ is een **lengte** en heeft dus als [SI-eenheid](../grootheden_eenheden/intro) de **meter**.
+
+| Grootheid | Symbool | SI-eenheid |
+|-----------|---------|------------|
+| De rustlengte van een veer | $l_0$ | De meter (symbool $\si{m}$) |
+
+(illustratie met en zonder krachtpatser die aan veer trekt)
+
+## De uitrekking van een veer meten
+
+Zoals we hierboven al vertelden, zal de wet van Hooke ons vertellen welke kracht we nodig hebben om een veer uit te rekken of in te drukken tot een bepaalde lengte. **Hoe ver we de veer uittrekken of indrukken** noemen we de uitrekking van de veer.
+
+(illustratie)
+
+Om te weten hoe ver een veer is uitgerekt, moeten
+De uitrekking van een veer kunnen we vinden door het **verschil te berekenen tussen de lengte van de uitgerekte of ingedrukte veer en de rustlengte** van de veer.
+
+## De wet van Hooke 
+
+Er zijn verschillende manieren waarop we dit kunnen onderzoeken, maar de eenvoudigste manier is wellicht om een massa aan een veer op te hangen.
 
 (illustratie met massa die aan veer hangt)
 
@@ -46,14 +79,10 @@ We zouden nu willen weten hoeveel de veer is uitgerekt na het ophangen van de ma
 <Drawing aspect={3/2} xMax={150}>
   <Line xStart={40} xEnd={50} yStart={60} yEnd={60} color="light_gray" dashed />
   <Ruler x={40} y={90} angle={90} size={50} unit="mm" emphasize={30} />
-  <Spring x={50} y={90} angle={90} elongation={0} />
+  <Spring x={50} y={90} angle={90} />
   <Wall x={45} y={90} width={10} height={5} />
 
-  <Line xStart={110} xEnd={120} yStart={45} yEnd={45} color="light_gray" dashed />
-  <Ruler x={110} y={90} angle={90} size={50} unit="mm" emphasize={45} />
-  <Spring x={120} y={90} angle={90} elongation={15} />
-  <Wall x={115} y={90} width={10} height={5} />
-  <Mass x={120} y={45} />
+  <VMassSpring x={120} y={90} />
 </Drawing>
 
 $$
