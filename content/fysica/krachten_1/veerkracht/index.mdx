@@ -8,6 +8,16 @@ Je hebt wellicht al gemerkt dat het uitrekken van een veer steeds moeilijker wor
 
 (krachtpatser die veer steeds verder uitrekt)
 
+<Expand title="Rekken, rekte, gerekt">
+
+Het werkwoord **rekken** wordt vaak verkeerd vervoegd. De verleden tijd van "ik rek" is "ik rekte" en **niet ~~ik rok~~**. Het voltooid deelwoord is ook **gerekt** en **niet ~~gerokken~~**. Op dezelfde manier is het "ik rekte uit" en "ik heb uitgerekt".
+
+De verwarring zou kunnen komen van het werkwoord **trekken** waarvan de verleden tijd **trokken** is en het voltooid deelwoord **getrokken**.
+
+Zie ook: <https://vrttaal.net/taaladvies-taalkwestie/rekken>
+
+</Expand>
+
 ## De lengte en rustlengte van een veer
 
 De wet van Hooke zal ons vertellen met welke kracht we aan een bepaalde veer zullen moeten trekken (of duwen) om de veer uit te rekken (of in te drukken) tot een bepaalde lengte. Die lengte kunnen we eenvoudig meten met een meetlat. We gebruiken het symbool $l$ om de lengte van de veer aan te duiden.
@@ -18,7 +28,7 @@ import { LengthOfSpring } from './drawings';
   <LengthOfSpring xSpring={10} ySpring={20} springSize={30} rulerSize={30} xAnnot={45} yAnnot={5} yTarget={15} yRuler={15} />
 </Drawing>
 
-**Wanneer een veer niet wordt ingedrukt of uitgerekt**, zal de veer een bepaalde lengte hebben. Die lengte noemen we de **rustlengte** van de veer. We gebruiken het symbool $l_0$ voor de rustlengte. Het nulletje zetten we erbij omdat de rustlengte een soort *begin*lengte is, voordat iets of iemand de veer begint uit te rekken of in te duwen.
+**Wanneer een veer niet wordt ingedrukt of uitgerekt**, zal de veer natuurlijk ook een bepaalde lengte hebben. Die lengte noemen we de **rustlengte** van de veer. We gebruiken het symbool $l_0$ voor de rustlengte. Het nulletje zetten we erbij omdat de rustlengte een soort *begin*lengte is, voordat iets of iemand de veer begint uit te rekken of in te duwen.
 
 | Je schrijft | Je leest |
 |-------------|----------|
@@ -30,20 +40,57 @@ De rustlengte $l_0$ is een **lengte** en heeft dus als [SI-eenheid](../groothede
 |-----------|---------|------------|
 | De rustlengte van een veer | $l_0$ | De meter (symbool $\si{m}$) |
 
-(illustratie met en zonder krachtpatser die aan veer trekt)
+(illustratie van mannetje dat op veer staat, veer in rust en mannetje dat aan veer hangt)
 
-## De uitrekking van een veer meten
+## De uitrekking van een veer berekenen
 
-Zoals we hierboven al vertelden, zal de wet van Hooke ons vertellen welke kracht we nodig hebben om een veer uit te rekken of in te drukken tot een bepaalde lengte. **Hoe ver we de veer uittrekken of indrukken** noemen we de uitrekking van de veer.
+Zoals we hierboven al zeiden, zal de wet van Hooke ons vertellen welke kracht we nodig hebben om een veer uit te rekken of in te drukken tot een bepaalde lengte. **Hoe ver we de veer uitrekken of indrukken** noemen we de **uitrekking van de veer**.
 
 (illustratie)
 
-Om te weten hoe ver een veer is uitgerekt, moeten
-De uitrekking van een veer kunnen we vinden door het **verschil te berekenen tussen de lengte van de uitgerekte of ingedrukte veer en de rustlengte** van de veer.
+<Attention title="Opgelet! Met uitrekking kunnen we ook indrukking bedoelen">
 
-## De wet van Hooke 
+Om niet telkens "uitrekking of indrukking" te moeten zeggen, spreken we af dat we het woord "uitrekking" zowel kunnen gebruiken wanneer een veer wordt uitgerekt als wanneer een veer wordt ingedrukt.
 
-Er zijn verschillende manieren waarop we dit kunnen onderzoeken, maar de eenvoudigste manier is wellicht om een massa aan een veer op te hangen.
+</Attention>
+
+Om te weten hoe ver een veer is uitgerekt, moeten we weten hoe lang de veer vóór en na de uitrekking is.
+
+(illustratie)
+
+We zien dat we de uitrekking van een veer kunnen vinden door het **verschil te berekenen tussen de lengte na en de lengte vóór de uitrekking** van de veer.
+
+$$
+\text{uitrekking van veer} = l_{\text{na uitrekking}} - l_{\text{voor uitrekking}}
+$$
+
+Zo'n verschil tussen een situatie *na* en een situatie *voor* korten we vaak af met de Griekse hoofdletter $\Delta$ (de delta):
+
+$$
+\begin{aligned}
+\Delta l &= l_{\text{na}} - l_{\text{voor}}
+\end{aligned}
+$$
+
+Deze $\Delta l$ zullen we de uitrekking van een veer noemen.
+
+| Je schrijft | Je leest |
+|-------------|----------|
+| $\Delta l$  | De uitrekking van een veer. |
+
+Merk op dat een veer vóór de uitrekking altijd in rust is en dat de lengte vóór de uitrekking dus gelijk is aan de rustlengte $l_0$ van de veer. Als we daarenboven de lengte na uitrekking gewoon aanduiden met $l$, dan kunnen we $\Delta l$ korter schrijven als:
+
+$$
+\Delta l = l - l_0
+$$
+
+(vraag met negatieve uitrekking)
+
+## Kracht op een veer onderzoeken met de zwaartekracht
+
+Straks zullen we de wet van Hooke ontdekken via enkele experimentjes. We zullen verschillende krachten laten inwerken op een veer en telkens de uitrekking $\Delta l$ van de veer meten. Maar hoe kunnen we ervoor zorgen dat we weten welke kracht we laten inwerken op de veer?
+
+Er zijn eigenlijk talloze manieren daarvoor, maar de eenvoudigste manier is wellicht door een gekende **massa op te hangen aan de veer**.
 
 (illustratie met massa die aan veer hangt)
 
@@ -53,7 +100,7 @@ $$
 F_z = m\cdot g
 $$
 
-Dat is dan ook de kracht waarmee de veer uitgerekt zal worden.
+Dat is dan ook **de kracht waarmee de veer uitgerekt zal worden**.
 
 (illustratie met massa die aan veer hangt en aanduiding van zwaartekracht op massa, daarnaast veer apart getekend met $\vec{F}_v = \vec{F}_z$)
 
@@ -72,24 +119,99 @@ De richting van $\vec{F}_z$, en dus ook van $\vec{F}_v$, is verticaal en de zin 
 
 (zelfde illustratie maar met grootte, richting en zin aangeduid)
 
-We zouden nu willen weten hoeveel de veer is uitgerekt na het ophangen van de massa van $0{,}1~\si{kg}$. Daarvoor meten we eerst de lengte van de veer zonder de massa en vervolgens de lengte van de veer mét de massa:
+Door telkens een andere massa aan de veer te hangen, kunnen we nu verschillende krachten op de veer laten inwerken. We berekenen de grootte van de kracht telkens met $F_z = m\cdot 9{,}91~\si{N/kg}$.
+
+(illustraties met verschillende massa's, kracht telkens uitgerekend)
+
+## De wet van Hooke
+
+We gaan verschillende massa's aan onze veer hangen, net als in de vorige paragraaf. We gaan nu echter niet enkel de **grootte van de kracht** berekenen, maar ook de **uitrekking** van de veer.
+
+(illustraties met verschillende massa's, kracht en uitrekking telkens uitgerekend)
+
+We zetten onze berekeningen even in een tabel:
+
+| $F_v$ | $\Delta l$ |
+|-------|------------|
+|       |            |
+
+Als we deze tabel wat meer in detail bekijken, kunnen we zien dat <Mute>(je mag de $\frac{\si{N}}{\si{m}}$ gerust even negeren)</Mute>:
+
+$$
+F_v \approx 30\gray{\frac{\si{N}}{\si{m}}}\cdot \Delta l
+$$
+
+Wanneer we de massa bovenop de veer leggen, krijgen we de volgende resultaten:
 
 (illustratie)
 
-<Drawing aspect={3/2} xMax={150}>
-  <Line xStart={40} xEnd={50} yStart={60} yEnd={60} color="light_gray" dashed />
-  <Ruler x={40} y={90} angle={90} size={50} unit="mm" emphasize={30} />
-  <Spring x={50} y={90} angle={90} />
-  <Wall x={45} y={90} width={10} height={5} />
+| $F_v$ | $\Delta l$ | $|\Delta l|$ |
+|-------|------------|--------------|
+|       |            |              |
 
-  <VMassSpring x={120} y={90} />
-</Drawing>
+We vinden dat:
 
 $$
-F_v = k\Delta l
+F_v \approx 30\gray{\frac{\si{N}}{\si{m}}}\cdot |\Delta l|
 $$
 
-## Wanneer is de veerkracht negatief?
+We hebben hier de absolute waarde van $\Delta l$ nodig omdat $\Delta l$ negatief is terwijl $F_v$ positief moet zijn omdat het de grootte van een vector is. We noemen $|\Delta l|$ ook wel de **grootte van de uitrekking**.
+
+<Exercise>
+
+Wanneer de massa aan de veer hing, kwamen we uit op de formule
+
+$$
+F_v \approx 30\gray{\frac{\si{N}}{\si{m}}}\cdot \Delta l
+$$
+
+Kunnen we dit dan ook schrijven als volgt?
+
+$$
+F_v \approx 30\gray{\frac{\si{N}}{\si{m}}}\cdot |\Delta l|
+$$
+
+<MultipleChoice solution={0}>
+
+- Ja
+- Neen
+
+<Explanation>
+
+Wanneer we de massa ophangen, zal de veer langer worden en zal $\Delta l$ een positief getal zijn. De absolute waarde van een positief getal is gelijk aan dat getal, dus of we nu $\Delta l$ schrijven of $|\Delta l|$, dat maakt niet uit. De formule
+
+$$
+F_v \approx 30\gray{\frac{\si{N}}{\si{m}}}\cdot |\Delta l|
+$$
+
+**geldt dus in beide gevallen**!
+
+</Explanation>
+</MultipleChoice>
+
+</Exercise>
+
+Als we dit experiment met een andere veer uitvoeren, krijgen we de volgende resultaten:
+
+(illustratie)
+
+| $F_v$ | $\Delta l$ | $|\Delta l|$ |
+|-------|------------|--------------|
+|       |            |              |
+
+We zien hier dat:
+
+$$
+F_v \approx 60\gray{\frac{\si{N}}{\si{m}}}\cdot |\Delta l|
+$$
+
+Als we dit met nog andere veren zouden uitproberen, zullen we gelijkaardige resultaten vinden. De **grootte van de kracht op de veer is gelijk aan een constante maal de grootte van de uitrekking**. Wanneer een grootheid gelijk is aan een constante maal een andere grootheid, zeggen we dat die grootheden *rechtevenredig* zijn met elkaar. De **grootte van de kracht op de veer is dus rechtevenredig met de grootte van de uitrekking** van de veer. Dat is de **wet van Hooke**. In symbolen:
+
+$$
+F_v = k\cdot|\Delta l|
+$$
+
+De evenredigheidsconstante $k$ noemen we de **veerconstante** en is **eigen aan de veer**. Vermoedelijk komt die letter $k$ van het Duitse woord *Konstante*.
 
 ## De veerconstante $k$
 
@@ -98,6 +220,10 @@ Intuïtie achter de eenheid van k
 Slappe vs. stijve veer
 
 ## Grafiek van de veerkracht
+
+We kunnen deze tabel ook in een grafiek zetten door voor elke rij in de tabel een puntje in een assenstelsel te zetten met $F_v$ als x-coördinaat en $\Delta l$ als y-coördinaat.
+
+(grafiek)
 
 <Plot xLabel="$\Delta l~\small{(\si{m})}$" yLabel="$F_v~\small{(\si{N})}$" >
   <Fx fx={x => 0.5*x} />
