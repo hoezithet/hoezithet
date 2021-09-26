@@ -9,7 +9,8 @@ import HzhTheme from "../components/theme";
 
 import { Link } from "gatsby-theme-material-ui";
 import Box from "@material-ui/core/Box";
-import { components, MdxNode, shortcodes, LessonContext } from "./lesson";
+import { components, MdxNode, shortcodes } from "./lesson";
+import LessonContext from "../contexts/lessonContext";
 import { ToggleImageBare } from "../components/shortcodes/toggleImage";
 import { ExpandBare } from "../components/shortcodes/expand";
 import { makeStyles } from '@material-ui/core/styles';

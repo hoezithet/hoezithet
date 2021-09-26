@@ -123,9 +123,8 @@ Math.abs(y) > 1 ?
 <Fx fx={fx} xStart={-5} xEnd={15} opacity={0.5} />
 <Line xStart={-5} yStart={0} xEnd={15} yEnd={0} color="green" lineWidth={4} />
 <Point x={-5} y={0} color="green" size={10} />
-<Annot xTarget={-5} yTarget={0} xAnnot={-6} yAnnot={5} showBackground={true}>
-
-$\green{\mathrm{dom}~f = [-5; +\infty[}$
+<Annot xTarget={-5} yTarget={0} xAnnot={-6} yAnnot={5} showBackground>
+{ String.raw`$\green{\mathrm{dom}~f = [-5; +\infty[}$` }
 </Annot>
 </Plot>
 
@@ -149,9 +148,8 @@ Math.abs(x) > 1 ?
 <Fx fx={fx} xStart={-5} xEnd={15} opacity={0.5} />
 <Line xStart={0} yStart={-6} xEnd={0} yEnd={15} color="green" lineWidth={4} />
 <Point x={0} y={-6} color="green" size={10} />
-<Annot xTarget={0} yTarget={-6} xAnnot={2} yAnnot={-8} showBackground={true}>
-
-$\green{\mathrm{bld}~f = [-6; +\infty[}$
+<Annot xTarget={0} yTarget={-6} xAnnot={2} yAnnot={-8} showBackground>
+{ String.raw`$\green{\mathrm{bld}~f = [-6; +\infty[}$` }
 </Annot>
 </Plot>
 

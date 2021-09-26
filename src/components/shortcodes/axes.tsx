@@ -8,6 +8,7 @@ import { Text } from '@visx/text';
 import { DrawingContext } from "./drawing";
 import { ArrowLine } from "./arrow";
 import { getColor } from "../../colors";
+import { SvgNote } from "./svgNote";
 
 const useStyles = makeStyles({
     tick: {
@@ -52,10 +53,10 @@ const useStyles = makeStyles({
         fontSize: 20,
     },
     xAxisLabel: {
-        fill: props => props.xColor,
+        color: props => `${props.xColor}`,
     },
     yAxisLabel: {
-        fill: props => props.yColor,
+        color: props => `${props.yColor}`,
     }
 });
 
@@ -95,16 +96,16 @@ export const Axes = ({
             <Group left={xScale(0)}>
                 <AxisLeft scale={yScale} numTicks={yTicks} tickFormat={yTickFormat} hideAxisLine={true} tickClassName={`${classes.tick} ${classes.yTick}`}/>
                 <ArrowLine xStart={0} yStart={yScale(yMin) + yAxisMargin} xEnd={0} yEnd={yScale(yMax) - yAxisMargin} color={yColor} useContextScale={false} />
-                <Text x={10} y={yScale(yMax) - yAxisMargin + 10} textAnchor="start" className={`${classes.axisLabel} ${classes.yAxisLabel}`}>
+                <SvgNote x={10} y={yScale(yMax) - yAxisMargin} hAlign="left" vAlign="top" useContextScale={false} className={classes.yAxisLabel}>
                     { yLabel }
-                </Text>
+                </SvgNote>
             </Group>
             <Group top={yScale(0)}>
                 <AxisBottom scale={xScale} numTicks={xTicks} tickFormat={xTickFormat} hideAxisLine={true} tickClassName={`${classes.tick} ${classes.xTick}`}/>
-                <ArrowLine xStart={xScale(xMin) - xAxisMargin} yStart={0} xEnd={xScale(xMax) + xAxisMargin} yEnd={0} color={xColor} useContextScale={false} />
-                <Text x={xScale(xMax) + xAxisMargin} y={-10} textAnchor="end" className={`${classes.axisLabel} ${classes.xAxisLabel}`}>
+                <ArrowLine xStart={xScale(xMin) - xAxisMargin} yStart={0} xEnd={xScale(xMax) + xAxisMargin} yEnd={0} color={xColor} useContextScale={false}/>
+                <SvgNote x={xScale(xMax) + xAxisMargin} y={-5} hAlign="right" vAlign="bottom" useContextScale={false} className={classes.xAxisLabel}>
                     { xLabel }
-                </Text>
+                </SvgNote>
             </Group>
             { children }
         </>

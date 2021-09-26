@@ -5,7 +5,7 @@ import { scaleLinear } from '@visx/scale';
 import { Text } from '@visx/text';
 
 import { getColor } from "../../colors";
-import { withSave } from "../withSave";
+import withSave from "../withSave";
 
 
 const useStyles = makeStyles({
@@ -46,7 +46,7 @@ export const Drawing = ({
 
             return (
                 <DrawingContext.Provider value={{width: width, height: height, xScale: xScale, yScale: yScale}}>
-                    <svg width={width} height={height} className={`${classes.drawing} drawing ${className}`} >
+                    <svg width={width} height={height} className={`${classes.drawing} drawing ${className}`} xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
                         { watermark ?
                           <Text x={width - 10} y={height - 10} textAnchor="end" className={classes.watermark}>
                               Meer op: https://hoezithet.nu

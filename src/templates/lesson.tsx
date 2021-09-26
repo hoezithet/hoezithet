@@ -4,6 +4,7 @@ import "katex/dist/katex.min.css";
 import { MDXProvider } from "@mdx-js/react"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import { getSrc } from "gatsby-plugin-image";
+import LessonContext from "../contexts/lessonContext";
 import { Attention } from "../components/shortcodes/attention";
 import { Expand } from "../components/shortcodes/expand";
 import { ToggleImage } from "../components/shortcodes/toggleImage";
@@ -45,6 +46,7 @@ import { Line } from "../components/shortcodes/line";
 import { Point } from "../components/shortcodes/point";
 import { Rectangle } from "../components/shortcodes/rectangle";
 import { HairLines } from "../components/shortcodes/hairlines";
+import { AnimTex, ExplanationStep, EqnSqrtStep } from "../components/shortcodes/animTex";
 import { Link } from 'gatsby-theme-material-ui';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -53,6 +55,13 @@ import Table from '../components/table';
 import { LayoutProps } from "../components/layout";
 import Comments from "../components/comments";
 import SectionCard, { CardImage } from "./sectionCard";
+import { EqnSolver } from "../components/shortcodes/solvers/eqnSolver";
+import Spring from "../components/shortcodes/spring";
+import Ruler from "../components/shortcodes/ruler";
+import Wall from "../components/shortcodes/wall";
+import Mass from "../components/shortcodes/mass";
+import VMassSpring from "../components/shortcodes/v_mass_spring";
+import DrawingGrid from "../components/shortcodes/drawingGrid";
 
 export const shortcodes = {
     Mute,
@@ -74,6 +83,9 @@ export const shortcodes = {
     Exercise, ExerciseStepper,
     MdWithExVars, ExVar,
     Plot, Drawing, Fx, Point, Annot, HairLines, Line, ArrowLine, Rectangle, SvgNote,
+    AnimTex, ExplanationStep, EqnSqrtStep,
+    EqnSolver,
+    Spring, Ruler, DrawingGrid, Wall, Mass, VMassSpring
 };
 
 export const components = {
@@ -113,8 +125,6 @@ export interface LessonData {
       crumbs: LayoutProps["crumbs"];
     };
 }
-
-export const LessonContext = createContext({title: "", slug: ""});
 
 export default function Template(
     { data, pageContext }: LessonData // this prop will be injected by the GraphQL query below.

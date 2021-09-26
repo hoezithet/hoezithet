@@ -68,12 +68,10 @@ yarn-error.log
 # Yarn Integrity file
 .yarn-integrity
 
-#VSCode workspace
-.vscode
-
 # Vim swap files
 *.swp
 
 # Travis CI key
 deploy_rsa
 deploy_rsa.pub
+.vscode/sftp.json
