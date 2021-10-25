@@ -3,7 +3,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import { getChoices } from "./multipleChoice";
 import { getChildAtIndex } from "../../utils/children";
 import { useAnswerValue } from "./answer";
 import { withFeedback } from "./withFeedback";
@@ -13,12 +12,12 @@ import { shuffle as shuffleArray } from '../../utils/array';
 
 type MultipleAnswerProps = {
     children: React.ReactNode,
+    choices: React.ReactNode[],
     solution: number[],
     shuffle?: boolean,
 };
 
-const _MultipleAnswer = ({ children, solution, shuffle=true }: MultipleAnswerProps) => {
-    const choices = getChoices(children);
+const _MultipleAnswer = ({ choices, children, solution, shuffle=true }: MultipleAnswerProps) => {
     const solutionNodes = solution.map(s => choices[s]);
     const explanation = getChildAtIndex(children, 1) || null;
     const evaluateAnswerValue = (v: number[]|null) => {
