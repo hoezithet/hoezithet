@@ -4,7 +4,7 @@ import { DrawingContext } from "./drawing";
 import { Line } from "./line";
 import COLORS from "../../colors";
 
-const ARROW = "m8.7186 4.0337-10.926-4.0177 10.926-4.0177c-1.7455 2.3721-1.7354 5.6175-6e-7 8.0354z";
+const ARROW_HEAD = "m8.7186 4.0337-10.926-4.0177 10.926-4.0177c-1.7455 2.3721-1.7354 5.6175-6e-7 8.0354z";
 const [ARROW_WIDTH, ARROW_HEIGHT] = [12.35, 9.46667];
 
 const sign = x => x >= 0 ? 1 : -1;  // We defign sign(0) = 1 to avoid a collapse when e.g. dx = 0
@@ -67,7 +67,7 @@ export const ArrowLine = ({
             opacity={opacity} />
         { showArrow ?
             <path fill={color} stroke={color} strokeLinejoin="round" strokeOpacity={opacity} fillOpacity={opacity}
-                transform={`translate(${arrowX}, ${arrowY}) rotate(${arrowAngle}) scale(${arrowScale})`} d={ARROW} />
+                transform={`translate(${arrowX}, ${arrowY}) rotate(${arrowAngle}) scale(${arrowScale})`} d={ARROW_HEAD} />
             : null }
     </>
     );
