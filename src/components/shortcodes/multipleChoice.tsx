@@ -6,31 +6,18 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { getChildAtIndex } from "../../utils/children";
 import { shuffle as shuffleArray } from '../../utils/array';
 import { useAnswerValue } from "./answer";
-import withCallableSolution from "./withCallableSolution"
 import { withFeedback } from "./withFeedback";
 
 
 type MultipleChoiceProps = {
     children: React.ReactNode,
+    choices: React.ReactNode[],
     solution: number,
     shuffle?: boolean,
 };
 
-export const getChoices = (children: React.ReactNode) => {
-    const choicesUl = getChildAtIndex(children, 0);
-    
-    if (!choicesUl || !choicesUl.props) {
-        console.error("No choices defined.");
-        return [];
-    }
-    
-    const listItems = React.Children.toArray(choicesUl.props.children) as React.ReactElement<MDXElementProps>[];
-    return listItems.map(c => c.props.children);
-};
 
-
-const _MultipleChoice = ({ children, solution, shuffle=true}: MultipleChoiceProps) => {
-    const choices = getChoices(children);
+const _MultipleChoice = ({ children, choices, solution, shuffle=true}: MultipleChoiceProps) => {
     const solutionNode = choices[solution];
     const explanation = getChildAtIndex(children, 1) || null;
     const evaluateAnswerValue = (v: number|null) => v === solution;
@@ -117,9 +104,4 @@ const _MultipleChoice = ({ children, solution, shuffle=true}: MultipleChoiceProp
  *   as the argument. This latter functionality is provided by the HOC `withCallableSolution`.
  * @prop {boolean} [shuffle=true] If `true`, shuffle the choices so that the user sees the choices in a different order when starting over.
  */
-export const MultipleChoice = withCallableSolution(_MultipleChoice);
-
-/**
- * Same as `MultipleChoice`, but with the possibility to show feedback (via the `Exercise` component wrapping `MultipleChoiceWithFeedback`).
- */
-export const MultipleChoiceWithFeedback = withFeedback(MultipleChoice);
+export const MultipleChoice = withFeedback(_MultipleChoice);
