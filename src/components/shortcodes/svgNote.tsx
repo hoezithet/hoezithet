@@ -18,14 +18,25 @@ const useStylesNote = makeStyles({
     }
 });
 
-export const SvgNote = ({x, y, backgroundColor="light_gray", backgroundOpacity=1, showBackground=false, hAlign="center",
+export const SvgNote = ({x, y, width=null, height=null, backgroundColor="light_gray", backgroundOpacity=1, showBackground=false, hAlign="center",
     vAlign="center", useContextScale=true, className="", children}) => {
-    const {xScale, yScale, width, height} = useContext(DrawingContext);
+    const ctx = useContext(DrawingContext);
+    const {xScale, yScale} = ctx;
 
     if (xScale && yScale && useContextScale) {
         x = xScale(x);
         y = yScale(y);
+
+        if (width !== null) {
+            width = xScale(width) - xScale(0);
+        }
+        if (height !== null) {
+            height = yScale(0) - yScale(height);
+        }
     }
+
+    width = width || ctx?.width;
+    height = height || ctx?.height;
 
     const [justifyContent, alignItems] = [
         hAlign === "right" ? 
@@ -77,7 +88,8 @@ export const SvgNote = ({x, y, backgroundColor="light_gray", backgroundOpacity=1
         width: "100%",
         display: "flex",
         alignItems: alignItems,
-        justifyContent: justifyContent
+        justifyContent: justifyContent,
+        textAlign: hAlign,
     };
 
     return (
