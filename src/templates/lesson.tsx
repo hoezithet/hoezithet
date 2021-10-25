@@ -31,9 +31,9 @@ import Feedback from "../components/feedback";
 import PrintLink from "../components/printlink";
 import { Exercise } from "../components/shortcodes/exercise";
 import { ExVar, MdWithExVars } from "../components/shortcodes/exerciseVar";
-import { FillStringWithFeedback as FillString } from "../components/shortcodes/fillAnswer";
-import { MultipleAnswerWithFeedback as MultipleAnswer } from "../components/shortcodes/multipleAnswer";
-import { MultipleChoiceWithFeedback as MultipleChoice } from "../components/shortcodes/multipleChoice";
+import { FillString } from "../components/shortcodes/fillAnswer";
+import { MultipleAnswer } from "../components/shortcodes/multipleAnswer";
+import { MultipleChoice } from "../components/shortcodes/multipleChoice";
 import { Explanation } from "../components/shortcodes/explanation";
 import { ExerciseStepper } from "../components/shortcodes/exerciseStepper";
 import { SaveablePlot as Plot } from "../components/shortcodes/plot";
@@ -41,7 +41,7 @@ import { SaveableDrawing as Drawing } from "../components/shortcodes/drawing";
 import { ArrowLine } from "../components/shortcodes/arrow";
 import { Fx } from "../components/shortcodes/fx";
 import { SvgNote } from "../components/shortcodes/svgNote";
-import { Annot } from "../components/shortcodes/annot";
+import { AnnotArrow } from "../components/shortcodes/annot";
 import { Line } from "../components/shortcodes/line";
 import { Point } from "../components/shortcodes/point";
 import { Rectangle } from "../components/shortcodes/rectangle";
@@ -82,7 +82,7 @@ export const shortcodes = {
     FillString, MultipleAnswer, MultipleChoice, Explanation,
     Exercise, ExerciseStepper,
     MdWithExVars, ExVar,
-    Plot, Drawing, Fx, Point, Annot, HairLines, Line, ArrowLine, Rectangle, SvgNote,
+    Plot, Drawing, Fx, Point, AnnotArrow, HairLines, Line, ArrowLine, Rectangle, SvgNote,
     AnimTex, ExplanationStep, EqnSqrtStep,
     EqnSolver,
     Spring, Ruler, DrawingGrid, Wall, Mass, VMassSpring
