@@ -69,7 +69,7 @@ Stel bijvoorbeeld dat Dirk tegen je zegt: "Ik ben al $5623~\si{s}$ in dat bos hi
 
 (illustratie)
 
-Van een tijdsduur van $5623~\si{s}$ kunnen we moeilijk aanvoelen hoe lang die precies duurt. Om die tijdsduur beter te kunnen interpreteren, zouden we ze kunnen omzetten naar minuten. Dan moeten we eerst weten wat in de volgende gelijkheid op de puntjes moet komen:
+Van een tijdsduur van $5623~\si{s}$ kunnen we moeilijk aanvoelen hoe lang die precies duurt. Om die tijdsduur beter te kunnen interpreteren, zouden we ze kunnen omzetten naar minuten. Dan moeten we eerst weten hoeveel minuten $1~\si{s}$ is. We moeten met andere woorden te weten komen wat in de volgende gelijkheid op de puntjes moet komen:
 
 $$
 1~\si{s} = \ldots~\si{min}
@@ -162,7 +162,7 @@ Voor we dat trucje leren, moeten we onderstaande tabel kennen. Je ziet dat bij e
 | $\si{n}$  | nano  | $10^{-9}$   |
 | $\si{p}$  | pico  | $10^{-12}$   |
 
-Stel nu dat je $2{,}0~\si{ml}$ moet omzetten naar $\si{dl}$. We leerden al dat we daarvoor eerst moeten weten wat in de volgende gelijkheid op de puntjes moet komen te staan: 
+Stel nu dat je $2{,}0~\si{ml}$ moet omzetten naar $\si{dl}$. We leerden al dat we daarvoor eerst moeten weten hoeveel deciliter $1~\si{ml}$ is en dus wat in de volgende gelijkheid op de puntjes moet komen te staan: 
 
 $$
 1~\si{ml} = \ldots~\si{dl}
@@ -173,7 +173,7 @@ Het trucje gaat als volgt. **Op die puntjes komt een breuk** met:
 - in de **teller** <Mute>(bovenaan)</Mute> de macht van 10 die hoort bij het voorvoegsel **waar we vandaan komen**;
 - en in de **noemer** <Mute>(onderaan)</Mute> de macht van 10 die hoort bij het voorvoegsel **waar we naartoe gaan**.
 
-Merk op dat wanneer er geen voorvoegsel voor de eenheid staat, $10^0$ de bijhorende macht van 10 is.
+Merk op dat **wanneer er geen voorvoegsel voor de eenheid staat, $10^0$ de bijhorende macht van 10 is**.
 
 We willen $2{,}0~\si{ml}$ omzetten naar $\si{dl}$. We vertrekken dus van *milli-* en gaan naar *deci-*. Ons trucje zegt dat we dan op de puntjes een breuk moeten zetten met in de teller de macht van 10 die hoort bij *milli-* en in de noemer de macht van 10 die hoort bij *deci-*. Uit de tabel van hierboven halen we dat bij *milli-* de macht $10^{-3}$ hoort en bij *deci-* $10^{-1}$. Als we deze breuk invullen op de plaats van de puntjes, vinden we:
 
@@ -249,7 +249,7 @@ import HPaNaarKPa from "./exercises/hPaNaarKPa";
 
 Bij oppervlakte- en inhoudsmaten zoals $\si{m}^2$ en $\si{dm}^3$ staat er een **exponent in de eenheid**. Met die exponent moeten we rekening houden wanneer we zulke eenheden gaan omzetten.
 
-Stel bijvoorbeeld dat we $15~\si{cm}^2$ moeten omzetten naar $\si{dm}^2$. Dan moeten we eerst te weten komen wat hier op de puntjes moet komen te staan:
+Stel bijvoorbeeld dat we $15~\si{cm}^2$ moeten omzetten naar $\si{dm}^2$. Dan moeten we eerst te weten komen hoeveel vierkante decimenter $1~\si{cm}^2$ is en dus wat hier op de puntjes moet komen te staan:
 
 $$
 1~\si{cm}^2 = \ldots~\si{dm}^2
@@ -313,26 +313,27 @@ import M3NaarDm3 from "./exercises/m3NaarDm3";
 
 Zowel de eenheid liter als kubieke meter wordt regelmatig gebruikt om een volume in uit te drukken. Het omzetten tussen deze twee eenheden, lijkt echter niet altijd zo eenvoudig.
 
-Stel bijvoorbeeld dat we $33{,}0~\si{cl}$ willen omzetten naar $\si{cm}^3$. Zoals bij elke andere omzetting, moeten we dan eerst te weten komen waaraan $1~\si{cl}$ gelijk is in $\si{cm}^3$:
+Stel bijvoorbeeld dat we $33{,}0~\si{cl}$ willen omzetten naar $\si{cm}^3$. Zoals bij elke andere omzetting, moeten we dan eerst te weten komen hoeveel kubieke centimeter $1~\si{cl}$ is:
 
 $$
 1~\si{cl} = \ldots~\si{cm}^3
 $$
 
-Het lastige is echter dat er aan de linkerkant iets met *liter* staat en aan de rechterkant iets met *kubieke meter*. Daarom kunnen we **niet zomaar ons trucje met de breuk toepassen** helaas. Om de omzetting te kunnen doen, is het belangrijk te weten dat:
+Het lastige is echter dat er aan de linkerkant iets met *liter* staat en aan de rechterkant iets met *kubieke meter*. Daarom kunnen we **niet zomaar ons trucje met de breuk toepassen** helaas. Om de omzetting te kunnen doen, moeten we eerst een link hebben tussen liter en kubieke meter. Daarom is het belangrijk te weten dat:
 
 $$
-1~l = 1~\si{dm}^3
+1~\si{l} = 1~\si{dm}^3
 $$
 
-We kunnen nu $\si{cl}$ naar $\si{cm}^3$ omzetten door **twee omzettingen** na elkaar te doen in plaats van één:
+We kunnen nu $\si{cl}$ naar $\si{cm}^3$ omzetten **in 3 stappen**:
 
-1. In de eerste omzetting zetten we **$\si{cl}$ om naar $\si{l}$**;
-2. Omdat $1~\si{l} = 1~\si{dm}^3$, kunnen we die **$\si{l}$ vervangen door $\si{dm}^3$**. Vervolgens zetten we de **$\si{dm}^3$ om naar $\si{cm}^3$**.
+1. Eerst zetten we **$\si{cl}$ om naar $\si{l}$**;
+2. Omdat $1~\si{l} = 1~\si{dm}^3$, kunnen we die **$\si{l}$ vervangen door $\si{dm}^3$**.
+3. Ten slotte zetten we de **$\si{dm}^3$ om naar $\si{cm}^3$**.
 
 (illustratie)
 
-We beginnen dus eerst met de omzetting van $\si{cl}$ naar $\si{l}$. Dat doen we zoals gewoonlijk met een breuk die in de teller de macht van $10$ waar we vandaan komen bevat en in de noemer de macht van $10$ waar we naartoe gaan:
+We beginnen dus eerst met de omzetting van $\si{cl}$ naar $\si{l}$. Dat is een omzetting waarbij **enkel het voorvoegsel verandert**. Die kunnen we dus doen met een breuk die in de teller de macht van $10$ waar we vandaan komen bevat en in de noemer de macht van $10$ waar we naartoe gaan:
 
 $$
 \begin{aligned}
@@ -378,7 +379,7 @@ $$
 \end{aligned}
 $$
 
-We hebben hier een eenheid met (centi)liter omgezet naar een eenheid met kubieke (centi)meter. Het kan natuurlijk ook dat je een eenheid met kubieke meter moet omzetten naar een eenheid met liter. Dat doe je ook weer in twee stappen.
+We hebben hier een eenheid met (centi)-liter omgezet naar een eenheid met kubieke (centi)-meter. Het kan natuurlijk ook dat je een eenheid met kubieke meter moet omzetten naar een eenheid met liter. Dat doe je ook weer in twee stappen.
 
 Als we bv. een omzetting van $\si{cm}^3$ naar $\si{ml}$ moeten doen, is de eerste stap is de omzetting van $\si{cm}^3$ naar $\si{dm}^3$, vervolgens vervangen we $\si{dm}^3$ door $\si{l}$ en doen we de omzetting van $\si{l}$ naar $\si{ml}$.
 
@@ -396,7 +397,7 @@ Eenheden komen vaak ook in een **breukvorm** voor, denk maar aan:
 
 Om zulke eenheden in breukvorm om te zetten, gebruiken we dezelfde methodes als bij een gewone omzetting, maar **passen we ze gewoon twee keer toe**: een eerste keer voor de eenheid in de **teller** en een tweede keer voor de eenheid in de **noemer**. Het eindresultaat is dan een breuk met in de **teller de omzetting van de eenheid in de teller** en in de **noemer de omzetting van de eenheid in de noemer**.
 
-Stel bijvoorbeeld dat we $25~\frac{\si{m}}{\si{s}}$ moeten omzetten naar $\frac{\si{km}}{\si{h}}$. We moeten dan, zoals altijd, eerst te weten komen wat er op de puntjes moet komen in de volgende gelijkheid:
+Stel bijvoorbeeld dat we $25~\frac{\si{m}}{\si{s}}$ moeten omzetten naar $\frac{\si{km}}{\si{h}}$. We moeten dan, zoals altijd, eerst te weten komen hoeveel kilometer per uur $1~\frac{\si{m}}{\si{s}}$ is en dus wat er op de puntjes moet komen in de volgende gelijkheid:
 
 $$
 1~\frac{\si{m}}{\si{s}} = \ldots~\frac{\si{km}}{\si{h}}
