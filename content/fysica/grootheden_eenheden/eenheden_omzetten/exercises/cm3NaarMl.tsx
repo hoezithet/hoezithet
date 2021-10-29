@@ -8,7 +8,7 @@ import Md from "components/markdown";
 
 
 const ex1 = String.raw`
-We gaan in deze oefening $250~\si{cm}^3$ proberen omzetten naar $\si{ml}$. Dat doen we in twee stappen. Eerst zetten we $\si{cm}^3$ om naar $\si{dm}^3$. Die $\si{dm}^3$ mogen we gewoon vervangen door $l$ om dan een tweede omzetting te doen van $l$ naar $ml$.
+We gaan in deze oefening $250~\si{cm}^3$ proberen omzetten naar $\si{ml}$. Dat doen we in twee stappen. Eerst zetten we $\si{cm}^3$ om naar $\si{dm}^3$. Die $\si{dm}^3$ mogen we gewoon vervangen door liter om dan een tweede omzetting te doen van liter naar $\si{ml}$.
 
 We beginnen met de omzetting van $\si{cm}^3$ naar $\si{dm}^3$. Hoeveel $\si{dm}^3$ is $1~\si{cm}^3$?
 `;
