@@ -10,12 +10,6 @@ interface ExercisesFeedbackProps {
     nTotal: number;
 };
 
-const ExercisesFeedbackDiv = styled.div`
-    text-align: center;
-    margin: ${theme.spacing(2)}px;
-`;
-
-
 const ExercisesFeedbackImg = styled.img`
     border-radius: ${theme.spacing(1)}px;
 `;
@@ -92,11 +86,11 @@ export const ExercisesFeedback = ({ nCorrect, nTotal }: ExercisesFeedbackProps) 
     };
 
     return (
-        <ExercisesFeedbackDiv>
+        <>
             <p>Je behaalde:</p>
             <h3>{`${nCorrect}/${nTotal}`}</h3>
             <p>{message}</p>
             <ExercisesFeedbackImg ref={imgRefCallback} src={gifSrc} onLoad={handleGifLoad} />
-        </ExercisesFeedbackDiv>
+        </>
     );
 };

@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Stepper from '@material-ui/core/Stepper';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
@@ -47,13 +48,11 @@ const StyledStep = styled(Step)`
     cursor: pointer;
 `;
 
-const useStyles = makeStyles({
-    icon: {
-        color: (props: StepIconProps) =>
-            props.active ? COLORS.GOLD : COLORS.LIGHT_GRAY,
-        cursor: "pointer"
-    }
-});
+const ExercisesFeedbackDiv = styled.div`
+    text-align: center;
+    margin: ${theme.spacing(2)}px;
+`;
+
 
 function ExerciseStepIcon(props: StepIconProps) {
     const Icon = props.completed ? RadioButtonCheckedIcon : RadioButtonUncheckedIcon;
@@ -171,6 +170,12 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
         return () => { removeExerciseStepper({ id: id.current }) };
     }, []);
 
+    useEffect(() => {
+        if (allStepsCompleted() && isResultStep()) {
+            showSolutions();
+        }
+    }, [activeStep]);
+
     const addExerciseId = (exerciseId: string) => {
         dispatch(
             exerciseStepAdded({
@@ -186,6 +191,10 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
 
     const isLastStep = () => {
         return activeStep === totalSteps() - 1;
+    };
+
+    const isResultStep = () => {
+        return activeStep === totalSteps();
     };
 
     const handleNext = () => {
@@ -207,10 +216,6 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
     };
 
     const handleStep = (step: number) => () => {
-        if (isLastStep() && allStepsCompleted()) {
-            // All exercises are done. The solution can be shown now.
-            showSolutions();
-        }
         const newActiveStep =
             isLastStep() && !allStepsCompleted() && step > activeStep
                 ? // It's the last step, but not all steps have been completed,
@@ -284,10 +289,12 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
             </StyledPaper>
         )
     );
-    
-    if(isShowingSolutions()) {
-        views.push(
-            <StyledPaper key={views.length} >
+
+    views.push(
+        <StyledPaper key={views.length} >
+          <ExercisesFeedbackDiv>
+            { isShowingSolutions() ?
+                <>
                 <ExercisesFeedback nCorrect={getScore()} nTotal={steps.length || 0} />
                 <NextPrevBtnGrid container spacing={2}>
                     <Grid item>
@@ -303,9 +310,13 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
                         </Button>
                     </Grid>
                 </NextPrevBtnGrid>
-            </StyledPaper>
-        );
-    }
+                </>
+                :
+                <CircularProgress />
+            }
+          </ExercisesFeedbackDiv>
+        </StyledPaper>
+    );
 
     return (
         <ExerciseStepperContext.Provider value={addExerciseId}>
