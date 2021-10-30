@@ -19,7 +19,7 @@ type MultipleChoiceProps = {
 
 const _MultipleChoice = ({ children, choices, solution, shuffle=true}: MultipleChoiceProps) => {
     const solutionNode = choices[solution];
-    const explanation = getChildAtIndex(children, 1) || null;
+    const explanation = getChildAtIndex(children, 0) || null;
     const evaluateAnswerValue = (v: number|null) => v === solution;
 
     const {answerValue, setAnswerValue, showingSolution} = useAnswerValue(evaluateAnswerValue, solutionNode, explanation);
@@ -51,13 +51,7 @@ const _MultipleChoice = ({ children, choices, solution, shuffle=true}: MultipleC
  * ```jsx
  * <Exercise>
  *   2 + 5 is equal to
- *   <MultipleChoice shuffle={false} solution={1}>
- *     <ul>
- *       <li>4</li>
- *       <li>7</li>
- *       <li>-5</li>
- *     </ul>
- *   </MultipleChoice>
+ *   <MultipleChoice choices={["4", "7", "-5"]} shuffle={false} solution={1}/>
  * </Exercise>
  * ```
  *
@@ -68,12 +62,7 @@ const _MultipleChoice = ({ children, choices, solution, shuffle=true}: MultipleC
  * ```jsx
  * <Exercise>
  *   2 + 5 is equal to
- *   <MultipleChoice shuffle={false} solution={1}>
- *     <ul>
- *       <li>4</li>
- *       <li>7</li>
- *       <li>-5</li>
- *     </ul>
+ *   <MultipleChoice choices={["4", "7", "-5"]}  shuffle={false} solution={1}>
  *     <Explanation>
  *       If you'd be standing at number 2 on a number line and would take 5 steps to the right, you'll end up standing at number 7.
  *     </Explanation>
@@ -81,27 +70,9 @@ const _MultipleChoice = ({ children, choices, solution, shuffle=true}: MultipleC
  * </Exercise>
  * ```
  *
- * Note that with MDX, you can simply create the choices with markdown-syntax:
- *
- * ```jsx
- * <Exercise>
- *   2 + 5 is equal to
- *   <MultipleChoice shuffle={false} solution={1}>
- *
- *       - 4
- *       - 7
- *       - -5
- *
- *     <Explanation>
- *       If you'd be standing at number 2 on a number line and would take 5 steps to the right, you'll end up standing at number 7.
- *     </Explanation>
- *   </MultipleChoice>
- * </Exercise>
- * ``` 
- *
- * @prop {React.ReactNode} children The first child node should be a list-like component. The list items will be used as the choices. If present, the second child will be used as the explanation of the solution. All other children will be ignored.
- * @prop {number} solution The index of the correct choice item. When `solution` is a function, the solution will be calculated by calling the given function with the exercise variables (received from the `ExerciseContext`)
- *   as the argument. This latter functionality is provided by the HOC `withCallableSolution`.
+ * @prop {React.ReactNode} children If present, the first child will be used as the explanation of the solution. All other children will be ignored.
+ * @prop {array} choices The choices to pick from.
+ * @prop {number} solution The index of the correct choice item.
  * @prop {boolean} [shuffle=true] If `true`, shuffle the choices so that the user sees the choices in a different order when starting over.
  */
 export const MultipleChoice = withFeedback(_MultipleChoice);

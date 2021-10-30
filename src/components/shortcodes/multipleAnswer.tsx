@@ -6,7 +6,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { getChildAtIndex } from "../../utils/children";
 import { useAnswerValue } from "./answer";
 import { withFeedback } from "./withFeedback";
-import withCallableSolution from "./withCallableSolution"
 import { shuffle as shuffleArray } from '../../utils/array';
 
 
@@ -19,7 +18,7 @@ type MultipleAnswerProps = {
 
 const _MultipleAnswer = ({ choices, children, solution, shuffle=true }: MultipleAnswerProps) => {
     const solutionNodes = solution.map(s => choices[s]);
-    const explanation = getChildAtIndex(children, 1) || null;
+    const explanation = getChildAtIndex(children, 0) || null;
     const evaluateAnswerValue = (v: number[]|null) => {
         if (v === null) { return false };
         if (v.length !== solution.length) { return false };
@@ -66,9 +65,4 @@ const _MultipleAnswer = ({ choices, children, solution, shuffle=true }: Multiple
 /**
  * Same as `MultipleChoice`, but with multiple correct answers.
  */
-export const MultipleAnswer = withCallableSolution(_MultipleAnswer);
-
-/**
- * Same as `MultipleAnswer`, but with the possibility to show feedback (via the `Exercise` component wrapping `MultipleAnswerWithFeedback`).
- */
-export const MultipleAnswerWithFeedback = withFeedback(MultipleAnswer);
+export const MultipleAnswer = withFeedback(_MultipleAnswer);
