@@ -120,12 +120,7 @@ export type ExerciseStepperType = {
  * <ExerciseStepper>
  *   <Exercise>
  *     2 + 5 is equal to
- *     <MultipleChoice solution={1}>
- *
- *       - 4
- *       - 7
- *       - -5
- *
+ *     <MultipleChoice choices={[4, 7, -5]} solution={1}>
  *       <Explanation>
  *         If you'd be standing at number 2 on a number line and would take 5 steps to the right, you'll end up standing at number 7.
  *       </Explanation>
@@ -133,12 +128,7 @@ export type ExerciseStepperType = {
  *   </Exercise>
  *   <Exercise>
  *     4 + 2 is equal to
- *     <MultipleChoice solution={0}>
- *
- *       - 6
- *       - 7
- *       - 9
- *
+ *     <MultipleChoice choices={[6, 7, 9]} solution={0}>
  *       <Explanation>
  *         If you'd be standing at number 4 on a number line and would take 2 steps to the right, you'll end up standing at number 6.
  *       </Explanation>
