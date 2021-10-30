@@ -58,10 +58,24 @@ $$
 We leerden in de vorige paragraaf dat op de puntjes een breuk moet komen met in de teller de macht van $10$ die overeenkomt met het voorvoegsel waar we vandaan komen en in de noemer de macht van $10$ die overeenkomt met het voorvoegsel waar we naartoe gaan. We gaan van *hecto-* naar *kilo-*, dus in de teller komt $10^2$ (van *hecto-*) en in de noemer komt $10^3$ (van *kilo-*):
 
 $$
-1~\si{hPa} = \frac{10^2}{10^3} \si{kPa}
+1~\si{hPa} = \frac{10^2}{10^3}~\si{kPa}
 $$
 
-Het voorvoegsel *kilo-* overeen met $10^3$ en *hecto-* met $10^2$.
+Dit kunnen we verder vereenvoudigen naar:
+
+$$
+1~\si{hPa} = \frac{10^{-1}}~\si{kPa}
+$$
+
+En dus:
+
+$$
+\begin{aligned}
+1013~\si{hPa} &= 1013\cdot \orange{1~\si{hPa}}\\
+&= 1013\cdot \orange{\frac{10^{-1}}~\si{kPa}}\\
+&= 101{,}3~\si{kPa}
+\end{aligned}
+$$
 `;
 
 const HPaNaarKPa = () => {

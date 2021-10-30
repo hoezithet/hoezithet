@@ -25,7 +25,7 @@ const ex1Expl = String.raw`
 We zoeken wat er in de volgende gelijkheid op de puntjes moet staan:
 
 $$
-1~si{kg} = \ldots~\si{g}
+1~\si{kg} = \ldots~\si{g}
 $$
 
 Zoals we al leerden moet daar een breuk komen met in de teller de macht van $10$ die hoort bij de eenheid waar we vandaan komen en in de noemer de macht van $10$ van de eenheid waar we naartoe gaan. We komen van $\si{kg}$ en gaan naar $\si{g}$. 
@@ -33,13 +33,13 @@ Zoals we al leerden moet daar een breuk komen met in de teller de macht van $10$
 Bij *kilo-* hoort $10^{3}$. Die komt dus in de teller terecht. Bij $\si{g}$ staat geen vervoegsel, dus daar hoort $10^0$ bij. De gelijkheid wordt dus:
 
 $$
-1~si{kg} = \frac{10^3}{10^0}~\si{g}
+1~\si{kg} = \frac{10^3}{10^0}~\si{g}
 $$
 
 Dit kunnen we verder uitrekenen naar:
 
 $$
-1~si{kg} = 10^3~\si{g}
+1~\si{kg} = 10^3~\si{g}
 $$
 `;
 
@@ -59,7 +59,7 @@ const ex2Expl = String.raw`
 We zoeken wat in de volgende gelijkheid op de puntjes moet staan:
 
 $$
-1~si{m}^3 = \ldots~\si{cm}^3
+1~\si{m}^3 = \ldots~\si{cm}^3
 $$
 
 Zoals we al leerden moet daar een breuk komen met in de teller de macht van $10$ die hoort bij de eenheid waar we vandaan komen en in de noemer de macht van $10$ van de eenheid waar we naartoe gaan. We komen van $\si{m}^3$ en gaan naar $\si{cm}^3$. 
@@ -67,13 +67,13 @@ Zoals we al leerden moet daar een breuk komen met in de teller de macht van $10$
 Bij $\si{m}^3$ staat geen voorvoegsel, dus daar hoort $10^{0}$ bij. Bij *centi-* hoort de macht $10^{-2}$, maar daar moeten we nog eens een exponent $3$ bij zetten omdat het *kubieke* centimeter is. We krijgen dus $\left(10^{-2}\right)^{\!3}$. De gelijkheid wordt dus:
 
 $$
-1~si{m}^3 = \frac{10^{0}}{\left(10^{-2}\right)^{\!3}}~\si{cm}^3
+1~\si{m}^3 = \frac{10^{0}}{\left(10^{-2}\right)^{\!3}}~\si{cm}^3
 $$
 
 Dit kunnen we verder uitrekenen naar:
 
 $$
-1~si{m}^3 = 10^{6}~\si{cm}^3
+1~\si{m}^3 = 10^{6}~\si{cm}^3
 $$
 `;
 
@@ -95,7 +95,7 @@ const ex3Expl = String.raw`
 We vonden in de vorige vraag al dat:
 
 $$
-1~si{kg} = 10^3~\si{g}
+1~\si{kg} = 10^3~\si{g}
 $$
 
 en dat:

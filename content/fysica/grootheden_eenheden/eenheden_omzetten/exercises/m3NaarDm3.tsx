@@ -97,7 +97,7 @@ Dit kunnen we gebruiken om $15{,}0~\si{m}^3$ om te zetten naar $\si{dm}^3$:
 
 $$
 \begin{aligned}
-15{,}0~\si{m}^3 &= 15{,}0\cdot~\orange{1\si{m}^3}\\
+15{,}0~\si{m}^3 &= 15{,}0\cdot~\orange{1~\si{m}^3}\\
 &= 15{,}0\cdot~\orange{10^3~\si{dm}^3}\\
 \end{aligned}
 $$
