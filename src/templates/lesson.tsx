@@ -29,13 +29,6 @@ import Layout from "../components/layout";
 import Sponsors from '../components/sponsors';
 import Feedback from "../components/feedback";
 import PrintLink from "../components/printlink";
-import { Exercise } from "../components/shortcodes/exercise";
-import { ExVar, MdWithExVars } from "../components/shortcodes/exerciseVar";
-import { FillString } from "../components/shortcodes/fillAnswer";
-import { MultipleAnswer } from "../components/shortcodes/multipleAnswer";
-import { MultipleChoice } from "../components/shortcodes/multipleChoice";
-import { Explanation } from "../components/shortcodes/explanation";
-import { ExerciseStepper } from "../components/shortcodes/exerciseStepper";
 import { SaveablePlot as Plot } from "../components/shortcodes/plot";
 import { SaveableDrawing as Drawing } from "../components/shortcodes/drawing";
 import { ArrowLine } from "../components/shortcodes/arrow";
@@ -79,9 +72,6 @@ export const shortcodes = {
     Gold,
     Orange,
     Red, DarkRed, Purple, Gray,
-    FillString, MultipleAnswer, MultipleChoice, Explanation,
-    Exercise, ExerciseStepper,
-    MdWithExVars, ExVar,
     Plot, Drawing, Fx, Point, AnnotArrow, HairLines, Line, ArrowLine, Rectangle, SvgNote,
     AnimTex, ExplanationStep, EqnSqrtStep,
     EqnSolver,
