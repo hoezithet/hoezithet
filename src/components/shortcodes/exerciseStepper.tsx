@@ -325,7 +325,7 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
                     </StyledStep>
                 ))}
             </StyledStepper>
-            <SwipeableViews index={activeStep} onChangeIndex={handleStepChange}>
+            <SwipeableViews index={activeStep} onChangeIndex={handleStepChange} disableLazyLoading>
                 { views }
             </SwipeableViews>
         </ExerciseStepperContext.Provider>
