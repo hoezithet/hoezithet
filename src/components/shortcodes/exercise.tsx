@@ -83,7 +83,7 @@ export const useExerciseAnswers = (exerciseId: string) => {
  * @prop {boolean} showTitle If `true`, show a title above the exercise displaying the rank number of the exercise inside the current lesson.
  * ```
  */
-export const Exercise = ({ children, showTitle=false}: ExerciseProps) => {
+export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
     const id = useRef(nanoid());
 
     const exercise = useExercise(id.current);
