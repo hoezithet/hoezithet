@@ -1,15 +1,26 @@
 import React from "react";
+import styled from 'styled-components';
 
 
 type QuotedProps = {
     children: React.ReactNode,
 };
 
+const QuoteChild = styled.span`
+& div,p {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+`;
+
 const Quoted = ({ children }: QuotedProps) => {
     return (
         <span>
             {'"'}
-            {children}
+            <QuoteChild>
+                {children}
+            </QuoteChild>
             {'"'}
         </span>
     );
