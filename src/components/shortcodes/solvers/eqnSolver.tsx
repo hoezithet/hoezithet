@@ -6,7 +6,6 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import colors from "../../../colors";
 import { ExerciseContext } from "../exercise";
 import { StepType, getSolveEquationSteps } from "./mathsteps_utils";
-import { ExVarsType } from "../exerciseVar";
 import useClientRect from "../../../hooks/useClientRect";
 import { useGsapFrom, useGsapFromTo, useGsapTo } from "../../../hooks/useGsap";
 import gsap from 'gsap';
@@ -265,12 +264,11 @@ const EqnSolutionSteps = ({ steps, nextStepIdx }: EqnSolutionStepsProps) => {
 };
 
 type EqnSolverProps = {
-    eqn: string|((exVars: ExVarsType) => string)
+    eqn: string
 };
 
 export const EqnSolver = ({ eqn }: EqnSolverProps) => {
     const exCtx = useContext(ExerciseContext);
-    eqn = eqn instanceof Function ? eqn(exCtx.vars) : eqn;
     const [nextStepIdx, setNextStepIdx] = useState(0);
     const steps = getSolveEquationSteps(eqn);
 
