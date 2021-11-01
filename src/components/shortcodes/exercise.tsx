@@ -6,13 +6,13 @@ import { nanoid } from '@reduxjs/toolkit'
 
 import { useStoredElement, Store, GetNextElementsType } from '../store';
 import { AnswerType, useAnswers } from "./answer";
-import { ExerciseStepperContext } from './exerciseStepper';
+import { ExerciseStepperContext, useExerciseStepperExercises } from './exerciseStepper';
 import { ExercisesFeedback } from "./exerciseFeedback";
 import Paper from '../paper';
 
 import { RootState } from '../../state/store'
 import { exerciseAdded, exerciseAnswerAdded, removeExercise } from '../../state/exercisesSlice';
-import { answerChanged, showAnswerSolution, resetAnswer } from '../../state/answersSlice'
+import { answerChanged, showAnswerSolution, resetAnswer } from '../../state/answersSlice';
 
 
 export type ExerciseType = {
@@ -56,6 +56,10 @@ export const useExerciseAnswers = (exerciseId: string) => {
     );
 };
 
+export const useExerciseRankInStepper = (exerciseId: string, stepperId: string) => {
+    return useExerciseStepperExercises(stepperId).map(ex => ex.id).indexOf(exerciseId);
+};
+
 /**
  * An exercise, consisting of one or more questions with answering modalities.
  *
@@ -90,8 +94,14 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
     const answers = useExerciseAnswers(id.current);
     const nodeRef = useRef<HTMLDivElement>(null);
 
-    const addExerciseIdToStepper = useContext(ExerciseStepperContext);
+    const stepperContext = useContext(ExerciseStepperContext);
+    const addExerciseIdToStepper = stepperContext?.addExercise;
+    const stepperRank = stepperContext?.rank;
+    const stepperId = stepperContext?.id;
     const dispatch = useDispatch();
+    
+    let rank = useExerciseRankInStepper(id.current, stepperId);
+    rank = rank !== -1 ? rank : exercise?.rank;
 
     useEffect(() => {
         dispatch(
@@ -143,7 +153,7 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
     };
 
     const insideStepper = addExerciseIdToStepper !== null;
-	const title = showTitle && exercise?.rank !== undefined ? <ExerciseTitle rank={exercise?.rank}/> : null;
+	const title = showTitle && rank !== undefined ? <ExerciseTitle rank={rank} stepperRank={stepperRank} /> : null;
 
     const ctxValRef = useRef<ExerciseContextValueType>({
         addAnswer: addAnswerId,
@@ -187,9 +197,20 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
 
 type ExerciseTitleProps = {
     rank: number,
+    stepperRank: number|null,
 }
 
-const ExerciseTitle = ({ rank }: ExerciseTitleProps) => <h3>{ `Oefening ${(rank || 0) + 1} ` }</h3>;
+const ExerciseTitle = ({ rank, stepperRank }: ExerciseTitleProps) => {
+    rank = rank || 0;
+    let name = '';
+    if (stepperRank === null) {
+        name += (rank + 1);
+    } else {
+        const alphabet = "abcdefghijklmnopqrstuvwxyz";
+        name += (stepperRank + 1) + alphabet.charAt(rank % 26);
+    }
+    return <h3>{ `Oefening ${name}` }</h3>;
+};
 
 export const TitledExercise = (props: ExerciseProps) => {
 	return <Exercise {...props} showTitle={ true } />;

@@ -70,7 +70,11 @@ const getExerciseStepsFromChildren = (children: React.ReactNode) => {
     return React.Children.toArray(children);
 };
 
-type ExerciseStepperContextValueType = ((exerciseId: string) => void);
+type ExerciseStepperContextValueType = {
+    id: string,
+    addExercise: (exerciseId: string) => void,
+    rank: number,
+}
 
 export const ExerciseStepperContext = createContext<ExerciseStepperContextValueType|null>(null);
 
@@ -105,6 +109,7 @@ export const useExerciseStepperAnswers = (id: string) => {
 export type ExerciseStepperType = {
     id: string,
     exerciseIds: string[],
+    rank: number,
 }
 
 /**
@@ -307,9 +312,15 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
           </ExercisesFeedbackDiv>
         </StyledPaper>
     );
+    
+    const stepperCtx = {
+        id: id.current,
+        addExercise: addExerciseId,
+        rank: exerciseStepper?.rank,
+    };
 
     return (
-        <ExerciseStepperContext.Provider value={addExerciseId}>
+        <ExerciseStepperContext.Provider value={stepperCtx}>
             <StyledStepper nonLinear activeStep={activeStep}>
                 {steps.map((_step, index) => (
                     <StyledStep key={index}>

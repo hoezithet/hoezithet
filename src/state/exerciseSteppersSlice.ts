@@ -22,6 +22,7 @@ const exerciseSteppersSlice = createSlice({
                 state.push({
                     id: id,
                     exerciseIds: [],
+                    rank: state.length,
                 });
             }
         },
@@ -33,6 +34,7 @@ const exerciseSteppersSlice = createSlice({
                 state.push({
                     id: stepperId,
                     exerciseIds: [action.payload.exerciseId],
+                    rank: state.length,
                 });
             } else {
                 const exId = action.payload.exerciseId;
