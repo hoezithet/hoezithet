@@ -9,31 +9,8 @@ import textwrap
 
 sys.path.append('/usr/share/inkscape/extensions')
 
-from inkex.elements import load_svg  # noqa
-from ungroup_deep import UngroupDeep  # noqa
-
-parser = argparse.ArgumentParser()
-
-parser.add_argument(
-    'src',
-    help='The input svg'
-)
-
-parser.add_argument(
-    'dest',
-    help='The directory to write the React components to'
-)
-
-args = parser.parse_args()
-
-src = Path(args.src)
-dest = Path(args.dest)
-
-with src.open() as f:
-    svg = load_svg(f).getroot()
-
-layer1 = svg.getElement('//svg:svg/svg:g')
-groups = layer1.xpath('svg:g')
+from inkex.elements import load_svg, Group, SvgDocumentElement  # noqa
+from inkex import BoundingBox  # noqa
 
 
 def kebab_to_camel(kebab):
@@ -124,23 +101,25 @@ def replace_with_react_props(file_text: str):
     return file_text
 
 
-ungroup = UngroupDeep()
-ungroup.parse_arguments(args=[])
+def get_component_name(group):
+    return group.get_id().title().replace('_', '').replace('-', '')
 
-for group in groups:
-    g_id = group.get_id()
-    drop_ids(group)
-    bbox = group.bounding_box()
+
+def get_component_file_contents(group: Group, comp_name: str,
+                                bbox: BoundingBox):
     norm_width = bbox.width
     norm_height = bbox.height
-
-    group_str = group.tostring().decode('utf-8')
-    class_name = g_id.title().replace('_', '').replace('-', '')
 
     defs = [
         d for node in group.xpath('//*[contains(@style,"fill:url(#")]')
         for d in get_fill_defs(node)
     ]
+
+    group = group.copy()
+    drop_ids(group)
+
+    group_str = group.tostring().decode('utf-8')
+
     defs_str = ''.join([
         d.tostring().decode('utf-8')
         for d in defs
@@ -154,7 +133,7 @@ for group in groups:
 import withSizePositionAngle from "components/withSizePositionAngle";
 
 
-const _{class_name} = () => {{
+const _{comp_name} = () => {{
     return (
         <g transform="translate({-bbox.left} {-bbox.top})">
 {defs_str}
@@ -162,13 +141,78 @@ const _{class_name} = () => {{
     );
 }}
 
-const {class_name} = \
-withSizePositionAngle(_{class_name}, {norm_width}, {norm_height}, true);
+const {comp_name} = \
+withSizePositionAngle(_{comp_name}, {norm_width}, {norm_height}, true);
 
-export default {class_name};'''
+export default {comp_name};'''
 
-    file_text = replace_with_react_props(file_text)
+    return replace_with_react_props(file_text)
 
-    if not dest.exists():
-        dest.mkdir(parents=True)
-    (dest / f'{g_id}.tsx').write_text(file_text)
+
+def get_component_dicts_in_layer(layer):
+    comps = []
+
+    for group in layer.xpath('svg:g'):
+        comp_name = get_component_name(group)
+        bbox = group.bounding_box()
+        comps.append({
+            'file_stem': group.get_id(),
+            'comp_name': comp_name,
+            'file_contents': get_component_file_contents(group,
+                                                         comp_name,
+                                                         bbox),
+            'orig_bbox': bbox,
+        })
+
+    return comps
+
+
+def get_component_dicts(svg):
+    return [
+        comp_dict
+        for layer in svg.getElement('//svg:svg/svg:g')
+        for comp_dict in get_component_dicts_in_layer(layer)
+    ]
+
+
+def comp_dicts_to_react_drawing(comp_dicts):
+    imports = ['import React from "react";']
+
+    for d in comp_dicts:
+        imports.append(
+            f'import {d["comp_name"]} from {d["filename"]};'
+        )
+
+
+def svg_to_react(svg_path: Path, dest_path: Path):
+    with svg_path.open() as f:
+        svg = load_svg(f).getroot()  # type: SvgDocumentElement
+
+    if not dest_path.exists():
+        dest_path.mkdir(parents=True)
+
+    comp_dicts = get_component_dicts(svg)
+
+    for comp_dict in comp_dicts:
+        (dest_path / comp_dict['name']).write_text(comp_dict['contents'])
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        'src',
+        help='The input svg'
+    )
+
+    parser.add_argument(
+        'dest',
+        help='The directory to write the React components to'
+    )
+
+    args = parser.parse_args()
+
+    src = Path(args.src)
+    dest = Path(args.dest)
+
+    svg_to_react(src, dest)
