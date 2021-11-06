@@ -167,34 +167,90 @@ def get_component_dicts_in_layer(layer):
     return comps
 
 
-def get_component_dicts(svg):
+def get_component_dicts(svg, layers=None):
     return [
         comp_dict
-        for layer in svg.getElement('//svg:svg/svg:g')
+        for i, layer in enumerate(svg.xpath('//svg:svg/svg:g'))
         for comp_dict in get_component_dicts_in_layer(layer)
+        if (layers is None) or ((i + 1) in layers)
     ]
 
 
-def comp_dicts_to_react_drawing(comp_dicts):
-    imports = ['import React from "react";']
+def comp_dict_to_drawing_child(comp_dict):
+    bbox = comp_dict['orig_bbox']
+    width = bbox.width
+    height = bbox.height
+    x = bbox.left
+    y = bbox.top
+
+    return (
+        f'<{comp_dict["comp_name"]} width="{width}" height="{height}" '
+        f'x="{x}" y="{y}" />'
+    )
+
+
+def comp_dicts_to_react_drawing(
+    comp_dicts, drawing_name, width, height
+):
+    imports = [
+        'import React from "react";',
+        'import {SaveableDrawing as Drawing} '
+        'from "components/shortcodes/drawing";'
+    ]
 
     for d in comp_dicts:
         imports.append(
-            f'import {d["comp_name"]} from {d["filename"]};'
+            f'import {d["comp_name"]} from "./{d["file_stem"]}";'
         )
 
+    header = '\n'.join(imports)
 
-def svg_to_react(svg_path: Path, dest_path: Path):
+    child_comps = [
+        comp_dict_to_drawing_child(d)
+        for d in comp_dicts
+    ]
+
+    children = textwrap.indent('\n'.join(child_comps),
+                               12*" ")
+
+    comp_def = f'''
+const {drawing_name} = () => {{
+    return (
+        <Drawing xMin={{0}} xMax={{{width}}} yMin={{0}} yMax={{{height}}}>
+{children}
+        </Drawing>
+    );
+}};
+
+export default {drawing_name};
+'''
+
+    return header + '\n\n' + comp_def
+
+
+def svg_to_react(svg_path: Path, dest_path: Path, layers=None):
     with svg_path.open() as f:
         svg = load_svg(f).getroot()  # type: SvgDocumentElement
 
     if not dest_path.exists():
         dest_path.mkdir(parents=True)
 
-    comp_dicts = get_component_dicts(svg)
+    comp_dicts = get_component_dicts(svg, layers)
 
     for comp_dict in comp_dicts:
-        (dest_path / comp_dict['name']).write_text(comp_dict['contents'])
+        (
+            dest_path / f"{comp_dict['file_stem']}.tsx"
+        ).write_text(comp_dict['file_contents'])
+
+    drawing_txt = comp_dicts_to_react_drawing(
+        comp_dicts,
+        svg_path.stem.title().replace('_', ''),
+        svg.width, svg.height
+    )
+
+    (
+        dest_path / f"{svg_path.stem}.tsx"
+    ).write_text(drawing_txt)
 
 
 if __name__ == '__main__':
@@ -204,15 +260,22 @@ if __name__ == '__main__':
         'src',
         help='The input svg'
     )
-
     parser.add_argument(
         'dest',
         help='The directory to write the React components to'
+    )
+    parser.add_argument(
+        '--layers', '-l',
+        help='Which layers to export',
+        default="1"
     )
 
     args = parser.parse_args()
 
     src = Path(args.src)
     dest = Path(args.dest)
+    layers = [
+        int(x) for x in args.layers.split(',')
+    ] if len(args.layers) > 0 else None
 
-    svg_to_react(src, dest)
+    svg_to_react(src, dest, layers)
