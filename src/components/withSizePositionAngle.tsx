@@ -22,16 +22,18 @@ const withSizePositionAngle = <P extends ComponentProps> (
     usingDrawingContext = usingDrawingContext === undefined ? true : usingDrawingContext;
     
     return ({width=null, height=null, x, y, angle=0, ...props}: P) => {
+        let shiftX, shiftY, scaleX, scaleY;
         if (usingDrawingContext) {
             const { xScale, yScale } = React.useContext(DrawingContext);
 
             width = width !== null ? Math.abs(xScale(width) - xScale(0)) : null;
             height = height !== null ? Math.abs(yScale(height) - yScale(0)) : null;
-            x = xScale(x);
-            y = yScale(y);
+            shiftX = xScale(x);
+            shiftY = yScale(y);
+        } else {
+            shiftX = x;
+            shiftY = y;
         }
-
-        let scaleX, scaleY;
 
         if (width !== null && height !== null) {
 	        scaleX = width / normWidth;
@@ -48,7 +50,7 @@ const withSizePositionAngle = <P extends ComponentProps> (
         }
 
         return (
-            <g transform={`rotate(${angle}) scale(${scaleX} ${scaleY}) translate(${x} ${y})`}>
+            <g transform={`translate(${shiftX} ${shiftY}) rotate(${angle}) scale(${scaleX} ${scaleY})`}>
                 <Component {...props} />
             </g>
         );
