@@ -22,10 +22,11 @@ const useStyles = makeStyles({
 export const DrawingContext = createContext({width: null, height: null, xScale: null, yScale: null, ref: null});
 
 export const Drawing = ({
-    children=null, aspect=1.0, maxWidth=500, top=0.05, right=0.05, bottom=0.05, left=0.05,
+    children=null, aspect=null, maxWidth=500, top=0.05, right=0.05, bottom=0.05, left=0.05,
     xMin=0, yMin=0, xMax=100, yMax=100, watermark=true, className=""
 }) => {
     // A Drawing takes the width of its parent, limited to maxWidth pixels. Its height is calculated from the width and the aspect ratio.
+    aspect = aspect === null ? Math.abs(xMax - xMin) / Math.abs(yMax - yMin) : aspect;
     const classes = useStyles();
     const drawingRef = useRef(null);
     return (
