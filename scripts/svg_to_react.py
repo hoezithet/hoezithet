@@ -83,7 +83,7 @@ def xml_attr_to_react(file_text: str):
         'xml:space': 'xmlSpace',
     }
 
-    new_file_text = copy(file_text)
+    new_file_text = file_text
 
     for k, v in attr_to_react.items():
         for m in re.finditer(f'{k}="([^"]+)"', file_text):
@@ -95,9 +95,23 @@ def xml_attr_to_react(file_text: str):
     return new_file_text
 
 
+def drop_inkscape_attrs(file_text: str):
+    new_file_text = file_text
+
+    patterns = [
+        'inkscape:',
+        'sodipodi:'
+    ]
+    for p in patterns:
+        for m in re.finditer(f'{p}[^=]+="[^"]+"', file_text):
+            new_file_text = new_file_text.replace(m.group(0), '')
+    return new_file_text
+
+
 def replace_with_react_props(file_text: str):
     file_text = style_to_react(file_text)
     file_text = xml_attr_to_react(file_text)
+    file_text = drop_inkscape_attrs(file_text)
     return file_text
 
 
@@ -151,17 +165,21 @@ export default {comp_name};'''
 
 def get_component_dicts_in_layer(layer):
     comps = []
+    
+    groups = layer.xpath('svg:g')
 
-    for group in layer.xpath('svg:g'):
+    for group in groups:
         comp_name = get_component_name(group)
-        bbox = group.bounding_box()
+        global_bbox = group.bounding_box(layer.transform)
+        local_bbox = group.bounding_box()
+        
         comps.append({
             'file_stem': group.get_id(),
             'comp_name': comp_name,
             'file_contents': get_component_file_contents(group,
                                                          comp_name,
-                                                         bbox),
-            'orig_bbox': bbox,
+                                                         local_bbox),
+            'orig_bbox': global_bbox,
         })
 
     return comps
@@ -184,8 +202,9 @@ def comp_dict_to_drawing_child(comp_dict):
     y = bbox.top
 
     return (
-        f'<{comp_dict["comp_name"]} width="{width}" height="{height}" '
-        f'x="{x}" y="{y}" />'
+        f'<{comp_dict["comp_name"]} '
+        f'width={{{width}}} height={{{height}}} '
+        f'x={{{x}}} y={{{y}}} />'
     )
 
 
@@ -195,7 +214,7 @@ def comp_dicts_to_react_drawing(
     imports = [
         'import React from "react";',
         'import {SaveableDrawing as Drawing} '
-        'from "components/shortcodes/drawing";'
+        'from "components/shortcodes/drawing";',
     ]
 
     for d in comp_dicts:
@@ -216,7 +235,7 @@ def comp_dicts_to_react_drawing(
     comp_def = f'''
 const {drawing_name} = () => {{
     return (
-        <Drawing xMin={{0}} xMax={{{width}}} yMin={{0}} yMax={{{height}}}>
+        <Drawing xMin={{0}} xMax={{{width}}} yMin={{{height}}} yMax={{0}}>
 {children}
         </Drawing>
     );
