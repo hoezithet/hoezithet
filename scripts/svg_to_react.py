@@ -5,7 +5,7 @@ from copy import copy
 from pathlib import Path
 import re
 import sys
-import textwrap
+from textwrap import indent, dedent
 
 sys.path.append('/usr/share/inkscape/extensions')
 
@@ -30,7 +30,7 @@ def drop_ids(node):
 
 def get_linked_nodes(node):
     if node.href is not None:
-        return [node, *[n for n in get_linked_nodes(node.href)]]
+        return [node, *get_linked_nodes(node.href)]
     else:
         return [node]
 
@@ -41,7 +41,7 @@ def get_fill_defs(node):
         return []
     else:
         linked_node = node.root.getElementById(fill)
-        return get_linked_nodes(linked_node)
+        return [linked_node, *get_linked_nodes(linked_node)]
 
 
 def style_str_to_react(style_str: str):
@@ -100,10 +100,12 @@ def drop_inkscape_attrs(file_text: str):
 
     patterns = [
         'inkscape:',
-        'sodipodi:'
+        'sodipodi:',
+        'vectorEffect',
+        'fontVariationSettings',
     ]
     for p in patterns:
-        for m in re.finditer(f'{p}[^=]+="[^"]+"', file_text):
+        for m in re.finditer(f'{p}[^=]*="[^"]+" ?', file_text):
             new_file_text = new_file_text.replace(m.group(0), '')
     return new_file_text
 
@@ -125,7 +127,7 @@ def get_component_file_contents(group: Group, comp_name: str,
     norm_height = bbox.height
 
     defs = [
-        d for node in group.xpath('//*[contains(@style,"fill:url(#")]')
+        d for node in group.xpath('.//*[contains(@style,"fill:url(#")]')
         for d in get_fill_defs(node)
     ]
 
@@ -133,32 +135,45 @@ def get_component_file_contents(group: Group, comp_name: str,
     drop_ids(group)
 
     group_str = group.tostring().decode('utf-8')
+    group_str = dedent(4*" " + group_str.strip())
 
-    defs_str = ''.join([
-        d.tostring().decode('utf-8')
-        for d in defs
-    ])
-    defs_str = textwrap.indent(
-        f'{4*" "}<defs>\n{4*" "}{textwrap.indent(defs_str, 4*" ")}</defs>',
-        8*" "
+    def_strs = []
+
+    for d in defs:
+        d_str = d.tostring().decode('utf-8')
+        m = re.match(r'<([^>]+)id="[^"]+"([^>]+)>', d_str.split('\n')[0])
+        if m is None:
+            d_str = re.sub(
+                r'<([^/>]+)(/?>)',
+                f'<\\1 id="{d.get_id()}"\\2',
+                d_str, count=1
+            )
+        def_strs.append(d_str)
+
+    defs_str = ''.join(def_strs)
+    defs_str = (
+        f'<defs>\n{indent(dedent(4*" " + defs_str.strip()), 2*" ")}\n</defs>\n'
     ) if len(defs) > 0 else ""
+    
+    child = indent(defs_str + group_str.strip(), 14*" ")
 
-    file_text = f'''import React from "react";
-import withSizePositionAngle from "components/withSizePositionAngle";
-
-
-const _{comp_name} = () => {{
-    return (
-        <g transform="translate({-bbox.left} {-bbox.top})">
-{defs_str}
-{textwrap.indent(group_str, 12*" ")}{4*" "}</g>
-    );
-}}
-
-const {comp_name} = \
-withSizePositionAngle(_{comp_name}, {norm_width}, {norm_height}, true);
-
-export default {comp_name};'''
+    file_text = dedent(f'''
+    import React from "react";
+    import withSizePositionAngle from "components/withSizePositionAngle";
+    
+    
+    const _{comp_name} = () => {{
+        return (
+            <g transform="translate({-bbox.left} {-bbox.top})">\n{child}
+            </g>
+        );
+    }}
+    
+    const {comp_name} = \
+    withSizePositionAngle(_{comp_name}, {norm_width}, {norm_height}, true);
+    
+    export default {comp_name};
+    ''')[1:]
 
     return replace_with_react_props(file_text)
 
@@ -228,21 +243,20 @@ def comp_dicts_to_react_drawing(
         comp_dict_to_drawing_child(d)
         for d in comp_dicts
     ]
+    
+    children_str = indent("\n".join(child_comps), 10*" ")
 
-    children = textwrap.indent('\n'.join(child_comps),
-                               12*" ")
-
-    comp_def = f'''
-const {drawing_name} = () => {{
-    return (
-        <Drawing xMin={{0}} xMax={{{width}}} yMin={{{height}}} yMax={{0}}>
-{children}
-        </Drawing>
-    );
-}};
-
-export default {drawing_name};
-'''
+    comp_def = dedent(f'''
+    const {drawing_name} = () => {{
+        return (
+            <Drawing xMin={{0}} xMax={{{width}}} yMin={{{height}}} yMax={{0}}>
+    {children_str}
+            </Drawing>
+        );
+    }};
+    
+    export default {drawing_name};
+    ''')
 
     return header + '\n\n' + comp_def
 
