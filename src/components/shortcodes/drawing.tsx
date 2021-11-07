@@ -14,7 +14,8 @@ const useStyles = makeStyles({
         margin: "auto"
     },
     watermark: {
-        fill: getColor("light_gray"),
+        fill: getColor("black"),
+        opacity: 0.5,
         fontSize: 11,
     },
 });
@@ -49,12 +50,12 @@ export const Drawing = ({
             return (
                 <DrawingContext.Provider value={{width: width, height: height, xScale: xScale, yScale: yScale, ref: drawingRef}}>
                     <svg width={width} height={height} ref={drawingRef} className={`${classes.drawing} drawing ${className}`} xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+                        { children }
                         { watermark ?
                           <Text x={width - 10} y={height - 10} textAnchor="end" className={classes.watermark}>
                               Meer op: https://hoezithet.nu
                           </Text>
-                          : null }
-                        { children }
+                          : null } 
                     </svg>
                 </DrawingContext.Provider>
             );
