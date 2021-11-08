@@ -164,16 +164,15 @@ def get_component_file_contents(group: Group, comp_name: str,
     
     const _{comp_name} = () => {{
         return (
-            <g transform="translate({-bbox.left} {-bbox.top})">\n{child}
+            <g transform="translate({-bbox.left:.6f} {-bbox.top:.6f})">\n{child}
             </g>
         );
     }}
     
-    const {comp_name} = \
-    withSizePositionAngle(_{comp_name}, {norm_width}, {norm_height}, true);
+    const {comp_name} = withSizePositionAngle(_{comp_name}, {norm_width:.6f}, {norm_height:.6f}, true);
     
     export default {comp_name};
-    ''')[1:]
+    ''')[1:-1]
 
     return replace_with_react_props(file_text)
 
@@ -181,7 +180,7 @@ def get_component_file_contents(group: Group, comp_name: str,
 def get_component_dicts_in_layer(layer):
     comps = []
     
-    groups = layer.xpath('svg:g')
+    groups = list(layer)
 
     for group in groups:
         comp_name = get_component_name(group)
@@ -218,8 +217,8 @@ def comp_dict_to_drawing_child(comp_dict):
 
     return (
         f'<{comp_dict["comp_name"]} '
-        f'width={{{width}}} height={{{height}}} '
-        f'x={{{x}}} y={{{y}}} />'
+        f'width={{{width:.6f}}} height={{{height:.6f}}} '
+        f'x={{{x:.6f}}} y={{{y:.6f}}} />'
     )
 
 
