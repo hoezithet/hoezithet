@@ -254,7 +254,7 @@ def comp_dicts_to_react_drawing(
     }};
     
     export default {drawing_name};
-    ''')
+    ''')[:-1]
 
     return header + '\n\n' + comp_def
 
