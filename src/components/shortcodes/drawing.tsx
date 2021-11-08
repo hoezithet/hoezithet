@@ -14,8 +14,7 @@ const useStyles = makeStyles({
         margin: "auto"
     },
     watermark: {
-        fill: getColor("black"),
-        opacity: 0.5,
+        fill: getColor("gray"),
         fontSize: 11,
     },
 });
