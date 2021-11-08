@@ -243,13 +243,12 @@ def comp_dicts_to_react_drawing(
         for d in comp_dicts
     ]
     
-    children_str = indent("\n".join(child_comps), 10*" ")
+    children_str = indent("\n".join(child_comps), 14*" ")
 
     comp_def = dedent(f'''
     const {drawing_name} = () => {{
         return (
-            <Drawing xMin={{0}} xMax={{{width}}} yMin={{{height}}} yMax={{0}}>
-    {children_str}
+            <Drawing xMin={{0}} xMax={{{width}}} yMin={{{height}}} yMax={{0}}>\n{children_str}
             </Drawing>
         );
     }};
