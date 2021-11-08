@@ -103,6 +103,12 @@ def drop_inkscape_attrs(file_text: str):
         'sodipodi:',
         'vectorEffect',
         'fontVariationSettings',
+        'inlineSize',
+        'whiteSpace',
+        'textDecorationColor',
+        'textDecorationLine',
+        'textAlign',
+        'lineHeight',
     ]
     for p in patterns:
         for m in re.finditer(f'{p}[^=]*="[^"]+" ?', file_text):
