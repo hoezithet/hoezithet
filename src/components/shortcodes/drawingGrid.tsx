@@ -71,7 +71,7 @@ const DrawingGrid = ({color="blue", major=10, minor=1, opacity=0.1, lineWidth=1}
     const [yMin, yMax] = yScale.domain();
 
     return (
-        <>
+        <g>
           <GridLines start={xMin} end={xMax} step={minor} scale={xScale} length={height} direction='v'
             color={color} lineWidth={lineWidth} opacity={opacity} /> 
           <GridLines start={xMin} end={xMax} step={major} scale={xScale} length={height} direction='v'
@@ -80,7 +80,7 @@ const DrawingGrid = ({color="blue", major=10, minor=1, opacity=0.1, lineWidth=1}
             color={color} lineWidth={lineWidth} opacity={opacity} /> 
           <GridLines start={yMin} end={yMax} step={major} scale={yScale} length={width} direction='h'
             color={color} lineWidth={2*lineWidth} opacity={opacity} showText />
-        </>
+        </g>
     );
 };
 
