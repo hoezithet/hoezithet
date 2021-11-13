@@ -14,11 +14,12 @@ type CallbackType = (anim: gsap.core.Tween) => void;
  * @returns The node ref to pass to the component you whish to animate.
  */
 const useGsap = <T extends Element> (
-    callback: CallbackType,
+    callback?: CallbackType,
     fromVars?: gsap.TweenVars,
     toVars?: gsap.TweenVars,
     deps?: any[],
 ) => {
+    callback = callback === undefined ? () => {} : callback;
     const nodeRef = useCallback((node: T|null) => {
         if (node !== null) {
             if (fromVars !== undefined && toVars !== undefined) {
@@ -44,7 +45,7 @@ export const useGsapFrom = <T extends Element> (
 
 export const useGsapTo = <T extends Element> (
     toVars: gsap.TweenVars,
-    callback: CallbackType,
+    callback?: CallbackType,
     deps?: any[],
 ) => {
     return useGsap<T>(callback, undefined, toVars, deps);
@@ -53,7 +54,7 @@ export const useGsapTo = <T extends Element> (
 export const useGsapFromTo = <T extends Element> (
     fromVars: gsap.TweenVars,
     toVars: gsap.TweenVars,
-    callback: CallbackType,
+    callback?: CallbackType,
     deps?: any[],
 ) => {
     return useGsap<T>(callback, fromVars, toVars, deps);
