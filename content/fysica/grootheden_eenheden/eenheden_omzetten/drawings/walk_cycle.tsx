@@ -13,13 +13,15 @@ const WalkCycleContext = React.createContext({tl: null});
 const _WalkCycle = () => {
     const [tl, setTl] = React.useState(() => gsap.timeline({repeat: -1}));
     const bodyRef = React.useRef();
+    const rArmRef = React.useRef();
+    const lArmRef = React.useRef();
 
     const legWidth = 8;
     const legLength = 40;
     const legBendRadius = 2.0;
-    const bodyWidth = 15;
+    const bodyWidth = 13;
     const bodyHeight = 32;
-    const bodyBendRadius = -10.0;
+    const bodyBendRadius = -20;
     const armSwingAngle = Math.PI/6;
     const armLength = bodyHeight;
     const armWidth = legWidth*3/4;
@@ -27,6 +29,7 @@ const _WalkCycle = () => {
     const headSize = 14;
 
     const color = "#000000";
+    const outline = "#efefef";
     const footAmpl = {
         x: 12,
         y: 8
@@ -89,19 +92,24 @@ const _WalkCycle = () => {
     const kpDurations = getKpDurations(hipKps);
 
     React.useEffect(() => {
-        range(hipKps.length).forEach(i => tl.to(bodyRef.current, {y: hipKps[(i + 1) % hipKps.length].y - hip.y, duration: kpDurations[i]}, i === 0 ? 0 : '>'));
+        range(hipKps.length).forEach(i => tl.to([bodyRef.current, rArmRef.current], {y: hipKps[(i + 1) % hipKps.length].y - hip.y, duration: kpDurations[i]}, i === 0 ? 0 : '>'));
     }, [...hipKps, tl]);
 
     return (
         <g>
-          <AnimatedHoseCycle hoseKps={lLegKps} hoseWidth={legWidth} hoseLength={legLength} bendRadius={legBendRadius} color={color} tl={tl} />
+          <g ref={lArmRef}>
+            <AnimatedHoseCycle hoseKps={lArmKps} hoseWidth={armWidth} hoseLength={armLength} bendRadius={armBendRadius} color={color} outline={outline} tl={tl} />
+          </g>
+          <AnimatedHoseCycle hoseKps={lLegKps} hoseWidth={legWidth} hoseLength={legLength} bendRadius={legBendRadius} color={color} outline={outline} tl={tl} />
+          <AnimatedHoseCycle hoseKps={rLegKps} hoseWidth={legWidth} hoseLength={legLength} bendRadius={legBendRadius} color={color} outline={outline} tl={tl} />
           <g ref={bodyRef}>
-            <circle fill={color} cx={head.x} cy={head.y} r={headSize/2} />
-            <AnimatedHoseCycle hoseKps={lArmKps} hoseWidth={armWidth} hoseLength={armLength} bendRadius={armBendRadius} color={color} tl={tl} />
-            <AnimatedHoseCycle hoseKps={bodyKps} hoseWidth={bodyWidth} hoseLength={bodyHeight} bendRadius={bodyBendRadius} color={color} tl={tl} />
-            <AnimatedHoseCycle hoseKps={rArmKps} hoseWidth={armWidth} hoseLength={armLength} bendRadius={armBendRadius} color={color} tl={tl} />
+            <circle fill={color} stroke={outline} strokeWidth={1} cx={head.x} cy={head.y} r={headSize/2} />
+            <AnimatedHoseCycle hoseKps={bodyKps} hoseWidth={bodyWidth} hoseLength={bodyHeight} bendRadius={bodyBendRadius} color={color} outline={outline}  tl={tl} />
           </g>
           <AnimatedHoseCycle hoseKps={rLegKps} hoseWidth={legWidth} hoseLength={legLength} bendRadius={legBendRadius} color={color} tl={tl} />
+          <g ref={rArmRef}>
+            <AnimatedHoseCycle hoseKps={rArmKps} hoseWidth={armWidth} hoseLength={armLength} bendRadius={armBendRadius} color={color} outline={outline} tl={tl} />
+          </g>
         </g>
     );
 }
@@ -138,18 +146,22 @@ const getKpDurations = (kps) => {
     }, []);
 };
 
-const AnimatedHoseCycle = ({hoseWidth, hoseLength, hoseKps, bendRadius, color, tl}) => {
+const AnimatedHoseCycle = ({hoseWidth, hoseLength, hoseKps, bendRadius, color, tl, outline=null}) => {
     const hoseRef = React.useRef();
+    const hoseRefOutline = React.useRef();
 
     const kpDurations = getKpDurations(hoseKps);
     const pathDs = hoseKps.map(kp => getRubberHoseString(kp.start, kp.end, hoseLength, bendRadius));
 
     React.useEffect(() => {
-        range(pathDs.length).forEach(i => tl.to(hoseRef.current, {morphSVG: pathDs[(i + 1) % pathDs.length], duration: kpDurations[i]}, i === 0 ? 0 : '>'));
+        range(pathDs.length).forEach(i => tl.to([hoseRef.current, hoseRefOutline.current], {morphSVG: pathDs[(i + 1) % pathDs.length], duration: kpDurations[i]}, i === 0 ? 0 : '>'));
     }, [...pathDs, tl]);
 
     return (
-        <path ref={hoseRef} d={pathDs[0]} stroke={color} fillOpacity={0} strokeWidth={hoseWidth} strokeLinecap="round" />
+        <>
+            { outline !== null ? <path ref={hoseRefOutline} d={pathDs[0]} stroke={outline} fillOpacity={0} strokeWidth={hoseWidth + 1} strokeLinecap="round" /> : null }
+            <path ref={hoseRef} d={pathDs[0]} stroke={color} fillOpacity={0} strokeWidth={hoseWidth} strokeLinecap="round" />
+        </>
     );
 }
 
