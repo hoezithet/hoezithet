@@ -8,6 +8,8 @@ type ComponentProps = {
     x: number,
     y: number,
     angle: number,
+    vAlign: "top"|"center"|"bottom",
+    hAlign: "left"|"center"|"right",
 }
 
 
@@ -20,9 +22,10 @@ const withSizePositionAngle = <P extends ComponentProps> (
     normHeight = normHeight === undefined ? 100 : normHeight;
     normWidth = normWidth === undefined ? 100 : normWidth;
     usingDrawingContext = usingDrawingContext === undefined ? true : usingDrawingContext;
-    
-    return ({width=null, height=null, x=0, y=0, angle=0, ...props}: P) => {
+
+    return ({width=null, height=null, x=0, y=0, angle=0, vAlign="top", hAlign="left", ...props}: P) => {
         let shiftX, shiftY, scaleX, scaleY;
+
         if (usingDrawingContext) {
             const { xScale, yScale } = React.useContext(DrawingContext);
 
@@ -41,13 +44,30 @@ const withSizePositionAngle = <P extends ComponentProps> (
         } else if (width === null && height !== null) {
 	        scaleY = height / normHeight;
             scaleX = scaleY;
+            width = normWidth * scaleX;
         } else if (width !== null && height === null) {
 	        scaleX = width / normWidth;
             scaleY = scaleX;
+            height = normHeight * scaleY;
         } else {
             scaleX = 1;
             scaleY = 1;
+            width = normWidth;
+            height = normHeight;
         }
+
+        if (hAlign === "center") {
+            shiftX -= width/2;
+        } else if (hAlign === "right") {
+            shiftX -= width;
+        }
+
+        if (vAlign === "center") {
+            shiftY -= height/2;
+        } else if (vAlign === "bottom") {
+            shiftY -= height;
+        }
+
 
         return (
             <g transform={`translate(${shiftX} ${shiftY}) rotate(${angle}) scale(${scaleX} ${scaleY})`}>
