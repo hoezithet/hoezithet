@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import withSizePositionAngle from "components/withSizePositionAngle";
 import _ from "lodash";
-import { AnimatedPerson, getRestPose } from "./person";
+import { AnimatedPerson, getRestPose } from "components/drawings/person";
 
 
 
