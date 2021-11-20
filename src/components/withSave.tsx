@@ -33,7 +33,6 @@ const useStyles = makeStyles({
 
 const withSave = (Component, fileExtension) => {
     return (props) => {
-        const [isHovering, setIsHovering] = useState(false);
         const fileNrRef = useRef(0);
         const overlayElRef = useRef(null);
         const lessonContext = useContext(LessonContext);
@@ -50,22 +49,21 @@ const withSave = (Component, fileExtension) => {
         const fileHref = `./${filename}${fileExtension}`;  // The file should be generated on deploy!
         const classes = useStyles();
 
-        useEffect(() => {
-            if (isHovering) {
-                gsap.to(overlayElRef.current, {
-                    right: "0px",
-                    opacity: 1,
-                });
-            } else {
-                gsap.to(overlayElRef.current, {
-                    right: "-24px",
-                    opacity: 0
-                });
-            }
-        }, [isHovering]);
+        const onHoverIn = () => {
+            gsap.to(overlayElRef.current, {
+                right: "0px",
+                opacity: 1,
+            });
+        };
+        const onHoverOut = () => {
+            gsap.to(overlayElRef.current, {
+                right: "-24px",
+                opacity: 0
+            });
+        };
 
         return (
-            <div className={classes.wrapper} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
+            <div className={classes.wrapper} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut}>
                 <Component {...props} />
                 <div className={classes.overlay}>
                     <Link aria-label="save" to={fileHref} className={classes.overlayElement} ref={overlayElRef} title="Afbeelding opslaan" download>
