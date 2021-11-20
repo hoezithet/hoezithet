@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { getColor } from "../../colors";
 import { Drawing } from "./drawing";
 import { Axes } from "./axes";
-import withSave from "../withSave";
 
 
 const useStyles = makeStyles({
@@ -44,5 +43,3 @@ export const Plot = ({
         </Drawing>
     );
 };
-
-export const SaveablePlot = withSave(Plot, ".png");

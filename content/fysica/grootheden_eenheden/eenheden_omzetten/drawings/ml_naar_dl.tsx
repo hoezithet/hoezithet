@@ -1,5 +1,5 @@
 import React from "react";
-import { SaveableDrawing as Drawing } from "components/shortcodes/drawing";
+import { Drawing } from "components/shortcodes/drawing";
 import DrawingGrid from "components/shortcodes/drawingGrid";
 import { SvgNote } from "components/shortcodes/svgNote";
 import { AnnotArrow } from "components/shortcodes/annot";

@@ -1,5 +1,5 @@
 import React from "react";
-import { SaveableDrawing as Drawing } from "components/shortcodes/drawing";
+import { Drawing} from "components/shortcodes/drawing";
 import DrawingGrid from "components/shortcodes/drawingGrid";
 import Zon from "./zon";
 import Wolken from "./wolken";

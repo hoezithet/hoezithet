@@ -4,6 +4,7 @@ import { gsap } from "gsap";
 import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
 
 import { RubberHose, RubberHoseModel } from "./rubber_hose";
+import { DrawingContext } from "components/shortcodes/drawing";
 
 if (typeof window !== "undefined") {
     gsap.registerPlugin(MorphSVGPlugin);
@@ -112,6 +113,7 @@ export const getRestPose = (headSize=14, armWidth=6, armLength=30, armBendRadius
 
 export const AnimatedPerson = ({ poseKeypoints, color="#000000", outline="#efefef" }) => {
     const personRef = React.useRef();
+    const { addAnimation } = React.useContext(DrawingContext);
 
     const addKeypointToTl = ({time, duration, pose}, tl) => {
         Object.entries(pose).forEach(([hoseName, hose]) => {
@@ -124,6 +126,7 @@ export const AnimatedPerson = ({ poseKeypoints, color="#000000", outline="#efefe
     React.useEffect(() => {
         const tl = gsap.timeline({repeat: -1});
         poseKeypoints.forEach(kp => addKeypointToTl(kp, tl));
+        addAnimation(tl);
     }, []);
 
     return (
