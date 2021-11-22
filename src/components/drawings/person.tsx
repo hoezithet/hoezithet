@@ -111,7 +111,7 @@ export const getRestPose = (headSize=14, armWidth=6, armLength=30, armBendRadius
     };
 };
 
-export const AnimatedPerson = ({ poseKeypoints, color="#000000", outline="#efefef" }) => {
+export const AnimatedPerson = ({ poseKeypoints, color="#000000", outline="#efefef", gsapPosition=0 }) => {
     const personRef = React.useRef();
     const { addAnimation } = React.useContext(DrawingContext);
 
@@ -126,7 +126,7 @@ export const AnimatedPerson = ({ poseKeypoints, color="#000000", outline="#efefe
     React.useEffect(() => {
         const tl = gsap.timeline({repeat: -1});
         poseKeypoints.forEach(kp => addKeypointToTl(kp, tl));
-        addAnimation(tl);
+        addAnimation(tl, gsapPosition);
     }, []);
 
     return (
