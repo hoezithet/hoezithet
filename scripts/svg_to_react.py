@@ -233,7 +233,7 @@ def comp_dicts_to_react_drawing(
 ):
     imports = [
         'import React from "react";',
-        'import {SaveableDrawing as Drawing} '
+        'import Drawing '
         'from "components/shortcodes/drawing";',
     ]
 
