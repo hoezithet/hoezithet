@@ -51,7 +51,7 @@ export const DrawingContext = createContext({
 
 export const Drawing = ({
     children=null, aspect=null, maxWidth=500, top=0.05, right=0.05, bottom=0.05, left=0.05,
-    xMin=0, yMin=0, xMax=100, yMax=100, watermark=true, className=""
+    xMin=0, yMin=0, xMax=100, yMax=100, noWatermark=false, className=""
 }) => {
     // A Drawing takes the width of its parent, limited to maxWidth pixels. Its
     // height is calculated from the width and the aspect ratio. If the aspect
@@ -135,11 +135,12 @@ export const Drawing = ({
                     <DrawingContext.Provider value={{width: width, height: height, xScale: xScale, yScale: yScale, ref: drawingRef, addAnimation: addAnimation}}>
                         <svg width={width} height={height} ref={drawingRef} className={`${classes.drawing} drawing ${className}`} xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
                             { children }
-                            { watermark ?
+                            { noWatermark ?
+                            null :
                             <Text x={width - 10} y={height - 10} textAnchor="end" className={classes.watermark}>
                             Meer op: https://hoezithet.nu
                             </Text>
-                            : null } 
+                            }
                         </svg>
                     </DrawingContext.Provider>
                     <div className={classes.overlay}>
