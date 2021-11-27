@@ -265,6 +265,29 @@ def comp_dicts_to_react_drawing(
     return header + '\n\n' + comp_def
 
 
+def write_text_to_file(dest_path, text):
+    if dest_path.exists():
+        allowWrite = input(
+            f'File {dest_path.name} exists (at {dest_path}). '
+            'Overwrite? [y/N] '
+        ).lower()
+
+        if allowWrite not in ['y', 'n']:
+            return write_text_to_file(dest_path, text)
+
+        if allowWrite == 'y':
+            dest_path.write_text(text)
+            return dest_path.stem
+        else:
+            fname = input(
+                'Please enter a different filename: '
+            )
+        return write_text_to_file(dest_path.parent / fname, text)
+    else:
+        dest_path.write_text(text)
+        return dest_path.stem
+
+
 def svg_to_react(svg_path: Path, dest_path: Path, layers=None):
     with svg_path.open() as f:
         svg = load_svg(f).getroot()  # type: SvgDocumentElement
@@ -275,9 +298,11 @@ def svg_to_react(svg_path: Path, dest_path: Path, layers=None):
     comp_dicts = get_component_dicts(svg, layers)
 
     for comp_dict in comp_dicts:
-        (
-            dest_path / f"{comp_dict['file_stem']}.tsx"
-        ).write_text(comp_dict['file_contents'])
+        new_stem = write_text_to_file(
+            dest_path / f"{comp_dict['file_stem']}.tsx",
+            comp_dict['file_contents']
+        )
+        comp_dict['file_stem'] = new_stem
 
     drawing_txt = comp_dicts_to_react_drawing(
         comp_dicts,
@@ -285,9 +310,10 @@ def svg_to_react(svg_path: Path, dest_path: Path, layers=None):
         svg.width, svg.height
     )
 
-    (
-        dest_path / f"{svg_path.stem}.tsx"
-    ).write_text(drawing_txt)
+    write_text_to_file(
+        dest_path / f"{svg_path.stem}.tsx",
+        drawing_txt
+    )
 
 
 if __name__ == '__main__':
