@@ -14,7 +14,7 @@ const _WalkCycle = ({color="#000000", outline="#efefef"}) => {
     );
 };
 
-const WalkCycle = withSizePositionAngle(_WalkCycle, 100, 100, true);
+const WalkCycle = withSizePositionAngle(_WalkCycle, 100, 100);
 
 
 const getWalkKeypoints = (initialPose, freq=0.75, numKeypoints=8, color="#000000", outline="#efefef", shoulderAmplX=0, shoulderAmplY=0, handAmplX=10, handAmplY=3, hipAmplX=0, hipAmplY=1, footAmplX=12, footAmplY=8) => {
