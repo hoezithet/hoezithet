@@ -17,25 +17,23 @@ const withSizePositionAngle = <P extends ComponentProps> (
     Component: React.ComponentType<P>,
     normWidth: number,
     normHeight: number,
-    usingDrawingContext: boolean,
 ): React.FC<P & ComponentProps> => {
     normHeight = normHeight === undefined ? 100 : normHeight;
     normWidth = normWidth === undefined ? 100 : normWidth;
-    usingDrawingContext = usingDrawingContext === undefined ? true : usingDrawingContext;
 
-    return ({width=null, height=null, x=0, y=0, angle=0, vAlign="top", hAlign="left", ...props}: P) => {
+    return ({width=null, height=null, x=0, y=0, angle=0, vAlign="top", hAlign="left", ignoreDrawingContext=false, ...props}: P) => {
         let shiftX, shiftY, scaleX, scaleY;
 
-        if (usingDrawingContext) {
+        if (ignoreDrawingContext) {
+            shiftX = x;
+            shiftY = y;
+        } else {
             const { xScale, yScale } = React.useContext(DrawingContext);
 
             width = width !== null ? Math.abs(xScale(width) - xScale(0)) : null;
             height = height !== null ? Math.abs(yScale(height) - yScale(0)) : null;
             shiftX = xScale(x);
             shiftY = yScale(y);
-        } else {
-            shiftX = x;
-            shiftY = y;
         }
 
         if (width !== null && height !== null) {

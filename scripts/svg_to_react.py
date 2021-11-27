@@ -175,7 +175,7 @@ def get_component_file_contents(group: Group, comp_name: str,
         );
     }}
     
-    const {comp_name} = withSizePositionAngle(_{comp_name}, {norm_width:.6f}, {norm_height:.6f}, true);
+    const {comp_name} = withSizePositionAngle(_{comp_name}, {norm_width:.6f}, {norm_height:.6f});
     
     export default {comp_name};
     ''')[1:-1]
@@ -248,7 +248,7 @@ def comp_dicts_to_react_drawing(
         comp_dict_to_drawing_child(d)
         for d in comp_dicts
     ]
-    
+
     children_str = indent("\n".join(child_comps), 14*" ")
 
     comp_def = dedent(f'''
