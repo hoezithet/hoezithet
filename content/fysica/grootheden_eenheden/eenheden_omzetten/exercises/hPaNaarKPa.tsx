@@ -64,7 +64,7 @@ $$
 Dit kunnen we verder vereenvoudigen naar:
 
 $$
-1~\si{hPa} = \frac{10^{-1}}~\si{kPa}
+1~\si{hPa} = 10^{-1}~\si{kPa}
 $$
 
 En dus:
@@ -72,7 +72,7 @@ En dus:
 $$
 \begin{aligned}
 1013~\si{hPa} &= 1013\cdot \orange{1~\si{hPa}}\\
-&= 1013\cdot \orange{\frac{10^{-1}}~\si{kPa}}\\
+&= 1013\cdot \orange{10^{-1}~\si{kPa}}\\
 &= 101{,}3~\si{kPa}
 \end{aligned}
 $$
