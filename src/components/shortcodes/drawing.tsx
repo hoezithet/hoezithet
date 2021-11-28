@@ -1,5 +1,6 @@
 import React, { createContext, useState, useRef, useContext, useEffect, useCallback } from 'react';
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { makeStyles } from '@material-ui/core/styles';
 import SaveIcon from '@material-ui/icons/Save';
 import PauseIcon from '@material-ui/icons/Pause';
@@ -58,11 +59,8 @@ export const Drawing = ({
     // ratio is null, it will be set equal to abs(xMax - xMin)/abs(yMax - yMin)
     const [anims, setAnims] = useState([]);
     const [tl, setTl] = useState(() => gsap.timeline());
-    const [isPlaying, setIsPlaying] = useState(true);
-
-    const drawingRef = useRef(null);
     const fileNrRef = useRef(0);
-
+    const drawingRef = useRef(null);
     const classes = useStyles();
 
     const lessonContext = useContext(LessonContext);
@@ -98,17 +96,21 @@ export const Drawing = ({
         tl.add(child, position);
     };
 
-    const togglePlay = () => {
-        setIsPlaying((prev) => !prev);
-    };
-
-    useEffect(() => {
-        if (isPlaying) {
-            tl.play();
-        } else {
-            tl.pause();
-        }
-    }, [isPlaying]);
+    React.useEffect(() => {
+        gsap.registerPlugin(ScrollTrigger);
+        ScrollTrigger.create({
+            trigger: drawingRef.current,
+            start: "top center",
+            end: "bottom center",
+            onToggle: self => {
+                if (self.isActive) {
+                    tl.play();
+                } else {
+                    tl.pause();
+                }
+            },
+        });
+    }, []);
 
     const hasAnimations = anims.length > 0;
     aspect = aspect === null ? Math.abs(xMax - xMin) / Math.abs(yMax - yMin) : aspect;
@@ -150,10 +152,10 @@ export const Drawing = ({
                     <div className={classes.overlay}>
                         { hasAnimations ?
                             <>
-                                <IconButton onClick={togglePlay} aria-label="play" className={classes.overlayElement} disabled={isPlaying} title="Speel animatie af">
+                                <IconButton onClick={() => tl.play()} aria-label="play" className={classes.overlayElement} title="Speel animatie af">
                                     <PlayArrowIcon />
                                 </IconButton>
-                                <IconButton onClick={togglePlay} aria-label="pause" className={classes.overlayElement} disabled={!isPlaying} title="Pauzeer animatie">
+                                <IconButton onClick={() => tl.pause()} aria-label="pause" className={classes.overlayElement} title="Pauzeer animatie">
                                     <PauseIcon />
                                 </IconButton>
                             </>
