@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import SaveIcon from '@material-ui/icons/Save';
 import PauseIcon from '@material-ui/icons/Pause';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import ReplayIcon from '@material-ui/icons/Replay';
 import { Link, IconButton } from 'gatsby-theme-material-ui';
 import { ParentSize } from '@visx/responsive';
 import { scaleLinear } from '@visx/scale';
@@ -12,6 +13,7 @@ import LessonContext from "../../contexts/lessonContext";
 import { Text } from '@visx/text';
 
 import { getColor } from "../../colors";
+import useArrayRef from "hooks/useArrayRef";
 
 
 const useStyles = makeStyles({
@@ -57,8 +59,8 @@ export const Drawing = ({
     // A Drawing takes the width of its parent, limited to maxWidth pixels. Its
     // height is calculated from the width and the aspect ratio. If the aspect
     // ratio is null, it will be set equal to abs(xMax - xMin)/abs(yMax - yMin)
-    const [anims, setAnims] = useState([]);
-    const [tl, setTl] = useState(() => gsap.timeline());
+    const [tl, setTl] = useState(() => gsap.timeline({paused: true}));
+    const [overlayRefs, setOverlayRef] = useArrayRef();
     const fileNrRef = useRef(0);
     const drawingRef = useRef(null);
     const classes = useStyles();
@@ -78,25 +80,27 @@ export const Drawing = ({
     const fileHref = `./${filename}.png`;  // The file should be generated on deploy!
 
     const onHoverIn = () => {
-        gsap.to(`.${classes.overlayElement}`, {
+        gsap.to(overlayRefs.current, {
             right: "0px",
             opacity: 1,
             stagger: 0.15,
         });
     };
     const onHoverOut = () => {
-        gsap.to(`.${classes.overlayElement}`, {
-            right: "-24px",
+        gsap.to(overlayRefs.current, {
+            right: "-36px",
             opacity: 0
         });
     };
 
     function addAnimation(child, position="+=0") {
-        setAnims((prevAnims) => [...prevAnims, child]);
         tl.add(child, position);
     };
 
-    React.useEffect(() => {
+    const useEffectOrLayoutEffect = typeof window === "undefined" ?
+        React.useEffect : React.useLayoutEffect;
+
+    useEffectOrLayoutEffect(() => {
         gsap.registerPlugin(ScrollTrigger);
         ScrollTrigger.create({
             trigger: drawingRef.current,
@@ -112,7 +116,6 @@ export const Drawing = ({
         });
     }, []);
 
-    const hasAnimations = anims.length > 0;
     aspect = aspect === null ? Math.abs(xMax - xMin) / Math.abs(yMax - yMin) : aspect;
 
     return (
@@ -150,17 +153,20 @@ export const Drawing = ({
                         { drawingChild }
                     </DrawingContext.Provider>
                     <div className={classes.overlay}>
-                        { hasAnimations ?
+                        { tl.getChildren().length > 0 ?
                             <>
-                                <IconButton onClick={() => tl.play()} aria-label="play" className={classes.overlayElement} title="Speel animatie af">
+                                <IconButton ref={setOverlayRef} onClick={() => tl.play()} aria-label="play" className={classes.overlayElement} title="Speel animatie af">
                                     <PlayArrowIcon />
                                 </IconButton>
-                                <IconButton onClick={() => tl.pause()} aria-label="pause" className={classes.overlayElement} title="Pauzeer animatie">
+                                <IconButton ref={setOverlayRef} onClick={() => tl.pause()} aria-label="pause" className={classes.overlayElement} title="Pauzeer animatie">
                                     <PauseIcon />
+                                </IconButton>
+                                <IconButton ref={setOverlayRef} onClick={() => tl.restart()} aria-label="restart" className={classes.overlayElement} title="Herstart animatie">
+                                    <ReplayIcon />
                                 </IconButton>
                             </>
                         : null }
-                        <IconButton href={fileHref} download aria-label="save" className={classes.overlayElement} title="Afbeelding opslaan">
+                        <IconButton ref={setOverlayRef} href={fileHref} download aria-label="save" className={classes.overlayElement} title="Afbeelding opslaan">
                             <SaveIcon />
                         </IconButton>
                     </div>
