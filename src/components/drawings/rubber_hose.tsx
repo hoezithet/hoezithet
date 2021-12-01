@@ -1,7 +1,14 @@
 import React from "react";
 
+type RubberHoseProps = {
+    hoseModel: RubberHoseModel,
+    color: string,
+    outline?: string|null,
+    outlineWidth?: number,
+}
 
-const _RubberHose = ({hoseModel, color, outline=null, outlineWidth=1}, ref) => {
+
+const _RubberHose = ({hoseModel, color, outline=null, outlineWidth=1}: RubberHoseProps, ref) => {
     const hoseRef = React.useRef();
     const outlineRef = React.useRef();
 
@@ -21,8 +28,23 @@ const _RubberHose = ({hoseModel, color, outline=null, outlineWidth=1}, ref) => {
 
 const RubberHose = React.forwardRef(_RubberHose); 
 
+export type Point2D = {
+    x: number,
+    y: number
+}
+
+
 class RubberHoseModel {
-    constructor(start, end, width, length, bendRadius = 1.0) {
+    start: Point2D;
+    end: Point2D;
+    width: number;
+    bendRadius: number;
+    length: number;
+
+    constructor(
+        start: Point2D, end: Point2D, width: number,
+        length: number, bendRadius: number = 1.0
+    ) {
         this.start = start;
         this.end = end;
         this.width = width;
@@ -83,7 +105,7 @@ class RubberHoseModel {
     }
 }
 
-const rotatePoint = (point, angle) => {
+const rotatePoint = (point: Point2D, angle: number) => {
     return {
         x: point.x * Math.cos(angle) - point.y * Math.sin(angle),
         y: point.x * Math.sin(angle) + point.y * Math.cos(angle),
