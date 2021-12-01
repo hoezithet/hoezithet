@@ -3,7 +3,7 @@ import _ from "lodash";
 import { gsap } from "gsap";
 import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
 
-import { RubberHose, RubberHoseModel } from "./rubber_hose";
+import { RubberHose, RubberHoseModel, Point2D } from "./rubber_hose";
 import { DrawingContext } from "components/shortcodes/drawing";
 
 if (typeof window !== "undefined") {
@@ -59,6 +59,20 @@ const _Person = ({ pose=null, color, outline }, ref) => {
 
 export const Person = React.forwardRef(_Person);
 
+export type LimbType = {
+    start: Point2D,
+    end: Point2D,
+}
+
+export type PoseType = {
+    head: LimbType,
+    rArm: LimbType,
+    lArm: LimbType,
+    body: LimbType,
+    rLeg: LimbType,
+    lLeg: LimbType,
+}
+
 export const getRestPose = (headSize=14, armWidth=6, armLength=30, armBendRadius=-2.0, legWidth=8, legLength=40, legBendRadius=2.0, bodyWidth=13, bodyHeight=20, bodyBendRadius=-2.0) => {
     const rFoot = {
         x: 50,
@@ -111,25 +125,20 @@ export const getRestPose = (headSize=14, armWidth=6, armLength=30, armBendRadius
     };
 };
 
-export const AnimatedPerson = ({ poseKeypoints, color="#000000", outline="#efefef", gsapPosition=0 }) => {
-    const personRef = React.useRef();
-    const { addAnimation } = React.useContext(DrawingContext);
+export type PoseKeypointType = {
+    time: number,
+    duration: number,
+    pose: PoseType,
+}
 
-    const addKeypointToTl = ({time, duration, pose}, tl) => {
-        Object.entries(pose).forEach(([hoseName, hose]) => {
-            personRef.current[hoseName].forEach(el =>
-                tl.to(el, {morphSVG: hose.d, duration: duration, ease: "none"}, time)
-            );
-        });
-    }
-
-    React.useEffect(() => {
-        const tl = gsap.timeline({repeat: -1});
-        poseKeypoints.forEach(kp => addKeypointToTl(kp, tl));
-        addAnimation(tl, gsapPosition);
-    }, []);
-
-    return (
-        <Person ref={personRef} pose={_.last(poseKeypoints).pose} color={color} outline={outline} />
-    );
-};
+export const addPoseKeypointToTl = (
+    {time, duration, pose}: PoseKeypointType,
+    personRef,
+    tl: gsap.core.Timeline
+) => {
+    Object.entries(pose).forEach(([hoseName, hose], i) => {
+        personRef?.current?.[hoseName].forEach(el =>
+            tl.to(el, {morphSVG: hose.d, duration: duration, ease: "none"}, i === 0 ? time : "<")
+        );
+    });
+}
