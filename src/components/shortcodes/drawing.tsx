@@ -97,25 +97,6 @@ export const Drawing = ({
         tl.add(child, position);
     };
 
-    const useEffectOrLayoutEffect = typeof window === "undefined" ?
-        React.useEffect : React.useLayoutEffect;
-
-    useEffectOrLayoutEffect(() => {
-        gsap.registerPlugin(ScrollTrigger);
-        ScrollTrigger.create({
-            trigger: drawingRef.current,
-            start: "top center",
-            end: "bottom center",
-            onToggle: self => {
-                if (self.isActive) {
-                    tl.play();
-                } else {
-                    tl.pause();
-                }
-            },
-        });
-    }, []);
-
     aspect = aspect === null ? Math.abs(xMax - xMin) / Math.abs(yMax - yMin) : aspect;
 
     return (
@@ -134,6 +115,27 @@ export const Drawing = ({
                 domain: [yMin, yMax],
                 round: false
             });
+
+            const smoothPlay = () => gsap.to(tl, {timeScale: 1, onStart: () => tl.play(), ease: "power1.out"});
+            const smoothPause = () => gsap.to(tl, {timeScale: 0, onComplete: () => tl.pause(), ease: "power1.out"});
+            const smoothRestart = () => gsap.to(tl, {time: 0, duration: 2, onComplete: () => tl.play(), ease: "power2.inOut"});
+
+            React.useEffect(() => {
+                gsap.registerPlugin(ScrollTrigger);
+                tl.timeScale(0);
+                ScrollTrigger.create({
+                    trigger: drawingRef.current,
+                    start: "top center",
+                    end: "bottom center",
+                    onToggle: self => {
+                        if (self.isActive) {
+                            smoothPlay();
+                        } else {
+                            smoothPause();
+                        }
+                    },
+                });
+            }, [width]);
 
             const drawingChild = React.useMemo(() => (
                 <svg width={width} height={height} ref={drawingRef} className={`${classes.drawing} drawing ${className}`} xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
@@ -155,13 +157,13 @@ export const Drawing = ({
                     <div className={classes.overlay}>
                         { tl.getChildren().length > 0 ?
                             <>
-                                <IconButton ref={setOverlayRef} onClick={() => tl.play()} aria-label="play" className={classes.overlayElement} title="Speel animatie af">
+                                <IconButton ref={setOverlayRef} onClick={smoothPlay} aria-label="play" className={classes.overlayElement} title="Speel animatie af">
                                     <PlayArrowIcon />
                                 </IconButton>
-                                <IconButton ref={setOverlayRef} onClick={() => tl.pause()} aria-label="pause" className={classes.overlayElement} title="Pauzeer animatie">
+                                <IconButton ref={setOverlayRef} onClick={smoothPause} aria-label="pause" className={classes.overlayElement} title="Pauzeer animatie">
                                     <PauseIcon />
                                 </IconButton>
-                                <IconButton ref={setOverlayRef} onClick={() => tl.restart()} aria-label="restart" className={classes.overlayElement} title="Herstart animatie">
+                                <IconButton ref={setOverlayRef} onClick={smoothRestart} aria-label="restart" className={classes.overlayElement} title="Herstart animatie">
                                     <ReplayIcon />
                                 </IconButton>
                             </>
