@@ -1,10 +1,11 @@
 import React from "react";
 import { Drawing, DrawingContext } from "components/shortcodes/drawing";
-import { WalkToStop } from "./walk_cycle";
+import WalkingToStopPerson from "./walkingToStopPerson";
 import Zon from "./park/zon";
 import Wolken from "./park/wolken";
 import InfScrollingPark from "./park/inf_scrolling_park";
 import withInfLoop from "components/withInfLoop";
+import BreathingPerson from "./breathingPerson";
 
 import { gsap } from "gsap";
 
@@ -39,7 +40,7 @@ const WalkingPerson = () => {
 
     return (
         <g ref={ref}>
-            <WalkToStop numCycles={numCycles} stepSize={stepSizePx} freq={freq} height={800} x={-100} y={1080-50} vAlign="bottom" hAlign="center" />
+            <WalkingToStopPerson numCycles={numCycles} stepSize={stepSizePx} freq={freq} height={800} x={-100} y={1080-50} vAlign="bottom" hAlign="right" />
         </g>
     );
 };
@@ -53,6 +54,7 @@ const DirkKruist = () => {
             <LoopingWolken speed={-5} width={2*1642.394890} height={346.619760} x={0} y={92.659100} />
             <InfScrollingPark width={3840} x={-1000} />
             <WalkingPerson />
+            <BreathingPerson flipH breatheFreq={0.6} height={800} x={1920*2/3} y={1080-50} vAlign="bottom" hAlign="left"/>
         </Drawing>
     );
 };
