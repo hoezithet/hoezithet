@@ -21,7 +21,7 @@ const withSizePositionAngle = <P extends ComponentProps> (
     normHeight = normHeight === undefined ? 100 : normHeight;
     normWidth = normWidth === undefined ? 100 : normWidth;
 
-    return ({width=null, height=null, x=0, y=0, angle=0, vAlign="top", hAlign="left", ignoreDrawingContext=false, ...props}: P) => {
+    return ({width=null, height=null, x=0, y=0, angle=0, vAlign="top", hAlign="left", ignoreDrawingContext=false, flipH=false, flipV=false, ...props}: P) => {
         let shiftX, shiftY, scaleX, scaleY;
 
         if (ignoreDrawingContext) {
@@ -52,6 +52,15 @@ const withSizePositionAngle = <P extends ComponentProps> (
             scaleY = 1;
             width = normWidth;
             height = normHeight;
+        }
+
+        if (flipH) {
+            scaleX *= -1;
+            shiftX += width;
+        }
+        if (flipV) {
+            scaleY *= -1;
+            shiftY += height;
         }
 
         if (hAlign === "center") {
