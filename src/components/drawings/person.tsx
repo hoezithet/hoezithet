@@ -11,7 +11,7 @@ if (typeof window !== "undefined") {
 }
 
 
-const _Person = ({ pose=null, color, outline }, ref) => {
+const _Person = ({ pose=null, color="#000000", outline="#efefef" }, ref) => {
     const lLegRef = React.useRef();
     const lArmRef = React.useRef();
     const rLegRef1 = React.useRef();
