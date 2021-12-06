@@ -8,20 +8,42 @@ type RubberHoseProps = {
 }
 
 
-const _RubberHose = ({hoseModel, color, outline=null, outlineWidth=1}: RubberHoseProps, ref) => {
-    const hoseRef = React.useRef();
-    const outlineRef = React.useRef();
+const _RubberHose = ({start, end, width, length, bendRadius, color, outline=null, outlineWidth=1}: RubberHoseProps, ref) => {
+    const outlineRef = React.useRef(null);
+    const hoseRef = React.useRef(null);
+    const modelRef = React.useRef(new RubberHoseModel(start, end, width, length, bendRadius));
+    const outlineWidthRef = React.useRef(outlineWidth);
+
+    const updateHoses = () => {
+        outlineRef.current?.setAttribute('d', modelRef.current.d);
+        hoseRef.current?.setAttribute('d', modelRef.current.d);
+        outlineRef.current?.setAttribute('strokeWidth', modelRef.current.width + outlineWidthRef.current);
+        hoseRef.current?.setAttribute('strokeWidth', modelRef.current.width);
+    };
+
+    const getSetHoseProp = (propName) => (newValue = null) => {
+        if (newValue !== null) {
+            modelRef.current[propName] = newValue;
+            updateHoses();
+        }
+        return modelRef.current[propName];
+    };
 
     React.useImperativeHandle(ref, () => ({
-      get refs() {
-          return [hoseRef.current, outlineRef.current];
-      },
+        startX: getSetHoseProp('startX'),
+        startY: getSetHoseProp('startY'),
+        endX: getSetHoseProp('endX'),
+        endY: getSetHoseProp('endY'),
+        width: getSetHoseProp('width'),
+        bendRadius: getSetHoseProp('bendRadius'),
+        length: getSetHoseProp('length'),
+        outlineWidth: getSetHoseProp('outlineWidth'),
     }));
 
     return (
         <>
-            <path ref={outlineRef} d={hoseModel.d} stroke={outline || "rgba(0,0,0,0)"} fillOpacity={0} strokeWidth={hoseModel.width + outlineWidth} strokeLinecap="round" />
-            <path ref={hoseRef} d={hoseModel.d} stroke={color} fillOpacity={0} strokeWidth={hoseModel.width} strokeLinecap="round" />
+            <path ref={outlineRef} d={modelRef.current.d} stroke={outline || "rgba(0,0,0,0)"} fillOpacity={0} strokeWidth={modelRef.current.width + outlineWidth} strokeLinecap="round" />
+            <path ref={hoseRef} d={modelRef.current.d} stroke={color} fillOpacity={0} strokeWidth={modelRef.current.width} strokeLinecap="round" />
         </>
     );
 }
@@ -35,8 +57,10 @@ export type Point2D = {
 
 
 class RubberHoseModel {
-    start: Point2D;
-    end: Point2D;
+    startX: number;
+    startY: number;
+    endX: number;
+    endY: number;
     width: number;
     bendRadius: number;
     length: number;
@@ -45,8 +69,10 @@ class RubberHoseModel {
         start: Point2D, end: Point2D, width: number,
         length: number, bendRadius: number = 1.0
     ) {
-        this.start = start;
-        this.end = end;
+        this.startX = start.x;
+        this.endX = end.x;
+        this.startY = start.y;
+        this.endY = end.y;
         this.width = width;
         this.bendRadius = bendRadius;
         this.length = length;
@@ -54,15 +80,15 @@ class RubberHoseModel {
 
     get d() {
         const [ctrlStart, ctrlEnd] = this.ctrlPoints;
-        return `M ${this.start.x},${this.start.y} C ${ctrlStart.x},${ctrlStart.y} ${ctrlEnd.x},${ctrlEnd.y} ${this.end.x},${this.end.y}`;
+        return `M ${this.startX},${this.startY} C ${ctrlStart.x},${ctrlStart.y} ${ctrlEnd.x},${ctrlEnd.y} ${this.endX},${this.endY}`;
     }
 
     get ctrlPoints() {
         const eps = 0.0001;
         this.bendRadius = typeof this.bendRadius === 'undefined' ? 1 : this.bendRadius;
 
-        const dist = Math.sqrt(Math.pow(this.end.x - this.start.x, 2) + Math.pow(this.end.y - this.start.y, 2));
-        const [dy, dx] = [this.end.y - this.start.y, this.end.x - this.start.x];
+        const dist = Math.sqrt(Math.pow(this.endX - this.startX, 2) + Math.pow(this.endY - this.startY, 2));
+        const [dy, dx] = [this.endY - this.startY, this.endX - this.startX];
         let angleX;
 
         if (dx === 0 && dy >= 0) {
@@ -87,8 +113,8 @@ class RubberHoseModel {
         }, angleX);
 
         const ctrlStart = {
-            x: this.start.x + ctrlStartOffset.x,
-            y: this.start.y + ctrlStartOffset.y,
+            x: this.startX + ctrlStartOffset.x,
+            y: this.startY + ctrlStartOffset.y,
         };
 
         const ctrlEndOffset = rotatePoint({
@@ -97,8 +123,8 @@ class RubberHoseModel {
         }, angleX);
 
         const ctrlEnd = {
-            x: this.end.x + ctrlEndOffset.x,
-            y: this.end.y + ctrlEndOffset.y,
+            x: this.endX + ctrlEndOffset.x,
+            y: this.endY + ctrlEndOffset.y,
         };
 
         return [ctrlStart, ctrlEnd];

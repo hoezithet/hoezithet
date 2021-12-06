@@ -22,37 +22,129 @@ const _Person = ({ pose=null, color="#000000", outline="#efefef" }, ref) => {
 
     pose = pose === null  ? getRestPose() : pose;
 
+    const getSetHoseProp = (hoseRef, propName) => (newValue = null) => {
+        if (newValue !== null) {
+            hoseRef.current?.[propName](newValue);
+        }
+        return hoseRef.current?.[propName]();
+    };
+
     React.useImperativeHandle(ref, () => ({
-      get head() {
-          return headRef.current.refs;
+      headX: (newValue = null) => {
+          getSetHoseProp(headRef, 'startX')(newValue);
+          return getSetHoseProp(headRef, 'endX')(newValue);
       },
-      get rArm() {
-          return rArmRef.current.refs;
+      headY: (newValue = null) => {
+          getSetHoseProp(headRef, 'startY')(newValue);
+          return getSetHoseProp(headRef, 'endY')(newValue);
       },
-      get lArm() {
-          return lArmRef.current.refs;
+      headSize: getSetHoseProp(headRef, 'width'),
+      armWidth: (newValue = null) => {
+          getSetHoseProp(rArmRef, 'width')(newValue);
+          return getSetHoseProp(lArmRef, 'width')(newValue);
       },
-      get body() {
-          return bodyRef.current.refs;
+      armLength: (newValue = null) => {
+          getSetHoseProp(rArmRef, 'length')(newValue);
+          return getSetHoseProp(lArmRef, 'length')(newValue);
       },
-      get rLeg() {
-          return [...rLegRef1.current.refs,
-                  ...rLegRef2.current.refs];
+      armBendRadius: (newValue = null) => {
+          getSetHoseProp(rArmRef, 'bendRadius')(newValue);
+          return getSetHoseProp(lArmRef, 'bendRadius')(newValue);
       },
-      get lLeg() {
-          return lLegRef.current.refs;
+      legWidth: (newValue = null) => {
+          getSetHoseProp(rLegRef1, 'width')(newValue);
+          getSetHoseProp(rLegRef2, 'width')(newValue);
+          return getSetHoseProp(lLegRef, 'width')(newValue);
       },
+      legLength: (newValue = null) => {
+          getSetHoseProp(rLegRef1, 'length')(newValue);
+          getSetHoseProp(rLegRef2, 'length')(newValue);
+          return getSetHoseProp(lLegRef, 'length')(newValue);
+      },
+      legBendRadius: (newValue = null) => {
+          getSetHoseProp(rLegRef1, 'bendRadius')(newValue);
+          getSetHoseProp(rLegRef2, 'bendRadius')(newValue);
+          return getSetHoseProp(lLegRef, 'bendRadius')(newValue);
+      },
+      rShoulderX: getSetHoseProp(rArmRef, 'startX'),
+      rShoulderY: getSetHoseProp(rArmRef, 'startY'),
+      rHandX: getSetHoseProp(rArmRef, 'endX'),
+      rHandY: getSetHoseProp(rArmRef, 'endY'),
+      lShoulderX: getSetHoseProp(lArmRef, 'startX'),
+      lShoulderY: getSetHoseProp(lArmRef, 'startY'),
+      lHandX: getSetHoseProp(lArmRef, 'endX'),
+      lHandY: getSetHoseProp(lArmRef, 'endY'),
+      bodyTopX: getSetHoseProp(bodyRef, 'startX'),
+      bodyTopY: getSetHoseProp(bodyRef, 'startY'),
+      bodyBottomX: getSetHoseProp(bodyRef, 'endX'),
+      bodyBottomY: getSetHoseProp(bodyRef, 'endY'),
+      bodyBendRadius: getSetHoseProp(bodyRef, 'bendRadius'),
+      rHipX: (newValue = null) => {
+          getSetHoseProp(rLegRef1, 'startX')(newValue);
+          return getSetHoseProp(rLegRef2, 'startX')(newValue);
+      }, 
+      rHipY: (newValue = null) => {
+          getSetHoseProp(rLegRef1, 'startY')(newValue);
+          return getSetHoseProp(rLegRef2, 'startY')(newValue);
+      },
+      rFootX: (newValue = null) => {
+          getSetHoseProp(rLegRef1, 'endX')(newValue);
+          return getSetHoseProp(rLegRef2, 'endX')(newValue);
+      },
+      rFootY: (newValue = null) => {
+          getSetHoseProp(rLegRef1, 'endY')(newValue);
+          return getSetHoseProp(rLegRef2, 'endY')(newValue);
+      },
+      lHipX: getSetHoseProp(lLegRef, 'startX'),
+      lHipY: getSetHoseProp(lLegRef, 'startY'),
+      lFootX: getSetHoseProp(lLegRef, 'endX'),
+      lFootY: getSetHoseProp(lLegRef, 'endY'),
     }));
 
     return (
         <g>
-          <RubberHose ref={lArmRef} hoseModel={pose.lArm} color={color} outline={outline} />
-          <RubberHose ref={lLegRef} hoseModel={pose.lLeg} color={color} outline={outline} />
-          <RubberHose ref={rLegRef1} hoseModel={pose.rLeg} color={color} outline={outline} />
-          <RubberHose ref={headRef} hoseModel={pose.head} color={color} outline={outline}  />
-          <RubberHose ref={bodyRef} hoseModel={pose.body} color={color} outline={outline}  />
-          <RubberHose ref={rLegRef2} hoseModel={pose.rLeg} color={color} />
-          <RubberHose ref={rArmRef} hoseModel={pose.rArm} color={color} outline={outline} />
+          <RubberHose ref={lArmRef} color={color} outline={outline}
+              start={{x: pose.lShoulderX, y: pose.lShoulderY}}
+              end={{x: pose.lHandX, y: pose.lHandY}}
+              width={pose.armWidth}
+              bendRadius={pose.armBendRadius}
+              length={pose.armLength} />
+          <RubberHose ref={lLegRef} color={color} outline={outline}
+              start={{x: pose.lHipX, y: pose.lHipY}}
+              end={{x: pose.lFootX, y: pose.lFootY}}
+              width={pose.legWidth}
+              bendRadius={pose.legBendRadius}
+              length={pose.legLength} />
+          <RubberHose ref={rLegRef1} color={color} outline={outline}
+              start={{x: pose.rHipX, y: pose.rHipY}}
+              end={{x: pose.rFootX, y: pose.rFootY}}
+              width={pose.legWidth}
+              bendRadius={pose.legBendRadius}
+              length={pose.legLength} />
+          <RubberHose ref={headRef} color={color} outline={outline}
+              start={{x: pose.headX, y: pose.headY}}
+              end={{x: pose.headX, y: pose.headY}}
+              width={pose.headSize}
+              bendRadius={1}
+              length={0} />
+          <RubberHose ref={bodyRef} color={color} outline={outline}
+              start={{x: pose.bodyTopX, y: pose.bodyTopY}}
+              end={{x: pose.bodyBottomX, y: pose.bodyBottomY}}
+              width={pose.bodyWidth}
+              bendRadius={pose.bodyBendRadius}
+              length={pose.bodyHeight} />
+          <RubberHose ref={rLegRef2} color={color} outline={null}
+              start={{x: pose.rHipX, y: pose.rHipY}}
+              end={{x: pose.rFootX, y: pose.rFootY}}
+              width={pose.legWidth}
+              bendRadius={pose.legBendRadius}
+              length={pose.legLength} />
+          <RubberHose ref={rArmRef} color={color} outline={outline}
+              start={{x: pose.rShoulderX, y: pose.rShoulderY}}
+              end={{x: pose.rHandX, y: pose.rHandY}}
+              width={pose.armWidth}
+              bendRadius={pose.armBendRadius}
+              length={pose.armLength} />
         </g>
     );
 };
@@ -108,37 +200,44 @@ export const getRestPose = (headSize=14, armWidth=6, armLength=30, armBendRadius
         y: rShoulder.y - headSize,
     };
 
-    const head = new RubberHoseModel(headPoint, headPoint, headSize, 0);
-    const rArm = new RubberHoseModel(rShoulder, rHand, armWidth, armLength, armBendRadius);
-    const lArm = new RubberHoseModel(lShoulder, lHand, armWidth, armLength, armBendRadius);
-    const body = new RubberHoseModel(torso, bottom, bodyWidth, bodyHeight, bodyBendRadius);
-    const rLeg = new RubberHoseModel(rHip, rFoot, legWidth, legLength, legBendRadius);
-    const lLeg = new RubberHoseModel(lHip, lFoot, legWidth, legLength, legBendRadius);
-
     return {
-        head: head,
-        rArm: rArm,
-        lArm: lArm,
-        body: body,
-        lLeg: lLeg,
-        rLeg: rLeg,
-    };
+        headSize: headSize,
+        headX: headPoint.x,
+        headY: headPoint.y,
+        rShoulderX: rShoulder.x,
+        rShoulderY: rShoulder.y,
+        rHandX: rHand.x,
+        rHandY: rHand.y,
+        lShoulderX: lShoulder.x,
+        lShoulderY: lShoulder.y,
+        lHandX: lHand.x,
+        lHandY: lHand.y,
+        armWidth: armWidth,
+        armLength: armLength,
+        armBendRadius: armBendRadius,
+        bodyTopX: torso.x,
+        bodyTopY: torso.y,
+        bodyBottomX: bottom.x,
+        bodyBottomY: bottom.y,
+        bodyWidth: bodyWidth,
+        bodyHeight: bodyHeight,
+        bodyBendRadius: bodyBendRadius,
+        rHipX: rHip.x,
+        rHipY: rHip.y,
+        rFootX: rFoot.x,
+        rFootY: rFoot.y,
+        lHipX: lHip.x,
+        lHipY: lHip.y,
+        lFootX: lFoot.x,
+        lFootY: lFoot.y,
+        legWidth: legWidth,
+        legLength: legLength,
+        legBendRadius: legBendRadius,
+  };
 };
 
 export type PoseKeypointType = {
     time: number,
     duration: number,
     pose: PoseType,
-}
-
-export const addPoseKeypointToTl = (
-    {time, duration, pose}: PoseKeypointType,
-    personRef,
-    tl: gsap.core.Timeline
-) => {
-    Object.entries(pose).forEach(([hoseName, hose], i) => {
-        personRef?.current?.[hoseName].forEach(el =>
-            tl.to(el, {morphSVG: hose.d, duration: duration, ease: "none"}, i === 0 ? time : "<")
-        );
-    });
 }
