@@ -18,7 +18,7 @@ const WalkingPerson = () => {
 
     const freq = 0.75;
     const stepSize = 100;
-    const startPos = -1920*1/3;
+    const startPos = 0;
     const endPos = 1920*1/3;
     const numCycles = Math.round(Math.abs(endPos - startPos)/(2*stepSize));
 
@@ -54,7 +54,7 @@ const DirkKruist = () => {
             <LoopingWolken speed={-5} width={2*1642.394890} height={346.619760} x={0} y={92.659100} />
             <InfScrollingPark width={3840} x={-1000} />
             <WalkingPerson />
-            <BreathingPerson flipH breatheFreq={0.6} height={800} x={1920*2/3} y={1080-50} vAlign="bottom" hAlign="left"/>
+            <BreathingPerson flipH breatheFreq={0.3} breatheAmpl={1} height={800} x={1920*2/3} y={1080-50} vAlign="bottom" hAlign="left"/>
         </Drawing>
     );
 };
