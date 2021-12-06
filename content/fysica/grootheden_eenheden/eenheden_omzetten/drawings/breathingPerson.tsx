@@ -25,7 +25,7 @@ export const withBreathing = (Component) => {
                 freq: breatheFreq,
                 ampl: breatheAmpl,
             });
-            breatheKps.forEach(kp => addPoseKeypointToTl(kp, personRef, restTl));
+            breatheKps.forEach(kp => restTl.to(personRef.current, kp));
 
             tl.add(restTl.play());
             addAnimation(tl, 0);

@@ -2,7 +2,7 @@ import React from "react";
 import { DrawingContext } from "components/shortcodes/drawing";
 import { gsap } from "gsap";
 import {
-    Person, addPoseKeypointToTl, getRestPose
+    Person, getRestPose
 } from "components/drawings/person";
 import withSizePositionAngle from "components/withSizePositionAngle";
 import { getWalkKeypoints } from "./walkCycleKps";
@@ -17,7 +17,7 @@ export const withWalking = (Component) => {
             tl.clear();
             initialPose = initialPose === null ? getRestPose() : initialPose;
             const poseKps = getWalkKeypoints({initialPose: initialPose});
-            poseKps.forEach(kp => addPoseKeypointToTl(kp, personRef, tl));
+            poseKps.forEach(kp => tl.to(personRef.current, kp));
             addAnimation(tl, 0);
         }, []);
 

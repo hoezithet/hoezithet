@@ -58,9 +58,8 @@ export const getWalkKeypoints = ({
     const keypoints = _range(numKeypoints + 1)
         .map(i => i*kpDuration)
         .map((t, i, arr) => ({
-            time: i === 0 ? 0 : (i - 1)*kpDuration,
             duration: i === 0 ? 0 : kpDuration,
-            pose: getWalkPoseAtTime(t, initialPose, ampl, freq)
+            ...getWalkPoseAtTime(t, initialPose, ampl, freq)
         }));
 
     return keypoints;
@@ -68,51 +67,41 @@ export const getWalkKeypoints = ({
 
 
 export const getWalkPoseAtTime = (time, pose, ampl, freq) => {
-    const newRHip = getWalkingHip(time, pose.rLeg.start, ampl.rHip, freq, 0);
-    const hipHeadDist = pose.rLeg.start.y - pose.head.start.y;
-    const hipShoulderDist = pose.rLeg.start.y - pose.rArm.start.y;
-    const hipTorsoDist = pose.rLeg.start.y - pose.body.start.y;
-    const hipBottomDist = pose.rLeg.start.y - pose.body.end.y;
+    const hipHeadDist = pose.rHipY - pose.headY;
+    const hipShoulderDist = pose.rHipY - pose.rShoulderY;
+    const hipTorsoDistY = pose.rHipY - pose.bodyTopY;
+    const hipTorsoDistX = pose.rHipX - pose.bodyTopX;
+    const hipBottomDistY = pose.rHipY - pose.bodyBottomY;
+    const hipBottomDistX = pose.rHipX - pose.bodyBottomX;
 
+    const newRHand = getWalkingHand(time, {x: pose.rHandX, y: pose.rHandY}, ampl.rHand, freq, Math.PI);
+    const newLHand = getWalkingHand(time, {x: pose.lHandX, y: pose.lHandY}, ampl.lHand, freq, 0);
+    const newRHip = getWalkingHip(time, {x: pose.rHipX, y: pose.rHipY}, ampl.rHip, freq, 0);
+    const newLHip = getWalkingHip(time, {x: pose.lHipX, y: pose.lHipY}, ampl.lHip, freq, Math.PI);
+    const newRFoot = getWalkingFoot(time, {x: pose.rFootX, y: pose.rFootY}, ampl.rFoot, freq, 0);
+    const newLFoot = getWalkingFoot(time, {x: pose.lFootX, y: pose.lFootY}, ampl.lFoot, freq, Math.PI);
     const newHeadY = newRHip.y - hipHeadDist;
 
     const poseOverrides = {
-        head: {
-            start: {
-                y: newHeadY,
-            },
-            end: {
-                y: newHeadY,
-            },
-        },
-        rArm: {
-            start: {
-                y: newRHip.y - hipShoulderDist,
-            },
-            end: getWalkingHand(time, pose.rArm.end, ampl.rHand, freq, Math.PI),
-        },
-        lArm: {
-            start: {
-                y: newRHip.y - hipShoulderDist,
-            },
-            end: getWalkingHand(time, pose.lArm.end, ampl.lHand, freq, 0),
-        },
-        rLeg: {
-            start: newRHip,
-            end: getWalkingFoot(time, pose.rLeg.end, ampl.rFoot, freq, 0),
-        },
-        lLeg: {
-            start: getWalkingHip(time, pose.lLeg.start, ampl.lHip, freq, Math.PI),
-            end: getWalkingFoot(time, pose.lLeg.end, ampl.lFoot, freq, Math.PI),
-        },
-        body: {
-            start: {
-                y: newRHip.y - hipTorsoDist,
-            },
-            end: {
-                y: newRHip.y - hipBottomDist,
-            }, 
-        },
+        headY: newHeadY,
+        rShoulderY: newRHip.y - hipShoulderDist,
+        rHandX: newRHand.x,
+        rHandY: newRHand.y,
+        lShoulderY: newRHip.y - hipShoulderDist,
+        lHandX: newLHand.x,
+        lHandY: newLHand.y,
+        bodyTopX: newRHip.x - hipTorsoDistX,
+        bodyTopY: newRHip.y - hipTorsoDistY,
+        bodyBottomX: newRHip.x - hipBottomDistX,
+        bodyBottomY: newRHip.y - hipBottomDistY,
+        rHipX: newRHip.x,
+        rHipY: newRHip.y,
+        rFootX: newRFoot.x,
+        rFootY: newRFoot.y,
+        lHipX: newLHip.x,
+        lHipY: newLHip.y,
+        lFootX: newLFoot.x,
+        lFootY: newLFoot.y,
     };
 
     const newPose = _cloneDeep(pose);
