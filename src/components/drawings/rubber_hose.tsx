@@ -38,6 +38,13 @@ const _RubberHose = ({start, end, width, length, bendRadius, color, outline=null
         bendRadius: getSetHoseProp('bendRadius'),
         length: getSetHoseProp('length'),
         outlineWidth: getSetHoseProp('outlineWidth'),
+        opacity: (newValue = null) => {
+            if (newValue !== null) {
+                outlineRef.current?.setAttribute('stroke-opacity', newValue);
+                hoseRef.current?.setAttribute('stroke-opacity', newValue);
+            }
+            return hoseRef.current?.getAttribute('stroke-opacity');
+        },
     }));
 
     return (
