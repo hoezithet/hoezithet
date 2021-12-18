@@ -1,105 +1,114 @@
 import React from "react";
 import _ from "lodash";
 import { gsap } from "gsap";
-import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
 
 import { RubberHose, RubberHoseModel, Point2D } from "./rubber_hose";
 import { DrawingContext } from "components/shortcodes/drawing";
 
-if (typeof window !== "undefined") {
-    gsap.registerPlugin(MorphSVGPlugin);
-}
+
+export const getSetHoseProp = (hoseRef, propName) => (newValue = null) => {
+    if (newValue !== null) {
+        hoseRef.current?.[propName](newValue);
+    }
+    return hoseRef.current?.[propName]();
+};
+
+export const createImperativePersonHandle = (
+    headRef, rArmRef, lArmRef, bodyRef,
+    rLegRef1, rLegRef2, lLegRef
+) => () => ({
+    headX: (newValue = null) => {
+        getSetHoseProp(headRef, 'startX')(newValue);
+        return getSetHoseProp(headRef, 'endX')(newValue);
+    },
+    headY: (newValue = null) => {
+        getSetHoseProp(headRef, 'startY')(newValue);
+        return getSetHoseProp(headRef, 'endY')(newValue);
+    },
+    headSize: getSetHoseProp(headRef, 'width'),
+    armWidth: (newValue = null) => {
+        getSetHoseProp(rArmRef, 'width')(newValue);
+        return getSetHoseProp(lArmRef, 'width')(newValue);
+    },
+    armLength: (newValue = null) => {
+        getSetHoseProp(rArmRef, 'length')(newValue);
+        return getSetHoseProp(lArmRef, 'length')(newValue);
+    },
+    armBendRadius: (newValue = null) => {
+        getSetHoseProp(rArmRef, 'bendRadius')(newValue);
+        return getSetHoseProp(lArmRef, 'bendRadius')(newValue);
+    },
+    legWidth: (newValue = null) => {
+        getSetHoseProp(rLegRef1, 'width')(newValue);
+        getSetHoseProp(rLegRef2, 'width')(newValue);
+        return getSetHoseProp(lLegRef, 'width')(newValue);
+    },
+    legLength: (newValue = null) => {
+        getSetHoseProp(rLegRef1, 'length')(newValue);
+        getSetHoseProp(rLegRef2, 'length')(newValue);
+        return getSetHoseProp(lLegRef, 'length')(newValue);
+    },
+    legBendRadius: (newValue = null) => {
+        getSetHoseProp(rLegRef1, 'bendRadius')(newValue);
+        getSetHoseProp(rLegRef2, 'bendRadius')(newValue);
+        return getSetHoseProp(lLegRef, 'bendRadius')(newValue);
+    },
+    rShoulderX: getSetHoseProp(rArmRef, 'startX'),
+    rShoulderY: getSetHoseProp(rArmRef, 'startY'),
+    rHandX: getSetHoseProp(rArmRef, 'endX'),
+    rHandY: getSetHoseProp(rArmRef, 'endY'),
+    lShoulderX: getSetHoseProp(lArmRef, 'startX'),
+    lShoulderY: getSetHoseProp(lArmRef, 'startY'),
+    lHandX: getSetHoseProp(lArmRef, 'endX'),
+    lHandY: getSetHoseProp(lArmRef, 'endY'),
+    bodyTopX: getSetHoseProp(bodyRef, 'startX'),
+    bodyTopY: getSetHoseProp(bodyRef, 'startY'),
+    bodyBottomX: getSetHoseProp(bodyRef, 'endX'),
+    bodyBottomY: getSetHoseProp(bodyRef, 'endY'),
+    bodyBendRadius: getSetHoseProp(bodyRef, 'bendRadius'),
+    bodyWidth: getSetHoseProp(bodyRef, 'width'),
+    bodyHeight: getSetHoseProp(bodyRef, 'length'),
+    rHipX: (newValue = null) => {
+        getSetHoseProp(rLegRef1, 'startX')(newValue);
+        return getSetHoseProp(rLegRef2, 'startX')(newValue);
+    }, 
+    rHipY: (newValue = null) => {
+        getSetHoseProp(rLegRef1, 'startY')(newValue);
+        return getSetHoseProp(rLegRef2, 'startY')(newValue);
+    },
+    rFootX: (newValue = null) => {
+        getSetHoseProp(rLegRef1, 'endX')(newValue);
+        return getSetHoseProp(rLegRef2, 'endX')(newValue);
+    },
+    rFootY: (newValue = null) => {
+        getSetHoseProp(rLegRef1, 'endY')(newValue);
+        return getSetHoseProp(rLegRef2, 'endY')(newValue);
+    },
+    lHipX: getSetHoseProp(lLegRef, 'startX'),
+    lHipY: getSetHoseProp(lLegRef, 'startY'),
+    lFootX: getSetHoseProp(lLegRef, 'endX'),
+    lFootY: getSetHoseProp(lLegRef, 'endY'),
+});
 
 
-const _Person = ({ pose=null, color="#000000", outline="#efefef" }, ref) => {
-    const lLegRef = React.useRef();
-    const lArmRef = React.useRef();
-    const rLegRef1 = React.useRef();
-    const rLegRef2 = React.useRef();
-    const rArmRef = React.useRef();
-    const headRef = React.useRef();
-    const bodyRef = React.useRef();
+const _Person = ({ pose=null, limbRefs={}, color="#000000", outline="#efefef" }, ref) => {
+    const lLegRef = limbRefs.lLegRef || React.useRef();
+    const lArmRef = limbRefs.lArmRef || React.useRef();
+    const rLegRef1 = limbRefs.rLegRef1 || React.useRef();
+    const rLegRef2 = limbRefs.rLegRef2 || React.useRef();
+    const rArmRef = limbRefs.rArmRef || React.useRef();
+    const headRef = limbRefs.headRef || React.useRef();
+    const bodyRef = limbRefs.bodyRef || React.useRef();
 
     pose = pose === null  ? getRestPose() : pose;
 
-    const getSetHoseProp = (hoseRef, propName) => (newValue = null) => {
-        if (newValue !== null) {
-            hoseRef.current?.[propName](newValue);
-        }
-        return hoseRef.current?.[propName]();
-    };
-
-    React.useImperativeHandle(ref, () => ({
-      headX: (newValue = null) => {
-          getSetHoseProp(headRef, 'startX')(newValue);
-          return getSetHoseProp(headRef, 'endX')(newValue);
-      },
-      headY: (newValue = null) => {
-          getSetHoseProp(headRef, 'startY')(newValue);
-          return getSetHoseProp(headRef, 'endY')(newValue);
-      },
-      headSize: getSetHoseProp(headRef, 'width'),
-      armWidth: (newValue = null) => {
-          getSetHoseProp(rArmRef, 'width')(newValue);
-          return getSetHoseProp(lArmRef, 'width')(newValue);
-      },
-      armLength: (newValue = null) => {
-          getSetHoseProp(rArmRef, 'length')(newValue);
-          return getSetHoseProp(lArmRef, 'length')(newValue);
-      },
-      armBendRadius: (newValue = null) => {
-          getSetHoseProp(rArmRef, 'bendRadius')(newValue);
-          return getSetHoseProp(lArmRef, 'bendRadius')(newValue);
-      },
-      legWidth: (newValue = null) => {
-          getSetHoseProp(rLegRef1, 'width')(newValue);
-          getSetHoseProp(rLegRef2, 'width')(newValue);
-          return getSetHoseProp(lLegRef, 'width')(newValue);
-      },
-      legLength: (newValue = null) => {
-          getSetHoseProp(rLegRef1, 'length')(newValue);
-          getSetHoseProp(rLegRef2, 'length')(newValue);
-          return getSetHoseProp(lLegRef, 'length')(newValue);
-      },
-      legBendRadius: (newValue = null) => {
-          getSetHoseProp(rLegRef1, 'bendRadius')(newValue);
-          getSetHoseProp(rLegRef2, 'bendRadius')(newValue);
-          return getSetHoseProp(lLegRef, 'bendRadius')(newValue);
-      },
-      rShoulderX: getSetHoseProp(rArmRef, 'startX'),
-      rShoulderY: getSetHoseProp(rArmRef, 'startY'),
-      rHandX: getSetHoseProp(rArmRef, 'endX'),
-      rHandY: getSetHoseProp(rArmRef, 'endY'),
-      lShoulderX: getSetHoseProp(lArmRef, 'startX'),
-      lShoulderY: getSetHoseProp(lArmRef, 'startY'),
-      lHandX: getSetHoseProp(lArmRef, 'endX'),
-      lHandY: getSetHoseProp(lArmRef, 'endY'),
-      bodyTopX: getSetHoseProp(bodyRef, 'startX'),
-      bodyTopY: getSetHoseProp(bodyRef, 'startY'),
-      bodyBottomX: getSetHoseProp(bodyRef, 'endX'),
-      bodyBottomY: getSetHoseProp(bodyRef, 'endY'),
-      bodyBendRadius: getSetHoseProp(bodyRef, 'bendRadius'),
-      rHipX: (newValue = null) => {
-          getSetHoseProp(rLegRef1, 'startX')(newValue);
-          return getSetHoseProp(rLegRef2, 'startX')(newValue);
-      }, 
-      rHipY: (newValue = null) => {
-          getSetHoseProp(rLegRef1, 'startY')(newValue);
-          return getSetHoseProp(rLegRef2, 'startY')(newValue);
-      },
-      rFootX: (newValue = null) => {
-          getSetHoseProp(rLegRef1, 'endX')(newValue);
-          return getSetHoseProp(rLegRef2, 'endX')(newValue);
-      },
-      rFootY: (newValue = null) => {
-          getSetHoseProp(rLegRef1, 'endY')(newValue);
-          return getSetHoseProp(rLegRef2, 'endY')(newValue);
-      },
-      lHipX: getSetHoseProp(lLegRef, 'startX'),
-      lHipY: getSetHoseProp(lLegRef, 'startY'),
-      lFootX: getSetHoseProp(lLegRef, 'endX'),
-      lFootY: getSetHoseProp(lLegRef, 'endY'),
-    }));
+    React.useImperativeHandle(
+        ref,
+        createImperativePersonHandle(
+            headRef, rArmRef, lArmRef, bodyRef,
+            rLegRef1, rLegRef2, lLegRef
+        )
+    );
 
     return (
         <g>
@@ -151,18 +160,39 @@ const _Person = ({ pose=null, color="#000000", outline="#efefef" }, ref) => {
 
 export const Person = React.forwardRef(_Person);
 
-export type LimbType = {
-    start: Point2D,
-    end: Point2D,
-}
-
 export type PoseType = {
-    head: LimbType,
-    rArm: LimbType,
-    lArm: LimbType,
-    body: LimbType,
-    rLeg: LimbType,
-    lLeg: LimbType,
+    headSize: number,
+    headX: number,
+    headY: number,
+    rShoulderX: number,
+    rShoulderY: number,
+    rHandX: number,
+    rHandY: number,
+    lShoulderX: number,
+    lShoulderY: number,
+    lHandX: number,
+    lHandY: number,
+    armWidth: number,
+    armLength: number,
+    armBendRadius: number,
+    bodyTopX: number,
+    bodyTopY: number,
+    bodyBottomX: number,
+    bodyBottomY: number,
+    bodyWidth: number,
+    bodyHeight: number,
+    bodyBendRadius: number,
+    rHipX: number,
+    rHipY: number,
+    rFootX: number,
+    rFootY: number,
+    lHipX: number,
+    lHipY: number,
+    lFootX: number,
+    lFootY: number,
+    legWidth: number,
+    legLength: number,
+    legBendRadius: number,
 }
 
 export const getRestPose = (headSize=14, armWidth=6, armLength=30, armBendRadius=-2.0, legWidth=8, legLength=40, legBendRadius=2.0, bodyWidth=13, bodyHeight=20, bodyBendRadius=-2.0) => {
@@ -235,9 +265,3 @@ export const getRestPose = (headSize=14, armWidth=6, armLength=30, armBendRadius
         legBendRadius: legBendRadius,
   };
 };
-
-export type PoseKeypointType = {
-    time: number,
-    duration: number,
-    pose: PoseType,
-}
