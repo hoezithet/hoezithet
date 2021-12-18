@@ -5,7 +5,7 @@ import Zon from "./park/zon";
 import Wolken from "./park/wolken";
 import InfScrollingPark from "./park/inf_scrolling_park";
 import withInfLoop from "components/withInfLoop";
-import BreathingPerson from "./breathingPerson";
+import { BreathingDirkZij } from "./dirkZij";
 
 import { gsap } from "gsap";
 
@@ -54,7 +54,7 @@ const DirkKruist = () => {
             <LoopingWolken speed={-5} width={2*1642.394890} height={346.619760} x={0} y={92.659100} />
             <InfScrollingPark width={3840} x={-1000} />
             <WalkingPerson />
-            <BreathingPerson flipH breatheFreq={0.3} breatheAmpl={1} height={800} x={1920*2/3} y={1080-50} vAlign="bottom" hAlign="left"/>
+            <BreathingDirkZij flipH height={800} x={1920*2/3} y={1080-50} vAlign="bottom" hAlign="left"/>
         </Drawing>
     );
 };
