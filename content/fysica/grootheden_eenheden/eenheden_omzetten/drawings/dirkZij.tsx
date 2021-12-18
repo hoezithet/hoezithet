@@ -4,7 +4,7 @@ import {
     Person, getRestPose, getSetHoseProp,
     createImperativePersonHandle
 } from "components/drawings/person";
-import { RubberHose } from "components/drawings/rubber_hose";
+import { RubberHose } from "components/drawings/rubberHose";
 import { withBreathing } from "./breathingPerson";
 import { gsap } from "gsap";
 

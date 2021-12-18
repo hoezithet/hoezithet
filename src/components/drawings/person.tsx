@@ -2,7 +2,7 @@ import React from "react";
 import _ from "lodash";
 import { gsap } from "gsap";
 
-import { RubberHose, RubberHoseModel, Point2D } from "./rubber_hose";
+import { RubberHose, RubberHoseModel, Point2D } from "./rubberHose";
 import { DrawingContext } from "components/shortcodes/drawing";
 
 
