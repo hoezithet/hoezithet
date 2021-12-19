@@ -167,10 +167,10 @@ export const Drawing = ({
                                     <ReplayIcon />
                                 </IconButton>
                             </>
-                        : null }
+                        :
                         <IconButton ref={setOverlayRef} href={fileHref} download aria-label="save" className={classes.overlayElement} title="Afbeelding opslaan">
                             <SaveIcon />
-                        </IconButton>
+                        </IconButton> }
                     </div>
                 </div>
             );
