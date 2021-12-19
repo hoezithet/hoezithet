@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { hexToRGB, getColor } from "../../colors";
 import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 
 import { theme } from "../theme";
 import { DrawingContext } from "./drawing";
@@ -18,7 +19,7 @@ const useStylesNote = makeStyles({
     }
 });
 
-export const SvgNote = ({x, y, width=null, height=null, backgroundColor="light_gray", backgroundOpacity=1, showBackground=false, hAlign="center",
+export const SvgNote = ({x, y, width=null, height=null, backgroundColor="white", backgroundOpacity=1, showBackground=false, hAlign="center",
     vAlign="center", useContextScale=true, className="", children}) => {
     const ctx = useContext(DrawingContext);
     const {xScale, yScale} = ctx;
@@ -28,10 +29,10 @@ export const SvgNote = ({x, y, width=null, height=null, backgroundColor="light_g
         y = yScale(y);
 
         if (width !== null) {
-            width = xScale(width) - xScale(0);
+            width = Math.abs(xScale(width) - xScale(0));
         }
         if (height !== null) {
-            height = yScale(0) - yScale(height);
+            height = Math.abs(yScale(0) - yScale(height));
         }
     }
 
@@ -90,16 +91,17 @@ export const SvgNote = ({x, y, width=null, height=null, backgroundColor="light_g
         alignItems: alignItems,
         justifyContent: justifyContent,
         textAlign: hAlign,
+        padding: "2px",
     };
 
     return (
         <foreignObject x={x} y={y} width={`${width}`} height={`${height}`}>
             <div xmlns="http://www.w3.org/1999/xhtml" style={divParentStyle}>
-                <div className={`${classes.divNoteChild} ${className}`}>
+                <Paper className={`${classes.divNoteChild} ${className}`} elevation={1}>
                     <Markdown>
                         { children }
                     </Markdown>
-                </div>
+                </Paper>
             </div>
         </foreignObject>
     );
