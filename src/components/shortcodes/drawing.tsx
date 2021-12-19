@@ -64,6 +64,7 @@ export const Drawing = ({
     const fileNrRef = useRef(0);
     const drawingRef = useRef(null);
     const classes = useStyles();
+    const [isHovering, setIsHovering] = useState(false);
 
     const lessonContext = useContext(LessonContext);
 
@@ -79,19 +80,27 @@ export const Drawing = ({
     const filename = `${lessonContext?.slug?.split('/').slice(2, -1).join('_')}-${fileNrRef.current}`;
     const fileHref = `./${filename}.png`;  // The file should be generated on deploy!
 
-    const onHoverIn = () => {
+    const showButtons = () => {
         gsap.to(overlayRefs.current, {
             right: "0px",
             opacity: 1,
             stagger: 0.15,
         });
     };
-    const onHoverOut = () => {
+    const hideButtons = () => {
         gsap.to(overlayRefs.current, {
             right: "-36px",
             opacity: 0
         });
     };
+
+    React.useEffect(() => {
+        if (isHovering) {
+            showButtons();
+        } else {
+            hideButtons();
+        }
+    }, [isHovering]);
 
     function addAnimation(child, position="+=0") {
         tl.add(child, position);
@@ -150,7 +159,7 @@ export const Drawing = ({
             ), [children, noWatermark, width, height, classes.drawing, className]);
 
             return (
-                <div className={classes.wrapper} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut}>
+                <div className={classes.wrapper} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
                     <DrawingContext.Provider value={{width: width, height: height, xScale: xScale, yScale: yScale, ref: drawingRef, addAnimation: addAnimation}}>
                         { drawingChild }
                     </DrawingContext.Provider>
