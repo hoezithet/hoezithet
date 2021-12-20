@@ -8,6 +8,7 @@ image: img/wiskunde_functies_domein_beeld-2.png
 ---
 
 import {Fragment} from "react";
+import * as plots from "./drawings/plots.tsx";
 
 We kunnen niet altijd eender welk getal als $x$ kiezen om in ons
 [functievoorschrift](../voorschrift) te stoppen. Omgekeerd is het mogelijk dat
@@ -98,9 +99,7 @@ $$
 
 Die grafiek ziet er zo uit:
 
-<Plot>
-<Fx fx={x => 3*Math.sqrt(x + 5) - 6} xStart={-5} xEnd={15} />
-</Plot>
+<plots.FuncPlot />
 
 Om op deze grafiek het **domein** af te lezen, moet je de grafiek **projecteren
 op de x-as**. Het resultaat van de projectie is aangeduid **<span 
@@ -108,50 +107,14 @@ class="green">in het groen op de x-as</span>**. <Mute>We gaan ervan uit
 dat de grafiek oneindig blijft verder stijgen aan de rechterkant.</Mute> We zien 
 dan dat $\green{\mathrm{dom}~f = [-5; +\infty[}$.
 
-export const fx = x => 3*Math.sqrt(x + 5) - 6;
-
-<Plot>
-{[...Array(20).keys()].map(i => {
-const x = i - 5 + 0.0001;
-const y = fx(x);
-return (
-Math.abs(y) > 1 ?
-<ArrowLine xStart={x} yStart={y} xEnd={x} yEnd={0} margin={10} dashed={true} opacity={0.5} key={i} />
-: null
-);
-})}
-<Fx fx={fx} xStart={-5} xEnd={15} opacity={0.5} />
-<Line xStart={-5} yStart={0} xEnd={15} yEnd={0} color="green" lineWidth={4} />
-<Point x={-5} y={0} color="green" size={10} />
-<Annot xTarget={-5} yTarget={0} xAnnot={-6} yAnnot={5} showBackground>
-{ String.raw`$\green{\mathrm{dom}~f = [-5; +\infty[}$` }
-</Annot>
-</Plot>
+<plots.FuncDomain />
 
 Het **beeld** <Mute>(of het bereik)</Mute> van diezelfde functie kunnen we
 vinden door de grafiek nu te **projecteren op de y-as**. Op de onderstaande
 grafiek zie je het resultaat van deze projectie
 **<Green>in het groen op de y-as</Green>**.
 
-export const fxi = x => Math.pow((x + 6)/3, 2) - 5;
-
-<Plot>
-{[...Array(20).keys()].map(i => {
-const y = i - 6;
-const x = fxi(y);
-return (
-Math.abs(x) > 1 ?
-<ArrowLine xStart={x} yStart={y} xEnd={0} yEnd={y} margin={10} dashed={true} opacity={0.5} key={i} />
-: null
-);
-})}
-<Fx fx={fx} xStart={-5} xEnd={15} opacity={0.5} />
-<Line xStart={0} yStart={-6} xEnd={0} yEnd={15} color="green" lineWidth={4} />
-<Point x={0} y={-6} color="green" size={10} />
-<Annot xTarget={0} yTarget={-6} xAnnot={2} yAnnot={-8} showBackground>
-{ String.raw`$\green{\mathrm{bld}~f = [-6; +\infty[}$` }
-</Annot>
-</Plot>
+<plots.FuncRange />
 
 We gaan ervan uit dat de grafiek oneindig blijft verder stijgen aan de 
 rechterkant. Je vindt dat $\green{\mathrm{bld}~f = [-6; +\infty[}$.
