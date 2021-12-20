@@ -13,7 +13,7 @@ const useStylesNote = makeStyles({
         '& p': {
             margin: "0",  // Remove paragraph margin
         },
-        backgroundColor: props => props.showBackground ? props.backgroundColor : "none",
+        backgroundColor: props => props.backgroundColor,
         borderRadius: props => props.showBackground ? `${theme.spacing(0.5)}px` : "0",
         padding: props => props.showBackground ? `${theme.spacing(1)}px` : "0",
     }
@@ -23,6 +23,7 @@ export const SvgNote = ({x, y, width=null, height=null, backgroundColor="white",
     vAlign="center", useContextScale=true, className="", children}) => {
     const ctx = useContext(DrawingContext);
     const {xScale, yScale} = ctx;
+    backgroundOpacity = showBackground ? backgroundOpacity : 0;
 
     if (xScale && yScale && useContextScale) {
         x = xScale(x);
@@ -91,17 +92,22 @@ export const SvgNote = ({x, y, width=null, height=null, backgroundColor="white",
         alignItems: alignItems,
         justifyContent: justifyContent,
         textAlign: hAlign,
-        padding: "2px",
+        padding: showBackground ? "2px" : "0",
     };
+
+    const noteContents = <Markdown>{ children }</Markdown>;
 
     return (
         <foreignObject x={x} y={y} width={`${width}`} height={`${height}`}>
             <div xmlns="http://www.w3.org/1999/xhtml" style={divParentStyle}>
+            { showBackground ?
                 <Paper className={`${classes.divNoteChild} ${className}`} elevation={1}>
-                    <Markdown>
-                        { children }
-                    </Markdown>
+                    { noteContents }
                 </Paper>
+                :
+                <div className={`${classes.divNoteChild} ${className}`}>
+                    { noteContents }
+                </div> }
             </div>
         </foreignObject>
     );
