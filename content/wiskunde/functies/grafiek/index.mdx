@@ -8,7 +8,7 @@ image: img/wiskunde_functies_grafiek-2.png
 ---
 
 import {Fragment} from "react";
-import * as plots from "./drawings/plots.tsx"
+import {SinglePoint, MultiplePoints, ManyPoints, ThousandPoints, NoFunction} from "./drawings/plots.tsx"
 
 Stel dat we een functie hebben met het volgende [functievoorschrift](../voorschrift):
 
@@ -36,12 +36,12 @@ We kunnen dan verschillende x-waarden invullen in dit voorschrift om te kijken w
 In elke rij van onze waardentabel staat een x-waarde en een bijhorende functiewaarde of y-waarde. Elke rij in onze waardentabel kunnen we dus zien als een puntje met een x- en een y-coördinaat. Voor de x-waarde $\orange{x = 4}$, bijvoorbeeld, hadden we $\green{y = 2}$ gevonden. We kunnen deze x- en y-waarde dan voorstellen door een puntje met coördinaten
 $(\orange{4};~\green{2})$. In een assenstelsel ziet dat puntje er zo uit:
 
-<plots.SinglePoint />
+<SinglePoint />
 
 
 Zo kunnen we alle puntjes die in onze waardentabel staan gaan voorstellen als puntjes in een assenstelsel:
 
-<plots.MultiplePoints />
+<MultiplePoints />
 
 ## Veel puntjes vormen een curve
 
@@ -79,11 +79,11 @@ In ons vorige voorbeeld hadden we maar van elf verschillende x-waarden de y-waar
 
 Als we voor al deze rijen een puntje zetten bij de bijhorende x- en y-coördinaat, dan krijgen we deze mooie figuur:
 
-<plots.ManyPoints />
+<ManyPoints />
 
 Als we nu nog meer x-waarden zouden kiezen, bijvoorbeeld $0$, $0{,}01$, $0{,}02$, $0{,}03$ enz. helemaal tot $10$, daarvoor ook weer alle y-waarden zouden uitrekenen en op een assenstelsel zouden tonen, dan krijgen we deze figuur:
 
-<plots.ThousandPoints />
+<ThousandPoints />
 
 We hebben nu zoveel puntjes op ons assenstelsel dat we bijna niet meer zien
 dat het _aparte_ puntjes zijn. We zien het als **één
@@ -99,4 +99,4 @@ hieronder is een voorbeeld van een curve waar er voor bepaalde waarden van $x$
 functie van** $x$. Zonder het onderste stukje dat lijkt "terug te keren" is
 $y$ _wel_ een functie van $x$.
 
-<plots.NoFunction />
+<NoFunction />

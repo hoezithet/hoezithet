@@ -6,6 +6,8 @@ tags: []
 image: img/wiskunde_1g_vgl_functies-1.png
 ---
 
+import { FuncPlot, Nulpunt } from "./drawings/plots.tsx"
+
 [Vergelijkingen](../intro) en [functies](../../functies/intro) zijn zeer nauw
 met elkaar verbonden. Twee belangrijke toepassingen van vergelijkingen zijn dan
 ook
@@ -29,14 +31,7 @@ $$
 
 De [grafiek](../../functies/grafiek) van deze functies ziet er als volgt uit:
 
-<Plot>
-<Fx fx={x => -x + 4} color="green" xEnd={15} />
-<Fx fx={x => 2*x - 3} color="blue" />
-<Point x={7/3} y={5/3} size={10} color="orange" />
-<Annot xTarget={7/3} yTarget={5/3} xAnnot={6} yAnnot={3} anchorAngleAnnot={-135} anchorAngleTarget={0}>
-Snijpunt
-</Annot>
-</Plot>
+<FuncPlot />
 
 Het oranje punt duidt het <Orange>snijpunt</Orange> aan van de twee functies. Hoe kunnen we de coördinaten van dit snijpunt vinden?
 
@@ -138,14 +133,7 @@ En inderdaad, $f(\orange{4}) = -\orange{4} + 4 = 0$! De nulwaarde is dus
 $\orange{4}$ en het nulpunt is $(\orange{4}, 0)$ <Mute>(met een x- én
 y-coördinaat)</Mute>.  Dit kan je ook zien op onderstaande grafiek:
 
-<Plot>
-<Fx fx={x => -x + 4} color="green" xEnd={15} />
-<Point x={4} y={0} size={10} color="orange" />
-<Annot xTarget={4} yTarget={0} xAnnot={6} yAnnot={3}>
-
-Nulpunt $(\orange{4}, 0)$
-</Annot>
-</Plot>
+<Nulpunt />
 
 ## Samengevat
 
