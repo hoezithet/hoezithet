@@ -385,9 +385,9 @@ export const getRestPose = (
 
 export const getRestPoseFront = (
     headSize=18,
-    armWidth=7, armLength=33, armBendRadius=2, shoulderOffset=10, handOffset=15,
+    armWidth=7, armLength=33, armBendRadius=2, shoulderOffset=12.5, handOffset=15,
     legWidth=9.5, legLength=48, legBendRadius=2,
-    bodyWidth=20, bodyHeight=36, bodyBendRadius=10000,
+    bodyWidth=20, bodyHeight=35, bodyBendRadius=10000,
 ) => {
     const hipOffset = (bodyWidth - legWidth)/2;
 
