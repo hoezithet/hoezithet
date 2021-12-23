@@ -33,73 +33,54 @@ const _DirkTrui = () => {
 const DirkTrui = withSizePositionAngle(_DirkTrui, 20.961890, 35.384704);
 
 const _DirkZij = ({pose=null, color="#000000", outline="#efefef"}, ref) => {
-    const lLegRef = React.useRef();
-    const lArmRef = React.useRef();
-    const rLegRef1 = React.useRef();
-    const rLegRef2 = React.useRef();
-    const rArmRef1 = React.useRef();
-    const rArmRef2 = React.useRef();
-    const headRef = React.useRef();
-    const bodyRef = React.useRef();
-    const sweaterRef = React.useRef();
-
     pose = pose === null  ? getRestPose() : pose;
     const hipShoulderDist = Math.abs(pose.rShoulderY - pose.rHipY);
     const sweaterHeight = pose.bodyHeight + pose.bodyWidth;
-    
-    const limbRefs = {
-        headRef: headRef, rArmRef: rArmRef1, lArmRef: lArmRef,
-        bodyRef: bodyRef, rLegRef1: rLegRef1, rLegRef2: rLegRef2,
-        lLegRef: lLegRef,
-    };
-    const impHandle = createImperativePersonHandle(
-        headRef, rArmRef1, lArmRef, bodyRef,
-        rLegRef1, rLegRef2, lLegRef
-    );
+    const personRef = React.useRef(null);
+    const sweaterRef = React.useRef(null);
+    const rArmRefTop = React.useRef(null);
+
     React.useEffect(() => {
-        bodyRef.current.opacity(0);
+        const limbRefs = personRef.current?.refs;
+        limbRefs.bodyRef.current.opacity(0);
     }, []);
-    
-    React.useImperativeHandle(ref, () => ({
-        ...impHandle(),
-        rShoulderX: (newValue = null) => {
-            if (newValue !== null && sweaterRef.current) {
-                gsap.set(sweaterRef.current, {x: newValue - pose.rShoulderX});
-            }
-            getSetHoseProp(rArmRef1, 'startX')(newValue);
-            return getSetHoseProp(rArmRef2, 'startX')(newValue);
-        },
-        rShoulderY: (newValue = null) => {
-            if (newValue !== null && sweaterRef.current) {
-                const newSweaterHeight = sweaterHeight - (newValue - pose.rShoulderY);
-                const scaleY = newSweaterHeight/sweaterHeight;
-                gsap.set(sweaterRef.current, {scaleY: scaleY, transformOrigin: "center bottom"});
-            }
-            getSetHoseProp(rArmRef1, 'startY')(newValue);
-            return getSetHoseProp(rArmRef2, 'startY')(newValue);
-        },
-        rHandX: (newValue = null) => {
-            getSetHoseProp(rArmRef1, 'endX')(newValue);
-            return getSetHoseProp(rArmRef2, 'endX')(newValue);
-        },
-        rHandY: (newValue = null) => {
-            getSetHoseProp(rArmRef1, 'endY')(newValue);
-            return getSetHoseProp(rArmRef2, 'endY')(newValue);
+
+    React.useImperativeHandle(ref, () => {
+        const limbRefs = personRef.current?.refs;
+        const impHandle = createImperativePersonHandle(limbRefs);
+        return {
+            ...impHandle(),
+            rShoulderX: (newValue = null) => {
+                if (newValue !== null && sweaterRef.current) {
+                    gsap.set(sweaterRef.current, {x: newValue - pose.rShoulderX});
+                }
+                return getSetHoseProp([limbRefs.rArmRef1, limbRefs.rArmRef2, rArmRefTop], 'startX')(newValue);
+            },
+            rShoulderY: (newValue = null) => {
+                if (newValue !== null && sweaterRef.current) {
+                    const newSweaterHeight = sweaterHeight - (newValue - pose.rShoulderY);
+                    const scaleY = newSweaterHeight/sweaterHeight;
+                    gsap.set(sweaterRef.current, {scaleY: scaleY, transformOrigin: "center bottom"});
+                }
+                return getSetHoseProp([limbRefs.rArmRef1, limbRefs.rArmRef2, rArmRefTop], 'startY')(newValue);
+            },
+            rHandX: getSetHoseProp([limbRefs.rArmRef1, limbRefs.rArmRef2, rArmRefTop], 'endX'),
+            rHandY: getSetHoseProp([limbRefs.rArmRef1, limbRefs.rArmRef2, rArmRefTop], 'endY'),
         }
-    }));
+    });
 
     return (
         <g>
           <g>
-            <Person limbRefs={limbRefs} pose={pose} color={color} outline={outline} />
+            <Person ref={personRef} pose={pose} color={color} outline={outline} />
             <g ref={sweaterRef}>
               <DirkTrui height={sweaterHeight} x={pose.bodyTopX} y={pose.bodyTopY - pose.bodyWidth/2} hAlign="center" ignoreDrawingContext />
             </g>
-            <RubberHose ref={rArmRef2} color={color} outline={outline}
+            <RubberHose ref={rArmRefTop} color={color} outline={outline}
               start={{x: pose.rShoulderX, y: pose.rShoulderY}}
               end={{x: pose.rHandX, y: pose.rHandY}}
               width={pose.armWidth}
-              bendRadius={pose.armBendRadius}
+              bendRadius={pose.rArmBendRadius}
               length={pose.armLength} />
           </g>
         </g>
