@@ -63,7 +63,7 @@ const GridLines = ({
     );
 };
 
-const DrawingGrid = ({color="blue", major=10, minor=1, opacity=0.1, lineWidth=1}) => {
+const DrawingGrid = ({color="blue", majorX=10, majorY=10, minorX=1, minorY=1, opacity=0.1, lineWidth=1}) => {
     const {xScale, yScale, width, height} = useContext(DrawingContext);
     color = getColor(color);
 
@@ -72,13 +72,13 @@ const DrawingGrid = ({color="blue", major=10, minor=1, opacity=0.1, lineWidth=1}
 
     return (
         <g>
-          <GridLines start={xMin} end={xMax} step={minor} scale={xScale} length={height} direction='v'
+          <GridLines start={xMin} end={xMax} step={minorX} scale={xScale} length={height} direction='v'
             color={color} lineWidth={lineWidth} opacity={opacity} /> 
-          <GridLines start={xMin} end={xMax} step={major} scale={xScale} length={height} direction='v'
+          <GridLines start={xMin} end={xMax} step={majorX} scale={xScale} length={height} direction='v'
             color={color} lineWidth={2*lineWidth} opacity={opacity} showText />
-          <GridLines start={yMin} end={yMax} step={minor} scale={yScale} length={width} direction='h'
+          <GridLines start={yMin} end={yMax} step={minorY} scale={yScale} length={width} direction='h'
             color={color} lineWidth={lineWidth} opacity={opacity} /> 
-          <GridLines start={yMin} end={yMax} step={major} scale={yScale} length={width} direction='h'
+          <GridLines start={yMin} end={yMax} step={majorY} scale={yScale} length={width} direction='h'
             color={color} lineWidth={2*lineWidth} opacity={opacity} showText />
         </g>
     );
