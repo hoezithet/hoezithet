@@ -20,7 +20,7 @@ const WandelingInParkChild = () => {
             <Zon width={123.693360} height={123.693360} x={303.697226} y={141.611744} />
             <LoopingWolken speed={-10} width={2*1642.394890} height={346.619760} x={0} y={92.659100} />
             <LoopingPark speed={-20} width={3840} x={0} />
-            <WalkingPerson height={800} x={1920*1/3} y={1080-50} vAlign="bottom" hAlign="center" />
+            <WalkingPerson height={600} x={1920*1/3} y={1080-50} vAlign="bottom" hAlign="center" />
         </>
     );
 };

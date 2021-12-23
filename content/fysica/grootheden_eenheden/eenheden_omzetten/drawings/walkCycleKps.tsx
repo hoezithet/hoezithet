@@ -23,7 +23,7 @@ export type WalkCycleProps = {
 export const getWalkKeypoints = ({
     initialPose, freq=0.75, numKeypoints=8, shoulderAmplX=0,
     shoulderAmplY=0, handAmplX=10, handAmplY=3, hipAmplX=0,
-    hipAmplY=1, footAmplX=12, footAmplY=8
+    hipAmplY=1, footAmplX=14, footAmplY=10
 }: WalkCycleProps) => {
     const ampl = {
         rHand: {

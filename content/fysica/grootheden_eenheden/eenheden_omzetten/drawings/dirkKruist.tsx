@@ -42,14 +42,14 @@ const WalkingPerson = () => {
 
     return (
         <g ref={ref}>
-            <WalkingToStopPerson numCycles={numCycles} stepSize={stepSizePx} freq={freq} height={800} x={-100} y={1080-50} vAlign="bottom" hAlign="right" />
+            <WalkingToStopPerson numCycles={numCycles} stepSize={stepSizePx} freq={freq} height={600} x={-100} y={1080-50} vAlign="bottom" hAlign="right" />
         </g>
     );
 };
 
 
 const TextBallon = () => {
-    const [noteX, noteY] = [1600, 350];
+    const [noteX, noteY] = [1509, 350];
     const ref = React.useRef();
     const { addAnimation } = React.useContext(DrawingContext);
     const [tl, setTl] = React.useState(() => gsap.timeline());
@@ -62,7 +62,7 @@ const TextBallon = () => {
 
     return (
         <g ref={ref}>
-          <AnnotArrow annot={{x: noteX - 50, y: noteY - 50}} target={{x: 1540, y: 450}}
+          <AnnotArrow annot={{x: noteX - 50, y: noteY - 50}} target={{x: 1445, y: 440}}
               margin={0} hAlignTarget="left"
               hAlignAnnot="right" vAlignAnnot="bottom" hideHead color="light_gray"/>
           <SvgNote x={noteX} y={noteY} width={1000}
@@ -77,7 +77,7 @@ const TextBallon = () => {
 
 
 const DirkKruist = () => {
-    const [dirkX, dirkY, dirkHeight] = [1920 * 2/3, 1080-50, 800];
+    const [dirkX, dirkY, dirkHeight] = [1920 * 2/3, 1080-50, 600];
 
     return (
         <Drawing xMin={0} xMax={1920.0} yMin={1080.0} yMax={0} noWatermark>
