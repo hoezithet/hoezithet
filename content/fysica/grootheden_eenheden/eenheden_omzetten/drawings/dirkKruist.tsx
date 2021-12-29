@@ -5,7 +5,7 @@ import Zon from "./park/zon";
 import Wolken from "./park/wolken";
 import InfScrollingPark from "./park/inf_scrolling_park";
 import withInfLoop from "components/withInfLoop";
-import { BreathingDirkZij } from "./dirkZij";
+import { BreathingDirk } from "./dirk";
 import { SvgNote } from "components/shortcodes/svgNote";
 import { AnnotArrow } from "components/shortcodes/annot";
 
@@ -86,7 +86,7 @@ const DirkKruist = () => {
             <InfScrollingPark width={3840} x={-1000} />
             <WalkingPerson />
             <TextBallon />
-            <BreathingDirkZij flipH height={dirkHeight} x={dirkX} y={dirkY} vAlign="bottom" hAlign="left"/>
+            <BreathingDirk flipH height={dirkHeight} x={dirkX} y={dirkY} vAlign="bottom" hAlign="left"/>
         </Drawing>
     );
 };

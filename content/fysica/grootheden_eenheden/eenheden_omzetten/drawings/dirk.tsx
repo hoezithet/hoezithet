@@ -1,7 +1,7 @@
 import React from "react";
 import withSizePositionAngle from "components/withSizePositionAngle";
 import {
-    Person, getRestPose, getSetHoseProp,
+    Person, getRestPose, getRestPoseFront, getSetHoseProp,
     createImperativePersonHandle
 } from "components/drawings/person";
 import { RubberHose } from "components/drawings/rubberHose";
@@ -9,7 +9,7 @@ import { withBreathing } from "./breathingPerson";
 import { gsap } from "gsap";
 
 
-const _DirkTrui = () => {
+const _DirkTrui = ({ isFront=false }) => {
     return (
         <g transform="translate(-41.998138 -38.749356)">
           <defs>
@@ -23,20 +23,25 @@ const _DirkTrui = () => {
               </g>
             </pattern>
           </defs>
-          <path fill="url(#pattern11803)" fillOpacity="1" transform="translate(58.9,72.2) rotate(5) scale(-0.20,0.20)" d="m 0,0 c -8.1837,-9.1 -23.3311,-30.3332 -12.9133,-64.3306 15.0395,-49.07961 18.3508,-67.80085 20.8985,-77.89896 4.2916,-17.01078 34.1766,-29.64427 54.0249,-16.0162 34.8602,24.23418 32.2555,110.64066 18.4074,161.46876 -55.4933,14.0721 -68.6676,9.8429 -80.4178,-3.223 z" />
+          <path fill="url(#pattern11803)" fillOpacity="1"
+              transform={ isFront ? "translate(60,61.5) rotate(0) scale(-0.15,0.15)"
+                          : "translate(58.9,72.2) rotate(5) scale(-0.20,0.20)" }
+              d={ isFront ? "m 0,0 c -18.9822,-43.1317 -0.09,-80.3893 -0.1356,-116.5839 6.2982,-13.0449 12.6622,-21.1976 7.6213,-42.8449 25.9282,-7.0777 57.9779,-5.9432 83.0308,0 -0.7689,12.9479 -0.2794,27.0303 7.6706,42.4524 0.1119,36.0016 20.4714,77.2176 -0.1878,116.9764 -33.7271,9.9757 -63.5651,8.6738 -97.9993,0 z"
+                 : "m 0,0 c -8.1837,-9.1 -23.3311,-30.3332 -12.9133,-64.3306 15.0395,-49.07961 18.3508,-67.80085 20.8985,-77.89896 4.2916,-17.01078 34.1766,-29.64427 54.0249,-16.0162 34.8602,24.23418 32.2555,110.64066 18.4074,161.46876 -55.4933,14.0721 -68.6676,9.8429 -80.4178,-3.223 z" }/>
         </g>
     );
 };
 
 const DirkTrui = withSizePositionAngle(_DirkTrui, 20.961890, 35.384704);
 
-const _DirkZij = ({pose=null, color="#000000", outline="#efefef"}, ref) => {
-    pose = pose === null  ? getRestPose() : pose;
+const _Dirk = ({pose=null, color="#000000", outline="#efefef", isFront=false}, ref) => {
+    pose = pose === null  ? (isFront ? getRestPoseFront() : getRestPose()) : pose;
     const hipShoulderDist = Math.abs(pose.rShoulderY - pose.rHipY);
     const sweaterHeight = pose.bodyHeight + pose.bodyWidth;
     const personRef = React.useRef(null);
     const sweaterRef = React.useRef(null);
     const rArmRefTop = React.useRef(null);
+    const lArmRefTop = React.useRef(null);
 
     React.useEffect(() => {
         const limbRefs = personRef.current?.refs;
@@ -52,7 +57,8 @@ const _DirkZij = ({pose=null, color="#000000", outline="#efefef"}, ref) => {
                 if (newValue !== null && sweaterRef.current) {
                     gsap.set(sweaterRef.current, {x: newValue - pose.rShoulderX});
                 }
-                return getSetHoseProp([limbRefs.rArmRef1, limbRefs.rArmRef2, rArmRefTop], 'startX')(newValue);
+                getSetHoseProp(rArmRefTop, 'startX')(newValue);
+                return impHandle().rShoulderX(newValue);
             },
             rShoulderY: (newValue = null) => {
                 if (newValue !== null && sweaterRef.current) {
@@ -60,32 +66,70 @@ const _DirkZij = ({pose=null, color="#000000", outline="#efefef"}, ref) => {
                     const scaleY = newSweaterHeight/sweaterHeight;
                     gsap.set(sweaterRef.current, {scaleY: scaleY, transformOrigin: "center bottom"});
                 }
-                return getSetHoseProp([limbRefs.rArmRef1, limbRefs.rArmRef2, rArmRefTop], 'startY')(newValue);
+                getSetHoseProp(rArmRefTop, 'startY')(newValue);
+                return impHandle().rShoulderY(newValue);
             },
-            rHandX: getSetHoseProp([limbRefs.rArmRef1, limbRefs.rArmRef2, rArmRefTop], 'endX'),
-            rHandY: getSetHoseProp([limbRefs.rArmRef1, limbRefs.rArmRef2, rArmRefTop], 'endY'),
+            lShoulderX: (newValue = null) => {
+                getSetHoseProp(lArmRefTop, 'startX')(newValue);
+                return impHandle().lShoulderX(newValue);
+            },
+            lShoulderY: (newValue = null) => {
+                getSetHoseProp(lArmRefTop, 'startY')(newValue);
+                return impHandle().lShoulderY(newValue);
+            },
+            rHandX: (newValue = null) => {
+                getSetHoseProp(rArmRefTop, 'endX')(newValue);
+                return impHandle().rHandX(newValue);
+            },
+            rHandY: (newValue = null) => {
+                getSetHoseProp(rArmRefTop, 'endY')(newValue);
+                return impHandle().rHandY(newValue);
+            },
+            lHandX: (newValue = null) => {
+                getSetHoseProp(lArmRefTop, 'endX')(newValue);
+                return impHandle().lHandX(newValue);
+            },
+            lHandY: (newValue = null) => {
+                getSetHoseProp(lArmRefTop, 'endY')(newValue);
+                return impHandle().lHandY(newValue);
+            },
         }
     });
+
+    const rArm = (
+        <RubberHose ref={rArmRefTop} color={color} outline={isFront ? null : outline}
+            start={{x: pose.rShoulderX, y: pose.rShoulderY}}
+            end={{x: pose.rHandX, y: pose.rHandY}}
+            width={pose.armWidth}
+            bendRadius={pose.rArmBendRadius}
+            length={pose.armLength} />
+    );
+
+    const lArm = (
+        <RubberHose ref={lArmRefTop} color={color} outline={null}
+            start={{x: pose.lShoulderX, y: pose.lShoulderY}}
+            end={{x: pose.lHandX, y: pose.lHandY}}
+            width={pose.armWidth}
+            bendRadius={pose.lArmBendRadius}
+            length={pose.armLength} />
+    );
 
     return (
         <g>
           <g>
-            <Person ref={personRef} pose={pose} color={color} outline={outline} />
+            <Person ref={personRef} pose={pose} color={color} outline={outline} isFront={isFront}/>
+            { lArm }
+            { isFront ?  rArm : null }
             <g ref={sweaterRef}>
-              <DirkTrui height={sweaterHeight} x={pose.bodyTopX} y={pose.bodyTopY - pose.bodyWidth/2} hAlign="center" ignoreDrawingContext />
+              <DirkTrui height={sweaterHeight} x={pose.bodyTopX} y={pose.bodyTopY - pose.bodyWidth/2} hAlign="center" isFront={isFront} ignoreDrawingContext />
             </g>
-            <RubberHose ref={rArmRefTop} color={color} outline={outline}
-              start={{x: pose.rShoulderX, y: pose.rShoulderY}}
-              end={{x: pose.rHandX, y: pose.rHandY}}
-              width={pose.armWidth}
-              bendRadius={pose.rArmBendRadius}
-              length={pose.armLength} />
+            { isFront ?  null : rArm }
           </g>
         </g>
     );
 }
 
-const DirkZij = React.forwardRef(_DirkZij);
-export const BreathingDirkZij = withSizePositionAngle(withBreathing(DirkZij), 100, 100);
+const Dirk = React.forwardRef(_Dirk);
+export const BreathingDirk = withSizePositionAngle(withBreathing(Dirk), 100, 100);
 
-export default withSizePositionAngle(DirkZij, 100, 100);
+export default withSizePositionAngle(Dirk, 100, 100);
