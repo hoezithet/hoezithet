@@ -306,12 +306,12 @@ export type PoseType = {
     rLegBendRadius: number,
 }
 
-export const getRestPose = (
+export const getRestPose = ({
     headSize=18,
     armWidth=8, armLength=38, armBendRadius=-2.0,
     legWidth=10, legLength=54, legBendRadius=2.0,
     bodyWidth=17, bodyHeight=27, bodyBendRadius=-2.0
-) => {
+}={}) => {
     const rFoot = {
         x: 50,
         y: 100 - legWidth/2
@@ -383,12 +383,12 @@ export const getRestPose = (
   };
 };
 
-export const getRestPoseFront = (
+export const getRestPoseFront = ({
     headSize=18,
     armWidth=7, armLength=33, armBendRadius=2, shoulderOffset=12.5, handOffset=15,
     legWidth=9.5, legLength=48, legBendRadius=2,
     bodyWidth=20, bodyHeight=35, bodyBendRadius=10000,
-) => {
+}={}) => {
     const hipOffset = (bodyWidth - legWidth)/2;
 
     const headPoint = {
