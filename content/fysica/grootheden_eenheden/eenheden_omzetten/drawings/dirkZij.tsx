@@ -13,9 +13,7 @@ const _DirkTrui = () => {
     return (
         <g transform="translate(-41.998138 -38.749356)">
           <defs>
-            <pattern xlinkHref="#pattern13509-8" patternTransform="matrix(1.1414159,-0.11897132,0.17078581,1.6385267,1350.192,1652.2009)" id="pattern11803"/>
-            <pattern xlinkHref="#pattern13500-6-7" patternTransform="matrix(-0.08765214,0,0,0.1258265,79.205005,64.390907)" id="pattern13509-8"/>
-            <pattern patternUnits="userSpaceOnUse" width="50.260043" height="37.694409" patternTransform="matrix(0.26458331,0,0,0.26458331,39.526125,62.056557)" id="pattern13500-6-7">
+            <pattern patternUnits="userSpaceOnUse" width="50.260043" height="37.694409" patternTransform="" id="pattern11803">
               <g id="use13498-9-3" transform="matrix(3.7795279,0,0,3.7795279,-77.89009,-234.54449)">
                 <rect id="rect13530-9-3" y="62.056557" x="20.608419" height="9.9733095" width="13.297967" fill="none" stroke="none" strokeWidth="0.61472619"/>
                 <path d="m 30.581893,62.056559 3.324491,4.986654 -3.324491,4.986654 -3.32449,-4.986654 z m -6.648981,10e-7 3.32449,4.986654 -3.32449,4.986654 -3.32449,-4.986654 z" opacity="1" fill="#555555" fillOpacity="1" stroke="none" strokeWidth="0.88533551" strokeLinecap="butt" strokeLinejoin="bevel" strokeMiterlimit="4" strokeDasharray="2.65600656, 2.65600656" strokeDashoffset="0" strokeOpacity="1" paintOrder="markers stroke fill" id="path13532-2-5"/>
