@@ -113,17 +113,20 @@ export const Drawing = ({
         { ({width}) => {
             width = Math.min(width, maxWidth);
             const height = width/aspect;
+            const getScaledMetric = scale => x => Math.abs(scale(x) - scale(0));
             const xScale = scaleLinear({
                 range: [width*left, width*(1 - right)],
                 domain: [xMin, xMax],
                 round: false
             });
+            xScale.metric = getScaledMetric(xScale);
 
             const yScale = scaleLinear({
                 range: [height*(1 - bottom), height*top],
                 domain: [yMin, yMax],
                 round: false
             });
+            yScale.metric = getScaledMetric(yScale);
 
             const smoothPlay = () => gsap.to(tl, {timeScale: 1, onStart: () => tl.play(), ease: "power1.out"});
             const smoothPause = () => gsap.to(tl, {timeScale: 0, onComplete: () => tl.pause(), ease: "power1.out"});
