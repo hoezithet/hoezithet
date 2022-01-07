@@ -7,45 +7,10 @@ import { getColor } from "colors";
 import _ from "lodash";
 
 
-const MetingDirk = ({x1, x2, y, width=10, pad=3, color="dark_green"}) => {
-    const { xScale, yScale } = React.useContext(DrawingContext);
-    const x1Px = xScale(x1);
-    const x2Px = xScale(x2);
-    const yPx = yScale(y);
-    const heightPx = Math.abs(yScale(y) - yScale(0));
-    const widthPx = Math.abs(xScale(width) - xScale(0));
-
-    pad = Math.abs(xScale(pad) - xScale(0));
-
-    const dashArray = "4,4";
-
-    const heightStr = `${y}`.replace('.', ',');
-    color = getColor(color);
-
-    return (
-        <g>
-            <path stroke={color} strokeWidth="2"
-                strokeLinecap="round" strokeDasharray={dashArray}
-                d={`M ${x1Px},${yPx} H ${x2Px}`} />
-            <path stroke={color} strokeWidth="2"
-                strokeLinecap="round" strokeDasharray={dashArray}
-                d={`M ${x1Px},${yScale(0)} H ${x2Px}`} />
-            <g transform={`translate(${x2Px}, ${yPx})`}>
-              <g transform={`rotate(180, 0, ${heightPx/2})`}>
-                <TextAccolade width={widthPx} height={heightPx} color={color}>
-                    {String.raw`**${heightStr}** keer $1~\si{m}$`}
-                </TextAccolade>
-              </g>
-            </g>
-        </g>
-    );
-}
-
-
 const Maatstaf = ({x, y, height, width, color="blue", strokeColor="gray"}) => {
     const { xScale, yScale } = React.useContext(DrawingContext);
-    const heightPx = Math.abs(yScale(height) - yScale(0));
-    const widthPx = Math.abs(xScale(width) - xScale(0));
+    const heightPx = yScale.metric(height);
+    const widthPx = xScale.metric(width);
     const xPx = xScale(x) - widthPx/2;
     const yPx = yScale(y);
 
@@ -78,12 +43,12 @@ const Maatstaf = ({x, y, height, width, color="blue", strokeColor="gray"}) => {
     );
 }
 
-const TextAccolade = ({x=0, y=0, width, height, textAngle=90, strokeWidth="2", color="gray", children}) => {
+const TextAccolade = ({x=0, y=0, width, height, angle=0, textAngle=90, strokeWidth="2", color="gray", children}) => {
     color = getColor(color);
 
     return (
         <g transform={`translate(${x},${y})`}>
-            <g transform={`rotate(180, ${0},${height/2})`}>
+            <g transform={`rotate(${angle}, ${0},${height/2})`}>
                 <g transform={`translate(${width},${height/2}) rotate(${textAngle})`}>
                     <SvgNote
                         hAlign="center" vAlign="top" useContextScale={false}
@@ -100,46 +65,59 @@ const TextAccolade = ({x=0, y=0, width, height, textAngle=90, strokeWidth="2", c
 
 
 const _Watis1M84 = () => {
-    const dirkX = 60;
+    const dirkX = 50;
     const dirkHeight = 1.84;
     const dirkHeightStr = `${dirkHeight}`.replace('.', ',');
-    const metingX = 40;
     const maatstafWidth = 5;
+    const maatstafX = 15 + maatstafWidth/2;
     
     const { xScale, yScale } = React.useContext(DrawingContext);
-    const dirkHeightPx = Math.abs(yScale(dirkHeight) - yScale(0));
-    const widthPx = Math.abs(xScale(10) - xScale(0));
-    const dashArray = "4,4";
+    const dashLength = xScale.metric(1);
+    const dashArray = `${dashLength},${dashLength}`;
+
+    const accoladeProps = [
+        {
+             children: String.raw`**1** keer $1~\si{m}$`,
+             color: getColor("gray"),
+             height: 1,
+             x1: 65,
+             x2: maatstafX,
+        },
+        {
+             children: String.raw`**${dirkHeightStr}** keer $1~\si{m}$`,
+             color: getColor("dark_green"),
+             height: dirkHeight,
+             x1: 75,
+             x2: maatstafX,
+        },
+        {
+             children: String.raw`**2** keer $1~\si{m}$`,
+             color: getColor("gray"),
+             height: 2,
+             x1: 85,
+             x2: maatstafX,
+        },
+    ];
 
     return (
         <>
-          <DrawingGrid majorX={10} minorY={0.1} />
-          <g transform={`translate(${xScale(30)} ${yScale(1)})`}>
-              <path stroke={getColor("blue")} strokeWidth="2"
-                    strokeLinecap="round" strokeDasharray={dashArray}
-                    d={`M 0,0 H ${Math.abs(xScale(10) - xScale(0))}`} />
-              <TextAccolade x={0} y={0} width={widthPx} height={Math.abs(yScale(1) - yScale(0))} color={getColor("blue")}>
-                  {String.raw`**1** keer $1~\si{m}$`}
-              </TextAccolade>
-          </g>
-          <g transform={`translate(${xScale(20)} ${yScale(dirkHeight)})`}>
-              <path stroke={getColor("dark_green")} strokeWidth="2"
-                    strokeLinecap="round" strokeDasharray={dashArray}
-                    d={`M 0,0 H ${Math.abs(xScale(20) - xScale(0))}`} />
-              <TextAccolade x={0} y={0} width={widthPx} height={Math.abs(yScale(dirkHeight) - yScale(0))} color={getColor("dark_green")}>
-                  {String.raw`**${dirkHeightStr}** keer $1~\si{m}$`}
-              </TextAccolade>
-          </g>
-          <g transform={`translate(${xScale(10)} ${yScale(2)})`}>
-              <path stroke={getColor("blue")} strokeWidth="2"
-                    strokeLinecap="round" strokeDasharray={dashArray}
-                    d={`M 0,0 H ${Math.abs(xScale(30) - xScale(0))}`} />
-              <TextAccolade x={0} y={0} width={widthPx} height={Math.abs(yScale(2) - yScale(0))} color={getColor("blue")}>
-                  {String.raw`**2** keer $1~\si{m}$`}
-              </TextAccolade>
-          </g>
+          {/** <DrawingGrid majorX={10} minorY={0.1} /> **/}
+          { accoladeProps.map(({x1, x2, height, color , children}, i) =>
+              <g key={i}>
+                  <path stroke={color} strokeWidth="2"
+                        strokeLinecap="round" strokeDasharray={dashArray}
+                        d={`M ${xScale(x1)},${yScale(height)} H ${xScale(x2)}`} />
+                  <path stroke={color} strokeWidth="2"
+                        strokeLinecap="round" strokeDasharray={dashArray}
+                        d={`M ${xScale(x1)},${yScale(0)} H ${xScale(x2)}`} />
+                  <TextAccolade x={xScale(x1)} y={yScale(height)} width={xScale.metric(10)} height={yScale.metric(height)} color={color}>
+                      {children}
+                  </TextAccolade>
+              </g>
+           )
+          }
           <Dirk isFront height={dirkHeight} x={dirkX} y={0} vAlign="bottom" hAlign="center" />
-          <Maatstaf width={maatstafWidth} height={2} x={metingX} y={0} />
+          <Maatstaf width={maatstafWidth} height={2} x={maatstafX} y={0} />
         </>
     );
 };
