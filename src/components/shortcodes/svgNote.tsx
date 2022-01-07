@@ -16,11 +16,19 @@ const useStylesNote = makeStyles({
         backgroundColor: props => props.backgroundColor,
         borderRadius: props => props.showBackground ? `${theme.spacing(0.5)}px` : "0",
         padding: props => props.showBackground ? `${theme.spacing(1)}px` : "0",
+        fontSize: props => props.fontSize,
+        color: props => props.color,
     }
 });
 
-export const SvgNote = ({x, y, width=null, height=null, backgroundColor="white", backgroundOpacity=1, showBackground=false, hAlign="center",
-    vAlign="center", useContextScale=true, className="", children}) => {
+export const SvgNote = ({
+    x=0, y=0, width=null, height=null,
+    backgroundColor="white", backgroundOpacity=1,
+    showBackground=false, hAlign="center",
+    vAlign="center", useContextScale=true, className="",
+    fontSize="inherit", color="inherit",
+    children
+}) => {
     const ctx = useContext(DrawingContext);
     const {xScale, yScale} = ctx;
     backgroundOpacity = showBackground ? backgroundOpacity : 0;
@@ -82,7 +90,9 @@ export const SvgNote = ({x, y, width=null, height=null, backgroundColor="white",
         justifyContent: justifyContent, alignItems: alignItems,
         backgroundColor: backgroundColor,
         backgroundOpacity: backgroundOpacity,
-        showBackground: showBackground
+        showBackground: showBackground,
+        fontSize: fontSize,
+        color: color,
     }); 
 
     const divParentStyle = {
