@@ -9,7 +9,7 @@ import _ from "lodash";
 import { gsap } from "gsap";
 
 
-const _Maatstaf = ({x, y, blockHeight, blockWidth=0.2, strokeWidth=0.005, hText=false, fontSize=null, textAngle=0, hideText=false, numBlocks, unit, color="blue"}, ref) => {
+const _Maatstaf = ({x, y, blockHeight, blockWidth=0.2, strokeWidth=0.005, hText=false, fontSize=null, textAngle=0, hideText=false, numBlocks: _numBlocks, unit, color="blue"}, ref) => {
     const { xScale, yScale } = React.useContext(DrawingContext);
     blockHeight = yScale.metric(blockHeight);
     blockWidth= xScale.metric(blockWidth);
@@ -17,22 +17,20 @@ const _Maatstaf = ({x, y, blockHeight, blockWidth=0.2, strokeWidth=0.005, hText=
     y = yScale(y);
     color = getColor(color);
     strokeWidth = xScale.metric(strokeWidth);
-    const numBlocksRef = React.useRef(numBlocks);
-    const [blocksState, setNumBlocks] = React.useState(numBlocks);
+    const [numBlocks, setNumBlocks] = React.useState(_numBlocks);
 
     React.useImperativeHandle(ref, () => ({
         numBlocks: (newValue = null) => {
             if (newValue === null) {
-                return numBlocksRef.current;
+                return numBlocks;
             }
-            numBlocksRef.current = Math.round(newValue);
-            setNumBlocks(numBlocksRef.current);
+            setNumBlocks(Math.round(newValue));
         },
     }));
 
     return (
         <g>
-            { _.range(numBlocksRef.current).map(i => i + 1).map(i => (
+            { _.range(numBlocks).map(i => i + 1).map(i => (
                 <g key={i} transform={`translate(${x},${y - i*blockHeight})`}>
                     <rect height={blockHeight} width={blockWidth}
                         fill={getColor("near_white")} stroke={color} strokeWidth={strokeWidth} strokeLinejoin="round" />
@@ -52,71 +50,58 @@ const _Maatstaf = ({x, y, blockHeight, blockWidth=0.2, strokeWidth=0.005, hText=
 
 const Maatstaf = React.forwardRef(_Maatstaf);
 
-const _TextAccolade = ({x1=0, x2=null, y=0, hText=false, width, height, strokeWidth="2", fontSize=null, color="gray", children}, ref) => {
+const _TextAccolade = ({x1=0, x2=null, y=0, hText=false, width: _width, height: _height, strokeWidth="2", fontSize=null, color="gray", children}, ref) => {
+    /**
+     * x1: Start of the dashed line
+     * x2: End of the dashed line
+     * y: Bottom of the accolade
+     * width: width of the accolade (excluding text and dashed lines)
+     * height: height of the accolade
+     **/
     const accoladeRef = React.useRef(null);
     const line1Ref = React.useRef(null);
     const line2Ref = React.useRef(null);
     const noteRef = React.useRef(null);
-    const heightRef = React.useRef(height);
-    const widthRef = React.useRef(width);
+    const [width, setWidth] = React.useState(_width);
+    const [height, setHeight] = React.useState(_height);
     const baseGroupRef = React.useRef(null);
 
     const { xScale, yScale } = React.useContext(DrawingContext);
 
     color = getColor(color);
 
-    fontSize = `${fontSize !== null ? xScale.metric(fontSize) : xScale.metric(width)/3}px`;
+    fontSize = `${fontSize !== null ? xScale.metric(fontSize) : xScale.metric(width)*2/3}px`;
     x2 = x2 === null ? x1 : x2;
     const dashArray = `4,4`;
 
     const getAccoladeD = (width, height) => {
         width = xScale.metric(width);
         height = yScale.metric(height);
-        return `M 0,0 c ${width/2},0 0,${height/2} ${width/2},${height/2} c ${-width/2},0 0,${height/2} ${-width/2},${height/2}`;
+        return `M 0,0 c ${width},0 0,${height/2} ${width},${height/2} c ${-width},0 0,${height/2} ${-width},${height/2}`;
     };
-    const getLine1D = (x1, x2, height) => {
-        height = yScale.metric(height);
-        return `M ${0},${height} H ${xScale(x2)-xScale(x1)}`;
-    };
-    const getLine2D = (x1, x2) => {
-        return `M ${0},${0} H ${xScale(x2)-xScale(x1)}`;
-    };
+
     const getNoteTransform = (width, height) => {
         width = xScale.metric(width);
         height = yScale.metric(height);
-        return `translate(${hText ? width*2/3 : width},${height/2}) rotate(${hText ? 0 : 90})`;
-    };
-    const getBaseGroupTfm = (x1, y, height) => {
-        return `translate(${xScale(x1)},${yScale(y + height)})`;
-    };
-
-    const getSetAccoladePropRef = (propRef) => (newValue = null) => {
-        if (newValue === null) {
-            return propRef.current;
-        }
-        propRef.current = newValue;
-        accoladeRef.current?.setAttribute('d', getAccoladeD(widthRef.current, heightRef.current));
-        line1Ref.current?.setAttribute('d', getLine1D(x1, x2, heightRef.current));
-        noteRef.current?.setAttribute('transform', getNoteTransform(widthRef.current, heightRef.current));
-        baseGroupRef.current?.setAttribute('transform', getBaseGroupTfm(x1, y, heightRef.current));
+        return `translate(${width},${height/2}) rotate(${hText ? 0 : 90})`;
     };
 
     React.useImperativeHandle(ref, () => ({
-        accHeight: getSetAccoladePropRef(heightRef),
-        accWidth: getSetAccoladePropRef(widthRef),
+        accHeight: (h = null) => h === null ? height : setHeight(h),
+        accWidth: (w = null) => w === null ? width : setWidth(w),
     }));
 
     return (
-        <g ref={baseGroupRef} transform={getBaseGroupTfm(x1, y, height)}>
+        <g ref={baseGroupRef} transform={`translate(${xScale(x1)},${yScale(y + height)})`}>
             <path ref={line1Ref} stroke={color} strokeWidth="2"
                 strokeLinecap="round" strokeDasharray={dashArray}
-                d={getLine1D(x1, x2, height)} />
+                d={`M ${0},${yScale.metric(height)} H ${xScale(x2)-xScale(x1)}`} />
             <path ref={line2Ref} stroke={color} strokeWidth="2"
                 strokeLinecap="round" strokeDasharray={dashArray}
-                d={getLine2D(x1, x2)} />
+                d={`M ${0},${0} H ${xScale(x2)-xScale(x1)}`} />
             <g ref={noteRef} transform={getNoteTransform(width, height)}>
                 <SvgNote
-                    hAlign={hText ? "left" : "center"} vAlign="center" useContextScale={false}
+                    hAlign={hText ? "left" : "center"} vAlign="bottom" useContextScale={false}
                     color={color} fontSize={fontSize}>
                     {children}
                 </SvgNote>
@@ -169,7 +154,7 @@ const _Watis1M84 = () => {
           {/** <DrawingGrid majorX={1} majorY={1} minorX={0.10} minorY={0.1} /> **/}
           { accoladeProps.map(({x1, x2, height, color , children}, i) =>
               <g key={i}>
-                  <TextAccolade x1={x1} x2={x2} y={0} width={0.4} height={height} color={color}>
+                  <TextAccolade x1={x1} x2={x2} y={0} width={0.2} height={height} color={color}>
                       {children}
                   </TextAccolade>
               </g>
@@ -191,17 +176,17 @@ const Watis1M84 = () => {
 
 const _MeterIs100Cm = () => {
     const { xScale, yScale, addAnimation } = React.useContext(DrawingContext);
-    const [tl, setTl] = React.useState(() => gsap.timeline());
+    const [tl, setTl] = React.useState(() => gsap.timeline({paused: true}));
     const accoladeRef = React.useRef(null);
     const cmBlocksRef = React.useRef(null);
     const meterBlockRef = React.useRef(null);
-    console.log("bla");
-
 
     React.useEffect(() => {
         tl.clear();
-        tl.from(accoladeRef.current, {
+        tl.fromTo(accoladeRef.current, {
             accHeight: 0.01,
+        }, {
+            accHeight: 1.00,
             duration: 3,
             ease: "power2.inOut",
             onUpdate: () => {
@@ -219,15 +204,15 @@ const _MeterIs100Cm = () => {
             duration: 2,
             ease: "power2.inOut",
         });
-        addAnimation(tl, 0);
+        addAnimation(tl.play(), 0);
     }, []);
 
     const cmCountId = "cmCount";
 
     return (
         <>
-            <TextAccolade ref={accoladeRef} fontSize={0.09} x1={1.5} x2={1.35} y={0} width={0.2} height={1} color="orange">
-                {String.raw`$\htmlId{${cmCountId}}{100}$ keer $1~\si{cm}$`}
+            <TextAccolade ref={accoladeRef} fontSize={0.09} x1={1.5} x2={1.35} y={0} width={0.1} height={0} color="orange">
+                {String.raw`$\htmlId{${cmCountId}}{0}$ keer $1~\si{cm}$`}
             </TextAccolade>
             <g ref={meterBlockRef}>
                 <SvgNote x={1} y={0.5} vAlign="center" hAlign="center">
@@ -235,7 +220,7 @@ const _MeterIs100Cm = () => {
                 </SvgNote>
                 <Maatstaf x={0.75} y={0} textAngle={90} fontSize={0.09} blockHeight={1} numBlocks={1} unit="m" color="blue" />
             </g>
-            <Maatstaf ref={cmBlocksRef} x={1.25} y={0} hideText blockHeight={0.01} numBlocks={100} unit="cm" color="orange" />
+            <Maatstaf ref={cmBlocksRef} x={1.25} y={0} hideText blockHeight={0.01} numBlocks={0} unit="cm" color="orange" />
         </>
     );
 };
