@@ -229,4 +229,53 @@ export const MeterIs100Cm = () => {
     );
 };
 
+
+const _DirkInCm = () => {
+    const { xScale, yScale, addAnimation } = React.useContext(DrawingContext);
+    const [tl, setTl] = React.useState(() => gsap.timeline());
+    const blockCounterRef = React.useRef(null);
+    const meterBlockRef = React.useRef(null);
+
+    React.useEffect(() => {
+        tl.clear();
+        tl.to(blockCounterRef.current, {
+            numBlocks: 184,
+            duration: 3,
+            ease: "power2.inOut",
+            modifiers: {
+                numBlocks: Math.round
+            },
+        }).from(meterBlockRef.current, {
+            x: xScale(0),
+            opacity: 0,
+            duration: 2,
+            ease: "power2.inOut",
+        });
+        addAnimation(tl, 0);
+    }, []);
+
+    return (
+        <>
+            {/** <DrawingGrid majorX={1} majorY={1} minorX={0.10} minorY={0.1} /> **/}
+            <g ref={meterBlockRef}>
+                <SvgNote x={1} y={1.1} vAlign="center" hAlign="center">
+                    {String.raw`$=$`}
+                </SvgNote>
+                <Dirk isFront height={1.84} x={0.5} y={0} vAlign="bottom" hAlign="center" />
+            </g>
+            <BlockCounter ref={blockCounterRef} blocksX={1.5} accoladeX={1.65} y={0} numBlocks={0}
+                  blockHeight={0.01} fontSize={0.08}
+                  textCallback={(numBlocks) => String.raw`$${numBlocks}$ keer $1~\si{cm}$`} />
+        </>
+    );
+};
+
+export const DirkInCm = () => {
+    return (
+        <Drawing xMin={0} xMax={2} yMin={0} yMax={2.25} aspect={16/9} noWatermark>
+            <_DirkInCm />
+        </Drawing>
+    );
+};
+
 export default Watis1M84;
