@@ -29,7 +29,9 @@ Je zal wellicht even schrikken. Je had Dirk namelijk helemaal niet gevraagd naar
 
 Wel, als Dirk $1{,}84~\si{m}$ groot is, dan is hij exact even lang als **$1{,}84$ keer één meter**:
 
-(illustratie met meter naast Dirk)
+import WatIs1m84, {MeterIs100Cm, DirkInCm} from './drawings/watIs1m84';
+
+<WatIs1m84 />
 
 Nu, "$1{,}84$ keer één meter", dat is eigenlijk een **vermenigvuldiging** van "$1{,}84$" en "één meter":
 
@@ -43,7 +45,7 @@ $$
 1~\si{m} = 100 \cdot 1~\si{cm}
 $$
 
-(illustratie)
+<MeterIs100Cm />
 
 We kunnen onze $1{,}84~\si{m}$ dus herschrijven door de $1~\si{m}$ te vervangen door $100\cdot 1~\si{cm}$:
 
@@ -57,7 +59,7 @@ $$
 
 Zeggen dat Dirk $1{,}84~\si{m}$ groot is, is hetzelfde als zeggen dat hij $1{,}84\cdot 100\cdot 1~\si{cm}$ groot is en ook hetzelfde als zeggen dat hij $184~\si{cm}$ groot is.
 
-(illustratie met 1,84 m, 1,84*100 cm en 184 cm naast Dirk)
+<DirkInCm />
 
 En kijk! We hebben de eenheid omgezet van *meter* naar *centimeter*! 🤯
 
