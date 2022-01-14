@@ -9,7 +9,7 @@ import _ from "lodash";
 import { gsap } from "gsap";
 
 
-const _Maatstaf = ({x, y, blockHeight, blockWidth=0.2, strokeWidth=0.005, hText=false, fontSize=null, textAngle=0, hideText=false, numBlocks: _numBlocks, unit, color="blue"}, ref) => {
+const _Blocks = ({x, y, blockHeight, blockWidth=0.2, strokeWidth=0.005, hText=false, fontSize=null, textAngle=0, numBlocks, blockText=null, color="blue"}, ref) => {
     const { xScale, yScale } = React.useContext(DrawingContext);
     blockHeight = yScale.metric(blockHeight);
     blockWidth= xScale.metric(blockWidth);
@@ -17,16 +17,7 @@ const _Maatstaf = ({x, y, blockHeight, blockWidth=0.2, strokeWidth=0.005, hText=
     y = yScale(y);
     color = getColor(color);
     strokeWidth = xScale.metric(strokeWidth);
-    const [numBlocks, setNumBlocks] = React.useState(_numBlocks);
-
-    React.useImperativeHandle(ref, () => ({
-        numBlocks: (newValue = null) => {
-            if (newValue === null) {
-                return numBlocks;
-            }
-            setNumBlocks(Math.round(newValue));
-        },
-    }));
+    fontSize = `${fontSize !== null ? xScale.metric(fontSize) : (hText ? blockHeight : blockWidth)*2/3}px`;
 
     return (
         <g>
@@ -34,12 +25,12 @@ const _Maatstaf = ({x, y, blockHeight, blockWidth=0.2, strokeWidth=0.005, hText=
                 <g key={i} transform={`translate(${x},${y - i*blockHeight})`}>
                     <rect height={blockHeight} width={blockWidth}
                         fill={getColor("near_white")} stroke={color} strokeWidth={strokeWidth} strokeLinejoin="round" />
-                    { hideText ? null :
+                    { blockText === null ? null :
                         <g transform={`translate(${blockWidth/2},${blockHeight/2}) rotate(${textAngle + (hText ? 0 : -90)})`}>
                             <SvgNote hAlign="center" vAlign="center"
-                                useContextScale={false} fontSize={`${fontSize !== null ? xScale.metric(fontSize) : (hText ? blockHeight : blockWidth)*2/3}px`}
+                                useContextScale={false} fontSize={fontSize}
                                 color={color}>
-                                {String.raw`$1~\si{${unit}}$`}
+                                {blockText}
                             </SvgNote>
                         </g>
                     }
@@ -48,9 +39,9 @@ const _Maatstaf = ({x, y, blockHeight, blockWidth=0.2, strokeWidth=0.005, hText=
     );
 };
 
-const Maatstaf = React.forwardRef(_Maatstaf);
+const Blocks = React.forwardRef(_Blocks);
 
-const _TextAccolade = ({x1=0, x2=null, y=0, hText=false, width: _width, height: _height, strokeWidth="2", fontSize=null, color="gray", children}, ref) => {
+const _TextAccolade = ({x1=0, x2=null, y=0, hText=false, width, height, strokeWidth="2", fontSize=null, color="gray", children}, ref) => {
     /**
      * x1: Start of the dashed line
      * x2: End of the dashed line
@@ -62,8 +53,6 @@ const _TextAccolade = ({x1=0, x2=null, y=0, hText=false, width: _width, height: 
     const line1Ref = React.useRef(null);
     const line2Ref = React.useRef(null);
     const noteRef = React.useRef(null);
-    const [width, setWidth] = React.useState(_width);
-    const [height, setHeight] = React.useState(_height);
     const baseGroupRef = React.useRef(null);
 
     const { xScale, yScale } = React.useContext(DrawingContext);
@@ -85,11 +74,6 @@ const _TextAccolade = ({x1=0, x2=null, y=0, hText=false, width: _width, height: 
         height = yScale.metric(height);
         return `translate(${width},${height/2}) rotate(${hText ? 0 : 90})`;
     };
-
-    React.useImperativeHandle(ref, () => ({
-        accHeight: (h = null) => h === null ? height : setHeight(h),
-        accWidth: (w = null) => w === null ? width : setWidth(w),
-    }));
 
     return (
         <g ref={baseGroupRef} transform={`translate(${xScale(x1)},${yScale(y + height)})`}>
@@ -119,8 +103,8 @@ const _Watis1M84 = () => {
     const dirkX = 2;
     const dirkHeight = 1.84;
     const dirkHeightStr = `${dirkHeight}`.replace('.', ',');
-    const maatstafWidth = 0.2;
-    const maatstafX = 1 + maatstafWidth/2;
+    const blocksWidth = 0.2;
+    const blocksX = 1 + blocksWidth/2;
     
     const { xScale, yScale } = React.useContext(DrawingContext);
     const dashLength = xScale.metric(0.05);
@@ -131,21 +115,21 @@ const _Watis1M84 = () => {
              color: getColor("gray"),
              height: 1,
              x1: 2.5,
-             x2: maatstafX,
+             x2: blocksX,
         },
         {
              children: String.raw`**${dirkHeightStr}** keer $1~\si{m}$`,
              color: getColor("dark_green"),
              height: dirkHeight,
              x1: 3,
-             x2: maatstafX,
+             x2: blocksX,
         },
         {
              children: String.raw`**2** keer $1~\si{m}$`,
              color: getColor("gray"),
              height: 2,
              x1: 3.5,
-             x2: maatstafX,
+             x2: blocksX,
         },
     ];
 
@@ -161,7 +145,7 @@ const _Watis1M84 = () => {
            )
           }
           <Dirk isFront height={dirkHeight} x={dirkX} y={0} vAlign="bottom" hAlign="center" />
-          <Maatstaf x={maatstafX} y={0} blockWidth={maatstafWidth} blockHeight={1} numBlocks={2} unit="m" />
+          <Blocks x={blocksX} y={0} blockText={String.raw`$1~\si{m}$`} blockWidth={blocksWidth} blockHeight={1} numBlocks={2} unit="m" />
         </>
     );
 };
@@ -174,29 +158,44 @@ const Watis1M84 = () => {
     );
 };
 
+const _BlockCounter = ({blocksX, accoladeX, y, numBlocks: _numBlocks, textCallback, fontSize, blockHeight, blockWidth=0.2, accoladeWidth=0.2, color="orange"}, ref) => {
+    const [numBlocks, setNumBlocks] = React.useState(_numBlocks);
+
+    React.useImperativeHandle(ref, () => ({
+        numBlocks: (newValue = null) => {
+            if (newValue === null) {
+                return numBlocks;
+            }
+            setNumBlocks(newValue);
+        }
+    }));
+
+    return (
+        <>
+            <TextAccolade fontSize={fontSize} x1={accoladeX} x2={blocksX} y={y} width={accoladeWidth} height={numBlocks*blockHeight} color={color}>
+                {textCallback(numBlocks)}
+            </TextAccolade>
+            <Blocks x={blocksX} y={y} blockHeight={blockHeight} numBlocks={numBlocks} color={color} />
+        </>
+    );
+};
+
+const BlockCounter = React.forwardRef(_BlockCounter);
+
 const _MeterIs100Cm = () => {
     const { xScale, yScale, addAnimation } = React.useContext(DrawingContext);
-    const [tl, setTl] = React.useState(() => gsap.timeline({paused: true}));
-    const accoladeRef = React.useRef(null);
-    const cmBlocksRef = React.useRef(null);
+    const [tl, setTl] = React.useState(() => gsap.timeline());
     const meterBlockRef = React.useRef(null);
+    const blockCounterRef = React.useRef(null);
 
     React.useEffect(() => {
         tl.clear();
-        tl.fromTo(accoladeRef.current, {
-            accHeight: 0.01,
-        }, {
-            accHeight: 1.00,
+        tl.to(blockCounterRef.current, {
+            numBlocks: 100,
             duration: 3,
             ease: "power2.inOut",
-            onUpdate: () => {
-                const height = gsap.getProperty(accoladeRef.current, "accHeight");
-                const spanEl = document?.getElementById(cmCountId);
-                const numBlocks = Math.round(height*100);
-                cmBlocksRef.current?.numBlocks(numBlocks);
-                if (spanEl) {
-                    spanEl.textContent = `${numBlocks}`;
-                }
+            modifiers: {
+                numBlocks: Math.round
             },
         }).from(meterBlockRef.current, {
             x: xScale(0), 
@@ -204,31 +203,27 @@ const _MeterIs100Cm = () => {
             duration: 2,
             ease: "power2.inOut",
         });
-        addAnimation(tl.play(), 0);
+        addAnimation(tl, 0);
     }, []);
-
-    const cmCountId = "cmCount";
 
     return (
         <>
-            <TextAccolade ref={accoladeRef} fontSize={0.09} x1={1.5} x2={1.35} y={0} width={0.1} height={0} color="orange">
-                {String.raw`$\htmlId{${cmCountId}}{0}$ keer $1~\si{cm}$`}
-            </TextAccolade>
             <g ref={meterBlockRef}>
                 <SvgNote x={1} y={0.5} vAlign="center" hAlign="center">
                     {String.raw`$=$`}
                 </SvgNote>
-                <Maatstaf x={0.75} y={0} textAngle={90} fontSize={0.09} blockHeight={1} numBlocks={1} unit="m" color="blue" />
+                <Blocks x={0.75} y={0} blockText={String.raw`$1~\si{m}$`} textAngle={90} fontSize={0.09} blockHeight={1} numBlocks={1} color="blue" />
             </g>
-            <Maatstaf ref={cmBlocksRef} x={1.25} y={0} hideText blockHeight={0.01} numBlocks={0} unit="cm" color="orange" />
+            <BlockCounter ref={blockCounterRef} blocksX={1.25} accoladeX={1.5} y={0} numBlocks={0}
+                blockHeight={0.01} fontSize={0.08}
+                textCallback={x => String.raw`$${x}$ keer $1~\si{cm}$`} />
         </>
     );
 };
 
 export const MeterIs100Cm = () => {
-
     return (
-        <Drawing xMin={0} xMax={2} yMin={0} yMax={1.125} aspect={16/9} noWatermark>
+        <Drawing xMin={0} xMax={4} yMin={0} yMax={2.25} aspect={16/9} noWatermark>
             <_MeterIs100Cm/>
         </Drawing>
     );
