@@ -17,7 +17,6 @@ const useStylesNote = makeStyles({
         backgroundColor: props => props.backgroundColor,
         borderRadius: props => props.showBackground ? `${theme.spacing(0.5)}px` : "0",
         padding: props => props.showBackground ? `${theme.spacing(1)}px` : "0",
-        fontSize: props => props.fontSize,
         color: props => props.color,
     }
 });
@@ -96,7 +95,6 @@ export const SvgNote = ({
         backgroundColor: backgroundColor,
         backgroundOpacity: backgroundOpacity,
         showBackground: showBackground,
-        fontSize: fontSize,
         color: color,
     }); 
 
@@ -109,6 +107,9 @@ export const SvgNote = ({
         textAlign: hAlign,
         padding: showBackground ? "2px" : "0",
     };
+    const divChildStyle = {
+        fontSize: fontSize,
+    };
 
     const noteContents = <Markdown>{ children }</Markdown>;
 
@@ -116,11 +117,11 @@ export const SvgNote = ({
         <foreignObject x={x} y={y} width={`${width}`} height={`${height}`}>
             <div xmlns="http://www.w3.org/1999/xhtml" style={divParentStyle}>
             { showBackground ?
-                <Paper className={`${classes.divNoteChild} ${className}`} elevation={1}>
+                <Paper className={`${classes.divNoteChild} ${className}`} elevation={1} style={divChildStyle}>
                     { noteContents }
                 </Paper>
                 :
-                <div className={`${classes.divNoteChild} ${className}`}>
+                <div className={`${classes.divNoteChild} ${className}`} style={divChildStyle}>
                     { noteContents }
                 </div> }
             </div>
