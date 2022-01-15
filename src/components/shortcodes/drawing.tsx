@@ -65,6 +65,7 @@ export const Drawing = ({
     const drawingRef = useRef(null);
     const classes = useStyles();
     const [isHovering, setIsHovering] = useState(false);
+    const isAnimatingButtonsRef = React.useRef(false);
 
     const lessonContext = useContext(LessonContext);
 
@@ -82,19 +83,34 @@ export const Drawing = ({
 
     const showButtons = () => {
         gsap.to(overlayRefs.current, {
-            right: "0px",
+            right: "12px",
             opacity: 1,
             stagger: 0.15,
+            onStart: () => {
+                isAnimatingButtonsRef.current = true;
+            },
+            onComplete: () => {
+                isAnimatingButtonsRef.current = false;
+            },
         });
     };
     const hideButtons = () => {
         gsap.to(overlayRefs.current, {
             right: "-36px",
-            opacity: 0
+            opacity: 0,
+            onStart: () => {
+                isAnimatingButtonsRef.current = true;
+            },
+            onComplete: () => {
+                isAnimatingButtonsRef.current = false;
+            },
         });
     };
 
     React.useEffect(() => {
+        if (isAnimatingButtonsRef.current) {
+            return;
+        }
         if (isHovering) {
             showButtons();
         } else {
