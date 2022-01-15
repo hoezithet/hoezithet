@@ -9,7 +9,7 @@ import _ from "lodash";
 import { gsap } from "gsap";
 
 
-const _Blocks = ({x, y, blockHeight, blockWidth=0.2, strokeWidth=0.005, hText=false, fontSize=null, textAngle=0, numBlocks, blockText=null, color="blue"}, ref) => {
+const _Blocks = ({x, y, blockHeight, blockWidth=0.2, strokeWidth=0.002, hText=false, fontSize=null, textAngle=0, numBlocks, blockText=null, color="blue"}, ref) => {
     const { xScale, yScale } = React.useContext(DrawingContext);
     blockHeight = yScale.metric(blockHeight);
     blockWidth= xScale.metric(blockWidth);
@@ -24,12 +24,12 @@ const _Blocks = ({x, y, blockHeight, blockWidth=0.2, strokeWidth=0.005, hText=fa
             { _.range(numBlocks).map(i => i + 1).map(i => (
                 <g key={i} transform={`translate(${x},${y - i*blockHeight})`}>
                     <rect height={blockHeight} width={blockWidth}
-                        fill={getColor("near_white")} stroke={color} strokeWidth={strokeWidth} strokeLinejoin="round" />
+                        stroke={getColor("near_white")} fill={color} strokeWidth={strokeWidth} strokeLinejoin="round" />
                     { blockText === null ? null :
                         <g transform={`translate(${blockWidth/2},${blockHeight/2}) rotate(${textAngle + (hText ? 0 : -90)})`}>
                             <SvgNote hAlign="center" vAlign="center"
                                 useContextScale={false} fontSize={fontSize}
-                                color={color}>
+                                color={getColor("near_white")}>
                                 {blockText}
                             </SvgNote>
                         </g>
@@ -200,7 +200,7 @@ const _MeterIs100Cm = () => {
         tl.clear();
         tl.to(blockCounterRef.current, {
             numBlocks: 100,
-            duration: 1,
+            duration: 2,
             ease: "power2.inOut",
             modifiers: {
                 numBlocks: Math.round
@@ -224,7 +224,7 @@ const _MeterIs100Cm = () => {
             </g>
             <BlockCounter ref={blockCounterRef} blocksX={1.25} accoladeX={1.5} y={0} numBlocks={0}
                 blockHeight={0.01} fontSize={0.08}
-                textCallback={x => String.raw`$${x}$ keer $1~\si{cm}$`} />
+                textCallback={x => String.raw`**${x}** keer $1~\si{cm}$`} />
         </>
     );
 };
@@ -248,7 +248,7 @@ const _DirkInCm = () => {
         tl.clear();
         tl.to(blockCounterRef.current, {
             numBlocks: 184,
-            duration: 1,
+            duration: 2,
             ease: "power2.inOut",
             modifiers: {
                 numBlocks: Math.round
@@ -273,7 +273,7 @@ const _DirkInCm = () => {
             </g>
             <BlockCounter ref={blockCounterRef} blocksX={1.5} accoladeX={1.65} y={0} numBlocks={0}
                   blockHeight={0.01} fontSize={0.08}
-                  textCallback={(numBlocks) => String.raw`$${numBlocks}$ keer $1~\si{cm}$`} />
+                  textCallback={(numBlocks) => String.raw`**${numBlocks}** keer $1~\si{cm}$`} />
         </>
     );
 };
