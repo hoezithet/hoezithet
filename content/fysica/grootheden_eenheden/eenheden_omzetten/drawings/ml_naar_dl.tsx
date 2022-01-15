@@ -7,8 +7,8 @@ import _ from "lodash";
 
 
 const _MlNaarDl = () => {
-    const [tellerId] = React.useState(() => _.uniqueId("teller_"));
-    const [noemerId] = React.useState(() => _.uniqueId("noemer_"));
+    const [tellerId] = React.useState("teller");
+    const [noemerId] = React.useState("noemer");
     
     const annotTeller = String.raw`We komen van *milli-*, dus in de **teller** komt $\htmlId{teller_annot}{\orange{10^{-3}}}$`;
     const annotNoemer = String.raw`We gaan naar *deci-*, dus in de **noemer** komt $\htmlId{noemer_annot}{\blue{10^{-1}}}$`; 
@@ -20,7 +20,7 @@ $$`;
     return (
         <>
             <AnnotArrow target={`#${tellerId}`} annot={"#teller_annot"} hAlignAnnot="center" vAlignAnnot="bottom" hAlignTarget="left" vAlignTarget="top" />
-            <AnnotArrow target={`#${noemerId}`} annot={"#noemer_annot"} hAlignAnnot="left" vAlignAnnot="center" hAlignTarget="left" vAlignTarget="bottom" />
+            <AnnotArrow target={`#${noemerId}`} annot={"#noemer_annot"} hAlignAnnot="left" vAlignAnnot="bottom" hAlignTarget="left" vAlignTarget="bottom" anchorRadiusTarget={40} anchorRadiusAnnot={60}/>
             <SvgNote x="40" y="70" fontSize={14} width="40" hAlign="right" vAlign="bottom">
                 { annotTeller }
             </SvgNote>
