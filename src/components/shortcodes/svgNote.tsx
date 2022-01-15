@@ -6,6 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import { theme } from "../theme";
 import { DrawingContext } from "./drawing";
 import Markdown from "../markdown";
+import { isNumeric } from "../../utils/number";
 
 
 const useStylesNote = makeStyles({
@@ -36,6 +37,10 @@ export const SvgNote = ({
     if (xScale && yScale && useContextScale) {
         x = xScale(x);
         y = yScale(y);
+
+        if (isNumeric(fontSize)) {
+            fontSize = yScale(fontSize);
+        }
 
         if (width !== null) {
             width = Math.abs(xScale(width) - xScale(0));
