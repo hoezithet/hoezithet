@@ -1,6 +1,7 @@
 import React from "react";
 import { Drawing, DrawingContext } from "components/shortcodes/drawing";
-import WalkingToStopPerson from "./walkingToStopPerson";
+import _WalkingToStopPerson from "./walkingToStopPerson";
+import BreathingPerson from "./breathingPerson";
 import Zon from "./park/zon";
 import Wolken from "./park/wolken";
 import InfScrollingPark from "./park/inf_scrolling_park";
@@ -13,7 +14,7 @@ import { gsap } from "gsap";
 
 const LoopingWolken = withInfLoop(Wolken);
 
-const WalkingPerson = () => {
+const WalkingToStopPerson = () => {
     const ref = React.useRef();
     const { addAnimation, xScale } = React.useContext(DrawingContext);
     const [tl, setTl] = React.useState(() => gsap.timeline());
@@ -42,13 +43,13 @@ const WalkingPerson = () => {
 
     return (
         <g ref={ref}>
-            <WalkingToStopPerson numCycles={numCycles} stepSize={stepSizePx} freq={freq} height={600} x={-100} y={1080-50} vAlign="bottom" hAlign="right" />
+            <_WalkingToStopPerson numCycles={numCycles} stepSize={stepSizePx} freq={freq} height={600} x={-100} y={1080-50} vAlign="bottom" hAlign="right" />
         </g>
     );
 };
 
 
-const TextBallon = () => {
+const TextBallon = ({text, gsapPosition}) => {
     const [noteX, noteY] = [1509, 350];
     const ref = React.useRef();
     const { addAnimation } = React.useContext(DrawingContext);
@@ -57,7 +58,7 @@ const TextBallon = () => {
     React.useEffect(() => {
         tl.clear();
         tl.from(ref.current, {scale: 0, opacity: 0, rotation: 90, transformOrigin: "bottom right", ease: "elastic.out", duration: 2});
-        addAnimation(tl, 4);
+        addAnimation(tl, gsapPosition);
     }, []);
 
     return (
@@ -69,7 +70,7 @@ const TextBallon = () => {
               hAlign="right"
               vAlign="bottom"
               showBackground>
-              { String.raw`Ik ben $1{,}84~\si{m}$ groot!` }
+              { text }
           </SvgNote>
         </g>
     );
@@ -84,11 +85,27 @@ const DirkKruist = () => {
             <Zon width={123.693360} height={123.693360} x={303.697226} y={141.611744} />
             <LoopingWolken speed={-5} width={2*1642.394890} height={346.619760} x={0} y={92.659100} />
             <InfScrollingPark width={3840} x={-1000} />
-            <WalkingPerson />
-            <TextBallon />
+            <WalkingToStopPerson />
+            <TextBallon text={String.raw`Ik ben $1{,}84~\si{m}$ groot!`} gsapPosition={4}/>
             <BreathingDirk flipH height={dirkHeight} x={dirkX} y={dirkY} vAlign="bottom" hAlign="left"/>
         </Drawing>
     );
 };
 
 export default DirkKruist;
+
+
+export const DirkZegtTijd = () => {
+    const [dirkX, dirkY, dirkHeight] = [1920 * 2/3, 1080-50, 600];
+
+    return (
+        <Drawing xMin={0} xMax={1920.0} yMin={1080.0} yMax={0} noWatermark>
+            <Zon width={123.693360} height={123.693360} x={303.697226} y={141.611744} />
+            <LoopingWolken speed={-5} width={2*1642.394890} height={346.619760} x={0} y={92.659100} />
+            <InfScrollingPark width={3840} x={-1000} />
+            <BreathingPerson freq={0.5} height={600} x={1920*1/3} y={1080-50} vAlign="bottom" hAlign="right"/>
+            <TextBallon text={String.raw`Ik loop al $5623~\si{s}$ rond in dit park!`} gsapPosition={0}/>
+            <BreathingDirk flipH height={dirkHeight} x={dirkX} y={dirkY} vAlign="bottom" hAlign="left"/>
+        </Drawing>
+    );
+};
