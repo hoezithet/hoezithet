@@ -223,7 +223,7 @@ const _MeterIs100Cm = () => {
 
 export const MeterIs100Cm = () => {
     return (
-        <Drawing xMin={0} xMax={4} yMin={0} yMax={2.25} aspect={16/9} noWatermark>
+        <Drawing xMin={0} xMax={2} yMin={0} yMax={1.125} aspect={16/9} noWatermark>
             <_MeterIs100Cm/>
         </Drawing>
     );
