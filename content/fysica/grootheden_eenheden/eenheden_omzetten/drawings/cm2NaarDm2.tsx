@@ -28,13 +28,13 @@ $$
         <Drawing>
             <AnnotArrow target={`#${tellerId}`} annot="#teller_annot_cm2" hAlignAnnot="right" vAlignAnnot="center" hAlignTarget="center" vAlignTarget="top" />
             <AnnotArrow target={`#${noemerId}`} annot="#noemer_annot_dm2" hAlignAnnot="right" vAlignAnnot="center" hAlignTarget="center" vAlignTarget="bottom" />
-            <SvgNote x="40" y="70" width="40" hAlign="right" vAlign="bottom">
+            <SvgNote x="40" y="70" fontSize={14} width="40" hAlign="right" vAlign="bottom">
                 { annotTeller }
             </SvgNote>
-            <SvgNote x="50" y="50">
+            <SvgNote x="50" y="50" fontSize={20}>
                 { breuk }
             </SvgNote>
-            <SvgNote x="40" y="40" width="40" hAlign="right" vAlign="top">
+            <SvgNote x="40" y="40" fontSize={14} width="40" hAlign="right" vAlign="top">
                 { annotNoemer }
             </SvgNote>
         </Drawing>
