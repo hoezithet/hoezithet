@@ -43,9 +43,9 @@ export const hexToRGB = (hex, alpha) => {
     }
 };
 
-export const getColor = (color) => {
+export const getColor = (color, alpha=1.0) => {
     const ucColor = color.toUpperCase();
-    return ucColor in COLORS ? COLORS[ucColor] : color;
+    return ucColor in COLORS ? hexToRGB(COLORS[ucColor], alpha) : color;
 };
 
 export default COLORS;
