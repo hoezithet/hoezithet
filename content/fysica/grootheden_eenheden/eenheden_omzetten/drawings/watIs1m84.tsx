@@ -9,15 +9,11 @@ import _ from "lodash";
 import { gsap } from "gsap";
 
 
-const _Blocks = ({x, y, blockHeight, blockWidth=0.2, strokeWidth=0.002, hText=false, fontSize=null, textAngle=0, numBlocks, blockText=null, color="blue"}, ref) => {
-    const { xScale, yScale } = React.useContext(DrawingContext);
-    blockHeight = yScale.metric(blockHeight);
-    blockWidth= xScale.metric(blockWidth);
-    x = xScale(x) - blockWidth/2;
-    y = yScale(y);
+const _Blocks = ({x, y, blockHeight, blockWidth, strokeWidth, hText=false, fontSize=null, textAngle=0, numBlocks, blockText=null, color="blue"}, ref) => {
+    x -= blockWidth/2;
+
     color = getColor(color);
-    strokeWidth = xScale.metric(strokeWidth);
-    fontSize = `${fontSize !== null ? xScale.metric(fontSize) : (hText ? blockHeight : blockWidth)*2/3}px`;
+    fontSize = `${fontSize !== null ? fontSize : (hText ? blockHeight : blockWidth)*2/3}px`;
 
     return (
         <g ref={ref}>
@@ -41,7 +37,7 @@ const _Blocks = ({x, y, blockHeight, blockWidth=0.2, strokeWidth=0.002, hText=fa
 
 const Blocks = React.forwardRef(_Blocks);
 
-const _TextAccolade = ({x1=0, x2=null, y=0, hText=false, width, height, strokeWidth="2", fontSize=null, color="gray", children}, ref) => {
+const _TextAccolade = ({x1, x2=null, y, flipText=false, hText=false, width, height, strokeWidth, fontSize=null, color="gray", children}, ref) => {
     /**
      * x1: Start of the dashed line
      * x2: End of the dashed line
@@ -54,50 +50,46 @@ const _TextAccolade = ({x1=0, x2=null, y=0, hText=false, width, height, strokeWi
     const line2Ref = React.useRef(null);
     const noteRef = React.useRef(null);
 
-    const { xScale, yScale } = React.useContext(DrawingContext);
-
     color = getColor(color);
 
-    fontSize = `${fontSize !== null ? xScale.metric(fontSize) : xScale.metric(width)*2/3}px`;
+    fontSize = fontSize !== null ? fontSize : width*2/3;
     x2 = x2 === null ? x1 : x2;
     const dashArray = `4,4`;
 
     const getAccoladeD = (width, height) => {
-        width = xScale.metric(width);
-        height = yScale.metric(height);
-        return `M 0,0 c ${width},0 0,${height/2} ${width},${height/2} c ${-width},0 0,${height/2} ${-width},${height/2}`;
+        return `M 0,0 c ${width},0 0,${-height/2} ${width},${-height/2} c ${-width},0 0,${-height/2} ${-width},${-height/2}`;
     };
 
     const getNoteTransform = (width, height) => {
-        width = xScale.metric(width);
-        height = yScale.metric(height);
-        return `translate(${width},${height/2}) rotate(${hText ? 0 : 90})`;
+        return `translate(${width + (flipText && !hText ? 2*fontSize : 0) + (hText ? width : 0)},${-height/2}) rotate(${(flipText ? -90 : 90) + (hText ? 90 : 0)})`;
     };
 
     return (
         <g ref={ref}>
-            <g transform={`translate(${xScale(x1)},${yScale(y + height)})`}>
-                <path ref={line1Ref} stroke={color} strokeWidth="2"
+            <g transform={`translate(${x1},${y})`}>
+                <path ref={line1Ref} stroke={color} strokeWidth={strokeWidth}
                     strokeLinecap="round" strokeDasharray={dashArray}
-                    d={`M ${0},${yScale.metric(height)} H ${xScale(x2)-xScale(x1)}`} />
-                <path ref={line2Ref} stroke={color} strokeWidth="2"
+                    d={`M ${0},${-height} H ${x2 - x1}`} />
+                <path ref={line2Ref} stroke={color} strokeWidth={strokeWidth}
                     strokeLinecap="round" strokeDasharray={dashArray}
-                    d={`M ${0},${0} H ${xScale(x2)-xScale(x1)}`} />
-                <g ref={noteRef} transform={getNoteTransform(width, height)}>
-                    <SvgNote
-                        hAlign={hText ? "left" : "center"} vAlign="bottom" useContextScale={false}
-                        color={color} fontSize={fontSize}>
-                        {children}
-                    </SvgNote>
+                    d={`M ${0},${0} H ${x2 - x1}`} />
+                <g transform={x1 >= x2 ? "" : `translate(${0},${-height}) rotate(180)`}>
+                    <g ref={noteRef} transform={getNoteTransform(width, height)}>
+                        <SvgNote
+                            hAlign={hText ? "left" : "center"} vAlign={hText ? "center" : "bottom"} useContextScale={false}
+                            color={color} fontSize={fontSize}>
+                            {children}
+                        </SvgNote>
+                    </g>
+                    <path ref={accoladeRef} d={getAccoladeD(width, height)}
+                        fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round"/>
                 </g>
-                <path ref={accoladeRef} d={getAccoladeD(width, height)}
-                    fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round"/>
             </g>
         </g>
     );
 };
 
-const TextAccolade = React.forwardRef(_TextAccolade);
+export const TextAccolade = React.forwardRef(_TextAccolade);
 
 
 const _Watis1M84 = () => {
@@ -136,24 +128,25 @@ const _Watis1M84 = () => {
     }, []);
 
     const dashLength = xScale.metric(0.05);
+    const strokeWidth = xScale.metric(0.02);
 
     return (
         <>
           {/** <DrawingGrid majorX={1} majorY={1} minorX={0.10} minorY={0.1} /> **/}
-          <TextAccolade ref={acc1Ref} color={getColor("gray")} width={accWidth} height={1} x1={2.5} x2={blocksX} dashLength={dashLength}>
+          <TextAccolade x1={xScale(0)} y={yScale(0)} ref={acc1Ref} color={getColor("gray")} width={xScale.metric(accWidth)} height={yScale.metric(1)} x1={xScale(2.5)} x2={xScale(blocksX)} dashLength={dashLength} strokeWidth={strokeWidth}>
               {String.raw`**1** keer $1~\si{m}$`}
           </TextAccolade>
-          <TextAccolade ref={acc184Ref} color={getColor("dark_green")} width={accWidth} height={dirkHeight} x1={3} x2={blocksX} dashLength={dashLength}>
+          <TextAccolade x1={xScale(0)} y={yScale(0)} ref={acc184Ref} color={getColor("dark_green")} width={xScale.metric(accWidth)} height={yScale.metric(dirkHeight)} x1={xScale(3)} x2={xScale(blocksX)} dashLength={dashLength} strokeWidth={strokeWidth}>
               {String.raw`**${dirkHeightStr}** keer $1~\si{m}$`}
           </TextAccolade>
-          <TextAccolade ref={acc2Ref} color={getColor("gray")} width={accWidth} height={2} x1={3.5} x2={blocksX} dashLength={dashLength}>
+          <TextAccolade x1={xScale(0)} y={yScale(0)} ref={acc2Ref} color={getColor("gray")} width={xScale.metric(accWidth)} height={yScale.metric(2)} x1={xScale(3.5)} x2={xScale(blocksX)} dashLength={dashLength} strokeWidth={strokeWidth}>
               {String.raw`**2** keer $1~\si{m}$`}
           </TextAccolade>
           <g ref={dirkRef}>
               <Dirk isFront height={dirkHeight} x={dirkX} y={0} vAlign="bottom" hAlign="center" />
           </g>
-          <Blocks ref={block1Ref} x={blocksX} y={0} blockText={blockText} blockWidth={blocksWidth} blockHeight={1} numBlocks={1} />
-          <Blocks ref={block2Ref} x={blocksX} y={1} blockText={blockText} blockWidth={blocksWidth} blockHeight={1} numBlocks={1} />
+          <Blocks ref={block1Ref} x={xScale(blocksX)} y={yScale(0)} blockText={blockText} blockWidth={xScale.metric(blocksWidth)} blockHeight={yScale.metric(1)} strokeWidth={xScale.metric(0.002)} numBlocks={1} />
+          <Blocks ref={block2Ref} x={xScale(blocksX)} y={yScale(1)} blockText={blockText} blockWidth={xScale.metric(blocksWidth)} blockHeight={yScale.metric(1)} strokeWidth={xScale.metric(0.002)} numBlocks={1} />
         </>
     );
 };
@@ -166,7 +159,7 @@ const Watis1M84 = () => {
     );
 };
 
-const _BlockCounter = ({blocksX, accoladeX, y, numBlocks: _numBlocks, textCallback, fontSize, blockHeight, blockWidth=0.2, accoladeWidth=0.2, color="orange"}, ref) => {
+const _BlockCounter = ({blocksX, accoladeX, y, numBlocks: _numBlocks, textCallback, fontSize, blockHeight, blockWidth, accStrokeWidth, blockStrokeWidth, accoladeWidth, color="orange"}, ref) => {
     const [numBlocks, setNumBlocks] = React.useState(_numBlocks);
 
     React.useImperativeHandle(ref, () => ({
@@ -180,10 +173,10 @@ const _BlockCounter = ({blocksX, accoladeX, y, numBlocks: _numBlocks, textCallba
 
     return (
         <>
-            <TextAccolade fontSize={fontSize} x1={accoladeX} x2={blocksX} y={y} width={accoladeWidth} height={numBlocks*blockHeight} color={color}>
+            <TextAccolade fontSize={(fontSize)} x1={(accoladeX)} x2={(blocksX)} y={(y)} width={(accoladeWidth)} height={(numBlocks*blockHeight)} strokeWidth={accStrokeWidth} color={color}>
                 {textCallback(numBlocks)}
             </TextAccolade>
-            <Blocks x={blocksX} y={y} blockHeight={blockHeight} numBlocks={numBlocks} color={color} />
+            <Blocks x={blocksX} y={y} blockHeight={blockHeight} blockWidth={blockWidth} strokeWidth={blockStrokeWidth} numBlocks={numBlocks} color={color} />
         </>
     );
 };
@@ -220,10 +213,12 @@ const _MeterIs100Cm = () => {
                 <SvgNote x={1} y={0.5} vAlign="center" hAlign="center">
                     {String.raw`$=$`}
                 </SvgNote>
-                <Blocks x={0.75} y={0} blockText={String.raw`$1~\si{m}$`} textAngle={90} fontSize={0.09} blockHeight={1} numBlocks={1} color="blue" />
+                <Blocks x={xScale(0.75)} y={yScale(0)} blockText={String.raw`$1~\si{m}$`} textAngle={90} fontSize={yScale.metric(0.09)} blockHeight={yScale.metric(1)} blockWidth={xScale.metric(0.2)} numBlocks={1} color="blue" />
             </g>
-            <BlockCounter ref={blockCounterRef} blocksX={1.25} accoladeX={1.5} y={0} numBlocks={0}
-                blockHeight={0.01} fontSize={0.08}
+            <BlockCounter ref={blockCounterRef} blocksX={xScale(1.25)} accoladeX={xScale(1.5)} y={yScale(0)} numBlocks={0}
+                blockWidth={xScale.metric(0.2)} accoladeWidth={xScale.metric(0.2)} blockStrokeWidth={xScale.metric(0.002)}
+                accStrokeWidth={xScale.metric(0.01)}
+                blockHeight={yScale.metric(0.01)} fontSize={yScale.metric(0.08)}
                 textCallback={x => String.raw`**${x}** keer $1~\si{cm}$`} />
         </>
     );
@@ -271,8 +266,10 @@ const _DirkInCm = () => {
                 </SvgNote>
                 <Dirk isFront height={1.84} x={0.5} y={0} vAlign="bottom" hAlign="center" />
             </g>
-            <BlockCounter ref={blockCounterRef} blocksX={1.5} accoladeX={1.65} y={0} numBlocks={0}
-                  blockHeight={0.01} fontSize={0.08}
+            <BlockCounter ref={blockCounterRef} blocksX={xScale(1.5)} accoladeX={xScale(1.65)} y={yScale(0)} numBlocks={0}
+                  blockWidth={xScale.metric(0.2)} accoladeWidth={xScale.metric(0.2)}
+                  blockHeight={yScale.metric(0.01)} fontSize={yScale.metric(0.12)} blockStrokeWidth={xScale.metric(0.002)}
+                  accStrokeWidth={xScale.metric(0.01)}
                   textCallback={(numBlocks) => String.raw`**${numBlocks}** keer $1~\si{cm}$`} />
         </>
     );
