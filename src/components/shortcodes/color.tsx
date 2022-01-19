@@ -2,6 +2,8 @@ import React from "react";
 import { getColor } from "../../colors";
 import styled from "styled-components";
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import Markdown from "../markdown";
+
 
 interface ColorProps {
     children: JSX.Element;
@@ -14,7 +16,12 @@ type ColorSpanProps = {
 
 const useStyles = makeStyles<Theme, ColorSpanProps>({
     colorSpan: {
-        color: props => props.colorValue
+        color: props => props.colorValue,
+        '&>div,&>div>p': {
+            display: 'inline-block',
+            padding: 0,
+            margin: 0,
+        }
     }
 });
 
@@ -22,7 +29,7 @@ const Color = ({ color, children }: ColorProps) => {
     const classes = useStyles({colorValue: getColor(color)});
     return (
     <span className={classes.colorSpan}>
-        { children }
+        <Markdown>{ children }</Markdown>
     </span>
     );
 }
