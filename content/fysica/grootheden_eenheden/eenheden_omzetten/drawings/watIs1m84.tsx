@@ -108,24 +108,6 @@ const _Watis1M84 = () => {
     const acc1Ref = React.useRef(null);
     const acc184Ref = React.useRef(null);
     const acc2Ref = React.useRef(null);
-    const [tl] = React.useState(() => gsap.timeline({ease: "power2.inOut", duration: 2}));
-
-    React.useEffect(() => {
-        tl.from(block1Ref.current, {
-            opacity: 0,
-        }, 0).from(acc1Ref.current, {
-            opacity: 0,
-        }).from(block2Ref.current, {
-            opacity: 0,
-        }, "+=0.5").from(acc2Ref.current, {
-            opacity: 0,
-        }).from(dirkRef.current, {
-            opacity: 0,
-        }, "+=0.5").from(acc184Ref.current, {
-            opacity: 0,
-        });
-        addAnimation(tl, 0);
-    }, []);
 
     const dashLength = xScale.metric(0.05);
     const strokeWidth = xScale.metric(0.02);

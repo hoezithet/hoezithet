@@ -12,21 +12,14 @@ Bij de eenheid $\si{m}^3$ staat **geen voorvoegsel** en een **exponent $3$**. We
 `;
 
 const ex1Choices = String.raw`
-$10^{0}$
-$10^{-3}$
-$10^{3}$
-$10^{-1}$
+$\left(10^{0}\right)^3$
+$\left(10^{-1}\right)^3$
+$\left(10^{1}\right)^3$
+$\left(10^{2}\right)^3$
 `.split('\n').slice(1, -1);
 
 const ex1Expl = String.raw`
-Zoals je in de tabel met voorvoegsels kan zien, komt *geen voorvoegsel* overeen met $10^{0}$. Er staat een exponent $3$ bij onze eenheid, die moeten we ook bij onze macht van $10$ zetten. We krijgen:
-
-$$
-\begin{aligned}
-\left(10^0\right)^3 &= 10^{0\cdot 3}\\
-&= 10^{0}
-\end{aligned}
-$$
+Zoals je in de tabel met voorvoegsels kan zien, komt *geen voorvoegsel* overeen met $10^{0}$. Er staat een exponent $3$ bij onze eenheid, die moeten we ook bij onze macht van $10$ zetten.
 `;
 
 
@@ -35,21 +28,14 @@ Bij de eenheid $\si{dm}^3$ staat **het voorvoegsel $\si{d}$ (*deci-*)** en een *
 `;
 
 const ex2Choices = String.raw`
-$10^{-3}$
-$10^{-1}$
-$10^{-2}$
-$10^{2}$
+$\left(10^{-1}\right)^3$
+$\left(10^{0}\right)^3$
+$\left(10^{1}\right)^3$
+$\left(10^{2}\right)^3$
 `.split('\n').slice(1, -1);
 
 const ex2Expl = String.raw`
-Zoals je in de tabel met voorvoegsels kan zien, komt *deci-* overeen met $10^{-1}$. Er staat een exponent $3$ bij onze eenheid, die moeten we ook bij onze macht van $10$ zetten. We krijgen:
-
-$$
-\begin{aligned}
-\left(10^{-1}\right)^3 &= 10^{-1\cdot 3}\\
-&= 10^{-3}
-\end{aligned}
-$$ 
+Zoals je in de tabel met voorvoegsels kan zien, komt *deci-* overeen met $10^{-1}$. Er staat een exponent $3$ bij onze eenheid, die moeten we ook bij onze macht van $10$ zetten.
 `;
 
 
@@ -97,8 +83,7 @@ Dit kunnen we gebruiken om $15{,}0~\si{m}^3$ om te zetten naar $\si{dm}^3$:
 
 $$
 \begin{aligned}
-15{,}0~\si{m}^3 &= 15{,}0\cdot~\orange{1~\si{m}^3}\\
-&= 15{,}0\cdot~\orange{10^3~\si{dm}^3}\\
+15{,}0~\orange{\si{m}^3} &= 15{,}0\cdot~\orange{10^3~\si{dm}^3}\\
 \end{aligned}
 $$
 `;

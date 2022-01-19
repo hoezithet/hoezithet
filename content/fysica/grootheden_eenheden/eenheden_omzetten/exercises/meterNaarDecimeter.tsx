@@ -27,8 +27,7 @@ Uit de vorige vraag leerden we dat $1~\si{m} = 10~\si{dm}$. We kunnen de $\si{m}
 
 $$
 \begin{aligned}
-1{,}84~\si{m} &= 1{,}84\cdot \orange{1~\si{m}}\\
-&= 1{,}84\cdot \orange{10~\si{dm}}\\
+1{,}84~\orange{\si{m}} &= 1{,}84\cdot \orange{10~\si{dm}}\\
 &= 18{,}4~\si{dm}
 \end{aligned}
 $$ 

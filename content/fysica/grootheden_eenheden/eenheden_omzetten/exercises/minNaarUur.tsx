@@ -15,10 +15,10 @@ const ex1Expl = String.raw`
 We weten dat
 
 $$
-1~\si{h} = 60~\si{min}
+60~\si{min} = 1~\si{h}
 $$
 
-Die vergelijking kunnen we omvormen naar
+Door deze vergelijking te delen door $60$, krijgen we:
 
 $$
 1~\si{min} = \frac{1}{60}~\si{h} 
@@ -37,8 +37,7 @@ Uit de vorige vraag leerden we dat $1~\si{min} = \frac{1}{60}~\si{h}$. We kunnen
 
 $$
 \begin{aligned}
-93{,}72~\si{min} &= 93{,}72\cdot \orange{1~\si{min}}\\
-&= 93{,}72\cdot \orange{\frac{1}{60}~\si{h}}\\
+93{,}72~\orange{\si{min}} &= 93{,}72\cdot \orange{\frac{1}{60}~\si{h}}\\
 &= 1{,}562~\si{h}
 \end{aligned}
 $$ 

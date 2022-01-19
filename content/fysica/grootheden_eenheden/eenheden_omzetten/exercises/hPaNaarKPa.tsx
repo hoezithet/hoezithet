@@ -71,8 +71,7 @@ En dus:
 
 $$
 \begin{aligned}
-1013~\si{hPa} &= 1013\cdot \orange{1~\si{hPa}}\\
-&= 1013\cdot \orange{10^{-1}~\si{kPa}}\\
+1013 \orange{\si{hPa}} &= 1013\cdot \orange{10^{-1}~\si{kPa}}\\
 &= 101{,}3~\si{kPa}
 \end{aligned}
 $$
