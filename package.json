@@ -64,7 +64,7 @@
     "hast-util-is-element": "^1.1.0",
     "katex": "^0.12.0",
     "minimist": "^1.2.5",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.3.0-0",
     "react-cookie": "^4.0.3",
