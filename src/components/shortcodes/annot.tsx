@@ -11,7 +11,7 @@ import _ from "lodash";
 type Coordinate = {
     x: number,
     y: number,
-}
+}|number[]
 
 type AnnotProps = {
     annot: string|Coordinate,
@@ -27,7 +27,8 @@ type AnnotProps = {
     opacity?: number,
     lineWidth?: number,
     hideHead?: boolean,
-    dashed?: boolean
+    dashed?: boolean,
+    ignoreContext?: boolean,
 }
 
 
@@ -92,7 +93,7 @@ const getAngleFromAlign = (hAlign, vAlign) => {
 
 const getElCoord = (el: Element, hAlign: string, vAlign: string) => {
     const rect = el.getBoundingClientRect()
-    const originRect = el.closest("svg")?.getBoundingClientRect();
+    const originRect = el.closest("svg.drawing")?.getBoundingClientRect();
     const [tLeft, tTop, tRight, tBottom] = [
         rect?.left - (originRect?.x || 0),
         rect?.top - (originRect?.y || 0),
@@ -113,6 +114,12 @@ const getElCoord = (el: Element, hAlign: string, vAlign: string) => {
 const convertToCoord = (annotOrTarget: string|Coordinate, hAlign: string, vAlign: string, xScale, yScale) => {
     if (typeof document === "undefined") {
         return {x: 0, y: 0};
+    }
+    if (Array.isArray(annotOrTarget)) {
+        annotOrTarget = {
+            x: annotOrTarget[0],
+            y: annotOrTarget[1],
+        };
     }
     if (typeof annotOrTarget === "string") {
         const el = document.querySelector(annotOrTarget);
@@ -137,11 +144,15 @@ export const AnnotArrow = ({
     hAlignTarget="center", vAlignTarget="top",
     color="light_gray", opacity=1, lineWidth=2,
     hideHead=false, dashed=false,
+    ignoreContext=false,
 }: AnnotProps) => {
-    const {xScale, yScale} = useContext(DrawingContext);
+    const {xScale, yScale} = ignoreContext ? {
+        xScale: x => x,
+        yScale: x => x,
+    } : useContext(DrawingContext);
 
     const annotCoord = convertToCoord(annot, hAlignAnnot, vAlignAnnot, xScale, yScale);
-    target = Array.isArray(target) ? target : [target];
+    target = Array.isArray(target) && target.length > 0 && typeof target[0] !== "number" ? target : [target];
     const targetCoords = target.map(t => convertToCoord(t, hAlignTarget, vAlignTarget, xScale, yScale))
 
     const anchorAngleAnnot = getAngleFromAlign(hAlignAnnot, vAlignAnnot);

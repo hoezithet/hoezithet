@@ -2,6 +2,7 @@ const { createFilePath } = require(`gatsby-source-filesystem`);
 
 const _ = require("lodash");
 const path = require("path");
+const webpack = require('webpack');
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
     const { createNodeField } = actions;
@@ -344,10 +345,21 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
     });
 };
 
-exports.onCreateWebpackConfig = ({ actions }) => {
+exports.onCreateWebpackConfig = ({
+  stage,
+  rules,
+  loaders,
+  plugins,
+  actions,
+}) => {
   actions.setWebpackConfig({
     resolve: {
-      modules: [path.resolve(__dirname, "src"), path.resolve(__dirname, "content"), "node_modules"]
-    }
+      modules: [path.resolve(__dirname, "src"), path.resolve(__dirname, "content"), "node_modules"],
+    },
+    plugins: [
+        new webpack.IgnorePlugin({
+            resourceRegExp: /^canvas$/
+        })
+    ],
   });
 };

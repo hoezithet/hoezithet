@@ -6,7 +6,7 @@ type MarkdownPropTypes = {
     mathProcessor: string
 }
 
-const Markdown = ({children, mathProcessor}: MarkdownPropTypes) => {
+const Markdown = ({children, mathProcessor = 'mathjax'}: MarkdownPropTypes) => {
     return md2react(children, mathProcessor);
 };
 

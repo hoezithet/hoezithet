@@ -3,15 +3,17 @@ import katexOptions from "./katexOptions";
 const macros = Object.fromEntries(
     Object.entries(katexOptions.macros)
     .map(([macroName, macroDef]) => {
-        const newName = macroName.slice(1);
-        const newDef = macroDef.replace('\\htmlClass', '\\class');
+        macroName = macroName.slice(1);
+        macroDef = macroDef.replace('\\htmlClass', '\\class');
         const rgx = /#(\d)/g;
-        const argNums = [...newDef.matchAll(rgx)].map(m => parseInt(m[1]));
-        
+        const argNums = [...macroDef.matchAll(rgx)].map(m => parseInt(m[1]));
+
+        macroDef = macroDef.replace('\\color{', '\\color{#');
+
         if (argNums.length > 0) {
-            return [newName, [newDef, argNums.length]];
+            return [macroName, [macroDef, argNums.length]];
         } else {
-            return [newName, newDef];
+            return [macroName, macroDef];
         }
     })
 );
@@ -21,9 +23,12 @@ const options = {
         macros: {
             ...macros,
             Lrarr: '\\Leftrightarrow',
-        }
+            htmlId: ['{\\cssId{#1}{#2}}', 2],
+        },
     },
-    fontCache: 'none',
+    svg: {
+        fontCache: 'none',
+    },
 };
 
 export default options;

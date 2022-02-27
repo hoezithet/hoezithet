@@ -7,6 +7,7 @@ import katexOptions from "../katexOptions";
 import remark2rehype from 'remark-rehype';
 import rehype2react from 'rehype-react';
 import mathjaxOptions from "../mathjaxOptions";
+import rehypeMathjaxSvg from 'rehype-mathjax/svg.js';
 
 const md2react = (md_text: string, mathProcessor: string = 'katex') => {
     let processor = unified()
@@ -16,6 +17,8 @@ const md2react = (md_text: string, mathProcessor: string = 'katex') => {
    
     if (mathProcessor === 'katex') {
         processor = processor.use(katex, katexOptions);
+    } else if (mathProcessor == 'mathjax') {
+        processor = processor.use(rehypeMathjaxSvg, mathjaxOptions);
     }
         
     processor = processor.use(rehype2react, { createElement: React.createElement });
