@@ -36,8 +36,6 @@ const _MultipleChoice = ({ children, choices, solution, shuffle=true}: MultipleC
         }
     }, [trial]);
 
-    console.log(`render _MultipleChoice ${id} (trial ${trial})`);
-
     return (
         <RadioGroup value={answerValue} onChange={handleChange}>
             {

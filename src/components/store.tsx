@@ -38,7 +38,6 @@ export function Store<T>({ children, elements, setElements, name }: StoreProps<T
                 ];
             }
             nextElements[id] = element;
-            console.log(`Received prevElements ${JSON.stringify(prevElements)}, returning nextElements ${JSON.stringify(nextElements)} for store "${name}"`);
             return nextElements;
         });
     };
@@ -89,7 +88,6 @@ export function useStoredElement<T>(initialEl: T): [T, (newEl: T) => void, boole
         if (newEl !== undefined) {
             // Store in cache for when the store wouldn't be ready yet
             elementCache.current = newEl;
-            console.log(`Setting id ${idRef.current} in store "${name}", setting element to ${newEl} (${JSON.stringify(newEl)}).`);
             setElement(idRef.current, newEl);
         }
     };
@@ -98,13 +96,8 @@ export function useStoredElement<T>(initialEl: T): [T, (newEl: T) => void, boole
         registerElement((assignedId) => {
             idRef.current = assignedId;
             setEl(elementCache.current);
-            console.log(`Registered id ${assignedId} in store "${name}", setting element to ${JSON.stringify(elementCache.current)}.`);
         });
     }, []);
     
-    useEffect(() => {
-        console.log(`Element in ${name} at ${idRef.current} is now ${JSON.stringify(getEl())}`);
-    }, [getEl()]);
-
     return [getEl(), setEl, usingContext];
 };
