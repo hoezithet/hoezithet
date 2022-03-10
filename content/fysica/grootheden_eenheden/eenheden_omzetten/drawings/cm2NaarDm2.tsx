@@ -3,13 +3,13 @@ import { Drawing } from "components/shortcodes/drawing";
 import DrawingGrid from "components/shortcodes/drawingGrid";
 import { SvgNote } from "components/shortcodes/svgNote";
 import { AnnotArrow } from "components/shortcodes/annot";
-import _ from "lodash";
+import _uniqueId from "lodash/uniqueId";
 
 
 const Cm2NaarDm2 = () => {
-    const [tellerId] = React.useState("teller_dm2");
-    const [noemerId] = React.useState("noemer_cm2");
-    const [expId] = React.useState("exp_cm2dm2");
+    const [tellerId] = React.useState(_uniqueId("teller_dm2")) ;
+    const [noemerId] = React.useState(_uniqueId("noemer_cm2"));
+    const [expId] = React.useState(_uniqueId("exp_cm2dm2"));
     
     const annotTeller = String.raw`
 We komen van *centi-* met een exponent $\orange{2}$, dus in de **teller** komt $\htmlId{teller_annot_cm2}{\orange{\left(10^{-2}\right)^{\! 2}}}$`;
@@ -20,9 +20,9 @@ We gaan naar *deci-* met een exponent $\blue{2}$, dus in de **noemer** komt $\ht
 
     const breuk = String.raw`
 $$
-1~\si{\orange{c}m}^\orange{2} = \frac{\htmlId{${tellerId}}{\orange{\left(10^{-2}\right)^{\!2}}}}{\htmlId{${noemerId}}{\blue{\left(10^{-1}\right)^{\!2}}}}~\si{\blue{d}m}^\blue{2}
+1~\si{\orange{c}m}^{\orange{2}} = \frac{\htmlId{${tellerId}}{\orange{\left(10^{-2}\right)^{\!2}}}}{\htmlId{${noemerId}}{\blue{\left(10^{-1}\right)^{\!2}}}}~\si{\blue{d}m}^{\blue{2}}
 $$
-`; 
+`;
 
     return (
         <Drawing>

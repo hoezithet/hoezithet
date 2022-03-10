@@ -7,23 +7,25 @@ import {
 import { RubberHose } from "components/drawings/rubberHose";
 import { withBreathing } from "./breathingPerson";
 import { gsap } from "gsap";
+import _uniqueId from "lodash/uniqueId";
 
 
 const _DirkTrui = ({ isFront=false }) => {
+    const [patternId] = React.useState(_uniqueId("dirk_pattern_"));
     return (
         <g transform="translate(-41.998138 -38.749356)">
           <defs>
-            <pattern patternUnits="userSpaceOnUse" width="50.260043" height="37.694409" patternTransform="" id="pattern11803">
-              <g id="use13498-9-3" transform="matrix(3.7795279,0,0,3.7795279,-77.89009,-234.54449)">
-                <rect id="rect13530-9-3" y="62.056557" x="20.608419" height="9.9733095" width="13.297967" fill="none" stroke="none" strokeWidth="0.61472619"/>
-                <path d="m 30.581893,62.056559 3.324491,4.986654 -3.324491,4.986654 -3.32449,-4.986654 z m -6.648981,10e-7 3.32449,4.986654 -3.32449,4.986654 -3.32449,-4.986654 z" opacity="1" fill="#555555" fillOpacity="1" stroke="none" strokeWidth="0.88533551" strokeLinecap="butt" strokeLinejoin="bevel" strokeMiterlimit="4" strokeDasharray="2.65600656, 2.65600656" strokeDashoffset="0" strokeOpacity="1" paintOrder="markers stroke fill" id="path13532-2-5"/>
-                <path d="m 27.257404,62.05656 3.324489,-10e-7 -3.32449,4.986654 -3.324491,-4.986654 z m -1e-6,4.986654 3.32449,4.986654 -3.324489,-2e-6 -3.324492,2e-6 z" opacity="1" fill="#16502d" fillOpacity="1" stroke="none" strokeWidth="0.88533551" strokeLinecap="butt" strokeLinejoin="bevel" strokeMiterlimit="4" strokeDasharray="2.65600656, 2.65600656" strokeDashoffset="0" strokeOpacity="1" paintOrder="markers stroke fill" id="path13534-3-0"/>
-                <path d="m 33.906385,67.043213 v 4.986653 0 l -3.324491,10e-7 z m -13.297963,1e-6 3.32449,4.986654 -3.324489,-2e-6 z m 10e-7,-4.986654 3.32449,-2e-6 -3.32449,4.986655 z m 13.297962,0 v 0 l -10e-7,4.986653 -3.32449,-4.986655 z" opacity="1" fill="#19a974" fillOpacity="1" stroke="none" strokeWidth="0.88533551" strokeLinecap="butt" strokeLinejoin="bevel" strokeMiterlimit="4" strokeDasharray="2.65600653, 2.65600653" strokeDashoffset="0" strokeOpacity="1" paintOrder="markers stroke fill" id="path13536-5-1"/>
-                <path id="path13538-4-4" opacity="1" fill="#137752" fillOpacity="1" stroke="#000000" strokeWidth="0.21277149" strokeLinecap="round" strokeLinejoin="miter" strokeMiterlimit="4" strokeDasharray="0.2127715, 0.42554299" strokeDashoffset="0" strokeOpacity="1" d="m 27.257401,71.922222 -6.541749,-9.758016 m 13.083499,9.758016 -6.541748,-9.758017 m 0,9.758017 6.541748,-9.758017 m -13.083499,9.758017 6.54175,-9.758017" />
+            <pattern patternUnits="userSpaceOnUse" width="50.260043" height="37.694409" patternTransform="" id={patternId}>
+              <g transform="matrix(3.7795279,0,0,3.7795279,-77.89009,-234.54449)">
+                <rect y="62.056557" x="20.608419" height="9.9733095" width="13.297967" fill="none" stroke="none" strokeWidth="0.61472619"/>
+                <path d="m 30.581893,62.056559 3.324491,4.986654 -3.324491,4.986654 -3.32449,-4.986654 z m -6.648981,10e-7 3.32449,4.986654 -3.32449,4.986654 -3.32449,-4.986654 z" opacity="1" fill="#555555" fillOpacity="1" stroke="none" strokeWidth="0.88533551" strokeLinecap="butt" strokeLinejoin="bevel" strokeMiterlimit="4" strokeDasharray="2.65600656, 2.65600656" strokeDashoffset="0" strokeOpacity="1" paintOrder="markers stroke fill" />
+                <path d="m 27.257404,62.05656 3.324489,-10e-7 -3.32449,4.986654 -3.324491,-4.986654 z m -1e-6,4.986654 3.32449,4.986654 -3.324489,-2e-6 -3.324492,2e-6 z" opacity="1" fill="#16502d" fillOpacity="1" stroke="none" strokeWidth="0.88533551" strokeLinecap="butt" strokeLinejoin="bevel" strokeMiterlimit="4" strokeDasharray="2.65600656, 2.65600656" strokeDashoffset="0" strokeOpacity="1" paintOrder="markers stroke fill" />
+                <path d="m 33.906385,67.043213 v 4.986653 0 l -3.324491,10e-7 z m -13.297963,1e-6 3.32449,4.986654 -3.324489,-2e-6 z m 10e-7,-4.986654 3.32449,-2e-6 -3.32449,4.986655 z m 13.297962,0 v 0 l -10e-7,4.986653 -3.32449,-4.986655 z" opacity="1" fill="#19a974" fillOpacity="1" stroke="none" strokeWidth="0.88533551" strokeLinecap="butt" strokeLinejoin="bevel" strokeMiterlimit="4" strokeDasharray="2.65600653, 2.65600653" strokeDashoffset="0" strokeOpacity="1" paintOrder="markers stroke fill"/>
+                <path opacity="1" fill="#137752" fillOpacity="1" stroke="#000000" strokeWidth="0.21277149" strokeLinecap="round" strokeLinejoin="miter" strokeMiterlimit="4" strokeDasharray="0.2127715, 0.42554299" strokeDashoffset="0" strokeOpacity="1" d="m 27.257401,71.922222 -6.541749,-9.758016 m 13.083499,9.758016 -6.541748,-9.758017 m 0,9.758017 6.541748,-9.758017 m -13.083499,9.758017 6.54175,-9.758017" />
               </g>
             </pattern>
           </defs>
-          <path fill="url(#pattern11803)" fillOpacity="1"
+          <path fill={`url(#${patternId})`} fillOpacity="1"
               transform={ isFront ? "translate(60,61.5) rotate(0) scale(-0.15,0.15)"
                           : "translate(58.9,72.2) rotate(5) scale(-0.20,0.20)" }
               d={ isFront ? "m 0,0 c -18.9822,-43.1317 -0.09,-80.3893 -0.1356,-116.5839 6.2982,-13.0449 12.6622,-21.1976 7.6213,-42.8449 25.9282,-7.0777 57.9779,-5.9432 83.0308,0 -0.7689,12.9479 -0.2794,27.0303 7.6706,42.4524 0.1119,36.0016 20.4714,77.2176 -0.1878,116.9764 -33.7271,9.9757 -63.5651,8.6738 -97.9993,0 z"

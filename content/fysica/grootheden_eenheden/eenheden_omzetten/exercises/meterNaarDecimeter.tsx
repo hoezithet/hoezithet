@@ -7,10 +7,12 @@ import { Explanation } from "components/shortcodes/explanation";
 import Md from "components/markdown";
 
 const ex1 = String.raw`Vul aan: $1~\si{m}$ is gelijk aan`;
-const ex1Choices = String.raw`$10~\si{dm}$
+const ex1Choices = String.raw`
+$10~\si{dm}$
 $0{,}10~\si{dm}$
 $100~\si{dm}$
-$0{,}01~\si{dm}$`.split('\n');
+$0{,}01~\si{dm}$
+`.split('\n').slice(1, -1);
 const ex1Expl = String.raw`
 Het voorvoegsel $\si{d}$ (deci-) betekent "een tiende", of $0{,}1$. $1~\si{dm}$ is dus een tiende meter of $0{,}1~\si{m}$. Om één meter te krijgen, hebben we **tien** tiende meters nodig. $1~\si{m}$ is dus gelijk aan $10~\si{dm}$.
 `;
@@ -18,10 +20,12 @@ Het voorvoegsel $\si{d}$ (deci-) betekent "een tiende", of $0{,}1$. $1~\si{dm}$ 
 const ex2 = String.raw`
 Hoeveel decimeter is $1{,}84~\si{m}$ dan?
 `;
-const ex2Choices = String.raw`$18{,}4~\si{dm}$
+const ex2Choices = String.raw`
+$18{,}4~\si{dm}$
 $0{,}184~\si{dm}$
 $184~\si{dm}$
-$1{,}84~\si{dm}$`.split('\n');
+$1{,}84~\si{dm}$
+`.split('\n').slice(1, -1);
 const ex2Expl = String.raw`
 Uit de vorige vraag leerden we dat $1~\si{m} = 10~\si{dm}$. We kunnen de $\si{m}$ in $1{,}84~\si{m}$ dus vervangen door $10~\si{dm}$:
 
