@@ -18,7 +18,6 @@ import SwipeableViews from 'react-swipeable-views';
 import { theme } from "../theme";
 import { ExerciseType, selectExercises } from "./exercise";
 import { ExercisesFeedback } from "./exerciseFeedback";
-import { Store, useStoredElement } from '../store';
 import COLORS from '../../colors';
 import { AnswerType, selectAnswers } from './answer';
 

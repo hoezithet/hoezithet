@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { nanoid, createSelector } from '@reduxjs/toolkit'
 
-import { useStoredElement, Store, GetNextElementsType } from '../store';
 import { AnswerType, selectAnswers } from "./answer";
 import { ExerciseStepperContext, makeSelectExerciseStepperExercises, makeSelectExerciseStepperFromId } from './exerciseStepper';
 import { ExercisesFeedback } from "./exerciseFeedback";
