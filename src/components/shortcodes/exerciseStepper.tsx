@@ -16,17 +16,17 @@ import styled from "styled-components";
 import SwipeableViews from 'react-swipeable-views';
 
 import { theme } from "../theme";
-import { ExerciseType, useExercises } from "./exercise";
+import { ExerciseType, selectExercises } from "./exercise";
 import { ExercisesFeedback } from "./exerciseFeedback";
 import { Store, useStoredElement } from '../store';
 import COLORS from '../../colors';
-import { AnswerType, useAnswers } from './answer';
+import { AnswerType, selectAnswers } from './answer';
 
 import { RootState } from '../../state/store'
 import { exerciseStepperAdded, exerciseStepAdded, removeExerciseStepper } from '../../state/exerciseSteppersSlice'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import { nanoid } from '@reduxjs/toolkit'
+import { nanoid, createSelector } from '@reduxjs/toolkit'
 import { showAnswerSolution, resetAnswer } from '../../state/answersSlice'
 
 
@@ -78,32 +78,55 @@ type ExerciseStepperContextValueType = {
 
 export const ExerciseStepperContext = createContext<ExerciseStepperContextValueType|null>(null);
 
-export const useExerciseSteppers = () => {
-    return useSelector(
-        (state: RootState) => state.exerciseSteppers
+export const selectExerciseSteppers = (state: RootState) => state.exerciseSteppers;
+
+export const makeSelectExerciseStepperFromId = () => {
+    const selectExerciseStepperFromId = createSelector(
+        [
+          (state: RootState) => selectExerciseSteppers(state),
+          (state: RootState, stepperId: string) => stepperId,
+        ],
+        (exerciseSteppers: ExerciseStepperType[], stepperId: string) => {
+            return exerciseSteppers?.find(
+                stepper => stepper.id === stepperId
+            );
+        }
     );
+    return selectExerciseStepperFromId;
 };
 
-export const useExerciseStepper = (id: string) => {
-    return useExerciseSteppers().find(
-        stepper => stepper.id === id
-    )
-};
+export const makeSelectExerciseStepperExercises = () => {
+    const selectExerciseStepperFromId = makeSelectExerciseStepperFromId();
 
-export const useExerciseStepperExercises = (id: string) => {
-    const exerciseStepper = useExerciseStepper(id);
-    const allExercises = useExercises();
-    return allExercises.filter(ex => exerciseStepper?.exerciseIds?.includes(ex.id));
-};
-
-export const useExerciseStepperAnswers = (id: string) => {
-    const exercises = useExerciseStepperExercises(id);
-    const allAnswers = useAnswers();
-    return exercises?.map(
-        ex => ex?.answerIds.map(ansId =>
-            allAnswers.find(ans => ansId === ans?.id)
-        )
+    const selectExerciseStepperExercises = createSelector(
+        [
+            (state: RootState, stepperId: string) => selectExerciseStepperFromId(state, stepperId),
+            (state: RootState) => selectExercises(state),
+        ],
+        (exerciseStepper: ExerciseStepperType, exercises: ExerciseType[]) => {
+            return exercises.filter(ex => exerciseStepper?.exerciseIds?.includes(ex.id));
+        }
     );
+    return selectExerciseStepperExercises;
+};
+
+export const makeSelectExerciseStepperAnswers = () => {
+    const selectExerciseStepperExercises = makeSelectExerciseStepperExercises();
+
+    const selectExerciseStepperAnswers = createSelector(
+        [
+            (state: RootState, stepperId: string) => selectExerciseStepperExercises(state, stepperId),
+            (state: RootState) => selectAnswers(state),
+        ],
+        (exercises: ExerciseType[], answers: AnswerType[]) => {
+            return exercises?.map(
+                ex => ex?.answerIds.map(ansId =>
+                    answers.find(ans => ansId === ans?.id)
+                )
+            );
+        }
+    );
+    return selectExerciseStepperAnswers;
 };
 
 export type ExerciseStepperType = {
@@ -148,8 +171,11 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
     const id = useRef(nanoid());
     const steps = getExerciseStepsFromChildren(children);
 
-    const exerciseStepper = useExerciseStepper(id.current);
-    const answers = useExerciseStepperAnswers(id.current);
+    const selectExerciseStepperFromId = React.useMemo(makeSelectExerciseStepperFromId, []);
+    const exerciseStepper = useSelector(state => selectExerciseStepperFromId(state, id.current));
+
+    const selectExerciseStepperAnswers = React.useMemo(makeSelectExerciseStepperAnswers, []);
+    const answers = useSelector(state => selectExerciseStepperAnswers(state, id.current));
     const flatAnswers = answers.reduce((acc, curVal) => acc?.concat(curVal), []);
 
     const dispatch = useDispatch();

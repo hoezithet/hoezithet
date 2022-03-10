@@ -20,22 +20,28 @@ type MultipleChoiceProps = {
 const _MultipleChoice = ({ children, choices, solution, shuffle=true}: MultipleChoiceProps) => {
     const solutionNode = choices[solution];
     const explanation = getChildAtIndex(children, 0) || null;
-    const evaluateAnswerValue = (v: number|null) => v === solution;
+    const evaluateAnswerValue = React.useCallback((v: number|null) => v === solution, [solution]);
 
-    const {answerValue, setAnswerValue, showingSolution} = useAnswerValue(evaluateAnswerValue, solutionNode, explanation);
+    const {answerValue, setAnswerValue, showingSolution, trial, id} = useAnswerValue(evaluateAnswerValue, solutionNode, explanation);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setAnswerValue(e.target ? Number(e.target.value) : null);
-    };
+    }, [setAnswerValue]);
     
-    const choiceIdxs = [...Array(choices?.length || 0).keys()];
-    const shuffledIdxsRef = useRef(shuffleArray(choiceIdxs));
-    const idxs = shuffle ? shuffledIdxsRef.current : choiceIdxs;
+    const [choiceIdxs, setChoiceIdxs] = React.useState([...Array(choices?.length || 0).keys()]);
+
+    React.useEffect(() => {
+        if (shuffle) {
+            setChoiceIdxs(prevIdxs => [...shuffleArray(prevIdxs)]);
+        }
+    }, [trial]);
+
+    console.log(`render _MultipleChoice ${id} (trial ${trial})`);
 
     return (
         <RadioGroup value={answerValue} onChange={handleChange}>
             {
-                idxs.map((index) => (
+                choiceIdxs.map((index) => (
                     <FormControlLabel key={index} value={index} control={<Radio />} label={choices[index]} disabled={showingSolution} />
                 ))
             }

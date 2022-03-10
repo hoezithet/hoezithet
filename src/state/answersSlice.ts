@@ -35,6 +35,7 @@ const answersSlice = createSlice({
                 answered: false,
                 correct: false,
                 showingSolution: false,
+                trial: state[answerIdx].trial + 1,
             };
         },
         removeAnswer(state, action) {

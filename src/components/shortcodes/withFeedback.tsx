@@ -1,6 +1,5 @@
 import React, { useContext, useRef } from "react";
 
-import { useStoredElement, StoreContext, StoreContextType } from '../store';
 import { AnswerFeedback } from './answerFeedback';
 import { AnswerType } from './answer';
 import { ExerciseContext, ExerciseContextValueType } from './exercise'

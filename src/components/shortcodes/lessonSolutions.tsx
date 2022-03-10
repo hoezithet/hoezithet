@@ -3,9 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { ReadableAnswerSolution } from "./answerSolution"
 
-import { useAnswers, AnswerType } from './answer'
-import { useExercises } from './exercise'
-import { useExerciseSteppers } from './exerciseStepper'
+import { selectAnswers, AnswerType } from './answer'
+import { selectExercises } from './exercise'
+import { selectExerciseSteppers } from './exerciseStepper'
+import { useSelector } from 'react-redux'
 
 type LessonAnswerSolutionProps = {
     answer: AnswerType<any>,
@@ -38,8 +39,8 @@ const LessonAnswerSolution = ({ answer }: LessonAnswerSolutionProps) => {
 };
 
 export const LessonSolutions = ({}) => {
-    const answers = useAnswers();
-    const exercises = useExercises();
+    const answers = useSelector(selectAnswers);
+    const exercises = useSelector(selectExercises);
     const classes = useStyles();
 
     const lessonAnswers = exercises.map(ex =>

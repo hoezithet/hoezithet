@@ -20,7 +20,6 @@ import { BareExerciseStepper } from "../components/shortcodes/exerciseStepper";
 import { MultipleAnswer } from "../components/shortcodes/multipleAnswer";
 import { MultipleChoice } from "../components/shortcodes/multipleChoice";
 import { FillString } from "../components/shortcodes/fillAnswer";
-import { Store } from '../components/store';
 import { LessonSolutions } from '../components/shortcodes/lessonSolutions'
 import { TitledExercise } from '../components/shortcodes/exercise'
 

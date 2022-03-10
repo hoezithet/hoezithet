@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect, useCallback, useMemo, useRef } 
 
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import { nanoid } from '@reduxjs/toolkit'
+import { nanoid, createSelector } from '@reduxjs/toolkit'
 import { RootState } from '../../state/store'
 
 import { answerAdded, answerChanged, removeAnswer } from '../../state/answersSlice'
@@ -19,14 +19,19 @@ export type AnswerType<T> = {
     showingSolution: boolean,
 };
 
-export const useAnswers = () => {
-    return useSelector(
-        (state: RootState) => state.answers
-    )
-};
+export const selectAnswers = (state: RootState) => state.answers;
 
-export const useAnswer = (id: string) => {
-    return useAnswers()?.find(ans => ans.id === id)
+export const makeSelectAnswerFromId = () => {
+    const selectAnswerFromId = createSelector(
+        [
+            selectAnswers,
+            (state: RootState, ansId: string) => ansId
+        ],
+        (answers: AnswerType[], ansId: string) => {
+            return answers?.find(ans => ans.id === ansId);
+        }
+    );
+    return selectAnswerFromId;
 };
 
 export function useAnswerValue<T> (
@@ -35,7 +40,8 @@ export function useAnswerValue<T> (
     explanation: React.ReactNode,
 ): {answerValue: T|null, setAnswerValue: (newValue: T|null) => void, showingSolution: boolean} {
     const id = useRef(nanoid());
-    const answer = useAnswer(id.current);
+    const selectAnswerFromId = useMemo(makeSelectAnswerFromId, []);
+    const answer = useSelector(state => selectAnswerFromId(state, id.current));
 
     const exCtx = useContext(ExerciseContext);
 
