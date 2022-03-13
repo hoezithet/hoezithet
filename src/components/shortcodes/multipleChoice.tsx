@@ -22,7 +22,7 @@ const _MultipleChoice = ({ children, choices, solution, shuffle=true}: MultipleC
     const explanation = getChildAtIndex(children, 0) || null;
     const evaluateAnswerValue = React.useCallback((v: number|null) => v === solution, [solution]);
 
-    const {answerValue, setAnswerValue, showingSolution, trial, id} = useAnswerValue(evaluateAnswerValue, solutionNode, explanation);
+    const {answerValue, setAnswerValue, showingSolution, trial} = useAnswerValue(evaluateAnswerValue, solutionNode, explanation);
 
     const handleChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setAnswerValue(e.target ? Number(e.target.value) : null);

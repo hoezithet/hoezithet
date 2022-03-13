@@ -19,7 +19,7 @@ import { theme } from "../theme";
 import { ExerciseType, selectExercises } from "./exercise";
 import { ExercisesFeedback } from "./exerciseFeedback";
 import COLORS from '../../colors';
-import { AnswerType, selectAnswers } from './answer';
+import { AnswerType, selectAnswers, compareAnswers } from './answer';
 
 import { RootState } from '../../state/store'
 import { exerciseStepperAdded, exerciseStepAdded, removeExerciseStepper } from '../../state/exerciseSteppersSlice'
@@ -128,6 +128,8 @@ export const makeSelectExerciseStepperAnswers = () => {
     return selectExerciseStepperAnswers;
 };
 
+const flattenAnswers = answers => answers.reduce((acc, curVal) => acc?.concat(curVal), []);
+
 export type ExerciseStepperType = {
     id: string,
     exerciseIds: string[],
@@ -173,9 +175,16 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
     const selectExerciseStepperFromId = React.useMemo(makeSelectExerciseStepperFromId, []);
     const exerciseStepper = useSelector(state => selectExerciseStepperFromId(state, id.current));
 
-    const selectExerciseStepperAnswers = React.useMemo(makeSelectExerciseStepperAnswers, []);
-    const answers = useSelector(state => selectExerciseStepperAnswers(state, id.current));
-    const flatAnswers = answers.reduce((acc, curVal) => acc?.concat(curVal), []);
+    const selectExerciseStepperAnswersFromId = React.useMemo(makeSelectExerciseStepperAnswers, []);
+    const answers = useSelector(state => {
+        return selectExerciseStepperAnswersFromId(state, id.current);
+    },
+    (answersAfter, answersBefore) => {
+        answersBefore = flattenAnswers(answersBefore);
+        answersAfter = flattenAnswers(answersAfter);
+        return compareAnswers(answersBefore, answersAfter);
+    });
+    const flatAnswers = flattenAnswers(answers);
 
     const dispatch = useDispatch();
 
@@ -203,7 +212,7 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
                 exerciseId: exerciseId,
             })
         )
-    }
+    };
 
     const totalSteps = () => {
         return steps.length;

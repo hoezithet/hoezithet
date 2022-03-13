@@ -19,7 +19,22 @@ export type AnswerType<T> = {
     showingSolution: boolean,
 };
 
-export const selectAnswers = (state: RootState) => state.answers;
+export const selectAnswers = (state: RootState) => {
+    return state.answers
+};
+
+export const compareAnswers = (answers1, answers2) => {
+    return (
+        answers1.length === answers2.length
+        && answers1.every((a1, idx) => {
+            const a2 = answers2[idx];
+            return (
+                a1.value === a2.value
+                && a1.id === a2.id
+            );
+        })
+    );
+};
 
 export const makeSelectAnswerFromId = () => {
     const selectAnswerFromId = createSelector(
@@ -79,5 +94,5 @@ export function useAnswerValue<T> (
     };
 
 
-    return {answerValue: answer?.value !== undefined ? answer.value : null, setAnswerValue: setAnswerValue, showingSolution: answer?.showingSolution || false};
+    return {answerValue: answer?.value !== undefined ? answer.value : null, setAnswerValue: setAnswerValue, showingSolution: answer?.showingSolution || false, trial: answer?.trial};
 }

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { nanoid, createSelector } from '@reduxjs/toolkit'
 
-import { AnswerType, selectAnswers } from "./answer";
+import { AnswerType, selectAnswers, compareAnswers } from "./answer";
 import { ExerciseStepperContext, makeSelectExerciseStepperExercises, makeSelectExerciseStepperFromId } from './exerciseStepper';
 import { ExercisesFeedback } from "./exerciseFeedback";
 import Paper from '../paper';
@@ -112,11 +112,11 @@ export const makeSelectExerciseRankInStepper = () => {
 export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
     const id = useRef(nanoid());
 
-    const selectExerciseById = React.useMemo(makeSelectExerciseById, []);
-    const exercise = useSelector(state => selectExerciseById(state, id.current));
+    const selectExerciseFromId = React.useMemo(makeSelectExerciseById, []);
+    const exercise = useSelector(state => selectExerciseFromId(state, id.current));
 
-    const selectExerciseAnswers = React.useMemo(makeSelectExerciseAnswers, []);
-    const answers = useSelector(state => selectExerciseAnswers(state, id.current));
+    const selectExerciseAnswersFromId = React.useMemo(makeSelectExerciseAnswers, []);
+    const answers = useSelector(state => selectExerciseAnswersFromId(state, id.current), compareAnswers);
 
     const nodeRef = useRef<HTMLDivElement>(null);
 
@@ -126,8 +126,8 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
     const stepperId = stepperContext?.id;
     const dispatch = useDispatch();
 
-    const selectExerciseRankInStepper = React.useMemo(makeSelectExerciseRankInStepper, []);
-    let rank = useSelector(state => selectExerciseRankInStepper(state, stepperId, id.current));
+    const selectExerciseRankInStepperFromId = React.useMemo(makeSelectExerciseRankInStepper, []);
+    let rank = useSelector(state => selectExerciseRankInStepperFromId(state, stepperId, id.current));
     rank = rank !== -1 ? rank : exercise?.rank;
 
     useEffect(() => {
