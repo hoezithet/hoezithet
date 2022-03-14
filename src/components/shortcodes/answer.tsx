@@ -31,6 +31,8 @@ export const compareAnswers = (answers1, answers2) => {
             return (
                 a1.value === a2.value
                 && a1.id === a2.id
+                && a1.showingSolution === a2.showingSolution
+                && a1.trial === a2.trial
             );
         })
     );
@@ -72,6 +74,7 @@ export function useAnswerValue<T> (
                 solution: solution,
                 explanation: explanation,
                 showingSolution: false,
+                trial: 0,
             })
         )
         if (exCtx !== null) {
