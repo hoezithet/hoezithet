@@ -22,8 +22,8 @@ const MilkCarton = ({x, y, width, height, depth}) => {
            <g transform={`translate(${-width*cos30},${-width*sin30}) ${isoLeftTfm}`}>
                <rect width={width} height={height} fill={getColor("near_white")} stroke={getColor("black")} strokeLinejoin="round" />
                <CowHead x={width/2} y={height/3} hAlign="center" vAlign="center" width={width/2} height={height/2} ignoreDrawingContext />
-               <SvgNote x={width/2} y={height} hAlign="center" vAlign="bottom" fontSize={`{height/3}px`} useContextScale={false}>
-                   {String.raw`$1~\si{l}$`}
+               <SvgNote x={width/2} y={height} hAlign="center" vAlign="bottom" fontSize={`${height/3}px`} useContextScale={false}>
+                   {String.raw`**1L**`}
                </SvgNote>
            </g>
            <g transform={`translate(${-depth*cos30},${-(width+depth)*sin30}) ${isoTopTfm}`} fill={getColor("near_white")} stroke={getColor("black")} strokeLinejoin="round" >
@@ -149,9 +149,9 @@ const _DrieKubussenMetMelk = () => {
     const cubeStrokeWidth = xScale.metric(0.01);
 
     const fontSize = yScale.metric(0.2);
-    const [note1X, note1Y] = [cube1X + cube1Size * cos30 + 1.6*fontSize, cube1Y - (0.5 + sin30)*cube1Size];
-    const [note2X, note2Y] = [cube2X + cube2Size * cos30 + 1.6*fontSize, cube2Y - (0.5 + sin30)*cube2Size];
-    const [note3X, note3Y] = [cube3X + cube3Size * cos30 + 1.6*fontSize, cube3Y - (0.5 + sin30)*cube3Size];
+    const [note1X, note1Y] = [cube1X + cube1Size * cos30 + 2.3*fontSize, cube1Y - (0.5 + sin30)*cube1Size];
+    const [note2X, note2Y] = [cube2X + cube2Size * cos30 + 2.3*fontSize, cube2Y - (0.5 + sin30)*cube2Size];
+    const [note3X, note3Y] = [cube3X + cube3Size * cos30 + 2.3*fontSize, cube3Y - (0.5 + sin30)*cube3Size];
 
     const [cartonWidth, cartonHeight, cartonDepth] = [xScale.metric(0.1), yScale.metric(0.2), xScale.metric(0.05)];
     const [carton1X, carton1Y] = [note1X + cartonWidth, note1Y + cartonHeight/2 + cartonWidth*sin30];
@@ -195,34 +195,36 @@ export const DrieKubussenMetMelk = () => {
 const _Dm3IsMelk = () => {
     const { xScale, yScale } = React.useContext(DrawingContext);
 
-    const [cube2X, cube2Y, cube2Size] = [xScale(1.5), yScale(3), xScale.metric(0.1)];
+    const [cube2X, cube2Y, cube2Size] = [xScale(0.55), yScale(0.5), xScale.metric(0.1)];
     const cubeStrokeWidth = xScale.metric(0.01);
 
-    const fontSize = yScale.metric(0.2);
-    const [note2X, note2Y] = [cube2X + cube2Size * cos30 + 1.6*fontSize, cube2Y - (0.5 + sin30)*cube2Size];
+    const [note1dm3X, note1dm3Y] = [xScale(0.75), cube2Y + 1.5*cube2Size];
+
+    const fontSize = yScale.metric(0.1);
+    const [note2X, note2Y] = [xScale(0.75), cube2Y - (0.5 + sin30)*cube2Size];
 
     const [cartonWidth, cartonHeight, cartonDepth] = [xScale.metric(0.1), yScale.metric(0.2), xScale.metric(0.05)];
-    const [carton2X, carton2Y] = [note2X + cartonWidth, note2Y + cartonHeight/2 + cartonWidth*sin30];
+    const [carton2X, carton2Y] = [xScale(1.0), note2Y + cartonHeight/2 + cartonWidth*sin30];
 
     return (
         <>
             <Cube x={cube2X} y={cube2Y} size={cube2Size} color="green" strokeWidth={cubeStrokeWidth} />
-            <MilkCarton x={carton2X} y={carton2Y} width={cartonWidth} height={cartonHeight} depth={cartonDepth} />
-            <SvgNote x={note2X} y={note2Y} hAlign="right" fontSize={fontSize} useContextScale={false}>
-                {String.raw`$~=~$`}
+            <SvgNote x={note1dm3X} y={note1dm3Y} hAlign="center" vAlign="top" fontSize={fontSize} useContextScale={false}>
+                {String.raw`$1~\si{dm}^3 = 1~\si{l}$`}
             </SvgNote>
+            <MilkCarton x={carton2X} y={carton2Y} width={cartonWidth} height={cartonHeight} depth={cartonDepth} />
         </>
     );
 };
 
 
 export const Dm3IsMelk = () => {
-    const [xMin, xMax] = [1, 2.5];
-    const yMin = 2.5;
-    const ar = 16/9;
+    const [xMin, xMax] = [0, 1.5];
+    const yMin = 0;
+    const ar = 3/2;
     return (
         <Drawing xMin={xMin} xMax={xMax} yMin={yMin} yMax={yMin + (xMax - xMin)/ar}>
-            <DrawingGrid majorX={0.5} majorY={0.5} />
+            {/** <DrawingGrid majorX={0.5} majorY={0.5} /> **/}
             <_Dm3IsMelk />
         </Drawing>
     );
