@@ -61,9 +61,9 @@ Zeggen dat Dirk $1{,}84~\si{m}$ groot is, is hetzelfde als zeggen dat hij $1{,}8
 
 <DirkInCm />
 
-En kijk! We hebben de eenheid omgezet van *meter* naar *centimeter*! 🤯
+We hebben dus gevonden dat $1{,}84~\si{m}$ hetzelfde is als $184~\si{cm}$. We hebben de eenheid dus omgezet van *meter* naar *centimeter*! 🤯
 
-In onze omzetting van $1{,}84~\si{m}$ hebben we nogal veel vermenigvuldigingen met $1$ staan. Dat zorgt voor schrijfwerk dat we eigenlijk kunnen vermijden. In plaats daarvan gaan we vanaf nu de eenheid rechtstreeks vervangen. De vorige omzetting kunnen we korter schrijven als:
+In onze bovenstaande berekening om van $1{,}84~\si{m}$ naar $184~\si{cm}$ te gaan, hebben we nogal veel vermenigvuldigingen met $1$ staan. Dat zorgt voor schrijfwerk dat we eigenlijk kunnen vermijden. In plaats daarvan gaan we vanaf nu de eenheid rechtstreeks vervangen. De vorige omzetting kunnen we dan korter schrijven als:
 
 $$
 \begin{aligned}
@@ -458,7 +458,7 @@ import { Dm3IsMelk } from "./drawings/literIsDm3";
 
 </Expand>
 
-Nu we weten dat $1~\si{l} = 1~\si{dm}^3$, kunnen we **van kubieke meter via kubieke decimeter naar liter te gaan**:
+Nu we weten dat $1~\si{l} = 1~\si{dm}^3$, kunnen we **van kubieke meter via kubieke decimeter naar liter en vervolgens naar hectoliter gaan**:
 
 1. Eerst zetten we **kubieke meter om naar kubieke decimeter**.
 2. Omdat $1~\si{l} = 1~\si{dm}^3$, mogen we **kubieke decimeter gewoon vervangen door liter**.
@@ -573,7 +573,9 @@ Als we bv. een omzetting van $\si{ml}$ naar $\si{cm}^3$ moeten doen, dan volgen 
 2. Vervang $\si{l}$ (liter) door $\si{dm}^3$.
 3. Zet $\si{dm}^3$ om naar $\si{cm}^3$.
 
-(oefening)
+import MlNaarCm3 from './exercises/mlNaarCm3';
+
+<MlNaarCm3/>
 
 ## Eenheden in een breuk omzetten
 
