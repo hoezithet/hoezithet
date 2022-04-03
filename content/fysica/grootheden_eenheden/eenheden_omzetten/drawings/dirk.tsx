@@ -8,11 +8,70 @@ import { RubberHose } from "components/drawings/rubberHose";
 import { withBreathing } from "./breathingPerson";
 import { gsap } from "gsap";
 import _uniqueId from "lodash/uniqueId";
+import _flatten from "lodash/flatten";
+import _range from "lodash/range";
+
+
+const [TRUI_WIDTH, TRUI_HEIGHT] = [20.961890, 35.384704];
+const TRUI_SHOULDER = {x: TRUI_WIDTH*0.5, y: TRUI_HEIGHT*0.2};
+const TRUI_HIP = {x: TRUI_WIDTH*0.5, y: TRUI_HEIGHT*0.85};
+
+const matmul = (A, B) => A.map((row, i) => B[0].map((_, j) => row.reduce((acc, _, n) => acc + A[i][n] * B[n][j], 0)));
+const norm = vec => Math.sqrt(_flatten(vec).reduce((acc, x) => acc + Math.pow(x, 2), 0));
+const transp = A => A[0].map((_, j) => A.map(row => row[j]));
+
+
+const get1DStretchMatrix = (
+    p1, p2,
+    p1_new, p2_new,
+) => {
+    const V = [
+        [p2.x - p1.x, p2.y - p1.y],
+        [p2.y - p1.y, p1.x - p2.x]
+    ];
+    const detV = V[0][0]*V[1][1] - V[0][1]*V[1][0];
+    const Vinv = [
+        [V[0][0]/detV,  V[1][0]/detV],
+        [V[0][1]/detV, -V[1][1]/detV]
+    ];
+
+    const scale = norm([[p2_new.x - p1_new.x], [p2_new.y - p1_new.y]])/norm([[p2.x - p1.x], [p2.y - p1.y]]);
+    const D = [
+        [scale, 0],
+        [    0, 1]
+    ];
+
+    return matmul(V, matmul(D, Vinv));
+};
+
+
+const get1DStretchSizePosAngle = (
+    p1, p2, width, height,
+    p1_new, p2_new,
+) => {
+    const mat = get1DStretchMatrix(p1, p2, p1_new, p2_new);
+    const topLeft = matmul(mat, [[p1.x], [p1.y]]);
+
+    return {
+        x: p1_new.x + topLeft[0][0],
+        y: p1_new.y + topLeft[1][0],
+        width: norm(matmul(mat, [[width], [0]])),
+        height: norm(matmul(mat, [[0], [height]])),
+        angle: (
+            Math.atan2(p2_new.y - p1_new.y, p2_new.x - p1_new.x)
+            - Math.atan2(p2.y - p1.y, p2.x - p1.x)
+        ) *180/Math.PI,
+        angleAnchorRelX: p1.x/width,
+        angleAnchorRelY: p1.y/height,
+    };
+};
 
 
 const _DirkTrui = ({ isFront=false }) => {
     const [patternId] = React.useState(_uniqueId("dirk_pattern_"));
+
     return (
+        <>
         <g transform="translate(-41.998138 -38.749356)">
           <defs>
             <pattern patternUnits="userSpaceOnUse" width="50.260043" height="37.694409" patternTransform="" id={patternId}>
@@ -25,25 +84,65 @@ const _DirkTrui = ({ isFront=false }) => {
               </g>
             </pattern>
           </defs>
-          <path fill={`url(#${patternId})`} fillOpacity="1"
-              transform={ isFront ? "translate(60,61.5) rotate(0) scale(-0.15,0.15)"
-                          : "translate(58.9,72.2) rotate(5) scale(-0.20,0.20)" }
-              d={ isFront ? "m 0,0 c -18.9822,-43.1317 -0.09,-80.3893 -0.1356,-116.5839 6.2982,-13.0449 12.6622,-21.1976 7.6213,-42.8449 25.9282,-7.0777 57.9779,-5.9432 83.0308,0 -0.7689,12.9479 -0.2794,27.0303 7.6706,42.4524 0.1119,36.0016 20.4714,77.2176 -0.1878,116.9764 -33.7271,9.9757 -63.5651,8.6738 -97.9993,0 z"
-                 : "m 0,0 c -8.1837,-9.1 -23.3311,-30.3332 -12.9133,-64.3306 15.0395,-49.07961 18.3508,-67.80085 20.8985,-77.89896 4.2916,-17.01078 34.1766,-29.64427 54.0249,-16.0162 34.8602,24.23418 32.2555,110.64066 18.4074,161.46876 -55.4933,14.0721 -68.6676,9.8429 -80.4178,-3.223 z" }/>
+          { isFront ?
+            <path fill={`url(#${patternId})`} fillOpacity="1"
+              transform="translate(63.3,78) rotate(0) scale(-0.22,0.24)"
+              d="m 0,0 c -18.9822,-43.1317 -0.09,-80.3893 -0.1356,-116.5839 6.2982,-13.0449 12.6622,-21.1976 7.6213,-42.8449 25.9282,-7.0777 57.9779,-5.9432 83.0308,0 -0.7689,12.9479 -0.2794,27.0303 7.6706,42.4524 0.1119,36.0016 20.4714,77.2176 -0.1878,116.9764 -33.7271,9.9757 -63.5651,8.6738 -97.9993,0 z"/>
+            :
+            <path fill={`url(#${patternId})`} fillOpacity="1"
+              transform="translate(58.9,72.2) rotate(5) scale(-0.20,0.20)"
+              d="m 0,0 c -8.1837,-9.1 -23.3311,-30.3332 -12.9133,-64.3306 15.0395,-49.07961 18.3508,-67.80085 20.8985,-77.89896 4.2916,-17.01078 34.1766,-29.64427 54.0249,-16.0162 34.8602,24.23418 32.2555,110.64066 18.4074,161.46876 -55.4933,14.0721 -68.6676,9.8429 -80.4178,-3.223 z"/>
+          }
         </g>
+        </>
     );
 };
 
-const DirkTrui = withSizePositionAngle(_DirkTrui, 20.961890, 35.384704);
+const DirkTrui = withSizePositionAngle(_DirkTrui, TRUI_WIDTH, TRUI_HEIGHT);
+
+const getMidPoint = (p1, p2) => {
+    const width = p1.x - p2.x;
+    const midX = p2.x + width/2;
+    const height = p1.y - p2.y;
+    const midY = p2.y + height/2;
+
+    return {
+        x: midX,
+        y: midY
+    };
+};
+
+const getShoulderMid = (pose) => {
+    return getMidPoint({
+        x: pose.rShoulderX,
+        y: pose.rShoulderY,
+    }, {
+        x: pose.lShoulderX,
+        y: pose.lShoulderY,
+    });
+};
+
+
+const getHipMid = (pose) => {
+    return getMidPoint({
+        x: pose.rHipX,
+        y: pose.rHipY,
+    }, {
+        x: pose.lHipX,
+        y: pose.lHipY,
+    });
+};
 
 const _Dirk = ({pose=null, color="#000000", outline="#efefef", isFront=false}, ref) => {
     pose = pose === null  ? (isFront ? getRestPoseFront() : getRestPose()) : pose;
-    const hipShoulderDist = Math.abs(pose.rShoulderY - pose.rHipY);
     const sweaterHeight = pose.bodyHeight + pose.bodyWidth;
     const personRef = React.useRef(null);
     const sweaterRef = React.useRef(null);
     const rArmRefTop = React.useRef(null);
     const lArmRefTop = React.useRef(null);
+
+    const shoulderMid = getShoulderMid(pose);
+    const hipMid = getHipMid(pose);
 
     React.useEffect(() => {
         const limbRefs = personRef.current?.refs;
@@ -123,7 +222,7 @@ const _Dirk = ({pose=null, color="#000000", outline="#efefef", isFront=false}, r
             { lArm }
             { isFront ?  rArm : null }
             <g ref={sweaterRef}>
-              <DirkTrui height={sweaterHeight} x={pose.bodyTopX} y={pose.bodyTopY - pose.bodyWidth/2} hAlign="center" isFront={isFront} ignoreDrawingContext />
+                <DirkTrui {...get1DStretchSizePosAngle(TRUI_SHOULDER, TRUI_HIP, TRUI_WIDTH, TRUI_HEIGHT, shoulderMid, hipMid)} isFront={isFront} ignoreDrawingContext />
             </g>
             { isFront ?  null : rArm }
           </g>
