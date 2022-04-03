@@ -10,6 +10,11 @@ type ComponentProps = {
     angle: number,
     vAlign: "top"|"center"|"bottom",
     hAlign: "left"|"center"|"right",
+    ignoreDrawingContext: boolean,
+    flipH: boolean,
+    flipV: boolean,
+    angleAnchorRelX: number|null,
+    angleAnchorRelY: number|null,
 }
 
 
@@ -21,7 +26,14 @@ const withSizePositionAngle = <P extends ComponentProps> (
     normHeight = normHeight === undefined ? 100 : normHeight;
     normWidth = normWidth === undefined ? 100 : normWidth;
 
-    return ({width=null, height=null, x=0, y=0, angle=0, vAlign="top", hAlign="left", ignoreDrawingContext=false, flipH=false, flipV=false, ...props}: P) => {
+    return ({
+    width=null, height=null,
+    x=0, y=0, angle=0,
+    vAlign="top", hAlign="left",
+    ignoreDrawingContext=false,
+    flipH=false, flipV=false,
+    angleAnchorRelX=null, angleAnchorRelY=null,
+    ...props}: P) => {
         let shiftX, shiftY, scaleX, scaleY;
 
         if (ignoreDrawingContext) {
@@ -75,9 +87,15 @@ const withSizePositionAngle = <P extends ComponentProps> (
             shiftY -= height;
         }
 
+        const rotateArg = (
+        angleAnchorRelX !== null && angleAnchorRelY !== null ?
+        `${angle} ${angleAnchorRelX*normWidth} ${angleAnchorRelY*normHeight}`
+        : `${angle}`
+        );
+
 
         return (
-            <g transform={`translate(${shiftX} ${shiftY}) rotate(${angle}) scale(${scaleX} ${scaleY})`}>
+            <g transform={`translate(${shiftX} ${shiftY}) rotate(${rotateArg}) scale(${scaleX} ${scaleY})`}>
                 <Component {...props} />
             </g>
         );
