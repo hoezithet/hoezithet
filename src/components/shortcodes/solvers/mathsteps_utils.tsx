@@ -1,6 +1,6 @@
 import _ from "lodash";
 import CHANGE_DESCRIPTORS from "./changeDescriptors";
-import mathsteps from "mathsteps";
+// import mathsteps from "mathsteps"; // TODO - Fix dependency
 
 type MathstepsStepType = {
     oldEquation: MathstepsEquationType,
@@ -47,7 +47,7 @@ function getStepFromMathstepsStep(msStep: MathstepsStepType): StepType {
 }
 
 export function getSolveEquationSteps(eqn: string): StepType[] {
-    return mathsteps.solveEquation(eqn).map(getStepFromMathstepsStep);
+    // return mathsteps.solveEquation(eqn).map(getStepFromMathstepsStep);
 }
 
 
