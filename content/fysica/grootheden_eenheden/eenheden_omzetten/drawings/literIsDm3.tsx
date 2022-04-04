@@ -6,15 +6,11 @@ import { getColor } from "colors";
 import _uniqueId from "lodash/uniqueId";
 import { AnnotArrow } from "components/shortcodes/annot";
 import { TextAccolade } from "./watIs1m84";
+import {isoTopTfm, isoLeftTfm, isoRightTfm} from "utils/isoTransform";
 import CowHead from "./cowHead";
 
 const cos30 = Math.sqrt(3)/2;
 const sin30 = 1/2;
-
-const isoTopTfm = `rotate(30) skewX(-30) scale(1,${cos30})`;
-const isoLeftTfm = `skewY(30) scale(${cos30},1)`;
-const isoRightTfm = `skewY(-30) scale(${cos30},1)`;
-
 
 const MilkCarton = ({x, y, width, height, depth}) => {
     return (
