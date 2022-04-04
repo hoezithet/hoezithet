@@ -21,7 +21,7 @@ const md2react = (md_text: string, mathProcessor: string = 'katex') => {
         processor = processor.use(rehypeMathjaxSvg, mathjaxOptions);
     }
         
-    processor = processor.use(rehype2react, { createElement: React.createElement });
+    processor = processor.use(rehype2react, { createElement: React.createElement, Fragment: React.Fragment });
     return processor.processSync(md_text).result as JSX.Element;
 }; 
 

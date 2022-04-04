@@ -17,7 +17,7 @@ type ColorSpanProps = {
 const useStyles = makeStyles<Theme, ColorSpanProps>({
     colorSpan: {
         color: props => props.colorValue,
-        '&>div,&>div>p': {
+        '&>p': {
             display: 'inline-block',
             padding: 0,
             margin: 0,
