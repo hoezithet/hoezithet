@@ -22,6 +22,7 @@ const exercisesSlice = createSlice({
             } else {
                 state.push({
                     id: action.payload.id,
+                    name: "",
                     answerIds: [],
                     showingSolution: false,
                     rank: state.length
@@ -32,6 +33,11 @@ const exercisesSlice = createSlice({
             const idx = getIdxFromId(state, action.payload.id);
             if (idx === -1) { return }
             state[idx] = action.payload;
+        },
+        exerciseNameChanged(state, action) {
+            const idx = getIdxFromId(state, action.payload.id);
+            if (idx === -1) { return }
+            state[idx]['name'] = action.payload.name;
         },
         exerciseAnswerAdded(state, action) {
             const exIdx = getIdxFromId(state, action.payload.exerciseId);
@@ -55,6 +61,6 @@ const exercisesSlice = createSlice({
     }
 })
 
-export const { exerciseAdded, exerciseChanged, exerciseAnswerAdded, removeExercise } = exercisesSlice.actions
+export const { exerciseAdded, exerciseChanged, exerciseAnswerAdded, exerciseNameChanged, removeExercise } = exercisesSlice.actions
 
 export default exercisesSlice.reducer

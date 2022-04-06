@@ -60,9 +60,9 @@ export const LessonSolutions = ({}) => {
                 alreadyRenderedExercises.push(exercise.id);
                 solutionElements.push(
                     <div key={exercise.id}>
-                    <h3>{ `Oefening ${exercise.rank + 1}` }</h3>
+                    <h3>{ exercise.name }</h3>
                     {
-                        exercise.answerIds.map(ansId => answers.find(ans => ans?.id === ansId))
+                        exercise.answerIds?.map(ansId => answers.find(ans => ans?.id === ansId))
                         .map(ans => 
                             ans !== undefined ? <LessonAnswerSolution answer={ans}/> : null
                         )
@@ -71,6 +71,7 @@ export const LessonSolutions = ({}) => {
                 );
             }
         } else if (answer !== undefined) {
+            // TODO: Remove this, answers must always be inside an exercise
             looseAnswersCounter += 1;
             solutionElements.push(
                 <div key={answer.id}>

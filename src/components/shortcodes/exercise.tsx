@@ -10,7 +10,7 @@ import { ExercisesFeedback } from "./exerciseFeedback";
 import Paper from '../paper';
 
 import { RootState } from '../../state/store'
-import { exerciseAdded, exerciseAnswerAdded, removeExercise } from '../../state/exercisesSlice';
+import { exerciseAdded, exerciseAnswerAdded, removeExercise, exerciseNameChanged } from '../../state/exercisesSlice';
 import { answerChanged, showAnswerSolution, resetAnswer } from '../../state/answersSlice';
 
 
@@ -129,6 +129,7 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
     const selectExerciseRankInStepperFromId = React.useMemo(makeSelectExerciseRankInStepper, []);
     let rank = useSelector(state => selectExerciseRankInStepperFromId(state, stepperId, id.current));
     rank = rank !== -1 ? rank : exercise?.rank;
+    const name = rank !== undefined ? getExerciseName({rank: rank, stepperRank: stepperRank}) : "";
 
     useEffect(() => {
         dispatch(
@@ -141,6 +142,15 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
         }
         return () =>  { removeExercise({ id: id.current }) };
     }, []);
+
+    useEffect(() => {
+        dispatch(
+            exerciseNameChanged({
+                id: id.current,
+                name: name,
+            })
+        )
+    }, [name]);
 
     const addAnswerId = (answerId: string) => {
         dispatch(
@@ -227,7 +237,7 @@ type ExerciseTitleProps = {
     stepperRank: number|null,
 }
 
-const ExerciseTitle = ({ rank, stepperRank }: ExerciseTitleProps) => {
+const getExerciseName = ({ rank, stepperRank }: ExerciseTitleProps) => {
     rank = rank || 0;
     let name = '';
     if (stepperRank === null) {
@@ -236,9 +246,5 @@ const ExerciseTitle = ({ rank, stepperRank }: ExerciseTitleProps) => {
         const alphabet = "abcdefghijklmnopqrstuvwxyz";
         name += (stepperRank + 1) + alphabet.charAt(rank % 26);
     }
-    return <h3>{ `Oefening ${name}` }</h3>;
-};
-
-export const TitledExercise = (props: ExerciseProps) => {
-	return <Exercise {...props} showTitle={ true } />;
+    return `Oefening ${name}`;
 };

@@ -21,7 +21,7 @@ import { MultipleAnswer } from "../components/shortcodes/multipleAnswer";
 import { MultipleChoice } from "../components/shortcodes/multipleChoice";
 import { FillString } from "../components/shortcodes/fillAnswer";
 import { LessonSolutions } from '../components/shortcodes/lessonSolutions'
-import { TitledExercise } from '../components/shortcodes/exercise'
+
 
 
 const useStyles = makeStyles({
@@ -101,7 +101,6 @@ const bareShortcodes = {
     MultipleAnswer: MultipleAnswer,
     MultipleChoice: MultipleChoice,
     FillString: FillString,
-    Exercise: TitledExercise,
 };
 
 const bareComponents = {
