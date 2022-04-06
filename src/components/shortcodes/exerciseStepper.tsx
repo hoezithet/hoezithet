@@ -18,15 +18,16 @@ import SwipeableViews from 'react-swipeable-views';
 import { theme } from "../theme";
 import { ExerciseType, selectExercises } from "./exercise";
 import { ExercisesFeedback } from "./exerciseFeedback";
-import COLORS from '../../colors';
+import COLORS from 'colors';
 import { AnswerType, selectAnswers, compareAnswers } from './answer';
 
-import { RootState } from '../../state/store'
+import { RootState } from 'state/store'
 import { exerciseStepperAdded, exerciseStepAdded, removeExerciseStepper } from '../../state/exerciseSteppersSlice'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { nanoid, createSelector } from '@reduxjs/toolkit'
-import { showAnswerSolution, resetAnswer } from '../../state/answersSlice'
+import { showAnswerSolution, resetAnswer } from 'state/answersSlice'
+import BareLessonContext from "contexts/bareLessonContext";
 
 
 interface ExerciseStepperProps {
@@ -353,6 +354,18 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
         rank: exerciseStepper?.rank,
     };
 
+    const bareContext = React.useContext(BareLessonContext);
+    if (bareContext !== null) {
+	    return (
+	        <ExerciseStepperContext.Provider value={stepperCtx}>
+	            {steps.map((step, index) =>
+                    <StyledPaper key={index} elevation={1}>
+                        {step}
+                    </StyledPaper>
+                )}
+	        </ExerciseStepperContext.Provider>
+	    );
+    }
     return (
         <ExerciseStepperContext.Provider value={stepperCtx}>
             <StyledStepper nonLinear activeStep={activeStep}>
@@ -376,27 +389,3 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
         </ExerciseStepperContext.Provider>
     );
 }
-
-export const BareExerciseStepper = ({ children }: ExerciseStepperProps) => {
-    const id = useRef(nanoid());
-    const dispatch = useDispatch();
-    const addExerciseId = (exerciseId: string) => {
-        dispatch(
-            exerciseStepAdded({
-                exerciseStepperId: id.current,
-                exerciseId: exerciseId,
-            })
-        )
-    }
-    return (
-        <ExerciseStepperContext.Provider value={addExerciseId}>
-        {
-            getExerciseStepsFromChildren(children).map((step, index) =>
-                <StyledPaper key={index} elevation={1}>
-                    {step}
-                </StyledPaper>
-            )
-        }
-        </ExerciseStepperContext.Provider>
-    );
-};

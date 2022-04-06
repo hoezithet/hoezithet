@@ -7,6 +7,8 @@ import { Helmet } from 'react-helmet';
 import Sponsors from "../components/sponsors";
 import HzhTheme from "../components/theme";
 
+import BareLessonContext from "contexts/bareLessonContext";
+
 import { Link } from "gatsby-theme-material-ui";
 import Box from "@material-ui/core/Box";
 import { components, MdxNode, shortcodes } from "./lesson";
@@ -15,13 +17,10 @@ import { ToggleImageBare } from "../components/shortcodes/toggleImage";
 import { ExpandBare } from "../components/shortcodes/expand";
 import { makeStyles } from '@material-ui/core/styles';
 import { Plot } from "../components/shortcodes/plot";
-import { Drawing } from "../components/shortcodes/drawing";
-import { BareExerciseStepper } from "../components/shortcodes/exerciseStepper";
 import { MultipleAnswer } from "../components/shortcodes/multipleAnswer";
 import { MultipleChoice } from "../components/shortcodes/multipleChoice";
 import { FillString } from "../components/shortcodes/fillAnswer";
 import { LessonSolutions } from '../components/shortcodes/lessonSolutions'
-
 
 
 const useStyles = makeStyles({
@@ -89,15 +88,12 @@ const BareAnchor = (props: AnchorProps) => {
     );
 };
 
-const BareLessonContext = createContext({});
 
 const bareShortcodes = {
     ...shortcodes,
     ToggleImage: ToggleImageBare,
     Expand: ExpandBare,
     Plot: Plot,
-    Drawing: Drawing,
-    ExerciseStepper: BareExerciseStepper,
     MultipleAnswer: MultipleAnswer,
     MultipleChoice: MultipleChoice,
     FillString: FillString,

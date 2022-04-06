@@ -24,8 +24,9 @@ const ExpandFrame = styled(Accordion)`
 const StyledAccSummary = styled(AccordionSummary)`
     font-weight: bold;
     color: ${COLORS.DARK_GRAY};
-    & > div > div > p {
+    & p {
         display: inline;
+        margin: 0;
     }
 `
 

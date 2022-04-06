@@ -12,6 +12,7 @@ import Paper from '../paper';
 import { RootState } from '../../state/store'
 import { exerciseAdded, exerciseAnswerAdded, removeExercise, exerciseNameChanged } from '../../state/exercisesSlice';
 import { answerChanged, showAnswerSolution, resetAnswer } from '../../state/answersSlice';
+import BareLessonContext from "contexts/bareLessonContext";
 
 
 export type ExerciseType = {
@@ -190,7 +191,8 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
     };
 
     const insideStepper = addExerciseIdToStepper !== null;
-	const title = showTitle && rank !== undefined ? <ExerciseTitle rank={rank} stepperRank={stepperRank} /> : null;
+    const insideBare = React.useContext(BareLessonContext) !== null;
+	const title = (showTitle || insideBare) && name !== "" ? <h3>{ name }</h3> : null;
 
     const ctxValRef = useRef<ExerciseContextValueType>({
         addAnswer: addAnswerId,

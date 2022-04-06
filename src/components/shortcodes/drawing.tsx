@@ -11,6 +11,7 @@ import { ParentSize } from '@visx/responsive';
 import { scaleLinear } from '@visx/scale';
 import LessonContext from "../../contexts/lessonContext";
 import { Text } from '@visx/text';
+import BareLessonContext from "contexts/bareLessonContext";
 
 import { getColor } from "../../colors";
 import useArrayRef from "hooks/useArrayRef";
@@ -66,6 +67,7 @@ export const Drawing = ({
     const classes = useStyles();
     const [isHovering, setIsHovering] = useState(false);
     const isAnimatingButtonsRef = React.useRef(false);
+    const insideBare = useContext(BareLessonContext) !== null;
 
     const lessonContext = useContext(LessonContext);
 
@@ -149,6 +151,13 @@ export const Drawing = ({
             const smoothRestart = () => gsap.to(tl, {time: 0, duration: 2, onComplete: () => tl.play(), ease: "power2.inOut"});
 
             React.useEffect(() => {
+                if (insideBare) {
+                    // No animations in bare version of lesson
+                    // Jump to second 10 of animation
+                    tl.play(10);
+                    gsap.delayedCall(0.01, () => tl.pause());
+                    return;
+                }
                 gsap.registerPlugin(ScrollTrigger);
                 tl.timeScale(0);
                 ScrollTrigger.create({

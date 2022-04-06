@@ -19,7 +19,7 @@ const TitleBox = styled(Box)`
     padding: 10px;
     font-size: 1.2rem;
     font-weight: bold;
-    & > div > p {
+    & > p {
         margin: 0;
     }
 `
