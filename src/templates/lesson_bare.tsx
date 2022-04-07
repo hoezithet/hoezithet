@@ -14,7 +14,6 @@ import Box from "@material-ui/core/Box";
 import { components, MdxNode, shortcodes } from "./lesson";
 import LessonContext from "../contexts/lessonContext";
 import { ToggleImageBare } from "../components/shortcodes/toggleImage";
-import { ExpandBare } from "../components/shortcodes/expand";
 import { makeStyles } from '@material-ui/core/styles';
 import { Plot } from "../components/shortcodes/plot";
 import { MultipleAnswer } from "../components/shortcodes/multipleAnswer";
@@ -92,7 +91,6 @@ const BareAnchor = (props: AnchorProps) => {
 const bareShortcodes = {
     ...shortcodes,
     ToggleImage: ToggleImageBare,
-    Expand: ExpandBare,
     Plot: Plot,
     MultipleAnswer: MultipleAnswer,
     MultipleChoice: MultipleChoice,
@@ -126,9 +124,9 @@ export default function Template({ data }: LessonData) {
     const absURL = `${new URL(fields.slug, siteMetadata.siteUrl)}`;
     const slug = lesson.fields.slug;
     
-    const [answerSolutions, setAnswerSolutions] = useState([]);
+    const [appendixItems, setAppendixItems] = useState([]);
     return (
-        <BareLessonContext.Provider value={{absURL: absURL, setAnswerSolutions: setAnswerSolutions}}>
+        <BareLessonContext.Provider value={{absURL: absURL, setAppendixItems: setAppendixItems}}>
         <LessonContext.Provider value={{title: frontmatter.title, slug: slug}}>
         <HzhTheme>
             <>
@@ -143,10 +141,23 @@ export default function Template({ data }: LessonData) {
                         <MDXRenderer>{body}</MDXRenderer>
                     </MDXProvider>
                 </MDXProvider>
-                <LessonSolutions />
                 <Box my={4} textAlign="center" justifyContent="center">
                     <Sponsors width="28mm" showTreat={false} />
                 </Box>
+                { appendixItems.length > 0 ?
+                  <>
+                  <h2 style={{pageBreakBefore: "always"}}>Appendices</h2>
+                  {
+                      appendixItems.map(({appendixId, expandId, title, children, idx}) => (
+                          <div key={idx} id={appendixId}>
+                              <h3>A{idx}. {title} <a href={`#${expandId}`}>↩</a></h3>
+                              { children }
+                          </div>
+                      ))
+                  }
+                  </>
+                  : null }
+                <LessonSolutions />
             </>
         </HzhTheme>
         </LessonContext.Provider>
