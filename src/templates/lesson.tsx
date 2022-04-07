@@ -44,7 +44,6 @@ import { Link } from 'gatsby-theme-material-ui';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import BlockquoteBox from "../components/blockquote";
-import Table from '../components/table';
 import { LayoutProps } from "../components/layout";
 import Comments from "../components/comments";
 import SectionCard, { CardImage } from "./sectionCard";
@@ -81,7 +80,6 @@ export const shortcodes = {
 export const components = {
     a: Link,
     blockquote: BlockquoteBox,
-    table: Table,
 }
 
 export interface MdxNode {

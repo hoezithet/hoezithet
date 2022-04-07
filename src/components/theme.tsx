@@ -48,10 +48,38 @@ export const theme = createMuiTheme({
                 "h2:hover > .anchor": {
                     display: "inline"
                 },
+		"h1": {
+		    marginTop: "3em"
+		},
+		"h2,h3": {
+		    marginTop: "2em"
+		},
                 ".gatsby-resp-image-wrapper": {
                     breakInside: "avoid"
                 },
-            }
+		"table": {
+		    textAlign: "center",
+		    margin: "auto",
+		    breakInside: "avoid",
+		    "& thead": {
+			backgroundColor: COLORS.LIGHT_GRAY,
+			border: "solid 1px black",
+			borderCollapse: "separate",
+		    },
+		    "& th": {
+			padding: "16px",
+		    },
+		    "& td": {
+			padding: "16px",
+		    },
+		    "& > tbody > tr:nth-child(odd)": {
+			backgroundColor: "#eee",
+		    },
+		    "& > tbody > tr:nth-child(even)": {
+			backgroundColor: "#f1f1f1",
+		    }
+		}
+		}
         },
         MuiLink: {
             root: {
