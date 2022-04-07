@@ -82,12 +82,12 @@ const Expand = ({ children, title }: ExpandProps) => {
     title = md2react(title);
 
     const expandComp = (
-        <ExpandFrame expanded={ insideBare }>
-	        <ExpandTitle title={ title } expandIcon={insideBare ? null : <ExpandIcon/>} />
-	        <ExpandBody>
-	            { children }
-	        </ExpandBody>
-	    </ExpandFrame>
+        <ExpandFrame>
+            <ExpandTitle title={ title } expandIcon={<ExpandIcon/>} />
+            <ExpandBody>
+                { children }
+            </ExpandBody>
+        </ExpandFrame>
     );
 
     const idxToHtmlId = idx => `appendix_${idx}`;
