@@ -20,7 +20,8 @@ import useArrayRef from "hooks/useArrayRef";
 const useStyles = makeStyles({
     drawing: {
         display: "block",
-        margin: "auto"
+        margin: "auto",
+        breakInside: "avoid",
     },
     watermark: {
         fill: getColor("gray"),
