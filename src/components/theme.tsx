@@ -48,12 +48,6 @@ export const theme = createMuiTheme({
                 "h2:hover > .anchor": {
                     display: "inline"
                 },
-		"h1": {
-		    marginTop: "3em"
-		},
-		"h2,h3": {
-		    marginTop: "2em"
-		},
                 ".gatsby-resp-image-wrapper": {
                     breakInside: "avoid"
                 },
