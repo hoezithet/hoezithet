@@ -7,8 +7,8 @@ import Wolken from "./park/wolken";
 import InfScrollingPark from "./park/inf_scrolling_park";
 import withInfLoop from "components/withInfLoop";
 import { BreathingDirk } from "./dirk";
-import { SvgNote } from "components/shortcodes/svgNote";
-import { AnnotArrow } from "components/shortcodes/annot";
+import { Annot } from "components/shortcodes/annot";
+import { AnnotArrow } from "components/shortcodes/annotArrow";
 
 import { gsap } from "gsap";
 
@@ -67,12 +67,12 @@ const TextBallon = ({text, gsapPosition, width=1000}) => {
           <AnnotArrow annot={{x: noteX - 50, y: noteY - 50}} target={{x: 1445, y: 440}}
               margin={0} hAlignTarget="left"
               hAlignAnnot="right" vAlignAnnot="bottom" hideHead color="light_gray"/>
-          <SvgNote x={noteX} y={noteY} width={width} fontSize={12}
+          <Annot x={noteX} y={noteY} width={width} fontSize={12}
               hAlign="right"
               vAlign="bottom"
               showBackground>
               { text }
-          </SvgNote>
+          </Annot>
         </g>
     );
 };

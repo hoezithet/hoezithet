@@ -1,8 +1,8 @@
 import React from "react";
 import { Drawing } from "components/shortcodes/drawing";
 import DrawingGrid from "components/shortcodes/drawingGrid";
-import { SvgNote } from "components/shortcodes/svgNote";
-import { AnnotArrow } from "components/shortcodes/annot";
+import { Annot } from "components/shortcodes/annot";
+import { AnnotArrow } from "components/shortcodes/annotArrow";
 import _uniqueId from "lodash/uniqueId";
 
 
@@ -23,15 +23,15 @@ $$`;
         <>
             <AnnotArrow target={`#${tellerId}`} annot={`#${annotTellerId}`} hAlignAnnot="center" vAlignAnnot="bottom" hAlignTarget="left" vAlignTarget="top" />
             <AnnotArrow target={`#${noemerId}`} annot={`#${annotNoemerId}`} hAlignAnnot="left" vAlignAnnot="bottom" hAlignTarget="left" vAlignTarget="bottom" anchorRadiusTarget={40} anchorRadiusAnnot={60}/>
-            <SvgNote x="40" y="70" fontSize={14} width="40" hAlign="right" vAlign="bottom">
+            <Annot x="40" y="70" fontSize={14} width="40" hAlign="right" vAlign="bottom">
                 { annotTeller }
-            </SvgNote>
-            <SvgNote x="50" y="50" fontSize={20}>
+            </Annot>
+            <Annot x="50" y="50" fontSize={20}>
                 { breuk }
-            </SvgNote>
-            <SvgNote x="60" y="30" fontSize={14} width="40" hAlign="left" vAlign="top">
+            </Annot>
+            <Annot x="60" y="30" fontSize={14} width="40" hAlign="left" vAlign="top">
                 { annotNoemer }
-            </SvgNote>
+            </Annot>
         </>
    );
 };

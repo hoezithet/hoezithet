@@ -1,10 +1,10 @@
 import React from "react";
 import { Drawing, DrawingContext } from "components/shortcodes/drawing";
 import DrawingGrid from "components/shortcodes/drawingGrid";
-import { SvgNote } from "components/shortcodes/svgNote";
+import { Annot } from "components/shortcodes/annot";
 import { getColor } from "colors";
 import _uniqueId from "lodash/uniqueId";
-import { AnnotArrow } from "components/shortcodes/annot";
+import { AnnotArrow } from "components/shortcodes/annotArrow";
 import { TextAccolade } from "./watIs1m84";
 import {isoTopTfm, isoLeftTfm, isoRightTfm} from "utils/isoTransform";
 import CowHead from "./cowHead";
@@ -18,9 +18,9 @@ const MilkCarton = ({x, y, width, height, depth}) => {
            <g transform={`translate(${-width*cos30},${-width*sin30}) ${isoLeftTfm}`}>
                <rect width={width} height={height} fill={getColor("near_white")} stroke={getColor("black")} strokeLinejoin="round" />
                <CowHead x={width/2} y={height/3} hAlign="center" vAlign="center" width={width/2} height={height/2} ignoreDrawingContext />
-               <SvgNote x={width/2} y={height} hAlign="center" vAlign="bottom" fontSize={`${height/3}px`} useContextScale={false}>
+               <Annot x={width/2} y={height} hAlign="center" vAlign="bottom" fontSize={`${height/3}px`} useContextScale={false}>
                    {String.raw`**1L**`}
-               </SvgNote>
+               </Annot>
            </g>
            <g transform={`translate(${-depth*cos30},${-(width+depth)*sin30}) ${isoTopTfm}`} fill={getColor("near_white")} stroke={getColor("black")} strokeLinejoin="round" >
                <rect width={width} height={depth} />
@@ -108,15 +108,15 @@ const _DrieKubussenMetVolume = () => {
             <Cube x={cube1X} y={cube1Y} size={cube1Size} strokeWidth={cubeStrokeWidth} />
             <Cube x={cube2X} y={cube2Y} size={cube2Size} color="green" strokeWidth={cubeStrokeWidth} />
             <Cube x={cube3X} y={cube3Y} size={cube3Size} color="orange" strokeWidth={cubeStrokeWidth} />
-            <SvgNote x={note1X} y={note1Y} hAlign="left" fontSize={fontSize} useContextScale={false}>
+            <Annot x={note1X} y={note1Y} hAlign="left" fontSize={fontSize} useContextScale={false}>
                 {String.raw`$1~\si{m}^3$`}
-            </SvgNote>
-            <SvgNote x={note2X} y={note2Y} hAlign="left" fontSize={fontSize} useContextScale={false}>
+            </Annot>
+            <Annot x={note2X} y={note2Y} hAlign="left" fontSize={fontSize} useContextScale={false}>
                 {String.raw`$1~\si{dm}^3$`}
-            </SvgNote>
-            <SvgNote x={note3X} y={note3Y} hAlign="left" fontSize={fontSize} useContextScale={false}>
+            </Annot>
+            <Annot x={note3X} y={note3Y} hAlign="left" fontSize={fontSize} useContextScale={false}>
                 {String.raw`$1~\si{cm}^3$`}
-            </SvgNote>
+            </Annot>
             <AnnotArrow annot={[note1X, note1Y]} target={[cube1X + cube1Size*cos30, cube1Y - cube1Size*(1 + sin30)]} ignoreContext hAlignAnnot="left" vAlignAnnot="center" hAlignTarget="right" vAlignTarget="top" />
             <AnnotArrow annot={[note2X, note2Y]} target={[cube2X + cube2Size*cos30, cube2Y - cube2Size*(1 + sin30)]} ignoreContext hAlignAnnot="left" vAlignAnnot="center" hAlignTarget="right" vAlignTarget="top" />
             <AnnotArrow annot={[note3X, note3Y]} target={[cube3X + cube3Size*cos30, cube3Y - cube3Size*(1 + sin30)]} ignoreContext hAlignAnnot="left" vAlignAnnot="center" hAlignTarget="right" vAlignTarget="top" />
@@ -162,15 +162,15 @@ const _DrieKubussenMetMelk = () => {
             <MilkCarton x={carton1X} y={carton1Y} width={cartonWidth} height={cartonHeight} depth={cartonDepth} />
             <MilkCarton x={carton2X} y={carton2Y} width={cartonWidth} height={cartonHeight} depth={cartonDepth} />
             <MilkCarton x={carton3X} y={carton3Y} width={cartonWidth} height={cartonHeight} depth={cartonDepth} />
-            <SvgNote x={note1X} y={note1Y} hAlign="right" fontSize={fontSize} useContextScale={false}>
+            <Annot x={note1X} y={note1Y} hAlign="right" fontSize={fontSize} useContextScale={false}>
                 {String.raw`$~\neq~$`}
-            </SvgNote>
-            <SvgNote x={note2X} y={note2Y} hAlign="right" fontSize={fontSize} useContextScale={false}>
+            </Annot>
+            <Annot x={note2X} y={note2Y} hAlign="right" fontSize={fontSize} useContextScale={false}>
                 {String.raw`$~\approx~$`}
-            </SvgNote>
-            <SvgNote x={note3X} y={note3Y} hAlign="right" fontSize={fontSize} useContextScale={false}>
+            </Annot>
+            <Annot x={note3X} y={note3Y} hAlign="right" fontSize={fontSize} useContextScale={false}>
                 {String.raw`$~\neq~$`}
-            </SvgNote>
+            </Annot>
         </>
     );
 };
@@ -205,9 +205,9 @@ const _Dm3IsMelk = () => {
     return (
         <>
             <Cube x={cube2X} y={cube2Y} size={cube2Size} color="green" strokeWidth={cubeStrokeWidth} />
-            <SvgNote x={note1dm3X} y={note1dm3Y} hAlign="center" vAlign="top" fontSize={fontSize} useContextScale={false}>
+            <Annot x={note1dm3X} y={note1dm3Y} hAlign="center" vAlign="top" fontSize={fontSize} useContextScale={false}>
                 {String.raw`$1~\si{dm}^3 = 1~\si{l}$`}
-            </SvgNote>
+            </Annot>
             <MilkCarton x={carton2X} y={carton2Y} width={cartonWidth} height={cartonHeight} depth={cartonDepth} />
         </>
     );

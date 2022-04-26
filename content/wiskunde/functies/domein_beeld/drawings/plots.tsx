@@ -2,8 +2,8 @@ import React from "react";
 import { Plot } from "components/shortcodes/plot";
 import { Fx } from "components/shortcodes/fx";
 import { ArrowLine } from "components/shortcodes/arrow";
-import { SvgNote } from  "components/shortcodes/svgNote";
-import { AnnotArrow } from  "components/shortcodes/annot";
+import { Annot } from  "components/shortcodes/annot";
+import { AnnotArrow } from  "components/shortcodes/annotArrow";
 import { Point } from  "components/shortcodes/point";
 import { Line } from  "components/shortcodes/line";
 import _ from "lodash";
@@ -36,9 +36,9 @@ export const FuncDomain = () => {
             <Fx fx={func} xStart={-5} xEnd={15} opacity={0.5} />
             <Line xStart={-5} yStart={0} xEnd={15} yEnd={0} color="green" lineWidth={4} />
             <Point x={-5} y={0} color="green" size={10} />
-            <SvgNote x={-6} y={5} vAlign="bottom" showBackground>
+            <Annot x={-6} y={5} vAlign="bottom" showBackground>
                 { String.raw`$\green{\mathrm{dom}~f = [-5; +\infty[}$` }
-            </SvgNote>
+            </Annot>
             <AnnotArrow target={{x: -5, y: 0}} annot={{x: -6, y: 5}} vAlignAnnot="bottom" hAlignTarget="left" />
         </Plot>
     )
@@ -61,9 +61,9 @@ export const FuncRange = () => {
             <Fx fx={func} xStart={-5} xEnd={15} opacity={0.5} />
             <Line xStart={0} yStart={-6} xEnd={0} yEnd={15} color="green" lineWidth={4} />
             <Point x={0} y={-6} color="green" size={10} />
-            <SvgNote x={2} y={-8} hAlign="center" vAlign="top" showBackground>
+            <Annot x={2} y={-8} hAlign="center" vAlign="top" showBackground>
                 { String.raw`$\green{\mathrm{bld}~f = [-6; +\infty[}$` }
-            </SvgNote>
+            </Annot>
             <AnnotArrow target={{x: 0, y: -6}} annot={{x: 2, y: -8}} hAlignTarget="right" vAlignTarget="bottom" hAlignAnnot="center" vAlignAnnot="top" />
         </Plot>
     )

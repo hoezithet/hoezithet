@@ -33,8 +33,8 @@ import { Plot } from "../components/shortcodes/plot";
 import { Drawing } from "../components/shortcodes/drawing";
 import { ArrowLine } from "../components/shortcodes/arrow";
 import { Fx } from "../components/shortcodes/fx";
-import { SvgNote } from "../components/shortcodes/svgNote";
-import { AnnotArrow } from "../components/shortcodes/annot";
+import { Annot } from "../components/shortcodes/annot";
+import { AnnotArrow } from "../components/shortcodes/annotArrow";
 import { Line } from "../components/shortcodes/line";
 import { Point } from "../components/shortcodes/point";
 import { Rectangle } from "../components/shortcodes/rectangle";
@@ -71,7 +71,7 @@ export const shortcodes = {
     Gold,
     Orange,
     Red, DarkRed, Purple, Gray,
-    Plot, Drawing, Fx, Point, AnnotArrow, HairLines, Line, ArrowLine, Rectangle, SvgNote,
+    Plot, Drawing, Fx, Point, AnnotArrow, HairLines, Line, ArrowLine, Rectangle, Annot,
     AnimTex, ExplanationStep, EqnSqrtStep,
     EqnSolver,
     Spring, Ruler, DrawingGrid, Wall, Mass, VMassSpring

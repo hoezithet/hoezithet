@@ -2,7 +2,7 @@ import React from "react";
 import { Drawing, DrawingContext } from "components/shortcodes/drawing";
 import DrawingGrid from "components/shortcodes/drawingGrid";
 import Dirk from "./dirk";
-import { SvgNote } from "components/shortcodes/svgNote";
+import { Annot } from "components/shortcodes/annot";
 import { getColor } from "colors";
 import _ from "lodash";
 
@@ -23,11 +23,11 @@ const _Blocks = ({x, y, blockHeight, blockWidth, strokeWidth, hText=false, fontS
                         stroke={getColor("near_white")} fill={color} strokeWidth={strokeWidth} strokeLinejoin="round" />
                     { blockText === null ? null :
                         <g transform={`translate(${blockWidth/2},${blockHeight/2}) rotate(${textAngle + (hText ? 0 : -90)})`}>
-                            <SvgNote hAlign="center" vAlign="center"
+                            <Annot hAlign="center" vAlign="center"
                                 useContextScale={false} fontSize={fontSize}
                                 color={getColor("near_white")}>
                                 {blockText}
-                            </SvgNote>
+                            </Annot>
                         </g>
                     }
                 </g>)) }
@@ -75,11 +75,11 @@ const _TextAccolade = ({x1, x2=null, y, flipText=false, hText=false, width, heig
                     d={`M ${0},${0} H ${x2 - x1}`} />
                 <g transform={x1 >= x2 ? "" : `translate(${0},${-height}) rotate(180)`}>
                     <g ref={noteRef} transform={getNoteTransform(width, height)}>
-                        <SvgNote
+                        <Annot
                             hAlign={hText ? "left" : "center"} vAlign={hText ? "center" : "bottom"} useContextScale={false}
                             color={color} fontSize={fontSize}>
                             {children}
-                        </SvgNote>
+                        </Annot>
                     </g>
                     <path ref={accoladeRef} d={getAccoladeD(width, height)}
                         fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round"/>
@@ -192,9 +192,9 @@ const _MeterIs100Cm = () => {
     return (
         <>
             <g ref={meterBlockRef}>
-                <SvgNote x={1} y={0.5} vAlign="center" hAlign="center">
+                <Annot x={1} y={0.5} vAlign="center" hAlign="center">
                     {String.raw`$=$`}
-                </SvgNote>
+                </Annot>
                 <Blocks x={xScale(0.75)} y={yScale(0)} blockText={String.raw`$1~\si{m}$`} textAngle={90} fontSize={yScale.metric(0.09)} blockHeight={yScale.metric(1)} blockWidth={xScale.metric(0.2)} numBlocks={1} color="blue" />
             </g>
             <BlockCounter ref={blockCounterRef} blocksX={xScale(1.25)} accoladeX={xScale(1.5)} y={yScale(0)} numBlocks={0}
@@ -243,9 +243,9 @@ const _DirkInCm = () => {
         <>
             {/** <DrawingGrid majorX={1} majorY={1} minorX={0.10} minorY={0.1} /> **/}
             <g ref={meterBlockRef}>
-                <SvgNote x={1} y={1.1} vAlign="center" hAlign="center">
+                <Annot x={1} y={1.1} vAlign="center" hAlign="center">
                     {String.raw`$=$`}
-                </SvgNote>
+                </Annot>
                 <Dirk isFront height={1.84} x={0.5} y={0} vAlign="bottom" hAlign="center" />
             </g>
             <BlockCounter ref={blockCounterRef} blocksX={xScale(1.5)} accoladeX={xScale(1.65)} y={yScale(0)} numBlocks={0}

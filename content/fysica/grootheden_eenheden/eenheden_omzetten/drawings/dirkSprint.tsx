@@ -1,7 +1,7 @@
 import React from "react";
 import { Drawing, DrawingContext } from "components/shortcodes/drawing";
 import DrawingGrid from "components/shortcodes/drawingGrid";
-import { SvgNote } from "components/shortcodes/svgNote";
+import { Annot } from "components/shortcodes/annot";
 import {isoTopTfm, isoLeftTfm, isoRightTfm} from "utils/isoTransform";
 
 import { getColor } from "colors";
