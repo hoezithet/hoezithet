@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 export const Plot = ({
     children=null,
     aspect=1.0,
-    top=0.05, right=0.05, bottom=0.05, left=0.05,
+    topMargin=0.05, rightMargin=0.05, bottomMargin=0.05, leftMargin=0.05,
     xMin=-10, yMin=-10, xMax=10, yMax=10,
     xTicks=10, yTicks=10,
     xLabel="x", yLabel="y",
@@ -29,8 +29,8 @@ export const Plot = ({
     const classes = useStyles();
     return (
         <Drawing maxWidth={maxWidth} aspect={aspect}
-            leftMargin={left + xAxisMargin} rightMargin={right + xAxisMargin} topMargin={top + yAxisMargin} bottomMargin={bottom + yAxisMargin}
-            xMin={xMin} yMin={yMin} xMax={xMax} yMax={yMax}
+            leftMargin={leftMargin + xAxisMargin} rightMargin={rightMargin + xAxisMargin} topMargin={topMargin + yAxisMargin} bottomMargin={bottomMargin + yAxisMargin}
+            left={xMin} bottom={yMin} right={xMax} top={yMax}
             className={classes.plot}>
             <Axes xTicks={xTicks} yTicks={yTicks}
                 xLabel={xLabel} yLabel={yLabel}
