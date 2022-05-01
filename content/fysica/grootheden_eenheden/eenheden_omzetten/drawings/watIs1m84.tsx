@@ -135,7 +135,7 @@ const _Watis1M84 = () => {
 
 const Watis1M84 = () => {
     return (
-        <Drawing left={0} right={4} bottom={0} top={2.25} aspect={16/9} noWatermark>
+        <Drawing left={0} right={4} bottom={0} top={2.25} aspect={16/9} margin={0.05} noWatermark>
           <_Watis1M84 />
         </Drawing>
     );
@@ -208,7 +208,7 @@ const _MeterIs100Cm = () => {
 
 export const MeterIs100Cm = () => {
     return (
-        <Drawing left={0} right={2} bottom={0} top={1.125} aspect={16/9} noWatermark>
+        <Drawing left={0} right={2} bottom={0} top={1.125} aspect={16/9} margin={0.05} noWatermark>
             <_MeterIs100Cm/>
         </Drawing>
     );
@@ -259,7 +259,7 @@ const _DirkInCm = () => {
 
 export const DirkInCm = () => {
     return (
-        <Drawing left={0} right={2} bottom={0} top={2.25} aspect={16/9} noWatermark>
+        <Drawing left={0} right={2} bottom={0} top={2.25} aspect={16/9} margin={0.05} noWatermark>
             <_DirkInCm />
         </Drawing>
     );
