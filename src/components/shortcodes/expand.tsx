@@ -19,19 +19,19 @@ interface ExpandProps {
 const ExpandFrame = styled(Accordion)`
     border-style: solid;
     border-color: ${COLORS.GRAY};
-    border-radius: 10px;
+    border-radius: .5rem;
     background-color: ${COLORS.NEAR_WHITE};
-    margin: 10px 0px;
+    margin: .5rem 0px;
     break-inside: avoid;
 `
 
 const Frame = styled.div`
     border-style: solid;
     border-color: ${COLORS.GRAY};
-    border-radius: 10px;
+    border-radius: .5rem;
     background-color: ${COLORS.NEAR_WHITE};
-    margin: 1em 0px;
-    padding: 1em;
+    margin: 1rem 0px;
+    padding: 1rem;
     break-inside: avoid;
     color: ${COLORS.GRAY};
     & p {
