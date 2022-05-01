@@ -42,8 +42,8 @@ const withSizePositionAngle = <P extends ComponentProps> (
         } else {
             const { xScale, yScale } = React.useContext(DrawingContext);
 
-            width = width !== null ? Math.abs(xScale(width) - xScale(0)) : null;
-            height = height !== null ? Math.abs(yScale(height) - yScale(0)) : null;
+            width = width !== null ? xScale.metric(width) : null;
+            height = height !== null ? yScale.metric(height) : null;
             shiftX = xScale(x);
             shiftY = yScale(y);
         }
