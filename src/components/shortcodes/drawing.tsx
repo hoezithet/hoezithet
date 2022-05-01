@@ -55,7 +55,7 @@ export const DrawingContext = createContext({
 });
 
 export const Drawing = ({
-    children=null, aspect=null, maxWidth=500, topMargin=0.05, rightMargin=0.05, bottomMargin=0.05, leftMargin=0.05,
+    children=null, aspect=null, maxWidth=500, margin=.0,
     left=0, bottom=0, right=100, top=100, noWatermark=false, className=""
 }) => {
     // A Drawing takes the width of its parent, limited to maxWidth pixels. Its
@@ -134,14 +134,14 @@ export const Drawing = ({
             const height = width/aspect;
             const getScaledMetric = scale => x => Math.abs(scale(x) - scale(0));
             const xScale = scaleLinear({
-                range: [width*leftMargin, width*(1 - rightMargin)],
+                range: [width*margin, width*(1 - margin)],
                 domain: [left, right],
                 round: false
             });
             xScale.metric = getScaledMetric(xScale);
 
             const yScale = scaleLinear({
-                range: [height*(1 - bottomMargin), height*topMargin],
+                range: [height*(1 - margin), height*margin],
                 domain: [bottom, top],
                 round: false
             });
