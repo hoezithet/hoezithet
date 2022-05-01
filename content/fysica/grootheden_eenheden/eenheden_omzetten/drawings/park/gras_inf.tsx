@@ -4,8 +4,8 @@ import withSizePositionAngle from "components/withSizePositionAngle";
 
 const _Gras = () => {
     return (
-        <g transform="translate(-283.601560 -1100.777700)">
-          <path fill="#47bc34" fillOpacity="1" stroke="#60b652" strokeWidth="4.27684" strokeLinecap="round" strokeLinejoin="miter" strokeMiterlimit="4" strokeDasharray="none" strokeDashoffset="0" strokeOpacity="1" stopColor="#000000" d="m 283.60156,1216.4183 c 305.59874,0 547.74817,-115.6406 1157.53934,-115.6406 1935.0197,0 2179.839,115.6406 2683.1837,115.6406 v 99.1336 H 283.60156 Z" />
+        <g>
+          <path fill="#47bc34" fillOpacity="1" stroke="#60b652" strokeWidth="4.27684" strokeLinecap="round" strokeLinejoin="miter" strokeMiterlimit="4" strokeDasharray="none" strokeDashoffset="0" strokeOpacity="1" stopColor="#000000" d="m0,115.64c305.6,0 547.75,-115.64 1157.54,-115.64c1935.02,0 2179.84,115.64 2683.18,115.64l0,99.13l-3840.72,0l0,-99.13z" />
         </g>
     );
 }
