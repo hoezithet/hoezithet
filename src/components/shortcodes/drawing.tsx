@@ -22,6 +22,7 @@ const useStyles = makeStyles({
         display: "block",
         margin: "auto",
         breakInside: "avoid",
+        borderRadius: ".5rem",
     },
     watermark: {
         fill: getColor("gray"),
