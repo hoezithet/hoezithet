@@ -55,12 +55,12 @@ export const DrawingContext = createContext({
 });
 
 export const Drawing = ({
-    children=null, aspect=null, maxWidth=500, top=0.05, right=0.05, bottom=0.05, left=0.05,
+    children=null, aspect=null, maxWidth=500, topMargin=0.05, rightMargin=0.05, bottomMargin=0.05, leftMargin=0.05,
     xMin=0, yMin=0, xMax=100, yMax=100, noWatermark=false, className=""
 }) => {
     // A Drawing takes the width of its parent, limited to maxWidth pixels. Its
     // height is calculated from the width and the aspect ratio. If the aspect
-    // ratio is null, it will be set equal to abs(xMax - xMin)/abs(yMax - yMin)
+    // ratio is null, it will be set equal to abs(right - left)/abs(top - bottom)
     const [tl, setTl] = useState(() => gsap.timeline({paused: true}));
     const [overlayRefs, setOverlayRef] = useArrayRef();
     const fileNrRef = useRef(0);
@@ -134,14 +134,14 @@ export const Drawing = ({
             const height = width/aspect;
             const getScaledMetric = scale => x => Math.abs(scale(x) - scale(0));
             const xScale = scaleLinear({
-                range: [width*left, width*(1 - right)],
+                range: [width*leftMargin, width*(1 - rightMargin)],
                 domain: [xMin, xMax],
                 round: false
             });
             xScale.metric = getScaledMetric(xScale);
 
             const yScale = scaleLinear({
-                range: [height*(1 - bottom), height*top],
+                range: [height*(1 - bottomMargin), height*topMargin],
                 domain: [yMin, yMax],
                 round: false
             });

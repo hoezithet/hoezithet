@@ -29,7 +29,7 @@ export const Plot = ({
     const classes = useStyles();
     return (
         <Drawing maxWidth={maxWidth} aspect={aspect}
-            left={left + xAxisMargin} right={right + xAxisMargin} top={top + yAxisMargin} bottom={bottom + yAxisMargin}
+            leftMargin={left + xAxisMargin} rightMargin={right + xAxisMargin} topMargin={top + yAxisMargin} bottomMargin={bottom + yAxisMargin}
             xMin={xMin} yMin={yMin} xMax={xMax} yMax={yMax}
             className={classes.plot}>
             <Axes xTicks={xTicks} yTicks={yTicks}
