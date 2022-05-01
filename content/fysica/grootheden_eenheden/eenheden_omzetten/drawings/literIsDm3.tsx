@@ -83,7 +83,7 @@ export const DrieKubussen = () => {
     const width = 4;
     const ar = 4/5;
     return (
-        <Drawing xMin={0} xMax={width} yMin={0} yMax={width/ar}>
+        <Drawing left={0} right={width} bottom={0} top={width/ar}>
             {/** <DrawingGrid majorX={0.5} majorY={0.5} /> **/}
             <_DrieKubussen />
         </Drawing>
@@ -129,7 +129,7 @@ export const DrieKubussenMetVolume = () => {
     const width = 4;
     const ar = 4/5;
     return (
-        <Drawing xMin={0} xMax={width} yMin={0} yMax={width/ar}>
+        <Drawing left={0} right={width} bottom={0} top={width/ar}>
             {/** <DrawingGrid majorX={0.5} majorY={0.5} /> **/}
             <_DrieKubussenMetVolume />
         </Drawing>
@@ -180,7 +180,7 @@ export const DrieKubussenMetMelk = () => {
     const width = 4;
     const ar = 4/5;
     return (
-        <Drawing xMin={0} xMax={width} yMin={0} yMax={width/ar}>
+        <Drawing left={0} right={width} bottom={0} top={width/ar}>
             {/** <DrawingGrid majorX={0.5} majorY={0.5} /> **/}
             <_DrieKubussenMetMelk />
         </Drawing>
@@ -219,7 +219,7 @@ export const Dm3IsMelk = () => {
     const yMin = 0;
     const ar = 3/2;
     return (
-        <Drawing xMin={xMin} xMax={xMax} yMin={yMin} yMax={yMin + (xMax - xMin)/ar}>
+        <Drawing left={xMin} right={xMax} bottom={yMin} top={yMin + (xMax - xMin)/ar}>
             {/** <DrawingGrid majorX={0.5} majorY={0.5} /> **/}
             <_Dm3IsMelk />
         </Drawing>

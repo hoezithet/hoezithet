@@ -27,7 +27,7 @@ const WandelingInParkChild = () => {
 
 const WandelingInPark = () => {
     return (
-        <Drawing xMin={0} xMax={1920.0} yMin={1080.0} yMax={0} noWatermark>
+        <Drawing left={0} right={1920.0} bottom={1080.0} top={0} noWatermark>
           <WandelingInParkChild />
         </Drawing>
     );

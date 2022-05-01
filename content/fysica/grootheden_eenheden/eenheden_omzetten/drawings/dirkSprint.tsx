@@ -45,7 +45,7 @@ const DirkReadyToSprint = () => {
     const startLineX = 350;
 
     return (
-        <Drawing xMin={0} xMax={dWidth} yMin={dHeight} yMax={0} noWatermark>
+        <Drawing left={0} right={dWidth} bottom={dHeight} top={0} noWatermark>
             <RunnersTrack y={dHeight-trackHeight} width={dWidth} height={trackHeight} startLineX={startLineX} />
             <Dirk pose={pose} height={dirkHeight} x={dirkX} y={dirkY} vAlign="bottom" hAlign="right"/>
             {/** <DrawingGrid minorX={50} majorX={100} minorY={50} majorY={100} /> **/}

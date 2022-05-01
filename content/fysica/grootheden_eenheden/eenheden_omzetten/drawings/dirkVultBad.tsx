@@ -123,7 +123,7 @@ const _DirkVultBad = () => {
 
 const DirkVultBad = () => {
     return (
-        <Drawing xMin={0} xMax={48} yMin={0} yMax={27} noWatermark>
+        <Drawing left={0} right={48} bottom={0} top={27} noWatermark>
             {/**<DrawingGrid />**/}
             <_DirkVultBad />
         </Drawing>

@@ -82,7 +82,7 @@ const DirkKruist = () => {
     const [dirkX, dirkY, dirkHeight] = [1920 * 2/3, 1080-50, 600];
 
     return (
-        <Drawing xMin={0} xMax={1920.0} yMin={1080.0} yMax={0} noWatermark>
+        <Drawing left={0} right={1920.0} bottom={1080.0} top={0} noWatermark>
             <Zon width={123.693360} height={123.693360} x={303.697226} y={141.611744} />
             <LoopingWolken speed={-5} width={2*1642.394890} height={346.619760} x={0} y={92.659100} />
             <InfScrollingPark width={3840} x={-1000} />
@@ -100,7 +100,7 @@ export const DirkZegtTijd = () => {
     const [dirkX, dirkY, dirkHeight] = [1920 * 2/3, 1080-50, 600];
 
     return (
-        <Drawing xMin={0} xMax={1920.0} yMin={1080.0} yMax={0} noWatermark>
+        <Drawing left={0} right={1920.0} bottom={1080.0} top={0} noWatermark>
             <Zon width={123.693360} height={123.693360} x={303.697226} y={141.611744} />
             <LoopingWolken speed={-5} width={2*1642.394890} height={346.619760} x={0} y={92.659100} />
             <InfScrollingPark width={3840} x={-1000} />
