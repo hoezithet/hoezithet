@@ -3,8 +3,10 @@ import _ from "lodash";
 import { gsap } from "gsap";
 
 import { RubberHose, RubberHoseModel, Point2D } from "./rubberHose";
-import { DrawingContext } from "components/shortcodes/drawing";
 
+
+export const DEFAULT_HEIGHT = 100;
+export const DEFAULT_WIDTH = 100;
 
 export const getSetHoseProp = (hoseRef, propName) => (newValue = null) => {
     const refs = Array.isArray(hoseRef) ? hoseRef : [hoseRef];
@@ -306,15 +308,16 @@ export type PoseType = {
     rLegBendRadius: number,
 }
 
+
 export const getRestPose = ({
     headSize=18,
     armWidth=8, armLength=38, armBendRadius=-2.0,
     legWidth=10, legLength=54, legBendRadius=2.0,
-    bodyWidth=17, bodyHeight=27, bodyBendRadius=-2.0
+    bodyWidth=17, bodyHeight=27, bodyBendRadius=-2.0,
 }={}) => {
     const rFoot = {
         x: 50,
-        y: 100 - legWidth/2
+        y: DEFAULT_HEIGHT - legWidth/2
     };
     const headPoint = {
         x: 61,
@@ -380,7 +383,7 @@ export const getRestPose = ({
         legLength: legLength,
         lLegBendRadius: legBendRadius,
         rLegBendRadius: legBendRadius,
-  };
+    };
 };
 
 export const getRestPoseFront = ({
@@ -398,7 +401,7 @@ export const getRestPoseFront = ({
 
     const rFoot = {
         x: headPoint.x - hipOffset,
-        y: 100 - legWidth/2
+        y: DEFAULT_HEIGHT - legWidth/2
     };
     const lFoot = {
         ...rFoot,
@@ -474,5 +477,5 @@ export const getRestPoseFront = ({
         legLength: legLength,
         rLegBendRadius: - legBendRadius,
         lLegBendRadius: legBendRadius,
-  };
+    };
 };
