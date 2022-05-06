@@ -15,8 +15,8 @@ const useStylesNote = makeStyles({
             margin: "0",  // Remove paragraph margin
         },
         backgroundColor: props => props.backgroundColor,
-        borderRadius: props => props.showBackground ? `${theme.spacing(0.5)}px` : "0",
-        padding: props => props.showBackground ? `${theme.spacing(1)}px` : "0",
+        borderRadius: props => props.borderRadius,
+        padding: props => props.textPadding,
         color: props => props.color,
     }
 });
@@ -27,13 +27,22 @@ export const Annot = ({
     showBackground=false, hAlign="center",
     vAlign="center", useContextScale=true, className="",
     fontSize="inherit", color="inherit",
+    textPadding=null, borderRadius=null,
+    parentPadding=null,
     children
 }) => {
+    [textPadding, borderRadius, parentPadding] = (
+        showBackground ?
+        [textPadding || ".5em", borderRadius || ".25em", parentPadding || ".25em"]
+        : [textPadding || "0", borderRadius || "0", parentPadding || "0"]
+    );
     const ctx = useContext(DrawingContext);
-    const {xScale, yScale} = ctx;
-    backgroundOpacity = showBackground ? backgroundOpacity : 0;
 
-    if (xScale && yScale && useContextScale) {
+    backgroundOpacity = showBackground ? backgroundOpacity : .0;
+
+    if (useContextScale) {
+        const {xScale, yScale} = ctx;
+
         x = xScale(x);
         y = yScale(y);
 
@@ -87,15 +96,14 @@ export const Annot = ({
     ];
 
 
-    backgroundColor = getColor(backgroundColor);
-    backgroundColor = hexToRGB(backgroundColor, backgroundOpacity);
+    backgroundColor = getColor(backgroundColor, backgroundOpacity);
 
     const classes = useStylesNote({
         justifyContent: justifyContent, alignItems: alignItems,
         backgroundColor: backgroundColor,
-        backgroundOpacity: backgroundOpacity,
-        showBackground: showBackground,
         color: color,
+        borderRadius: borderRadius,
+        textPadding: textPadding,
     }); 
 
     const divParentStyle = {
@@ -105,7 +113,7 @@ export const Annot = ({
         alignItems: alignItems,
         justifyContent: justifyContent,
         textAlign: hAlign,
-        padding: showBackground ? "2px" : "0",
+        padding: parentPadding,
     };
     const divChildStyle = {
         fontSize: fontSize,
@@ -116,14 +124,9 @@ export const Annot = ({
     return (
         <foreignObject x={x} y={y} width={`${width}`} height={`${height}`}>
             <div xmlns="http://www.w3.org/1999/xhtml" style={divParentStyle}>
-            { showBackground ?
-                <Paper className={`${classes.divNoteChild} ${className}`} elevation={1} style={divChildStyle}>
-                    { noteContents }
-                </Paper>
-                :
                 <div className={`${classes.divNoteChild} ${className}`} style={divChildStyle}>
                     { noteContents }
-                </div> }
+                </div>
             </div>
         </foreignObject>
     );
