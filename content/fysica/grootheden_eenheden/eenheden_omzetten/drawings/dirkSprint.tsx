@@ -1,5 +1,6 @@
 import React from "react";
 import { Drawing, DrawingContext } from "components/shortcodes/drawing";
+import withDrawingScale from "components/withDrawingScale";
 import DrawingGrid from "components/shortcodes/drawingGrid";
 import { Annot } from "components/shortcodes/annot";
 import {isoTopTfm, isoLeftTfm, isoRightTfm} from "utils/isoTransform";
@@ -8,17 +9,10 @@ import { getColor } from "colors";
 import Dirk from "./dirk";
 
 const RunnersTrack = ({x=0, y=0, lineMargin=50, lineWidth=3, width, height, startLineX}) => {
-    const {xScale, yScale} = React.useContext(DrawingContext);
-    x = xScale(x);
-    y = yScale(y);
-    width = xScale.metric(width);
-    height = yScale.metric(height);
-    const [lineX1, lineX2, lineY] = [x, x + width, y + yScale.metric(lineMargin)];
-    const line2Y = y + height - yScale.metric(lineMargin);
-    lineWidth = yScale.metric(lineWidth);
-    const startLineWidth = xScale.metric(10);
-    startLineX = xScale(startLineX);
-    const [noteX, noteY, noteFontSize] = [xScale.metric(50), height / 2, xScale.metric(200)];
+    const [lineX1, lineX2, lineY] = [x, x + width, y + lineMargin];
+    const line2Y = y + height - lineMargin;
+    const startLineWidth = 10;
+    const [noteX, noteY, noteFontSize] = [50, height / 2, 200];
     const cos30 = Math.sqrt(3)/2;
 
     return (
@@ -37,18 +31,31 @@ const RunnersTrack = ({x=0, y=0, lineMargin=50, lineWidth=3, width, height, star
 };
 
 
-const DirkReadyToSprint = () => {
+const D_WIDTH = 1920;
+const D_HEIGHT = 500;
+
+const _DirkReadyToSprintChild = () => {
     const trackHeight = 250;
-    const [dWidth, dHeight] = [1920, 500];
-    const [dirkX, dirkY, dirkHeight] = [dWidth * 1/3, dHeight - trackHeight/2, 600];
+    const [dirkX, dirkY, dirkHeight] = [D_WIDTH * 1/3, D_HEIGHT - trackHeight/2, 600];
     const pose = getReadyToSprintPose();
     const startLineX = 350;
-
+    
     return (
-        <Drawing left={0} right={dWidth} bottom={dHeight} top={0} noWatermark>
-            <RunnersTrack y={dHeight-trackHeight} width={dWidth} height={trackHeight} startLineX={startLineX} />
+        <>
+            <RunnersTrack y={D_HEIGHT - trackHeight} width={D_WIDTH} height={trackHeight} startLineX={startLineX} />
             <Dirk pose={pose} height={dirkHeight} x={dirkX} y={dirkY} vAlign="bottom" hAlign="right"/>
             {/** <DrawingGrid minorX={50} majorX={100} minorY={50} majorY={100} /> **/}
+        </>
+    );
+};
+
+const DirkReadyToSprintChild = withDrawingScale(_DirkReadyToSprintChild, D_WIDTH, D_HEIGHT);
+
+
+const DirkReadyToSprint = () => {
+    return (
+        <Drawing left={0} right={D_WIDTH} bottom={D_HEIGHT} top={0} noWatermark>
+            <DirkReadyToSprintChild />
         </Drawing>
     );
 };

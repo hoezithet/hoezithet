@@ -93,6 +93,8 @@ export const TextAccolade = React.forwardRef(_TextAccolade);
 
 
 const _Watis1M84 = () => {
+    const { xScale, yScale, addAnimation } = React.useContext(DrawingContext);
+
     const dirkX = 2;
     const dirkHeight = 1.84;
     const dirkHeightStr = `${dirkHeight}`.replace('.', ',');
@@ -100,8 +102,7 @@ const _Watis1M84 = () => {
     const accWidth = 0.2;
     const blocksX = 1 + blocksWidth/2;
     const blockText = String.raw`$1~\si{m}$`;
-    
-    const { xScale, yScale, addAnimation } = React.useContext(DrawingContext);
+
     const block1Ref = React.useRef(null);
     const dirkRef = React.useRef(null);
     const block2Ref = React.useRef(null);
@@ -125,7 +126,7 @@ const _Watis1M84 = () => {
               {String.raw`**2** keer $1~\si{m}$`}
           </TextAccolade>
           <g ref={dirkRef}>
-              <Dirk isFront height={dirkHeight} x={dirkX} y={0} vAlign="bottom" hAlign="center" />
+              <Dirk isFront height={yScale.metric(dirkHeight)} x={xScale(dirkX)} y={yScale(0)} vAlign="bottom" hAlign="center" />
           </g>
           <Blocks ref={block1Ref} x={xScale(blocksX)} y={yScale(0)} blockText={blockText} blockWidth={xScale.metric(blocksWidth)} blockHeight={yScale.metric(1)} strokeWidth={xScale.metric(0.002)} numBlocks={1} />
           <Blocks ref={block2Ref} x={xScale(blocksX)} y={yScale(1)} blockText={blockText} blockWidth={xScale.metric(blocksWidth)} blockHeight={yScale.metric(1)} strokeWidth={xScale.metric(0.002)} numBlocks={1} />
@@ -246,7 +247,7 @@ const _DirkInCm = () => {
                 <Annot x={1} y={1.1} vAlign="center" hAlign="center">
                     {String.raw`$=$`}
                 </Annot>
-                <Dirk isFront height={1.84} x={0.5} y={0} vAlign="bottom" hAlign="center" />
+                <Dirk isFront height={yScale.metric(1.84)} x={xScale(0.5)} y={yScale(0)} vAlign="bottom" hAlign="center" />
             </g>
             <BlockCounter ref={blockCounterRef} blocksX={xScale(1.5)} accoladeX={xScale(1.65)} y={yScale(0)} numBlocks={0}
                   blockWidth={xScale.metric(0.2)} accoladeWidth={xScale.metric(0.2)}

@@ -4,16 +4,16 @@ import { gsap } from "gsap";
 import _last from "lodash/last";
 import withSizePositionAngle from "components/withSizePositionAngle";
 import {
-    Person, getRestPose
+    Person, getRestPose, DEFAULT_WIDTH, DEFAULT_HEIGHT
 } from "components/drawings/person";
 import { getWalkKeypoints } from "./walkCycleKps";
 import { getBreathingKeypoints } from "./breatheCycleKps";
 
 
-const _WalkingToStopPerson = ({
+const WalkingToStopPerson = ({
     color="#000000", outline="#efefef", numCycles = 3,
     stepSize = 12, stepFreq = 0.75, breatheFreq = 0.25,
-    breatheAmpl = 1,
+    breatheAmpl = 1, height=100,
 }) => {
     const personRef = React.useRef();
     const [tl, setTl] = React.useState(() => gsap.timeline());
@@ -25,7 +25,7 @@ const _WalkingToStopPerson = ({
         const initialPose = getRestPose(); 
         const walkKps = getWalkKeypoints({
             initialPose: initialPose,
-            footAmplX: stepSize/2,
+            footAmplX: (stepSize/2)*DEFAULT_HEIGHT/height,
             freq: stepFreq,
         });
 
@@ -56,6 +56,4 @@ const _WalkingToStopPerson = ({
     );
 };
 
-const WalkingToStopPerson = withSizePositionAngle(_WalkingToStopPerson, 100, 100);
-
-export default WalkingToStopPerson;
+export default withSizePositionAngle(WalkingToStopPerson, DEFAULT_WIDTH, DEFAULT_HEIGHT);

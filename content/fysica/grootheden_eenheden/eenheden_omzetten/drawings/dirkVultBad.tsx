@@ -113,10 +113,12 @@ const Pool = ({strokeWidth=0.1, poolX=24, poolY=0, poolLength: _poolLength=25, p
 };
 
 const _DirkVultBad = () => {
+    const { xScale, yScale } = React.useContext(DrawingContext);
+
     return (
       <>
         <Pool />
-        <Dirk x={6} y={12.5} height={1.84} hAlign="center" vAlign="bottom" />
+        <Dirk x={xScale(6)} y={yScale(12.5)} height={yScale.metric(1.84)} hAlign="center" vAlign="bottom" />
       </>
     )
 };
