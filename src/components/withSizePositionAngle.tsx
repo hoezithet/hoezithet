@@ -1,5 +1,4 @@
 import React from "react";
-import { DrawingContext } from "components/shortcodes/drawing";
 
 
 type ComponentProps = {
@@ -10,7 +9,6 @@ type ComponentProps = {
     angle: number,
     vAlign: "top"|"center"|"bottom",
     hAlign: "left"|"center"|"right",
-    ignoreDrawingContext: boolean,
     flipH: boolean,
     flipV: boolean,
     angleAnchorRelX: number|null,
@@ -26,37 +24,29 @@ const withSizePositionAngle = <P extends ComponentProps> (
     normHeight = normHeight === undefined ? 100 : normHeight;
     normWidth = normWidth === undefined ? 100 : normWidth;
 
-    return ({
-    width=null, height=null,
-    x=0, y=0, angle=0,
-    vAlign="top", hAlign="left",
-    ignoreDrawingContext=false,
-    flipH=false, flipV=false,
-    angleAnchorRelX=null, angleAnchorRelY=null,
-    ...props}: P) => {
+    return (props: P) => {
+        let {
+            width=null, height=null,
+            x=0, y=0, angle=0,
+            vAlign="top", hAlign="left",
+            flipH=false, flipV=false,
+            angleAnchorRelX=null, angleAnchorRelY=null,
+        } = props;
+
         let shiftX, shiftY, scaleX, scaleY;
 
-        if (ignoreDrawingContext) {
-            shiftX = x;
-            shiftY = y;
-        } else {
-            const { xScale, yScale } = React.useContext(DrawingContext);
-
-            width = width !== null ? xScale.metric(width) : null;
-            height = height !== null ? yScale.metric(height) : null;
-            shiftX = xScale(x);
-            shiftY = yScale(y);
-        }
+        shiftX = x;
+        shiftY = y;
 
         if (width !== null && height !== null) {
-	        scaleX = width / normWidth;
-	        scaleY = height / normHeight;
+            scaleX = width / normWidth;
+            scaleY = height / normHeight;
         } else if (width === null && height !== null) {
-	        scaleY = height / normHeight;
+            scaleY = height / normHeight;
             scaleX = scaleY;
             width = normWidth * scaleX;
         } else if (width !== null && height === null) {
-	        scaleX = width / normWidth;
+            scaleX = width / normWidth;
             scaleY = scaleX;
             height = normHeight * scaleY;
         } else {
