@@ -1,5 +1,6 @@
 import React from "react";
 import { Plot } from "components/shortcodes/plot";
+import { DrawingContext } from "components/shortcodes/drawing";
 import { Fx } from "components/shortcodes/fx";
 import { Annot } from  "components/shortcodes/annot";
 import { AnnotArrow } from  "components/shortcodes/annotArrow";
@@ -8,15 +9,25 @@ import { HairLines } from  "components/shortcodes/hairlines";
 import _ from "lodash";
 
 
-export const SinglePoint = () => {
+const SinglePointChild = () => {
+    const {xScale, yScale} = React.useContext(DrawingContext);
+
     return (
-        <Plot xColor="orange" yColor="green">
+        <>
           <HairLines x={4} y={2}/>
-          <AnnotArrow target={{x: 4, y: 2}} annot={{x: 8, y: 4}} vAlignAnnot="bottom" hAlignTarget="right" />
+          <AnnotArrow target={{x: xScale(4), y: yScale(2)}} annot={{x: xScale(8), y: yScale(4)}} vAlignAnnot="bottom" hAlignTarget="right" />
           <Annot x={8} y={4} vAlign="bottom">
             {String.raw`$(\orange{4};~\green{2})$`}
           </Annot>
           <Point x={4} y={2} size={5} />
+        </>
+    )
+};
+
+export const SinglePoint = () => {
+    return (
+        <Plot xColor="orange" yColor="green">
+          <SinglePointChild />
         </Plot>
     )
 };
@@ -61,13 +72,24 @@ export const ThousandPoints = () => {
     );
 };
 
+
+const NoFunctionChild = () => {
+    const {xScale, yScale} = React.useContext(DrawingContext);
+
+    return (
+        <>
+            <Fx fx={x => Math.sqrt(-x + 1)} xEnd={1} />
+            <Fx fx={x => -Math.sqrt(-x + 1)} xStart={-4} xEnd={1} />
+            <AnnotArrow target={{x: xScale(-2), y: yScale(-Math.sqrt(3))}} annot={{x: xScale(-5), y: yScale(-4)}} vAlignTarget="bottom" vAlignAnnot="top" hAlignAnnot="center" />
+            <Annot x={-5} y={-4} hAlign="center" vAlign="top">Geen functie</Annot>
+        </>
+    );
+};
+
 export const NoFunction = () => {
     return (
         <Plot xColor="orange" yColor="green">
-            <Fx fx={x => Math.sqrt(-x + 1)} xEnd={1} />
-            <Fx fx={x => -Math.sqrt(-x + 1)} xStart={-4} xEnd={1} />
-            <AnnotArrow target={{x: -2, y:-Math.sqrt(3)}} annot={{x: -5, y: -4}} vAlignTarget="bottom" vAlignAnnot="top" hAlignAnnot="center" />
-            <Annot x={-5} y={-4} hAlign="center" vAlign="top">Geen functie</Annot>
+            <NoFunctionChild />
         </Plot>
     );
 };

@@ -28,7 +28,6 @@ type AnnotProps = {
     lineWidth?: number,
     hideHead?: boolean,
     dashed?: boolean,
-    ignoreContext?: boolean,
 }
 
 
@@ -111,9 +110,9 @@ const getElCoord = (el: Element, hAlign: string, vAlign: string) => {
 }
 
 
-const convertToCoord = (annotOrTarget: string|Coordinate, hAlign: string, vAlign: string, xScale, yScale) => {
+const convertToCoord = (annotOrTarget: string|Coordinate, hAlign: string, vAlign: string) => {
     if (typeof document === "undefined") {
-        return {x: 0, y: 0};
+        return null;
     }
     if (Array.isArray(annotOrTarget)) {
         annotOrTarget = {
@@ -126,10 +125,8 @@ const convertToCoord = (annotOrTarget: string|Coordinate, hAlign: string, vAlign
         if (el !== null) {
             return getElCoord(el, hAlign, vAlign);
         } else {
-            return {x: 0, y: 0};
+            return null;
         }
-    } else if (xScale !== null && yScale !== null) {
-        return {x: xScale(annotOrTarget.x), y: yScale(annotOrTarget.y)};
     } else {
         return annotOrTarget;
     }
@@ -144,21 +141,15 @@ export const AnnotArrow = ({
     hAlignTarget="center", vAlignTarget="top",
     color="light_gray", opacity=1, lineWidth=2,
     hideHead=false, dashed=false,
-    ignoreContext=false,
 }: AnnotProps) => {
-    const {xScale, yScale} = ignoreContext ? {
-        xScale: x => x,
-        yScale: x => x,
-    } : useContext(DrawingContext);
-
-    const annotCoord = convertToCoord(annot, hAlignAnnot, vAlignAnnot, xScale, yScale);
+    const annotCoord = convertToCoord(annot, hAlignAnnot, vAlignAnnot);
     target = Array.isArray(target) && target.length > 0 && typeof target[0] !== "number" ? target : [target];
-    const targetCoords = target.map(t => convertToCoord(t, hAlignTarget, vAlignTarget, xScale, yScale))
+    const targetCoords = target.map(t => convertToCoord(t, hAlignTarget, vAlignTarget))
 
     const anchorAngleAnnot = getAngleFromAlign(hAlignAnnot, vAlignAnnot);
     const anchorAngleTarget = getAngleFromAlign(hAlignTarget, vAlignTarget);
 
-    const arrowLines = targetCoords.filter(t => t !== undefined).map((targetCoord, i) => (
+    const arrowLines = targetCoords.filter(t => t !== null).map((targetCoord, i) => (
         <g key={i}>
             <ArrowLine xStart={annotCoord.x} yStart={annotCoord.y} xEnd={targetCoord.x} yEnd={targetCoord.y}
                 margin={margin}
