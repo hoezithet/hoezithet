@@ -15,10 +15,6 @@ import { components, MdxNode, shortcodes } from "./lesson";
 import LessonContext from "../contexts/lessonContext";
 import { ToggleImageBare } from "../components/shortcodes/toggleImage";
 import { makeStyles } from '@material-ui/core/styles';
-import { Plot } from "../components/shortcodes/plot";
-import { MultipleAnswer } from "../components/shortcodes/multipleAnswer";
-import { MultipleChoice } from "../components/shortcodes/multipleChoice";
-import { FillString } from "../components/shortcodes/fillAnswer";
 import { LessonSolutions } from '../components/shortcodes/lessonSolutions'
 
 
@@ -91,10 +87,6 @@ const BareAnchor = (props: AnchorProps) => {
 const bareShortcodes = {
     ...shortcodes,
     ToggleImage: ToggleImageBare,
-    Plot: Plot,
-    MultipleAnswer: MultipleAnswer,
-    MultipleChoice: MultipleChoice,
-    FillString: FillString,
 };
 
 const bareComponents = {

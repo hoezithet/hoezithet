@@ -29,16 +29,6 @@ import Layout from "../components/layout";
 import Sponsors from '../components/sponsors';
 import Feedback from "../components/feedback";
 import PrintLink from "../components/printlink";
-import { Plot } from "../components/shortcodes/plot";
-import { Drawing } from "../components/shortcodes/drawing";
-import { ArrowLine } from "../components/shortcodes/arrow";
-import { Fx } from "../components/shortcodes/fx";
-import { Annot } from "../components/shortcodes/annot";
-import { AnnotArrow } from "../components/shortcodes/annotArrow";
-import { Line } from "../components/shortcodes/line";
-import { Point } from "../components/shortcodes/point";
-import { HairLines } from "../components/shortcodes/hairlines";
-import { AnimTex, ExplanationStep, EqnSqrtStep } from "../components/shortcodes/animTex";
 import { Link } from 'gatsby-theme-material-ui';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -46,13 +36,6 @@ import BlockquoteBox from "../components/blockquote";
 import { LayoutProps } from "../components/layout";
 import Comments from "../components/comments";
 import SectionCard, { CardImage } from "./sectionCard";
-import { EqnSolver } from "../components/shortcodes/solvers/eqnSolver";
-import Spring from "../components/shortcodes/spring";
-import Ruler from "../components/shortcodes/ruler";
-import Wall from "../components/shortcodes/wall";
-import Mass from "../components/shortcodes/mass";
-import VMassSpring from "../components/shortcodes/v_mass_spring";
-import DrawingGrid from "../components/shortcodes/drawingGrid";
 
 export const shortcodes = {
     Mute,
@@ -70,10 +53,6 @@ export const shortcodes = {
     Gold,
     Orange,
     Red, DarkRed, Purple, Gray,
-    Plot, Drawing, Fx, Point, AnnotArrow, HairLines, Line, ArrowLine, Annot,
-    AnimTex, ExplanationStep, EqnSqrtStep,
-    EqnSolver,
-    Spring, Ruler, DrawingGrid, Wall, Mass, VMassSpring
 };
 
 export const components = {
