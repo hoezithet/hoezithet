@@ -14,12 +14,12 @@ const SinglePointChild = () => {
 
     return (
         <>
-          <HairLines x={4} y={2}/>
+          <HairLines x={xScale(4)} y={yScale(2)} xStart={xScale(0)} yStart={yScale(0)}/>
           <AnnotArrow target={{x: xScale(4), y: yScale(2)}} annot={{x: xScale(8), y: yScale(4)}} vAlignAnnot="bottom" hAlignTarget="right" />
           <Annot x={xScale(8)} y={yScale(4)} vAlign="bottom">
             {String.raw`$(\orange{4};~\green{2})$`}
           </Annot>
-          <Point x={4} y={2} size={5} />
+          <Point x={xScale(4)} y={yScale(2)} size={5} />
         </>
     )
 };
@@ -32,42 +32,73 @@ export const SinglePoint = () => {
     )
 };
 
+const MultiplePointsChild = () => {
+    const {xScale, yScale} = React.useContext(DrawingContext);
+
+    return (
+        <>
+            { _.range(11).map(x => {
+            const y = -(1/2)*x**2 + 4*x - 6;
+            return (
+                <Point x={xScale(x)} y={yScale(y)} size={5} key={x}/>
+            );
+            })}
+        </>
+    );
+};
+
 export const MultiplePoints = () => {
     return (
         <Plot xColor="orange" yColor="green"  yMin={-20}>
-          { _.range(11).map(i => {
-            const x = i;
+            <MultiplePointsChild/>
+        </Plot>
+    );
+};
+
+
+const ManyPointsChild = () => {
+    const {xScale, yScale} = React.useContext(DrawingContext);
+
+    return (
+        <>
+            { _.range(0, 10, 0.1).map(x => {
             const y = -(1/2)*x**2 + 4*x - 6;
             return (
-              <Point x={x} y={y} size={5} key={i}/>
+                <Point x={xScale(x)} y={yScale(y)} size={5} key={x}/>
             );
-          })}
-        </Plot>
+            })}
+        </>
     );
 };
 
 export const ManyPoints = () => {
     return (
         <Plot xColor="orange" yColor="green" yMin={-20}>
-            { _.range(0, 10, 0.1).map(x => {
+            <ManyPointsChild/>
+        </Plot>
+    );
+};
+
+
+const ThousandPointsChild = () => {
+    const {xScale, yScale} = React.useContext(DrawingContext);
+
+    return (
+        <>
+            { _.range(0, 10, 0.01).map(x => {
             const y = -(1/2)*x**2 + 4*x - 6;
             return (
-                <Point x={x} y={y} size={5} key={x}/>
+                <Point x={xScale(x)} y={yScale(y)} size={5} key={x}/>
             );
             })}
-        </Plot>
+        </>
     );
 };
 
 export const ThousandPoints = () => {
     return (
         <Plot xColor="orange" yColor="green" yMin={-20}>
-            { _.range(0, 10, 0.01).map(x => {
-            const y = -(1/2)*x**2 + 4*x - 6;
-            return (
-                <Point x={x} y={y} size={5} key={x}/>
-            );
-            })}
+            <ThousandPointsChild/>
         </Plot>
     );
 };

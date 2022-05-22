@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Line, LinePath, Circle } from '@visx/shape';
+import { LinePath, Circle } from '@visx/shape';
 import { curveLinear } from '@visx/curve';
 
 import { getColor } from "../../colors";

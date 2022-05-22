@@ -55,7 +55,7 @@ export const ArrowLine = ({
         <Line xStart={xStart} yStart={yStart} xEnd={xEnd} yEnd={yEnd} color={color} margin={margin}
             anchorAngleEnd={anchorAngleEnd} anchorRadiusEnd={anchorRadiusEnd}
             anchorAngleStart={anchorAngleStart} anchorRadiusStart={anchorRadiusStart}
-            lineWidth={lineWidth} useContextScale={false} dashed={dashed}
+            lineWidth={lineWidth} dashed={dashed}
             opacity={opacity} />
         { showArrow ?
             <path fill={color} stroke={color} strokeLinejoin="round" strokeOpacity={opacity} fillOpacity={opacity}

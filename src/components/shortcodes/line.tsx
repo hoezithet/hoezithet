@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
+import React, { createContext, useEffect, useRef, useState } from 'react';
 import { Line as VisxLine } from '@visx/shape';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -25,16 +25,11 @@ export const Line = ({
     xStart, yStart, xEnd, yEnd, color="blue", margin=0,
     anchorAngleEnd=null, anchorRadiusEnd=0,
     anchorAngleStart=null, anchorRadiusStart=0,
-    lineWidth=3, useContextScale=true, dashed=false,
+    lineWidth=3, dashed=false,
     opacity=1
 }) => {
     const classes = useStyles({color: getColor(color), lineWidth: lineWidth});
-    const {xScale, yScale} = useContext(DrawingContext);
-    if (xScale && yScale && useContextScale) {
-        [xStart, xEnd] = [xStart, xEnd].map(xScale);
-        [yStart, yEnd] = [yStart, yEnd].map(yScale);
-    }
-    
+
     anchorAngleStart = toRad(anchorAngleStart);
     anchorAngleEnd = toRad(anchorAngleEnd);
     

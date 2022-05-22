@@ -119,7 +119,7 @@ const VMassSpring = ({x, y}: VMassSpringProps) => {
 
     return (
         <g id={groupId}>
-            <Line xStart={110} xEnd={120} yStart={springBottom} yEnd={springBottom} color="light_gray" opacity={_.inRange(springTop - springBottom, rulerSize) ? "1" : "0"} dashed />
+            <Line xStart={xScale(110)} xEnd={xScale(120)} yStart={yScale(springBottom)} yEnd={yScale(springBottom)} color="light_gray" opacity={_.inRange(springTop - springBottom, rulerSize) ? "1" : "0"} dashed />
             <Ruler x={110} y={90} angle={90} size={rulerSize} unit="mm" emphasize={Math.round(springTop - springBottom)} />
             <Spring x={120} y={springTop} angle={90} length={springTop - springBottom} />
             <Wall x={115} y={90} width={10} height={5} />

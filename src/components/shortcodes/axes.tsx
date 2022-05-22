@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { AxisBottom, AxisLeft } from '@visx/axis';
-import { Line } from '@visx/shape';
 import { Group } from '@visx/group';
 import { Text } from '@visx/text';
 
