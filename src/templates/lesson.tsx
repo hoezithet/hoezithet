@@ -37,7 +37,6 @@ import { Annot } from "../components/shortcodes/annot";
 import { AnnotArrow } from "../components/shortcodes/annotArrow";
 import { Line } from "../components/shortcodes/line";
 import { Point } from "../components/shortcodes/point";
-import { Rectangle } from "../components/shortcodes/rectangle";
 import { HairLines } from "../components/shortcodes/hairlines";
 import { AnimTex, ExplanationStep, EqnSqrtStep } from "../components/shortcodes/animTex";
 import { Link } from 'gatsby-theme-material-ui';
@@ -71,7 +70,7 @@ export const shortcodes = {
     Gold,
     Orange,
     Red, DarkRed, Purple, Gray,
-    Plot, Drawing, Fx, Point, AnnotArrow, HairLines, Line, ArrowLine, Rectangle, Annot,
+    Plot, Drawing, Fx, Point, AnnotArrow, HairLines, Line, ArrowLine, Annot,
     AnimTex, ExplanationStep, EqnSqrtStep,
     EqnSolver,
     Spring, Ruler, DrawingGrid, Wall, Mass, VMassSpring

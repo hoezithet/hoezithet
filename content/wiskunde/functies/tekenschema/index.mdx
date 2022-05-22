@@ -15,21 +15,9 @@ positief of negatief is. Deze informatie vatten we overzichtelijk samen in een
 
 Welke x-waarden welk teken <Mute>(positief/negatief/nul)</Mute> opleveren voor de y-waarden, vatten we samen in een **tekenschema** <Mute>(ook wel "tekentabel" of "tekenverloop" genoemd)</Mute>.  Als de [grafiek van een functie](../grafiek) is gegeven, kunnen we zien waar de functiewaarden <Mute>(of de y-waarden)</Mute> _positief_, _negatief_ of _nul_ zijn.
 
-<Plot>
-<Fx fx={x => - Math.pow(x, 2) + 9} />
-<Rectangle x1={-15} x2={-3} y1={0} y2={-15} fill="red" fillOpacity={0.5} />
-<Rectangle x1={-3} x2={3} y1={0} y2={15} fill="green" fillOpacity={0.5} />
-<Rectangle x1={3} x2={15} y1={0} y2={-15} fill="red" fillOpacity={0.5} />
-<Annot x={-8} y={-2} backgroundOpacity={0.5} showBackground>
-{ String.raw`$f(x)\lt 0$` }
-</Annot>
-<Annot x={0} y={2} backgroundOpacity={0.5} showBackground>
-{ String.raw`$f(x)\gt 0$` }
-</Annot>
-<Annot x={8} y={-2} backgroundOpacity={0.5} showBackground>
-{ String.raw`$f(x)\lt 0$` }
-</Annot>
-</Plot>
+import { TekenschemaPlot } from "./drawings/plots";
+
+<TekenschemaPlot />
 
 We zien op de grafiek:
 
