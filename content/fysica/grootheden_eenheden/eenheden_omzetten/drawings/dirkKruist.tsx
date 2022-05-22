@@ -74,7 +74,6 @@ const TextBallon = ({text, gsapPosition, width=1000}) => {
               anchorRadiusTarget={50} anchorRadiusAnnot={50}
               hAlignAnnot="right" vAlignAnnot="bottom" hideHead color="gray"/>
           <Annot x={noteX} y={noteY} width={width} height={1080} fontSize={60}
-              useContextScale={false}
               hAlign="right"
               vAlign="bottom"
               textPadding=".5em"

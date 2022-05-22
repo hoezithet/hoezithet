@@ -18,7 +18,7 @@ const MilkCarton = ({x, y, width, height, depth}) => {
            <g transform={`translate(${-width*cos30},${-width*sin30}) ${isoLeftTfm}`}>
                <rect width={width} height={height} fill={getColor("near_white")} stroke={getColor("black")} strokeLinejoin="round" />
                <CowHead x={width/2} y={height/3} hAlign="center" vAlign="center" width={width/2} height={height/2} ignoreDrawingContext />
-               <Annot x={width/2} y={height} hAlign="center" vAlign="bottom" fontSize={`${height/3}px`} useContextScale={false}>
+               <Annot x={width/2} y={height} hAlign="center" vAlign="bottom" fontSize={`${height/3}px`}>
                    {String.raw`**1L**`}
                </Annot>
            </g>
@@ -108,13 +108,13 @@ const _DrieKubussenMetVolume = () => {
             <Cube x={cube1X} y={cube1Y} size={cube1Size} strokeWidth={cubeStrokeWidth} />
             <Cube x={cube2X} y={cube2Y} size={cube2Size} color="green" strokeWidth={cubeStrokeWidth} />
             <Cube x={cube3X} y={cube3Y} size={cube3Size} color="orange" strokeWidth={cubeStrokeWidth} />
-            <Annot x={note1X} y={note1Y} hAlign="left" fontSize={fontSize} useContextScale={false}>
+            <Annot x={note1X} y={note1Y} hAlign="left" fontSize={fontSize}>
                 {String.raw`$1~\si{m}^3$`}
             </Annot>
-            <Annot x={note2X} y={note2Y} hAlign="left" fontSize={fontSize} useContextScale={false}>
+            <Annot x={note2X} y={note2Y} hAlign="left" fontSize={fontSize}>
                 {String.raw`$1~\si{dm}^3$`}
             </Annot>
-            <Annot x={note3X} y={note3Y} hAlign="left" fontSize={fontSize} useContextScale={false}>
+            <Annot x={note3X} y={note3Y} hAlign="left" fontSize={fontSize}>
                 {String.raw`$1~\si{cm}^3$`}
             </Annot>
             <AnnotArrow annot={[note1X, note1Y]} target={[cube1X + cube1Size*cos30, cube1Y - cube1Size*(1 + sin30)]} ignoreContext hAlignAnnot="left" vAlignAnnot="center" hAlignTarget="right" vAlignTarget="top" />
@@ -162,13 +162,13 @@ const _DrieKubussenMetMelk = () => {
             <MilkCarton x={carton1X} y={carton1Y} width={cartonWidth} height={cartonHeight} depth={cartonDepth} />
             <MilkCarton x={carton2X} y={carton2Y} width={cartonWidth} height={cartonHeight} depth={cartonDepth} />
             <MilkCarton x={carton3X} y={carton3Y} width={cartonWidth} height={cartonHeight} depth={cartonDepth} />
-            <Annot x={note1X} y={note1Y} hAlign="right" fontSize={fontSize} useContextScale={false}>
+            <Annot x={note1X} y={note1Y} hAlign="right" fontSize={fontSize}>
                 {String.raw`$~\neq~$`}
             </Annot>
-            <Annot x={note2X} y={note2Y} hAlign="right" fontSize={fontSize} useContextScale={false}>
+            <Annot x={note2X} y={note2Y} hAlign="right" fontSize={fontSize}>
                 {String.raw`$~\approx~$`}
             </Annot>
-            <Annot x={note3X} y={note3Y} hAlign="right" fontSize={fontSize} useContextScale={false}>
+            <Annot x={note3X} y={note3Y} hAlign="right" fontSize={fontSize}>
                 {String.raw`$~\neq~$`}
             </Annot>
         </>
@@ -205,7 +205,7 @@ const _Dm3IsMelk = () => {
     return (
         <>
             <Cube x={cube2X} y={cube2Y} size={cube2Size} color="green" strokeWidth={cubeStrokeWidth} />
-            <Annot x={note1dm3X} y={note1dm3Y} hAlign="center" vAlign="top" fontSize={fontSize} useContextScale={false}>
+            <Annot x={note1dm3X} y={note1dm3Y} hAlign="center" vAlign="top" fontSize={fontSize}>
                 {String.raw`$1~\si{dm}^3 = 1~\si{l}$`}
             </Annot>
             <MilkCarton x={carton2X} y={carton2Y} width={cartonWidth} height={cartonHeight} depth={cartonDepth} />

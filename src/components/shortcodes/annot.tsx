@@ -25,7 +25,7 @@ export const Annot = ({
     x=0, y=0, width=null, height=null,
     backgroundColor="white", backgroundOpacity=1,
     showBackground=false, hAlign="center",
-    vAlign="center", useContextScale=true, className="",
+    vAlign="center", className="",
     fontSize="inherit", color="inherit",
     textPadding=null, borderRadius=null,
     parentPadding=null,
@@ -39,24 +39,6 @@ export const Annot = ({
     const ctx = useContext(DrawingContext);
 
     backgroundOpacity = showBackground ? backgroundOpacity : .0;
-
-    if (useContextScale) {
-        const {xScale, yScale} = ctx;
-
-        x = xScale(x);
-        y = yScale(y);
-
-        if (isNumeric(fontSize)) {
-            fontSize = yScale(fontSize);
-        }
-
-        if (width !== null) {
-            width = Math.abs(xScale(width) - xScale(0));
-        }
-        if (height !== null) {
-            height = Math.abs(yScale(0) - yScale(height));
-        }
-    }
 
     width = width || ctx?.width;
     height = height || ctx?.height;

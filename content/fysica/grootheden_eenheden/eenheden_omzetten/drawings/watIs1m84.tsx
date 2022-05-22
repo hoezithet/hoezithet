@@ -24,7 +24,7 @@ const _Blocks = ({x, y, blockHeight, blockWidth, strokeWidth, hText=false, fontS
                     { blockText === null ? null :
                         <g transform={`translate(${blockWidth/2},${blockHeight/2}) rotate(${textAngle + (hText ? 0 : -90)})`}>
                             <Annot hAlign="center" vAlign="center"
-                                useContextScale={false} fontSize={fontSize}
+                                 fontSize={fontSize}
                                 color={getColor("near_white")}>
                                 {blockText}
                             </Annot>
@@ -76,7 +76,7 @@ const _TextAccolade = ({x1, x2=null, y, flipText=false, hText=false, width, heig
                 <g transform={x1 >= x2 ? "" : `translate(${0},${-height}) rotate(180)`}>
                     <g ref={noteRef} transform={getNoteTransform(width, height)}>
                         <Annot
-                            hAlign={hText ? "left" : "center"} vAlign={hText ? "center" : "bottom"} useContextScale={false}
+                            hAlign={hText ? "left" : "center"} vAlign={hText ? "center" : "bottom"}
                             color={color} fontSize={fontSize}>
                             {children}
                         </Annot>
@@ -193,7 +193,7 @@ const _MeterIs100Cm = () => {
     return (
         <>
             <g ref={meterBlockRef}>
-                <Annot x={1} y={0.5} vAlign="center" hAlign="center">
+                <Annot x={xScale(1)} y={yScale(0.5)} vAlign="center" hAlign="center">
                     {String.raw`$=$`}
                 </Annot>
                 <Blocks x={xScale(0.75)} y={yScale(0)} blockText={String.raw`$1~\si{m}$`} textAngle={90} fontSize={yScale.metric(0.09)} blockHeight={yScale.metric(1)} blockWidth={xScale.metric(0.2)} numBlocks={1} color="blue" />
@@ -244,7 +244,7 @@ const _DirkInCm = () => {
         <>
             {/** <DrawingGrid majorX={1} majorY={1} minorX={0.10} minorY={0.1} /> **/}
             <g ref={meterBlockRef}>
-                <Annot x={1} y={1.1} vAlign="center" hAlign="center">
+                <Annot x={xScale(1)} y={yScale(1.1)} vAlign="center" hAlign="center">
                     {String.raw`$=$`}
                 </Annot>
                 <Dirk isFront height={yScale.metric(1.84)} x={xScale(0.5)} y={yScale(0)} vAlign="bottom" hAlign="center" />

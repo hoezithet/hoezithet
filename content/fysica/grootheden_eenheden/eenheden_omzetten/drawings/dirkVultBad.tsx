@@ -2,7 +2,6 @@ import React from "react";
 import { Drawing, DrawingContext } from "components/shortcodes/drawing";
 import DrawingGrid from "components/shortcodes/drawingGrid";
 import Dirk from "./dirk";
-import { Annot } from "components/shortcodes/annot";
 import { getColor } from "colors";
 import _ from "lodash";
 

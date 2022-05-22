@@ -2,7 +2,6 @@ import React from "react";
 import { Drawing, DrawingContext } from "components/shortcodes/drawing";
 import withDrawingScale from "components/withDrawingScale";
 import DrawingGrid from "components/shortcodes/drawingGrid";
-import { Annot } from "components/shortcodes/annot";
 import {isoTopTfm, isoLeftTfm, isoRightTfm} from "utils/isoTransform";
 
 import { getColor } from "colors";

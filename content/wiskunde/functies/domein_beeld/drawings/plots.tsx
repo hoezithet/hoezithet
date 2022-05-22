@@ -38,7 +38,7 @@ const FuncDomainChild = () => {
             <Fx fx={func} xStart={-5} xEnd={15} opacity={0.5} />
             <Line xStart={-5} yStart={0} xEnd={15} yEnd={0} color="green" lineWidth={4} />
             <Point x={-5} y={0} color="green" size={10} />
-            <Annot x={-6} y={5} vAlign="bottom" showBackground>
+            <Annot x={xScale(-6)} y={yScale(5)} vAlign="bottom" showBackground>
                 { String.raw`$\green{\mathrm{dom}~f = [-5; +\infty[}$` }
             </Annot>
             <AnnotArrow target={{x: xScale(-5), y: yScale(0)}} annot={{x: xScale(-6), y: yScale(5)}} vAlignAnnot="bottom" hAlignTarget="left" />
@@ -72,7 +72,7 @@ const FuncRangeChild = () => {
             <Fx fx={func} xStart={-5} xEnd={15} opacity={0.5} />
             <Line xStart={0} yStart={-6} xEnd={0} yEnd={15} color="green" lineWidth={4} />
             <Point x={0} y={-6} color="green" size={10} />
-            <Annot x={2} y={-8} hAlign="center" vAlign="top" showBackground>
+            <Annot x={xScale(2)} y={yScale(-8)} hAlign="center" vAlign="top" showBackground>
                 { String.raw`$\green{\mathrm{bld}~f = [-6; +\infty[}$` }
             </Annot>
             <AnnotArrow target={{x: xScale(0), y: yScale(-6)}} annot={{x: xScale(2), y: yScale(-8)}} hAlignTarget="right" vAlignTarget="bottom" hAlignAnnot="center" vAlignAnnot="top" />

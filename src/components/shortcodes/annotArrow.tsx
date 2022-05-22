@@ -3,7 +3,6 @@ import React, { createContext, useContext, useEffect, useRef, useState } from 'r
 import { theme } from "../theme";
 import { DrawingContext } from "./drawing";
 import { ArrowLine } from "./arrow";
-import { Annot } from "./annot";
 import { useStyles } from "./line";
 import _ from "lodash";
 

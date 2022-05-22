@@ -16,7 +16,7 @@ const SinglePointChild = () => {
         <>
           <HairLines x={4} y={2}/>
           <AnnotArrow target={{x: xScale(4), y: yScale(2)}} annot={{x: xScale(8), y: yScale(4)}} vAlignAnnot="bottom" hAlignTarget="right" />
-          <Annot x={8} y={4} vAlign="bottom">
+          <Annot x={xScale(8)} y={yScale(4)} vAlign="bottom">
             {String.raw`$(\orange{4};~\green{2})$`}
           </Annot>
           <Point x={4} y={2} size={5} />
@@ -81,7 +81,7 @@ const NoFunctionChild = () => {
             <Fx fx={x => Math.sqrt(-x + 1)} xEnd={1} />
             <Fx fx={x => -Math.sqrt(-x + 1)} xStart={-4} xEnd={1} />
             <AnnotArrow target={{x: xScale(-2), y: yScale(-Math.sqrt(3))}} annot={{x: xScale(-5), y: yScale(-4)}} vAlignTarget="bottom" vAlignAnnot="top" hAlignAnnot="center" />
-            <Annot x={-5} y={-4} hAlign="center" vAlign="top">Geen functie</Annot>
+            <Annot x={xScale(-5)} y={yScale(-4)} hAlign="center" vAlign="top">Geen functie</Annot>
         </>
     );
 };
