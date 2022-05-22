@@ -41,7 +41,7 @@ const FuncDomainChild = () => {
             <Annot x={xScale(-6)} y={yScale(5)} vAlign="bottom" showBackground>
                 { String.raw`$\green{\mathrm{dom}~f = [-5; +\infty[}$` }
             </Annot>
-            <AnnotArrow target={{x: xScale(-5), y: yScale(0)}} annot={{x: xScale(-6), y: yScale(5)}} vAlignAnnot="bottom" hAlignTarget="left" />
+            <AnnotArrow target={{x: xScale(-5), y: yScale(0)}} annot={{x: xScale(-6), y: yScale(5)}} annotAlign="bottom center" targetAlign="top left" />
         </>
     )
 };
@@ -75,7 +75,7 @@ const FuncRangeChild = () => {
             <Annot x={xScale(2)} y={yScale(-8)} hAlign="center" vAlign="top" showBackground>
                 { String.raw`$\green{\mathrm{bld}~f = [-6; +\infty[}$` }
             </Annot>
-            <AnnotArrow target={{x: xScale(0), y: yScale(-6)}} annot={{x: xScale(2), y: yScale(-8)}} hAlignTarget="right" vAlignTarget="bottom" hAlignAnnot="center" vAlignAnnot="top" />
+            <AnnotArrow target={{x: xScale(0), y: yScale(-6)}} annot={{x: xScale(2), y: yScale(-8)}} targetAlign="bottom right" annotAlign="top center"/>
         </>
     )
 };

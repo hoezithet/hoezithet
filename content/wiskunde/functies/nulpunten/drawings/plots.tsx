@@ -14,10 +14,10 @@ export const NulpuntenChild = () => {
         <>
             <Fx fx={x => -Math.pow(x, 2) + 9}/>
             <Point x={xScale(3)} y={yScale(0)} color="orange" size={10}/>
-            <AnnotArrow target={{x: xScale(3), y: yScale(0)}} annot={{x: xScale(6), y: yScale(2)}} vAlignAnnot="bottom" hAlignAnnot="center" hAlignTarget="right"/>
+            <AnnotArrow target={{x: xScale(3), y: yScale(0)}} annot={{x: xScale(6), y: yScale(2)}} annotAlign="bottom center" targetAlign="top right"/>
             <Annot x={xScale(6)} y={yScale(2)} vAlign="bottom" hAlign="center">Nulpunt</Annot>
             <Point x={xScale(-3)} y={yScale(0)} color="orange" size={10}/>
-            <AnnotArrow target={{x: xScale(-3), y: yScale(0)}} annot={{x: xScale(-6), y: yScale(2)}} vAlignAnnot="bottom"  hAlignAnnot="center" hAlignTarget="left"/>
+            <AnnotArrow target={{x: xScale(-3), y: yScale(0)}} annot={{x: xScale(-6), y: yScale(2)}} annotAlign="bottom center" targetAlign="top left"/>
             <Annot x={xScale(-6)} y={yScale(2)} vAlign="bottom" hAlign="center">Nulpunt</Annot>
         </>
     )

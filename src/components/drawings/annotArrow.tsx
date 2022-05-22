@@ -16,12 +16,11 @@ type AnnotProps = {
     annot: string|Coordinate,
     target: string|Coordinate|Coordinate[],
     margin?: number,
+    anchorRadius?: number,
     anchorRadiusTarget?: number|null,
     anchorRadiusAnnot?: number|null,
-    hAlignAnnot?: string,
-    vAlignAnnot?: string,
-    hAlignTarget?: string,
-    vAlignTarget?: string,
+    annotAlign?: string,
+    targetAlign?: string,
     color?: string,
     opacity?: number,
     lineWidth?: number,
@@ -135,12 +134,22 @@ const convertToCoord = (annotOrTarget: string|Coordinate, hAlign: string, vAlign
 export const AnnotArrow = ({
     annot, target,
     margin=theme.spacing(1),
-    anchorRadiusTarget=20, anchorRadiusAnnot=20,
-    hAlignAnnot="center", vAlignAnnot="top",
-    hAlignTarget="center", vAlignTarget="top",
+    anchorRadius=20,
+    anchorRadiusTarget=null, anchorRadiusAnnot=null,
+    annotAlign="top center",
+    targetAlign="top center",
     color="light_gray", opacity=1, lineWidth=2,
     hideHead=false, dashed=false,
 }: AnnotProps) => {
+    if (anchorRadiusTarget === null) {
+        anchorRadiusTarget = anchorRadius;
+    }
+    if (anchorRadiusAnnot === null) {
+        anchorRadiusAnnot = anchorRadius;
+    }
+
+    const [vAlignAnnot, hAlignAnnot] = annotAlign.split(" ");
+    const [vAlignTarget, hAlignTarget] = targetAlign.split(" ");
     const annotCoord = convertToCoord(annot, hAlignAnnot, vAlignAnnot);
     target = Array.isArray(target) && target.length > 0 && typeof target[0] !== "number" ? target : [target];
     const targetCoords = target.map(t => convertToCoord(t, hAlignTarget, vAlignTarget))

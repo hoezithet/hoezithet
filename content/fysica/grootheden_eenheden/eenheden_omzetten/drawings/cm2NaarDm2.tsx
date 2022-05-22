@@ -27,8 +27,8 @@ $$
 
     return (
         <>
-            <AnnotArrow target={`#${tellerId}`} annot="#teller_annot_cm2" hAlignAnnot="right" vAlignAnnot="center" hAlignTarget="center" vAlignTarget="top" />
-            <AnnotArrow target={`#${noemerId}`} annot="#noemer_annot_dm2" hAlignAnnot="right" vAlignAnnot="center" hAlignTarget="center" vAlignTarget="bottom" />
+            <AnnotArrow target={`#${tellerId}`} annot="#teller_annot_cm2" annotAlign="center right" targetAlign="top center" />
+            <AnnotArrow target={`#${noemerId}`} annot="#noemer_annot_dm2" annotAlign="center right" targetAlign="bottom center" />
             <Annot x={xScale(40)} y={yScale(70)} fontSize="1rem" width={xScale.metric(40)} hAlign="right" vAlign="bottom">
                 { annotTeller }
             </Annot>
