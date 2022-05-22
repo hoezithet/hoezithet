@@ -31,7 +31,7 @@ const FuncDomainChild = () => {
             const y = func(x);
             return (
             Math.abs(y) > 1 ?
-            <ArrowLine xStart={x} yStart={y} xEnd={x} yEnd={0} margin={10} dashed={true} opacity={0.5} key={i} />
+            <ArrowLine xStart={xScale(x)} yStart={yScale(y)} xEnd={xScale(x)} yEnd={yScale(0)} margin={xScale.metric(.5)} dashed={true} opacity={0.5} key={i} />
             : null
             );
             })}
@@ -65,7 +65,7 @@ const FuncRangeChild = () => {
             const x = fxi(y);
             return (
             Math.abs(x) > 1 ?
-            <ArrowLine xStart={x} yStart={y} xEnd={0} yEnd={y} margin={10} dashed={true} opacity={0.5} key={i} />
+            <ArrowLine xStart={xScale(x)} yStart={yScale(y)} xEnd={xScale(0)} yEnd={yScale(y)} margin={xScale.metric(.5)} dashed={true} opacity={0.5} key={i} />
             : null
             );
             })}

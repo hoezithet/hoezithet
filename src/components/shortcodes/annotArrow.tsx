@@ -155,7 +155,7 @@ export const AnnotArrow = ({
                 anchorAngleStart={anchorAngleAnnot} anchorRadiusStart={anchorRadiusAnnot}
                 anchorAngleEnd={anchorAngleTarget} anchorRadiusEnd={anchorRadiusTarget}
                 color={color} lineWidth={lineWidth} dashed={dashed} showArrow={!hideHead}
-                opacity={opacity} useContextScale={false} />
+                opacity={opacity} />
         </g>
     ));
 

@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-import { DrawingContext } from "./drawing";
 import { Line } from "./line";
 import COLORS from "../../colors";
 
@@ -19,15 +18,8 @@ export const ArrowLine = ({
     anchorAngleEnd=null, anchorRadiusEnd=0,
     anchorAngleStart=null, anchorRadiusStart=0,
     color="light_gray", lineWidth=2, dashed=false, showArrow=true,
-    opacity=1, useContextScale=true,
+    opacity=1,
 }) => {
-    const {xScale, yScale} = useContext(DrawingContext);
-
-    if (xScale && yScale && useContextScale) {
-        [xEnd, xStart] = [xEnd, xStart].map(xScale);
-        [yEnd, yStart] = [yEnd, yStart].map(yScale);
-    }
-    
     const [dx, dy] = [xEnd - xStart, yEnd - yStart];
     const eps = 0.0001;
     
