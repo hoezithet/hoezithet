@@ -1,5 +1,6 @@
 import React from "react";
-import { Drawing, DrawingContext } from "components/drawings/drawing";
+import { Drawing } from "components/drawings/drawing";
+import AnimationContext from "components/drawings/animationContext";
 import _WalkingToStopPerson from "./walkingToStopPerson";
 import BreathingPerson from "./breathingPerson";
 import Zon from "./park/zon";
@@ -18,7 +19,7 @@ const LoopingWolken = withInfLoop(Wolken);
 
 const WalkingToStopPerson = () => {
     const ref = React.useRef();
-    const { addAnimation } = React.useContext(DrawingContext);
+    const { addAnimation } = React.useContext(AnimationContext);
     const [tl, setTl] = React.useState(() => gsap.timeline());
 
     const stepFreq = 2;
@@ -56,7 +57,7 @@ const WalkingToStopPerson = () => {
 const TextBallon = ({text, gsapPosition, width=1000}) => {
     const [noteX, noteY] = [1509, 350];
     const ref = React.useRef();
-    const { addAnimation } = React.useContext(DrawingContext);
+    const { addAnimation } = React.useContext(AnimationContext);
     const [tl, setTl] = React.useState(() => gsap.timeline());
 
     React.useEffect(() => {

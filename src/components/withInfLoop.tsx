@@ -1,11 +1,11 @@
 import React from "react";
-import { DrawingContext } from "components/drawings/drawing";
+import AnimationContext from "components/drawings/animationContext";
 import { gsap } from "gsap";
 
 
 const withInfLoop = (Component) => {
     return ({speed=0, x, width, ...props}) => {
-        const { addAnimation } = React.useContext(DrawingContext);
+        const { addAnimation } = React.useContext(AnimationContext);
 
         const xOrigin = 0;
         const widthPx = width;

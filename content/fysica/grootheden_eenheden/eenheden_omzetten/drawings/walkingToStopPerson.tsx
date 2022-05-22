@@ -1,5 +1,5 @@
 import React from "react";
-import { DrawingContext } from "components/drawings/drawing";
+import AnimationContext from "components/drawings/animationContext";
 import { gsap } from "gsap";
 import _last from "lodash/last";
 import withSizePositionAngle from "components/withSizePositionAngle";
@@ -17,7 +17,7 @@ const WalkingToStopPerson = ({
 }) => {
     const personRef = React.useRef();
     const [tl, setTl] = React.useState(() => gsap.timeline());
-    const { addAnimation } = React.useContext(DrawingContext);
+    const { addAnimation } = React.useContext(AnimationContext);
 
     React.useEffect(() => {
         tl.clear();

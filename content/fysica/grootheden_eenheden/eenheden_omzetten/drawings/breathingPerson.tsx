@@ -1,5 +1,5 @@
 import React from "react";
-import { DrawingContext } from "components/drawings/drawing";
+import AnimationContext from "components/drawings/animationContext";
 import { gsap } from "gsap";
 import {
     Person, addPoseKeypointToTl, getRestPose
@@ -12,7 +12,7 @@ export const withBreathing = (Component) => {
         repeat = -1, initialPose = null, breatheFreq = 0.25, breatheAmpl = 2, ...props
     }) => {
         const personRef = React.useRef();
-        const { addAnimation } = React.useContext(DrawingContext);
+        const { addAnimation } = React.useContext(AnimationContext);
         const [tl, setTl] = React.useState(() => gsap.timeline({repeat: repeat}));
 
         React.useEffect(() => {

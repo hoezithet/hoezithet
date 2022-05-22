@@ -12,6 +12,8 @@ import { scaleLinear } from '@visx/scale';
 import LessonContext from "../../contexts/lessonContext";
 import { Text } from '@visx/text';
 import BareLessonContext from "contexts/bareLessonContext";
+import AnimationContext from "./animationContext";
+
 
 import { getColor } from "../../colors";
 import useArrayRef from "hooks/useArrayRef";
@@ -52,8 +54,8 @@ export const DrawingContext = createContext({
     xScale: null,
     yScale: null,
     ref: null,
-    addAnimation: (child, position) => {},
 });
+
 
 export const Drawing = ({
     children=null, aspect=null, maxWidth=500, margin=.0,
@@ -190,9 +192,11 @@ export const Drawing = ({
 
             return (
                 <div className={classes.wrapper} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
-                    <DrawingContext.Provider value={{width: width, height: height, xScale: xScale, yScale: yScale, ref: drawingRef, addAnimation: addAnimation}}>
-                        { drawingChild }
-                    </DrawingContext.Provider>
+                    <AnimationContext.Provider value={{addAnimation: addAnimation}}>
+                        <DrawingContext.Provider value={{width: width, height: height, xScale: xScale, yScale: yScale, ref: drawingRef}}>
+                            { drawingChild }
+                        </DrawingContext.Provider>
+                    </AnimationContext.Provider>
                     <div className={classes.overlay}>
                         { tl.getChildren().length > 0 ?
                             <>

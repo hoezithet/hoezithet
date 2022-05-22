@@ -1,5 +1,6 @@
 import React from "react";
 import { Drawing, DrawingContext } from "components/drawings/drawing";
+import AnimationContext from "components/drawings/animationContext";
 import DrawingGrid from "components/drawings/drawingGrid";
 import Dirk from "./dirk";
 import { Annot } from "components/drawings/annot";
@@ -93,7 +94,8 @@ export const TextAccolade = React.forwardRef(_TextAccolade);
 
 
 const _Watis1M84 = () => {
-    const { xScale, yScale, addAnimation } = React.useContext(DrawingContext);
+    const { xScale, yScale } = React.useContext(DrawingContext);
+    const { addAnimation } = React.useContext(AnimationContext);
 
     const dirkX = 2;
     const dirkHeight = 1.84;
@@ -167,7 +169,8 @@ const _BlockCounter = ({blocksX, accoladeX, y, numBlocks: _numBlocks, textCallba
 const BlockCounter = React.forwardRef(_BlockCounter);
 
 const _MeterIs100Cm = () => {
-    const { xScale, yScale, addAnimation } = React.useContext(DrawingContext);
+    const { xScale, yScale } = React.useContext(DrawingContext);
+    const { addAnimation } = React.useContext(AnimationContext);
     const [tl, setTl] = React.useState(() => gsap.timeline());
     const meterBlockRef = React.useRef(null);
     const blockCounterRef = React.useRef(null);
@@ -217,7 +220,8 @@ export const MeterIs100Cm = () => {
 
 
 const _DirkInCm = () => {
-    const { xScale, yScale, addAnimation } = React.useContext(DrawingContext);
+    const { xScale, yScale } = React.useContext(DrawingContext);
+    const { addAnimation } = React.useContext(AnimationContext);
     const [tl, setTl] = React.useState(() => gsap.timeline());
     const blockCounterRef = React.useRef(null);
     const meterBlockRef = React.useRef(null);
