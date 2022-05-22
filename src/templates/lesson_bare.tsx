@@ -15,7 +15,7 @@ import { components, MdxNode, shortcodes } from "./lesson";
 import LessonContext from "../contexts/lessonContext";
 import { ToggleImageBare } from "../components/shortcodes/toggleImage";
 import { makeStyles } from '@material-ui/core/styles';
-import { LessonSolutions } from '../components/shortcodes/lessonSolutions'
+import { LessonSolutions } from '../components/exercises/lessonSolutions'
 
 
 const useStyles = makeStyles({

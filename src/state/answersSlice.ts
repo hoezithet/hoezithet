@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { AnswerType } from '../components/shortcodes/answer'
+import { AnswerType } from '../components/exercises/answer'
 
 
 const initialState = [] as AnswerType<any>[];

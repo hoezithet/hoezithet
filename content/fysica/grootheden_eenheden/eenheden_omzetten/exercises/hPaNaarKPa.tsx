@@ -1,9 +1,9 @@
 import React from "react";
 
-import { Exercise } from "components/shortcodes/exercise";
-import { ExerciseStepper } from "components/shortcodes/exerciseStepper";
-import { MultipleChoice } from "components/shortcodes/multipleChoice";
-import { Explanation } from "components/shortcodes/explanation";
+import { Exercise } from "components/exercises/exercise";
+import { ExerciseStepper } from "components/exercises/exerciseStepper";
+import { MultipleChoice } from "components/exercises/multipleChoice";
+import { Explanation } from "components/exercises/explanation";
 import Md from "components/markdown";
 
 const ex1 = String.raw`Welke macht van $10$ komt overeen met $\si{h}$ (*hecto-*)?`;

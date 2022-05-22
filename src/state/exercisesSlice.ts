@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { ExerciseType } from '../components/shortcodes/exercise'
+import { ExerciseType } from '../components/exercises/exercise'
 import { RootState } from './store'
 
 

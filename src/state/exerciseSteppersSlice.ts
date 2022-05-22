@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { ExerciseStepperType } from '../components/shortcodes/exerciseStepper'
+import { ExerciseStepperType } from '../components/exercises/exerciseStepper'
 import { RootState } from './store'
 
 
