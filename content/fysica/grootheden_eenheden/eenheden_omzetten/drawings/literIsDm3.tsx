@@ -17,7 +17,7 @@ const MilkCarton = ({x, y, width, height, depth}) => {
         <g transform={`translate(${x} ${y-height})`} >
            <g transform={`translate(${-width*cos30},${-width*sin30}) ${isoLeftTfm}`}>
                <rect width={width} height={height} fill={getColor("near_white")} stroke={getColor("black")} strokeLinejoin="round" />
-               <CowHead x={width/2} y={height/3} hAlign="center" vAlign="center" width={width/2} height={height/2} ignoreDrawingContext />
+               <CowHead x={width/2} y={height/3} hAlign="center" vAlign="center" width={width/2} height={height/2} />
                <Annot x={width/2} y={height} hAlign="center" vAlign="bottom" fontSize={`${height/3}px`}>
                    {String.raw`**1L**`}
                </Annot>
@@ -117,9 +117,9 @@ const _DrieKubussenMetVolume = () => {
             <Annot x={note3X} y={note3Y} hAlign="left" fontSize={fontSize}>
                 {String.raw`$1~\si{cm}^3$`}
             </Annot>
-            <AnnotArrow annot={[note1X, note1Y]} target={[cube1X + cube1Size*cos30, cube1Y - cube1Size*(1 + sin30)]} ignoreContext hAlignAnnot="left" vAlignAnnot="center" hAlignTarget="right" vAlignTarget="top" />
-            <AnnotArrow annot={[note2X, note2Y]} target={[cube2X + cube2Size*cos30, cube2Y - cube2Size*(1 + sin30)]} ignoreContext hAlignAnnot="left" vAlignAnnot="center" hAlignTarget="right" vAlignTarget="top" />
-            <AnnotArrow annot={[note3X, note3Y]} target={[cube3X + cube3Size*cos30, cube3Y - cube3Size*(1 + sin30)]} ignoreContext hAlignAnnot="left" vAlignAnnot="center" hAlignTarget="right" vAlignTarget="top" />
+            <AnnotArrow annot={[note1X, note1Y]} target={[cube1X + cube1Size*cos30, cube1Y - cube1Size*(1 + sin30)]} hAlignAnnot="left" vAlignAnnot="center" hAlignTarget="right" vAlignTarget="top" />
+            <AnnotArrow annot={[note2X, note2Y]} target={[cube2X + cube2Size*cos30, cube2Y - cube2Size*(1 + sin30)]} hAlignAnnot="left" vAlignAnnot="center" hAlignTarget="right" vAlignTarget="top" />
+            <AnnotArrow annot={[note3X, note3Y]} target={[cube3X + cube3Size*cos30, cube3Y - cube3Size*(1 + sin30)]} hAlignAnnot="left" vAlignAnnot="center" hAlignTarget="right" vAlignTarget="top" />
         </>
     );
 };

@@ -68,7 +68,6 @@ const TextBallon = ({text, gsapPosition, width=1000}) => {
     return (
         <g ref={ref}>
           <AnnotArrow annot={{x: noteX - 50, y: noteY - 50}} target={{x: 1445, y: 440}}
-              ignoreContext
               margin={0} hAlignTarget="left"
               lineWidth={10}
               anchorRadiusTarget={50} anchorRadiusAnnot={50}

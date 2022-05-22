@@ -222,7 +222,7 @@ const _Dirk = ({pose=null, color="#000000", outline="#efefef", isFront=false}, r
             { lArm }
             { isFront ?  rArm : null }
             <g ref={sweaterRef}>
-                <DirkTrui {...get1DStretchSizePosAngle(TRUI_SHOULDER, TRUI_HIP, TRUI_WIDTH, TRUI_HEIGHT, shoulderMid, hipMid)} isFront={isFront} ignoreDrawingContext />
+                <DirkTrui {...get1DStretchSizePosAngle(TRUI_SHOULDER, TRUI_HIP, TRUI_WIDTH, TRUI_HEIGHT, shoulderMid, hipMid)} isFront={isFront} />
             </g>
             { isFront ?  null : rArm }
           </g>
