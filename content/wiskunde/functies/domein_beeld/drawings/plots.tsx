@@ -1,12 +1,12 @@
 import React from "react";
-import { Plot } from "components/shortcodes/plot";
-import { DrawingContext } from "components/shortcodes/drawing";
-import { Fx } from "components/shortcodes/fx";
-import { ArrowLine } from "components/shortcodes/arrow";
-import { Annot } from  "components/shortcodes/annot";
-import { AnnotArrow } from  "components/shortcodes/annotArrow";
-import { Point } from  "components/shortcodes/point";
-import { Line } from  "components/shortcodes/line";
+import { Plot } from "components/drawings/plot";
+import { DrawingContext } from "components/drawings/drawing";
+import { Fx } from "components/drawings/fx";
+import { ArrowLine } from "components/drawings/arrow";
+import { Annot } from  "components/drawings/annot";
+import { AnnotArrow } from  "components/drawings/annotArrow";
+import { Point } from  "components/drawings/point";
+import { Line } from  "components/drawings/line";
 import _ from "lodash";
 
 

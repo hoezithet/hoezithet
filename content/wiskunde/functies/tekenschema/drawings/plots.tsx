@@ -1,10 +1,10 @@
 import React from "react";
-import { Plot } from "components/shortcodes/plot";
-import { DrawingContext } from "components/shortcodes/drawing";
-import { Fx } from "components/shortcodes/fx";
-import { Annot } from "components/shortcodes/annot";
+import { Plot } from "components/drawings/plot";
+import { DrawingContext } from "components/drawings/drawing";
+import { Fx } from "components/drawings/fx";
+import { Annot } from "components/drawings/annot";
 import { getColor } from "colors";
-import { STROKE_DASHARRAY } from "components/shortcodes/line";
+import { STROKE_DASHARRAY } from "components/drawings/line";
 
 
 const Rectangle = ({x1, y1, x2, y2, fill=null, stroke=null, dashed=false, strokeOpacity=1, fillOpacity=1}) => {

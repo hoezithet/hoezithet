@@ -1,7 +1,7 @@
 import React from "react";
-import { Drawing, DrawingContext } from "components/shortcodes/drawing";
+import { Drawing, DrawingContext } from "components/drawings/drawing";
 import withDrawingScale from "components/withDrawingScale";
-import DrawingGrid from "components/shortcodes/drawingGrid";
+import DrawingGrid from "components/drawings/drawingGrid";
 import {isoTopTfm, isoLeftTfm, isoRightTfm} from "utils/isoTransform";
 
 import { getColor } from "colors";

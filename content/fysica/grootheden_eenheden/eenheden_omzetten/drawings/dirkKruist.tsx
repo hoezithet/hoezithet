@@ -1,5 +1,5 @@
 import React from "react";
-import { Drawing, DrawingContext } from "components/shortcodes/drawing";
+import { Drawing, DrawingContext } from "components/drawings/drawing";
 import _WalkingToStopPerson from "./walkingToStopPerson";
 import BreathingPerson from "./breathingPerson";
 import Zon from "./park/zon";
@@ -8,8 +8,8 @@ import InfScrollingPark from "./park/inf_scrolling_park";
 import withInfLoop from "components/withInfLoop";
 import withDrawingScale from "components/withDrawingScale";
 import { BreathingDirk } from "./dirk";
-import { Annot } from "components/shortcodes/annot";
-import { AnnotArrow } from "components/shortcodes/annotArrow";
+import { Annot } from "components/drawings/annot";
+import { AnnotArrow } from "components/drawings/annotArrow";
 import withSizePositionAngle from "components/withSizePositionAngle";
 
 import { gsap } from "gsap";

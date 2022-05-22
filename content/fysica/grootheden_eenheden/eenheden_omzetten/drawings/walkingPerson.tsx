@@ -1,5 +1,5 @@
 import React from "react";
-import { DrawingContext } from "components/shortcodes/drawing";
+import { DrawingContext } from "components/drawings/drawing";
 import { gsap } from "gsap";
 import {
     Person, getRestPose

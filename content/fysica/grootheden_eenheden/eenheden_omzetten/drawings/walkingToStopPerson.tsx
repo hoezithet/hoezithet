@@ -1,5 +1,5 @@
 import React from "react";
-import { DrawingContext } from "components/shortcodes/drawing";
+import { DrawingContext } from "components/drawings/drawing";
 import { gsap } from "gsap";
 import _last from "lodash/last";
 import withSizePositionAngle from "components/withSizePositionAngle";

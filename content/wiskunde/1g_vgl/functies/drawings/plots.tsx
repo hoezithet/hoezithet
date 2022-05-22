@@ -1,10 +1,10 @@
 import React from "react";
-import { Plot } from "components/shortcodes/plot";
-import { Fx } from "components/shortcodes/fx";
-import { DrawingContext } from "components/shortcodes/drawing";
-import { Annot } from  "components/shortcodes/annot";
-import { AnnotArrow } from  "components/shortcodes/annotArrow";
-import { Point } from  "components/shortcodes/point";
+import { Plot } from "components/drawings/plot";
+import { Fx } from "components/drawings/fx";
+import { DrawingContext } from "components/drawings/drawing";
+import { Annot } from  "components/drawings/annot";
+import { AnnotArrow } from  "components/drawings/annotArrow";
+import { Point } from  "components/drawings/point";
 
 
 const FuncPlotChild = () => {

@@ -1,5 +1,5 @@
 import React from "react";
-import Drawing from "components/shortcodes/drawing";
+import Drawing from "components/drawings/drawing";
 import Gras from "./gras_inf";
 import Bank from "./bank_2";
 import Bank2 from "./bank2";

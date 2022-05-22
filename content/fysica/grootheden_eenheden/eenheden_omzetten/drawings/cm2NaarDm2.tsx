@@ -1,8 +1,8 @@
 import React from "react";
-import { Drawing, DrawingContext } from "components/shortcodes/drawing";
-import DrawingGrid from "components/shortcodes/drawingGrid";
-import { Annot } from "components/shortcodes/annot";
-import { AnnotArrow } from "components/shortcodes/annotArrow";
+import { Drawing, DrawingContext } from "components/drawings/drawing";
+import DrawingGrid from "components/drawings/drawingGrid";
+import { Annot } from "components/drawings/annot";
+import { AnnotArrow } from "components/drawings/annotArrow";
 import _uniqueId from "lodash/uniqueId";
 
 
