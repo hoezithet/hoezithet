@@ -36,12 +36,12 @@ export const createImperativePersonHandle = ({
     headSize: getSetHoseProp(headRef, 'width'),
     armWidth: getSetHoseProp([rArmRef1, rArmRef2, lArmRef1, lArmRef2], 'width'),
     armLength: getSetHoseProp([rArmRef1, rArmRef2, lArmRef1, lArmRef2], 'length'),
-    rArmBendRadius: getSetHoseProp([rArmRef1, rArmRef2], 'bendRadius'),
-    lArmBendRadius: getSetHoseProp([lArmRef1, lArmRef2], 'bendRadius'),
+    rArmBendFactor: getSetHoseProp([rArmRef1, rArmRef2], 'bendFactor'),
+    lArmBendFactor: getSetHoseProp([lArmRef1, lArmRef2], 'bendFactor'),
     legWidth: getSetHoseProp([rLegRef1, rLegRef2, lLegRef1, lLegRef2], 'width'),
     legLength: getSetHoseProp([rLegRef1, rLegRef2, lLegRef1, lLegRef2], 'length'),
-    lLegBendRadius: getSetHoseProp([lLegRef1, lLegRef2], 'bendRadius'),
-    rLegBendRadius: getSetHoseProp([rLegRef1, rLegRef2], 'bendRadius'),
+    lLegBendFactor: getSetHoseProp([lLegRef1, lLegRef2], 'bendFactor'),
+    rLegBendFactor: getSetHoseProp([rLegRef1, rLegRef2], 'bendFactor'),
     rShoulderX: getSetHoseProp([rArmRef1, rArmRef2, shouldersRef1, shouldersRef2], 'startX'),
     rShoulderY: getSetHoseProp([rArmRef1, rArmRef2, shouldersRef1, shouldersRef2], 'startY'),
     rHandX: getSetHoseProp([rArmRef1, rArmRef2], 'endX'),
@@ -60,7 +60,7 @@ export const createImperativePersonHandle = ({
     bodyTopY: getSetHoseProp(bodyRef, 'startY'),
     bodyBottomX: getSetHoseProp(bodyRef, 'endX'),
     bodyBottomY: getSetHoseProp(bodyRef, 'endY'),
-    bodyBendRadius: getSetHoseProp(bodyRef, 'bendRadius'),
+    bodyBendFactor: getSetHoseProp(bodyRef, 'bendFactor'),
     bodyWidth: getSetHoseProp(bodyRef, 'width'),
     bodyHeight: getSetHoseProp(bodyRef, 'length'),
     rHipX: getSetHoseProp([rLegRef1, rLegRef2], 'startX'),
@@ -137,7 +137,7 @@ const _Person = ({ pose=null, color="#000000", outline="#efefef", isFront=false 
             x: pose.rHandX,
             y: pose.rHandY
         },
-        bendRadius: pose.rArmBendRadius,
+        bendFactor: pose.rArmBendFactor,
     };
     const lArmProps = {
         ...armProps,
@@ -149,7 +149,7 @@ const _Person = ({ pose=null, color="#000000", outline="#efefef", isFront=false 
             x: pose.lHandX,
             y: pose.lHandY
         },
-        bendRadius: pose.lArmBendRadius,
+        bendFactor: pose.lArmBendFactor,
     };
     
     const shoulderProps = {
@@ -164,7 +164,7 @@ const _Person = ({ pose=null, color="#000000", outline="#efefef", isFront=false 
             x: pose.lShoulderX,
             y: pose.lShoulderY
         },
-        bendRadius: 2,
+        bendFactor: 0.5,
     };
 
     const legProps = {
@@ -182,7 +182,7 @@ const _Person = ({ pose=null, color="#000000", outline="#efefef", isFront=false 
             x: pose.rFootX,
             y: pose.rFootY
         },
-        bendRadius: pose.rLegBendRadius,
+        bendFactor: pose.rLegBendFactor,
     };
     const lLegProps = {
         ...legProps,
@@ -194,7 +194,7 @@ const _Person = ({ pose=null, color="#000000", outline="#efefef", isFront=false 
             x: pose.lFootX,
             y: pose.lFootY
         },
-        bendRadius: pose.lLegBendRadius,
+        bendFactor: pose.lLegBendFactor,
     };
 
     const headProps = {
@@ -209,7 +209,7 @@ const _Person = ({ pose=null, color="#000000", outline="#efefef", isFront=false 
             x: pose.headX,
             y: pose.headY
         },
-        bendRadius: 1,
+        bendFactor: 1,
     };
 
     const bodyProps = {
@@ -224,7 +224,7 @@ const _Person = ({ pose=null, color="#000000", outline="#efefef", isFront=false 
             x: pose.bodyBottomX,
             y: pose.bodyBottomY
         },
-        bendRadius: pose.bodyBendRadius,
+        bendFactor: pose.bodyBendFactor,
     };
 
     const head = <RubberHose {...headProps} ref={headRef} outline={outline} />;
@@ -285,15 +285,15 @@ export type PoseType = {
     lHandY: number,
     armWidth: number,
     armLength: number,
-    rArmBendRadius: number,
-    lArmBendRadius: number,
+    rArmBendFactor: number,
+    lArmBendFactor: number,
     bodyTopX: number,
     bodyTopY: number,
     bodyBottomX: number,
     bodyBottomY: number,
     bodyWidth: number,
     bodyHeight: number,
-    bodyBendRadius: number,
+    bodyBendFactor: number,
     rHipX: number,
     rHipY: number,
     rFootX: number,
@@ -304,16 +304,16 @@ export type PoseType = {
     lFootY: number,
     legWidth: number,
     legLength: number,
-    lLegBendRadius: number,
-    rLegBendRadius: number,
+    lLegBendFactor: number,
+    rLegBendFactor: number,
 }
 
 
 export const getRestPose = ({
     headSize=18,
-    armWidth=8, armLength=38, armBendRadius=-2.0,
-    legWidth=10, legLength=54, legBendRadius=2.0,
-    bodyWidth=17, bodyHeight=27, bodyBendRadius=-2.0,
+    armWidth=8, armLength=38, armBendFactor=-0.5,
+    legWidth=10, legLength=54, legBendFactor=0.5,
+    bodyWidth=17, bodyHeight=27, bodyBendFactor=-0.5,
 }={}) => {
     const rFoot = {
         x: 50,
@@ -362,15 +362,15 @@ export const getRestPose = ({
         lHandY: lHand.y,
         armWidth: armWidth,
         armLength: armLength,
-        rArmBendRadius: armBendRadius,
-        lArmBendRadius: armBendRadius,
+        rArmBendFactor: armBendFactor,
+        lArmBendFactor: armBendFactor,
         bodyTopX: torso.x,
         bodyTopY: torso.y,
         bodyBottomX: bottom.x,
         bodyBottomY: bottom.y,
         bodyWidth: bodyWidth,
         bodyHeight: bodyHeight,
-        bodyBendRadius: bodyBendRadius,
+        bodyBendFactor: bodyBendFactor,
         rHipX: rHip.x,
         rHipY: rHip.y,
         rFootX: rFoot.x,
@@ -381,16 +381,16 @@ export const getRestPose = ({
         lFootY: lFoot.y,
         legWidth: legWidth,
         legLength: legLength,
-        lLegBendRadius: legBendRadius,
-        rLegBendRadius: legBendRadius,
+        lLegBendFactor: legBendFactor,
+        rLegBendFactor: legBendFactor,
     };
 };
 
 export const getRestPoseFront = ({
     headSize=18,
-    armWidth=7, armLength=33, armBendRadius=2, shoulderOffset=12.5, handOffset=15,
-    legWidth=9.5, legLength=48, legBendRadius=2,
-    bodyWidth=20, bodyHeight=35, bodyBendRadius=10000,
+    armWidth=7, armLength=33, armBendFactor=0.5, shoulderOffset=12.5, handOffset=15,
+    legWidth=9.5, legLength=48, legBendFactor=0.5,
+    bodyWidth=20, bodyHeight=35, bodyBendFactor=0,
 }={}) => {
     const hipOffset = (bodyWidth - legWidth)/2;
 
@@ -456,15 +456,15 @@ export const getRestPoseFront = ({
         lHandY: lHand.y,
         armWidth: armWidth,
         armLength: armLength,
-        rArmBendRadius: - armBendRadius,
-        lArmBendRadius: armBendRadius,
+        rArmBendFactor: - armBendFactor,
+        lArmBendFactor: armBendFactor,
         bodyTopX: torso.x,
         bodyTopY: torso.y,
         bodyBottomX: bottom.x,
         bodyBottomY: bottom.y,
         bodyWidth: bodyWidth,
         bodyHeight: bodyHeight,
-        bodyBendRadius: bodyBendRadius,
+        bodyBendFactor: bodyBendFactor,
         rHipX: rHip.x,
         rHipY: rHip.y,
         rFootX: rFoot.x,
@@ -475,7 +475,7 @@ export const getRestPoseFront = ({
         lFootY: lFoot.y,
         legWidth: legWidth,
         legLength: legLength,
-        rLegBendRadius: - legBendRadius,
-        lLegBendRadius: legBendRadius,
+        rLegBendFactor: - legBendFactor,
+        lLegBendFactor: legBendFactor,
     };
 };

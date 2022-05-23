@@ -202,7 +202,7 @@ const _Dirk = ({pose=null, color="#000000", outline="#efefef", isFront=false}, r
             start={{x: pose.rShoulderX, y: pose.rShoulderY}}
             end={{x: pose.rHandX, y: pose.rHandY}}
             width={pose.armWidth}
-            bendRadius={pose.rArmBendRadius}
+            bendFactor={pose.rArmBendFactor}
             length={pose.armLength} />
     );
 
@@ -211,7 +211,7 @@ const _Dirk = ({pose=null, color="#000000", outline="#efefef", isFront=false}, r
             start={{x: pose.lShoulderX, y: pose.lShoulderY}}
             end={{x: pose.lHandX, y: pose.lHandY}}
             width={pose.armWidth}
-            bendRadius={pose.lArmBendRadius}
+            bendFactor={pose.lArmBendFactor}
             length={pose.armLength} />
     );
 

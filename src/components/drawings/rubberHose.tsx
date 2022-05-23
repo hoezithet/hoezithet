@@ -8,10 +8,10 @@ type RubberHoseProps = {
 }
 
 
-const _RubberHose = ({start, end, width, length, bendRadius, color, outline=null, outlineWidth=1}: RubberHoseProps, ref) => {
+const _RubberHose = ({start, end, width, length, bendFactor, color, outline=null, outlineWidth=1}: RubberHoseProps, ref) => {
     const outlineRef = React.useRef(null);
     const hoseRef = React.useRef(null);
-    const modelRef = React.useRef(new RubberHoseModel(start, end, width, length, bendRadius));
+    const modelRef = React.useRef(new RubberHoseModel(start, end, width, length, bendFactor));
     const outlineWidthRef = React.useRef(outlineWidth);
 
     const updateHoses = () => {
@@ -35,7 +35,7 @@ const _RubberHose = ({start, end, width, length, bendRadius, color, outline=null
         endX: getSetHoseProp('endX'),
         endY: getSetHoseProp('endY'),
         width: getSetHoseProp('width'),
-        bendRadius: getSetHoseProp('bendRadius'),
+        bendFactor: getSetHoseProp('bendFactor'),
         length: getSetHoseProp('length'),
         outlineWidth: getSetHoseProp('outlineWidth'),
         opacity: (newValue = null) => {
@@ -69,19 +69,19 @@ class RubberHoseModel {
     endX: number;
     endY: number;
     width: number;
-    bendRadius: number;
+    bendFactor: number;
     length: number;
 
     constructor(
         start: Point2D, end: Point2D, width: number,
-        length: number, bendRadius: number = 1.0
+        length: number, bendFactor: number = 1.0
     ) {
         this.startX = start.x;
         this.endX = end.x;
         this.startY = start.y;
         this.endY = end.y;
         this.width = width;
-        this.bendRadius = bendRadius;
+        this.bendFactor = bendFactor;
         this.length = length;
     }
 
@@ -92,7 +92,7 @@ class RubberHoseModel {
 
     get ctrlPoints() {
         const eps = 0.0001;
-        this.bendRadius = typeof this.bendRadius === 'undefined' ? 1 : this.bendRadius;
+        this.bendFactor = typeof this.bendFactor === 'undefined' ? 1 : this.bendFactor;
 
         const dist = Math.sqrt(Math.pow(this.endX - this.startX, 2) + Math.pow(this.endY - this.startY, 2));
         const [dy, dx] = [this.endY - this.startY, this.endX - this.startX];
@@ -112,7 +112,7 @@ class RubberHoseModel {
 
         // Calculate for horizontal hose first, rotate later
         const handleAngle = (1 - elongation)*Math.PI;
-        const handleRadius = Math.sign(this.bendRadius)*(1 / Math.max(Math.abs(this.bendRadius), eps)) * this.length / 2;
+        const handleRadius = this.bendFactor * this.length / 2;
 
         const ctrlStartOffset = rotatePoint({
             x: Math.abs(handleRadius) * Math.cos(-handleAngle),
