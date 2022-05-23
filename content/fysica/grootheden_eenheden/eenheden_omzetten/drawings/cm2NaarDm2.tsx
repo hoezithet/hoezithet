@@ -29,13 +29,13 @@ $$
         <>
             <AnnotArrow target={`#${tellerId}`} annot="#teller_annot_cm2" annotAlign="center right" targetAlign="top center" />
             <AnnotArrow target={`#${noemerId}`} annot="#noemer_annot_dm2" annotAlign="center right" targetAlign="bottom center" />
-            <Annot x={xScale(40)} y={yScale(70)} fontSize="1rem" width={xScale.metric(40)} hAlign="right" vAlign="bottom">
+            <Annot x={xScale(40)} y={yScale(70)} fontSize="1rem" width={xScale.metric(40)} align="bottom right">
                 { annotTeller }
             </Annot>
             <Annot x={xScale(50)} y={yScale(50)} fontSize="1.5rem">
                 { breuk }
             </Annot>
-            <Annot x={xScale(40)} y={yScale(40)} fontSize="1rem" width={xScale.metric(40)} hAlign="right" vAlign="top">
+            <Annot x={xScale(40)} y={yScale(40)} fontSize="1rem" width={xScale.metric(40)} align="top right">
                 { annotNoemer }
             </Annot>
         </>

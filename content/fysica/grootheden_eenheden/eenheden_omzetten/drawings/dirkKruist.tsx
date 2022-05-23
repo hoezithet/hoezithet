@@ -48,7 +48,7 @@ const WalkingToStopPerson = () => {
 
     return (
         <g ref={ref}>
-            <_WalkingToStopPerson numCycles={numCycles} stepSize={stepSizePx} stepFreq={stepFreq} breatheFreq={breatheFreq} height={600} y={1080-50} vAlign="bottom" hAlign="right" />
+            <_WalkingToStopPerson numCycles={numCycles} stepSize={stepSizePx} stepFreq={stepFreq} breatheFreq={breatheFreq} height={600} y={1080-50} align="bottom right" />
         </g>
     );
 };
@@ -74,8 +74,7 @@ const TextBallon = ({text, gsapPosition, width=1000}) => {
               anchorRadiusTarget={50} anchorRadiusAnnot={50}
               annotAlign="bottom right" hideHead color="gray"/>
           <Annot x={noteX} y={noteY} width={width} height={1080} fontSize={60}
-              hAlign="right"
-              vAlign="bottom"
+              align="bottom right"
               textPadding=".5em"
               borderRadius=".25em"
               showBackground>
@@ -95,7 +94,7 @@ const _DirkKruistChild = () => {
             <InfScrollingPark width={3840} x={-1000} />
             <WalkingToStopPerson />
             <TextBallon text={String.raw`Ik ben $1{,}84~\si{m}$ groot!`} gsapPosition={1}/>
-            <BreathingDirk flipH height={dirkHeight} x={dirkX} y={dirkY} vAlign="bottom" hAlign="left"/>
+            <BreathingDirk flipH height={dirkHeight} x={dirkX} y={dirkY} align="bottom left"/>
         </>
     )
 };
@@ -121,9 +120,9 @@ const _DirkZegtTijdChild = () => {
             <Zon width={123.693360} height={123.693360} x={303.697226} y={141.611744} />
             <LoopingWolken speed={-5} width={2*1642.394890} height={346.619760} x={0} y={92.659100} />
             <InfScrollingPark width={3840} x={-1000} />
-            <BreathingPerson freq={0.5} height={600} x={1920*1/3} y={1080-50} vAlign="bottom" hAlign="right"/>
+            <BreathingPerson freq={0.5} height={600} x={1920*1/3} y={1080-50} align="bottom right"/>
             <TextBallon text={String.raw`Ik loop al $5623~\si{s}$ rond in dit park!`} gsapPosition={0} width={1000}/>
-            <BreathingDirk flipH height={dirkHeight} x={dirkX} y={dirkY} vAlign="bottom" hAlign="left"/>
+            <BreathingDirk flipH height={dirkHeight} x={dirkX} y={dirkY} align="bottom left"/>
         </>
     );
 };

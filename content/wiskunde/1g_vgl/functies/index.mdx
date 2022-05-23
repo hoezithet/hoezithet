@@ -6,8 +6,6 @@ tags: []
 image: img/wiskunde_1g_vgl_functies-1.png
 ---
 
-import { FuncPlot, Nulpunt } from "./drawings/plots.tsx"
-
 [Vergelijkingen](../intro) en [functies](../../functies/intro) zijn zeer nauw
 met elkaar verbonden. Twee belangrijke toepassingen van vergelijkingen zijn dan
 ook
@@ -31,7 +29,9 @@ $$
 
 De [grafiek](../../functies/grafiek) van deze functies ziet er als volgt uit:
 
-<FuncPlot />
+import { VglnSnijptFuncPlot, Nulpunt } from "./drawings/plots";
+
+<VglnSnijptFuncPlot />
 
 Het oranje punt duidt het <Orange>snijpunt</Orange> aan van de twee functies. Hoe kunnen we de coördinaten van dit snijpunt vinden?
 

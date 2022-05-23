@@ -117,7 +117,7 @@ const _DirkVultBad = () => {
     return (
       <>
         <Pool />
-        <Dirk x={xScale(6)} y={yScale(12.5)} height={yScale.metric(1.84)} hAlign="center" vAlign="bottom" />
+        <Dirk x={xScale(6)} y={yScale(12.5)} height={yScale.metric(1.84)} align="bottom center"/>
       </>
     )
 };

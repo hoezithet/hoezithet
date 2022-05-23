@@ -7,8 +7,11 @@ type ComponentProps = {
     x: number,
     y: number,
     angle: number,
-    vAlign: "top"|"center"|"bottom",
-    hAlign: "left"|"center"|"right",
+    align: (
+        "top left"|"center left"|"bottom left"|
+        "top center"|"center center"|"bottom center"|
+        "top right"|"center right"|"bottom right"
+    ),
     flipH: boolean,
     flipV: boolean,
     angleAnchorRelX: number|null,
@@ -28,7 +31,7 @@ const withSizePositionAngle = <P extends ComponentProps> (
         let {
             width=null, height=null,
             x=0, y=0, angle=0,
-            vAlign="top", hAlign="left",
+            align="top left",
             flipH=false, flipV=false,
             angleAnchorRelX=null, angleAnchorRelY=null,
         } = props;
@@ -65,6 +68,7 @@ const withSizePositionAngle = <P extends ComponentProps> (
             shiftY += height;
         }
 
+        const [vAlign, hAlign] = align.split(" ");
         if (hAlign === "center") {
             shiftX -= width/2;
         } else if (hAlign === "right") {

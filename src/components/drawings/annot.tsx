@@ -24,8 +24,8 @@ const useStylesNote = makeStyles({
 export const Annot = ({
     x=0, y=0, width=null, height=null,
     backgroundColor="white", backgroundOpacity=1,
-    showBackground=false, hAlign="center",
-    vAlign="center", className="",
+    showBackground=false, align="center center",
+    className="",
     fontSize="inherit", color="inherit",
     textPadding=null, borderRadius=null,
     parentPadding=null,
@@ -43,6 +43,7 @@ export const Annot = ({
     width = width || ctx?.width;
     height = height || ctx?.height;
 
+    const [vAlign, hAlign] = align.split(" ");
     const [justifyContent, alignItems] = [
         hAlign === "right" ? 
         "flex-end"  // Right

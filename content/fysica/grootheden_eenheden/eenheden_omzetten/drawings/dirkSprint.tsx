@@ -42,7 +42,7 @@ const _DirkReadyToSprintChild = () => {
     return (
         <>
             <RunnersTrack y={D_HEIGHT - trackHeight} width={D_WIDTH} height={trackHeight} startLineX={startLineX} />
-            <Dirk pose={pose} height={dirkHeight} x={dirkX} y={dirkY} vAlign="bottom" hAlign="right"/>
+            <Dirk pose={pose} height={dirkHeight} x={dirkX} y={dirkY} align="bottom right" />
             {/** <DrawingGrid minorX={50} majorX={100} minorY={50} majorY={100} /> **/}
         </>
     );

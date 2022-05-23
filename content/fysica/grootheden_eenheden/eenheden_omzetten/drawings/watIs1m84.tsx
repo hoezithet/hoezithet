@@ -24,7 +24,7 @@ const _Blocks = ({x, y, blockHeight, blockWidth, strokeWidth, hText=false, fontS
                         stroke={getColor("near_white")} fill={color} strokeWidth={strokeWidth} strokeLinejoin="round" />
                     { blockText === null ? null :
                         <g transform={`translate(${blockWidth/2},${blockHeight/2}) rotate(${textAngle + (hText ? 0 : -90)})`}>
-                            <Annot hAlign="center" vAlign="center"
+                            <Annot align="center center"
                                  fontSize={fontSize}
                                 color={getColor("near_white")}>
                                 {blockText}
@@ -77,7 +77,7 @@ const _TextAccolade = ({x1, x2=null, y, flipText=false, hText=false, width, heig
                 <g transform={x1 >= x2 ? "" : `translate(${0},${-height}) rotate(180)`}>
                     <g ref={noteRef} transform={getNoteTransform(width, height)}>
                         <Annot
-                            hAlign={hText ? "left" : "center"} vAlign={hText ? "center" : "bottom"}
+                            align={hText ? "center left" : "bottom center"}
                             color={color} fontSize={fontSize}>
                             {children}
                         </Annot>
@@ -128,7 +128,7 @@ const _Watis1M84 = () => {
               {String.raw`**2** keer $1~\si{m}$`}
           </TextAccolade>
           <g ref={dirkRef}>
-              <Dirk isFront height={yScale.metric(dirkHeight)} x={xScale(dirkX)} y={yScale(0)} vAlign="bottom" hAlign="center" />
+              <Dirk isFront height={yScale.metric(dirkHeight)} x={xScale(dirkX)} y={yScale(0)} align="bottom center"/>
           </g>
           <Blocks ref={block1Ref} x={xScale(blocksX)} y={yScale(0)} blockText={blockText} blockWidth={xScale.metric(blocksWidth)} blockHeight={yScale.metric(1)} strokeWidth={xScale.metric(0.002)} numBlocks={1} />
           <Blocks ref={block2Ref} x={xScale(blocksX)} y={yScale(1)} blockText={blockText} blockWidth={xScale.metric(blocksWidth)} blockHeight={yScale.metric(1)} strokeWidth={xScale.metric(0.002)} numBlocks={1} />
@@ -196,7 +196,7 @@ const _MeterIs100Cm = () => {
     return (
         <>
             <g ref={meterBlockRef}>
-                <Annot x={xScale(1)} y={yScale(0.5)} vAlign="center" hAlign="center">
+                <Annot x={xScale(1)} y={yScale(0.5)} align="center center">
                     {String.raw`$=$`}
                 </Annot>
                 <Blocks x={xScale(0.75)} y={yScale(0)} blockText={String.raw`$1~\si{m}$`} textAngle={90} fontSize={yScale.metric(0.09)} blockHeight={yScale.metric(1)} blockWidth={xScale.metric(0.2)} numBlocks={1} color="blue" />
@@ -248,10 +248,10 @@ const _DirkInCm = () => {
         <>
             {/** <DrawingGrid majorX={1} majorY={1} minorX={0.10} minorY={0.1} /> **/}
             <g ref={meterBlockRef}>
-                <Annot x={xScale(1)} y={yScale(1.1)} vAlign="center" hAlign="center">
+                <Annot x={xScale(1)} y={yScale(1.1)} align="center center">
                     {String.raw`$=$`}
                 </Annot>
-                <Dirk isFront height={yScale.metric(1.84)} x={xScale(0.5)} y={yScale(0)} vAlign="bottom" hAlign="center" />
+                <Dirk isFront height={yScale.metric(1.84)} x={xScale(0.5)} y={yScale(0)} align="bottom center" />
             </g>
             <BlockCounter ref={blockCounterRef} blocksX={xScale(1.5)} accoladeX={xScale(1.65)} y={yScale(0)} numBlocks={0}
                   blockWidth={xScale.metric(0.2)} accoladeWidth={xScale.metric(0.2)}

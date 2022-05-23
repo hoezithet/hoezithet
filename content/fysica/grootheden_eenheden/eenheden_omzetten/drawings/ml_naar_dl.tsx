@@ -24,13 +24,13 @@ $$`;
         <>
             <AnnotArrow target={`#${tellerId}`} annot={`#${annotTellerId}`} annotAlign="bottom center" targetAlign="top left" />
             <AnnotArrow target={`#${noemerId}`} annot={`#${annotNoemerId}`} annotAlign="bottom left" targetAlign="bottom left" anchorRadiusTarget={40} anchorRadiusAnnot={60}/>
-            <Annot x={xScale(40)} y={yScale(70)} fontSize="1rem" width={xScale.metric(40)} hAlign="right" vAlign="bottom">
+            <Annot x={xScale(40)} y={yScale(70)} fontSize="1rem" width={xScale.metric(40)} align="bottom right">
                 { annotTeller }
             </Annot>
             <Annot x={xScale(50)} y={yScale(50)} fontSize="1.5rem">
                 { breuk }
             </Annot>
-            <Annot x={xScale(60)} y={yScale(30)} fontSize="1rem" width={xScale.metric(40)} hAlign="left" vAlign="top">
+            <Annot x={xScale(60)} y={yScale(30)} fontSize="1rem" width={xScale.metric(40)} align="top left">
                 { annotNoemer }
             </Annot>
         </>

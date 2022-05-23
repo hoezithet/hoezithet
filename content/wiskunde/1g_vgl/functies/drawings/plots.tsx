@@ -14,18 +14,18 @@ const FuncPlotChild = () => {
             <Fx fx={x => -x + 4} color="green" xEnd={15} />
             <Fx fx={x => 2*x - 3} color="blue" />
             <Point x={xScale(7/3)} y={yScale(5/3)} size={10} color="orange" />
-            <AnnotArrow target={{x: 7/3, y: 5/3}} annot={{x: 6, y: 3}} targetAlign="center right" annotAlign="bottom center" />
-            <Annot x={xScale(6)} y={yScale(3)} vAlign="bottom">Snijpunt</Annot>
+            <AnnotArrow target={{x: xScale(7/3), y: yScale(5/3)}} annot={{x: xScale(6), y: yScale(3)}} targetAlign="center right" annotAlign="bottom center" />
+            <Annot x={xScale(6)} y={yScale(3)} align="bottom center">Snijpunt</Annot>
         </>
     )
 };
 
-export const FuncPlot = () => {
+export const VglnSnijptFuncPlot = () => {
     return (
         <Plot>
             <FuncPlotChild />
         </Plot>
-    )
+    );
 };
 
 const NulpuntChild = () => {
@@ -35,7 +35,7 @@ const NulpuntChild = () => {
             <Fx fx={x => -x + 4} color="green" xEnd={15} />
             <Point x={xScale(4)} y={yScale(0)} size={10} color="orange" />
             <AnnotArrow target={{x: xScale(4), y: yScale(0)}} annot={{x: xScale(6), y: yScale(3)}} targetAlign="top right" annotAlign="bottom center" />
-            <Annot x={xScale(6)} y={yScale(3)} vAlign="bottom">{String.raw`Nulpunt $(\orange{4}, 0)$`}</Annot>
+            <Annot x={xScale(6)} y={yScale(3)} align="bottom center">{String.raw`Nulpunt $(\orange{4}, 0)$`}</Annot>
         </>
     );
 };

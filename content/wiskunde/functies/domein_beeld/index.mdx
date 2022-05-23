@@ -7,8 +7,8 @@ topic: analyse
 image: img/wiskunde_functies_domein_beeld-2.png
 ---
 
-import {Fragment} from "react";
-import {FuncPlot, FuncDomain, FuncRange} from "./drawings/plots.tsx";
+import {DomBldFuncPlot} from "./drawings/plots";
+import {DomBldFuncDomain, DomBldFuncRange} from "./drawings/plots";
 
 We kunnen niet altijd eender welk getal als $x$ kiezen om in ons
 [functievoorschrift](../voorschrift) te stoppen. Omgekeerd is het mogelijk dat
@@ -99,7 +99,7 @@ $$
 
 Die grafiek ziet er zo uit:
 
-<FuncPlot />
+<DomBldFuncPlot />
 
 Om op deze grafiek het **domein** af te lezen, moet je de grafiek **projecteren
 op de x-as**. Het resultaat van de projectie is aangeduid **<span 
@@ -107,14 +107,14 @@ class="green">in het groen op de x-as</span>**. <Mute>We gaan ervan uit
 dat de grafiek oneindig blijft verder stijgen aan de rechterkant.</Mute> We zien 
 dan dat $\green{\mathrm{dom}~f = [-5; +\infty[}$.
 
-<FuncDomain />
+<DomBldFuncDomain />
 
 Het **beeld** <Mute>(of het bereik)</Mute> van diezelfde functie kunnen we
 vinden door de grafiek nu te **projecteren op de y-as**. Op de onderstaande
 grafiek zie je het resultaat van deze projectie
 **<Green>in het groen op de y-as</Green>**.
 
-<FuncRange />
+<DomBldFuncRange />
 
 We gaan ervan uit dat de grafiek oneindig blijft verder stijgen aan de 
 rechterkant. Je vindt dat $\green{\mathrm{bld}~f = [-6; +\infty[}$.

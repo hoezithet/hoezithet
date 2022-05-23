@@ -95,14 +95,14 @@ export const Axes = ({
             <Group left={xScale(0)}>
                 <AxisLeft scale={yScale} numTicks={yTicks} tickFormat={yTickFormat} hideAxisLine={true} tickClassName={`${classes.tick} ${classes.yTick}`}/>
                 <ArrowLine xStart={0} yStart={yScale(yMin) + yAxisMargin} xEnd={0} yEnd={yScale(yMax) - yAxisMargin} color={yColor} />
-                <Annot x={10} y={yScale(yMax) - yAxisMargin} hAlign="left" vAlign="top" className={classes.yAxisLabel}>
+                <Annot x={10} y={yScale(yMax) - yAxisMargin} align="top left" className={classes.yAxisLabel}>
                     { yLabel }
                 </Annot>
             </Group>
             <Group top={yScale(0)}>
                 <AxisBottom scale={xScale} numTicks={xTicks} tickFormat={xTickFormat} hideAxisLine={true} tickClassName={`${classes.tick} ${classes.xTick}`}/>
                 <ArrowLine xStart={xScale(xMin) - xAxisMargin} yStart={0} xEnd={xScale(xMax) + xAxisMargin} yEnd={0} color={xColor} />
-                <Annot x={xScale(xMax) + xAxisMargin} y={-5} hAlign="right" vAlign="bottom" className={classes.xAxisLabel}>
+                <Annot x={xScale(xMax) + xAxisMargin} y={-5} align="bottom right" className={classes.xAxisLabel}>
                     { xLabel }
                 </Annot>
             </Group>
