@@ -5,7 +5,6 @@ import { MDXProvider } from "@mdx-js/react"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import { getSrc } from "gatsby-plugin-image";
 import LessonContext from "../contexts/lessonContext";
-import { Attention } from "../components/shortcodes/attention";
 import { Expand } from "../components/shortcodes/expand";
 import { ToggleImage } from "../components/shortcodes/toggleImage";
 import Color, {
@@ -39,7 +38,6 @@ import SectionCard, { CardImage } from "./sectionCard";
 
 export const shortcodes = {
     Mute,
-    Attention,
     Expand,
     ToggleImage,
     Color,

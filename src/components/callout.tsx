@@ -33,11 +33,15 @@ const TitleIcon = styled.span`
 const TitleText = styled.span`
     display: block;
     padding-left: ${props => props.hasIcon ? TEXT_ICON_PAD : "0"};
+    & > p {
+        margin: 0;
+    }
 `;
 
 const BodyText = styled.div`
     padding-left: ${props => props.hasIcon ? TEXT_ICON_PAD : "0"};
     margin-top: calc(${props => !props.hasTitle && props.hasIcon ? TITLE_FONT_SIZE : 0}*0.3);
+    padding-top: ${props => props.hasTitle ? "1em" : 0};
     & > p {
         margin: 0;
     }

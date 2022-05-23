@@ -72,20 +72,18 @@ $$
 \end{aligned}
 $$ 
 
-<Attention title="Algemene methode om eenheden om te zetten">
-
-We hebben $1{,}84~\si{m}$ omgezet naar $\si{cm}$ door de *meter* in $1{,}84~\si{m}$ te vervangen door $100~\si{cm}$:
-
-$$
-\begin{aligned}
-1{,}84~\orange{\si{m}} &= 1{,}84\cdot \orange{100~\si{cm}}\\
-&= 184~\si{cm}
-\end{aligned}
-$$
-
-Dat mogen we doen omdat $1~\si{m} = 100~\si{cm}$. Door te weten **waaraan één meter gelijk is in centimeter**, kunnen we dus **meter omzetten naar centimeter**. Zo kunnen we eigenlijk *altijd* te werk gaan wanneer we een eenheid moeten omzetten: we zoeken **waar $1$ van de ene eenheid** (bv. *meter*) **gelijk aan is in de eenheid waarnaar we willen omzetten** (bv. *centimeter*).
-
-</Attention>
+> 💡 Algemene methode om eenheden om te zetten
+>
+> We hebben $1{,}84~\si{m}$ omgezet naar $\si{cm}$ door de *meter* in $1{,}84~\si{m}$ te vervangen door $100~\si{cm}$:
+>
+> $$
+> \begin{aligned}
+> 1{,}84~\orange{\si{m}} &= 1{,}84\cdot \orange{100~\si{cm}}\\
+> &= 184~\si{cm}
+> \end{aligned}
+> $$
+> 
+> Dat mogen we doen omdat $1~\si{m} = 100~\si{cm}$. Door te weten **waaraan één meter gelijk is in centimeter**, kunnen we dus **meter omzetten naar centimeter**. Zo kunnen we eigenlijk *altijd* te werk gaan wanneer we een eenheid moeten omzetten: we zoeken **waar $1$ van de ene eenheid** (bv. *meter*) **gelijk aan is in de eenheid waarnaar we willen omzetten** (bv. *centimeter*).
 
 import MeterNaarDecimeter from "./exercises/meterNaarDecimeter";
 
@@ -548,29 +546,25 @@ $$
 
 <Mute>(In de laatste lijn hebben we [de benaderingsregels (BR)](../benaderingsregels) toegepast, wetende dat de lengte, breedte en diepte van het zwembad gegeven waren met 3 beduidende cijfers.)</Mute>
 
-<Attention title="Eenheid met kubieke meter omzetten naar eenheid met liter">
-
-Omzettingen van kubieke (hecto, deca, deci, centi...)-meter naar (...)-liter doe je in **drie stappen**:
-
-1. Zet kubieke (...)-meter om naar $\si{dm}^3$.
-2. Vervang $\si{dm}^3$ door liter.
-3. Zet liter om naar (...)-liter.
-
-</Attention>
+> 💡 Eenheid met kubieke meter omzetten naar eenheid met liter
+> 
+> Omzettingen van kubieke (hecto, deca, deci, centi...)-meter naar (...)-liter doe je in **drie stappen**:
+> 
+> 1. Zet kubieke (...)-meter om naar $\si{dm}^3$.
+> 2. Vervang $\si{dm}^3$ door liter.
+> 3. Zet liter om naar (...)-liter.
 
 ### En wat als we van liter naar kubieke meter willen?
 
 We hebben zonet kubieke meter omgezet naar hectoliter. Het kan natuurlijk ook dat je een eenheid met liter moet omzetten naar een eenheid met kubieke meter. Dan moet je de drie stappen gewoon omdraaien:
 
-<Attention title="Eenheid met liter omzetten naar eenheid met kubieke meter">
-
-Omzettingen van (hecto-, deca-, deci-, centi-, milli-...)-liter naar kubieke (...)-meter doe je als volgt:
-
-1. Zet (...)-liter om naar liter.
-2. Vervang liter door $\si{dm}^3$.
-3. Zet $\si{dm}^3$ verder om naar kubieke (...)-meter.
-
-</Attention>
+> 💡 Eenheid met liter omzetten naar eenheid met kubieke meter
+> 
+> Omzettingen van (hecto-, deca-, deci-, centi-, milli-...)-liter naar kubieke (...)-meter doe je als volgt:
+> 
+> 1. Zet (...)-liter om naar liter.
+> 2. Vervang liter door $\si{dm}^3$.
+> 3. Zet $\si{dm}^3$ verder om naar kubieke (...)-meter.
 
 Als we bv. een omzetting van $\si{ml}$ naar $\si{cm}^3$ moeten doen, dan volgen we deze drie stappen:
 
@@ -673,58 +667,48 @@ import KgPerM3NaarGPerCm3 from './exercises/kgPerM3NaarGPerCm3';
 
 ## Samengevat
 
-<Attention title="Eenheden omzetten in het algemeen">
+> Eenheden omzetten in het algemeen
+> 
+> Stel dat we een bepaalde eenheid $\si{A}$ willen omzetten naar een andere eenheid $\si{B}$. Dat doen we door uit te zoeken **aan hoeveel $1~\si{A}$ gelijk is in de eenheid $\si{B}$**:
+> 
+> $$
+> 1~\si{A} = \ldots~\si{B}
+> $$
+> 
+> Als je dan bijvoorbeeld $5{,}2~\si{A}$ wilt omzetten naar $\si{B}$, dan gaat dit als volgt:
+> 
+> $$
+> \begin{aligned}
+> 5{,}2~\orange{\si{A}} &= 5{,}2\cdot\orange{\ldots~\si{B}}\\
+> \end{aligned}
+> $$
+> 
+> Op de puntjes in de laatste lijn vul je dan hetzelfde in als wat er op de puntjes moest staan bij $1~\si{A} = \ldots~\si{B}$. Vervolgens reken je de vermenigvuldiging verder uit.
+> 
+> <Mute>{String.raw`(Merk op dat we deze methode niet kunnen gebruiken als $0~\si{A} \ne 0~\si{B}$, zoals bij $0~\deg\si{C}\ne 0~\deg\si{F}$)`}</Mute>
 
-Stel dat we een bepaalde eenheid $\si{A}$ willen omzetten naar een andere eenheid $\si{B}$. Dat doen we door uit te zoeken **aan hoeveel $1~\si{A}$ gelijk is in de eenheid $\si{B}$**:
+> Eenheden met voorvoegsels omzetten
+> 
+> Bij omzettingen met voorvoegsels weten we dat $1$ van de ene eenheid in de andere eenheid gelijk is aan een **breuk** met in de **teller de macht van 10 die hoort bij het voorvoegsel waar we vandaan komen** en in de **noemer de macht van 10 die hoort bij het voorvoegsel waar we naartoe gaan** <Mute>(Onthoud: **n**oemer, **n**aartoe)</Mute>.
 
-$$
-1~\si{A} = \ldots~\si{B}
-$$
+> Eenheden met exponenten omzetten
+> 
+> Bij omzettingen met voorvoegsels en exponenten, passen we dezelfde methode toe als bij het omzetten van eenheden met voorvoegsels, maar **plaatsen we de exponent telkens ook bij de machten van 10 die bij de voorvoegsels horen**.
 
-Als je dan bijvoorbeeld $5{,}2~\si{A}$ wilt omzetten naar $\si{B}$, dan gaat dit als volgt:
+> Liter en kubieke meter omzetten
+> 
+> Omzettingen van (hecto-, deca-, deci-, centi-, milli-,...)-liter naar kubieke (...)-meter doe je als volgt:
+> 
+> 1. Zet (...)-liter om naar liter.
+> 2. Vervang liter door $\si{dm}^3$.
+> 3. Zet $\si{dm}^3$ verder om naar kubieke (...)-meter.
+> 
+> En voor de omzetting van kubieke (...)-meter naar (...)-liter:
+> 
+> 1. Zet kubieke (...)-meter om naar $\si{dm}^3$.
+> 2. Vervang $\si{dm}^3$ door liter.
+> 3. Zet liter om naar (...)-liter.
 
-$$
-\begin{aligned}
-5{,}2~\orange{\si{A}} &= 5{,}2\cdot\orange{\ldots~\si{B}}\\
-\end{aligned}
-$$
-
-Op de puntjes in de laatste lijn vul je dan hetzelfde in als wat er op de puntjes moest staan bij $1~\si{A} = \ldots~\si{B}$. Vervolgens reken je de vermenigvuldiging verder uit.
-
-<Mute>{String.raw`(Merk op dat we deze methode niet kunnen gebruiken als $0~\si{A} \ne 0~\si{B}$, zoals bij $0~\deg\si{C}\ne 0~\deg\si{F}$)`}</Mute>
-
-</Attention>
-
-<Attention title="Eenheden met voorvoegsels omzetten">
-
-Bij omzettingen met voorvoegsels weten we dat $1$ van de ene eenheid in de andere eenheid gelijk is aan een **breuk** met in de **teller de macht van 10 die hoort bij het voorvoegsel waar we vandaan komen** en in de **noemer de macht van 10 die hoort bij het voorvoegsel waar we naartoe gaan** <Mute>(Onthoud: **n**oemer, **n**aartoe)</Mute>.
-
-</Attention>
-
-<Attention title="Eenheden met exponenten omzetten">
-
-Bij omzettingen met voorvoegsels en exponenten, passen we dezelfde methode toe als bij het omzetten van eenheden met voorvoegsels, maar **plaatsen we de exponent telkens ook bij de machten van 10 die bij de voorvoegsels horen**.
-
-</Attention>
-
-<Attention title="Liter en kubieke meter omzetten">
-
-Omzettingen van (hecto-, deca-, deci-, centi-, milli-,...)-liter naar kubieke (...)-meter doe je als volgt:
-
-1. Zet (...)-liter om naar liter.
-2. Vervang liter door $\si{dm}^3$.
-3. Zet $\si{dm}^3$ verder om naar kubieke (...)-meter.
-
-En voor de omzetting van kubieke (...)-meter naar (...)-liter:
-
-1. Zet kubieke (...)-meter om naar $\si{dm}^3$.
-2. Vervang $\si{dm}^3$ door liter.
-3. Zet liter om naar (...)-liter.
-
-</Attention>
-
-<Attention title="Eenheden in een breuk omzetten">
-
-Eenheden die in een breuk staan, zetten we om door eerst **teller en noemer apart om te zetten** en vervolgens de **uitkomst van de omzettingen terug in een breuk te zetten**. De omzetting van de teller komt terug in de teller terecht en de omzetting van de noemer terug in de noemer.
-
-</Attention> 
+> Eenheden in een breuk omzetten
+> 
+> Eenheden die in een breuk staan, zetten we om door eerst **teller en noemer apart om te zetten** en vervolgens de **uitkomst van de omzettingen terug in een breuk te zetten**. De omzetting van de teller komt terug in de teller terecht en de omzetting van de noemer terug in de noemer.
