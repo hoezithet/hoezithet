@@ -107,31 +107,29 @@ $$
 
 Als je de onderstaande blok openklapt, kan je zien hoe we aan dit resultaat zijn gekomen.
 
-<Expand title="1 seconde omzetten naar minuten">
-
-Je zou moeten weten dat:
-
-$$
-60~\si{s} = 1~\si{min}
-$$
-
-Als we nu beide kanten van deze gelijkheid **delen door 60**, dan vinden we waaraan $1~\si{s}$ gelijk is in minuten:
-
-$$
-\begin{aligned}
-60~\si{s} &= 1~\si{min}\\
-\Lrarr\frac{60~\si{s}}{\orange{60}} &= \frac{1~\si{min}}{\orange{60}}\\
-\Lrarr 1~\si{s} &= \frac{1~\si{min}}{60}\\
-\end{aligned}
-$$
-
-We vinden dus inderdaad dat
-
-$$
-1~\si{s} = \frac{1}{60}~\si{min}
-$$
-
-</Expand>
+> -1 seconde omzetten naar minuten
+> 
+> Je zou moeten weten dat:
+> 
+> $$
+> 60~\si{s} = 1~\si{min}
+> $$
+> 
+> Als we nu beide kanten van deze gelijkheid **delen door 60**, dan vinden we waaraan $1~\si{s}$ gelijk is in minuten:
+> 
+> $$
+> \begin{aligned}
+> 60~\si{s} &= 1~\si{min}\\
+> \Lrarr\frac{60~\si{s}}{\orange{60}} &= \frac{1~\si{min}}{\orange{60}}\\
+> \Lrarr 1~\si{s} &= \frac{1~\si{min}}{60}\\
+> \end{aligned}
+> $$
+> 
+> We vinden dus inderdaad dat
+> 
+> $$
+> 1~\si{s} = \frac{1}{60}~\si{min}
+> $$
 
 Nu we weten dat $1~\si{s} = \frac{1}{60}~\si{min}$, kunnen we de $5623~\si{s}$ van Dirk omzetten naar minuten! 🙌 We moeten gewoon de $\si{s}$ vervangen door $\frac{1}{60}~\si{min}$:
 
@@ -153,60 +151,59 @@ import MinNaarUur from "./exercises/minNaarUur";
 
 We hebben nu al enkele voorbeelden gezien van hoe we een eenheid <Mute>(bv. *seconden*)</Mute> naar een andere eenheid <Mute>(bv. *minuten*)</Mute> kunnen omzetten door te zoeken **waar $1$ van de ene eenheid** <Mute>(*seconden*)</Mute> **gelijk aan is in de eenheid waar we naar omzetten** <Mute>(*minuten*)</Mute>. Deze methode kunnen we **bijna altijd** toepassen wanneer we eenheden willen omzetten. De belangrijkste omzetting waarvoor we deze methode **niet** kunnen toepassen is de omzetting van graden Celsius naar graden Fahrenheit. Waarom dit zo is en hoe je die omzetting dan wel moet doen, kan je lezen in de onderstaande blok.
 
-<Expand title="Uitbreiding: methode kunnen we niet toepassen bij een omzetting tussen °C en °F omdat 0 °C ≠ 0 °F">
-
-De omzetting tussen $\deg\si{C}$ en $\deg\si{F}$ is een **speciaal geval** waarvoor de methode die we zonet hebben besproken **niet toepasbaar is**. Als we bijvoorbeeld $100~\deg\si{F}$ zouden willen omzetten naar $\deg\si{C}$, moeten we volgens onze methode eerst weten hoeveel $1~\deg\si{F}$ is in graden Celsius om vervolgens de $\deg\si{F}$ daardoor te vervangen. Je kan opzoeken dat:
-
-$$
-1~\deg\si{F} = -17{,}22\ldots~\deg\si{C}
-$$
-
-Volgens onze methode zou dan
-
-$$
-\begin{aligned}
-100~\deg\si{F} &= 100\cdot \orange{1~\deg\si{F}}\\
-&= 100 \cdot \orange{-17{,}22\ldots~\deg\si{C}}\\
-&= \cancel{-1722{,}22\ldots~\deg\si{C}}\\
-\end{aligned}
-$$
-
-Dit is natuurlijk **fout**! Het juiste antwoord is:
-
-$$
-100~\deg\si{F} = 37,77\ldots~\deg\si{C}
-$$
-
-Maar *waarom* kunnen we onze methode hier niet toepassen? Het probleem is eigenlijk dat $0~\deg\si{F}$ **niet gelijk is aan** $0~\deg\si{C}$. Dat is een vereiste om onze methode te kunnen gebruiken. Gelukkig is dit bij omzettingen tussen afstandsmaten, tijdsmaten enz. *wel* altijd het geval:
-
-* $0~\si{cm} = 0~\si{km}$
-* $0~\si{h} = 0~\si{s}$
-* $0~\frac{\si{km}}{\si{h}} = 0~\frac{\si{m}}{\si{s}}$
-* $0~\si{kN} = 0~\si{N}$
-* ...
-
-De juiste manier om graden Fahrenheit naar graden Celsius om te zetten, is met de volgende formule:
-
-$$
-c = \frac{5}{9}\cdot (\orange{f}- 32)
-$$
-
-waarbij $\orange{f}$ de temperatuur in $\deg\si{F}$ is en $c$ de temperatuur in $\deg\si{C}$. Met behulp van die formule kunnen we $100~\deg\si{F}$ juist omzetten naar $\deg\si{C}$:
-
-$$
-\begin{aligned}
-c &= \frac{5}{9}\cdot (\orange{100} - 32)\\
-&= \frac{5}{9}\cdot 68\\
-&= 37{,}77\ldots
-\end{aligned}
-$$
-
-Je kan de formule $c = \frac{5}{9}\cdot (f - 32)$ omvormen om ook de formule te vinden die van graden Celsius naar graden Fahrenheit gaat (probeer dit zelf). Je zou moeten vinden dat:
-
-$$
-f = \frac{9}{5}\cdot c + 32
-$$
-</Expand>
+> -Uitbreiding: methode kunnen we niet toepassen bij een omzetting tussen °C en °F omdat 0 °C ≠ 0 °F
+> 
+> De omzetting tussen $\deg\si{C}$ en $\deg\si{F}$ is een **speciaal geval** waarvoor de methode die we zonet hebben besproken **niet toepasbaar is**. Als we bijvoorbeeld $100~\deg\si{F}$ zouden willen omzetten naar $\deg\si{C}$, moeten we volgens onze methode eerst weten hoeveel $1~\deg\si{F}$ is in graden Celsius om vervolgens de $\deg\si{F}$ daardoor te vervangen. Je kan opzoeken dat:
+> 
+> $$
+> 1~\deg\si{F} = -17{,}22\ldots~\deg\si{C}
+> $$
+> 
+> Volgens onze methode zou dan
+> 
+> $$
+> \begin{aligned}
+> 100~\deg\si{F} &= 100\cdot \orange{1~\deg\si{F}}\\
+> &= 100 \cdot \orange{-17{,}22\ldots~\deg\si{C}}\\
+> &= \cancel{-1722{,}22\ldots~\deg\si{C}}\\
+> \end{aligned}
+> $$
+> 
+> Dit is natuurlijk **fout**! Het juiste antwoord is:
+> 
+> $$
+> 100~\deg\si{F} = 37,77\ldots~\deg\si{C}
+> $$
+> 
+> Maar *waarom* kunnen we onze methode hier niet toepassen? Het probleem is eigenlijk dat $0~\deg\si{F}$ **niet gelijk is aan** $0~\deg\si{C}$. Dat is een vereiste om onze methode te kunnen gebruiken. Gelukkig is dit bij omzettingen tussen afstandsmaten, tijdsmaten enz. *wel* altijd het geval:
+> 
+> * $0~\si{cm} = 0~\si{km}$
+> * $0~\si{h} = 0~\si{s}$
+> * $0~\frac{\si{km}}{\si{h}} = 0~\frac{\si{m}}{\si{s}}$
+> * $0~\si{kN} = 0~\si{N}$
+> * ...
+> 
+> De juiste manier om graden Fahrenheit naar graden Celsius om te zetten, is met de volgende formule:
+> 
+> $$
+> c = \frac{5}{9}\cdot (\orange{f}- 32)
+> $$
+> 
+> waarbij $\orange{f}$ de temperatuur in $\deg\si{F}$ is en $c$ de temperatuur in $\deg\si{C}$. Met behulp van die formule kunnen we $100~\deg\si{F}$ juist omzetten naar $\deg\si{C}$:
+> 
+> $$
+> \begin{aligned}
+> c &= \frac{5}{9}\cdot (\orange{100} - 32)\\
+> &= \frac{5}{9}\cdot 68\\
+> &= 37{,}77\ldots
+> \end{aligned}
+> $$
+> 
+> Je kan de formule $c = \frac{5}{9}\cdot (f - 32)$ omvormen om ook de formule te vinden die van graden Celsius naar graden Fahrenheit gaat (probeer dit zelf). Je zou moeten vinden dat:
+> 
+> $$
+> f = \frac{9}{5}\cdot c + 32
+> $$
 
 Voor het omzetten van <Mute>(de meeste)</Mute> eenheden, moeten we dus weten **waar $1$ van de ene eenheid gelijk aan is in de andere eenheid**. Bij sommige omzettingen is het echter niet altijd zo eenvoudig om te zien waar $1$ van de ene eenheid gelijk aan is in de andere eenheid. Daarom gaan we voor enkele veel voorkomende omzettingen een trucje leren om dit snel te kunnen berekenen. We zullen een trucje leren voor de volgende omzettingen:
 
@@ -231,26 +228,24 @@ Je ziet dat inderdaad telkens gewoon het *lettertje* dat voor de eenheid staat v
 
 Voor dit trucje hebben we de onderstaande tabel nodig. Je ziet dat bij elk voorvoegsel een bepaalde macht van 10 hoort. Het is heel belangrijk dat je **van elk voorvoegsel weet welke macht van 10 erbij hoort**. Je moet onderstaande tabel dus (helaas) uit je hoofd leren...
 
-<Expand title="Tabel met prefixen">
-
-
-| Symbool   | Naam  | Macht van 10 |
-| --------- | ----- | ------------ |
-| $\si{T}$  | Tera  | $10^{12}$ |
-| $\si{G}$  | Giga  | $10^9$   |
-| $\si{M}$  | Mega  | $10^6$   |
-| $\si{k}$  | kilo  | $10^3$   |
-| $\si{h}$  | hecto | $10^2$   |
-| $\si{da}$ | deca  | $10^1$   |
-| (geen voorvoegsel) |   -   | $10^0$   |
-| $\si{d}$  | deci  | $10^{-1}$   |
-| $\si{c}$  | centi | $10^{-2}$   |
-| $\si{m}$  | milli | $10^{-3}$   |
-| $\mu$     | micro | $10^{-6}$   |
-| $\si{n}$  | nano  | $10^{-9}$   |
-| $\si{p}$  | pico  | $10^{-12}$   |
-
-</Expand>
+> -Tabel met prefixen
+> 
+> 
+> | Symbool   | Naam  | Macht van 10 |
+> | --------- | ----- | ------------ |
+> | $\si{T}$  | Tera  | $10^{12}$ |
+> | $\si{G}$  | Giga  | $10^9$   |
+> | $\si{M}$  | Mega  | $10^6$   |
+> | $\si{k}$  | kilo  | $10^3$   |
+> | $\si{h}$  | hecto | $10^2$   |
+> | $\si{da}$ | deca  | $10^1$   |
+> | (geen voorvoegsel) |   -   | $10^0$   |
+> | $\si{d}$  | deci  | $10^{-1}$   |
+> | $\si{c}$  | centi | $10^{-2}$   |
+> | $\si{m}$  | milli | $10^{-3}$   |
+> | $\mu$     | micro | $10^{-6}$   |
+> | $\si{n}$  | nano  | $10^{-9}$   |
+> | $\si{p}$  | pico  | $10^{-12}$   |
 
 Stel nu dat je $2{,}0~\si{ml}$ moet omzetten naar $\si{dl}$. Daarvoor moeten we dus weten hoeveel deciliter $1~\si{ml}$ is en dus wat in de volgende gelijkheid op de puntjes moet komen te staan: 
 
@@ -297,38 +292,36 @@ $$
 \end{aligned}
 $$
 
-<Expand title="Uitbreiding: Waarom werkt dit trucje?">
-
-In ons trucje vermenigvuldigen we de eenheid waar we naartoe willen met een breuk die in de teller en noemer een macht van 10 bevat. In de teller staat de macht van 10 die hoort bij het voorvoegsel waar we vandaan komen en in de noemer de macht van 10 die hoort bij het voorvoegsel waar we naartoe gaan.
-
-Voor de omzetting van $\si{ml}$ naar $\si{dl}$ vonden we op die manier dat:
-
-$$
-1~\si{ml} = \frac{10^{-3}}{10^{-1}}~\si{dl}
-$$
-
-We kunnen zien dat dit inderdaad klopt door de voorvoegsels die voor de eenheden staan ook te gaan vertalen naar hun macht van 10:
-
-$$
-\begin{aligned}
-1~\si{\orange{m}l} &= \frac{10^{-3}}{10^{-1}}~\si{\blue{d}l}\\
-\Lrarr 1\cdot\orange{10^{-3}}~\si{l} &= \frac{10^{-3}}{10^{-1}}\cdot\blue{10^{-1}}~\si{l}\\
-\end{aligned}
-$$
-
-We kunnen rechts de noemer $10^{-1}$ schrappen met de vermenigvuldiging met $10^{-1}$:
-
-$$
-\begin{aligned}
-\Lrarr 1\cdot 10^{-3}~\si{l} &= \frac{10^{-3}}{\cancel{10^{-1}}}\cdot \cancel{10^{-1}}~\si{l}\\
-\Lrarr 1\cdot 10^{-3}~\si{l} &= 10^{-3}\cdot 1~\si{l}\\
-\Lrarr 10^{-3}~\si{l} &= 10^{-3}~\si{l}\\
-\end{aligned}
-$$
-
-We komen uit dat $10^{-3}~\si{l} = 10^{-3}~\si{l}$. Dat klopt natuurlijk. Je kan dit met eender welke combinatie van voorvoegsels proberen, het zal altijd uitkomen.
-
-</Expand>
+> -Uitbreiding: Waarom werkt dit trucje?
+> 
+> In ons trucje vermenigvuldigen we de eenheid waar we naartoe willen met een breuk die in de teller en noemer een macht van 10 bevat. In de teller staat de macht van 10 die hoort bij het voorvoegsel waar we vandaan komen en in de noemer de macht van 10 die hoort bij het voorvoegsel waar we naartoe gaan.
+> 
+> Voor de omzetting van $\si{ml}$ naar $\si{dl}$ vonden we op die manier dat:
+> 
+> $$
+> 1~\si{ml} = \frac{10^{-3}}{10^{-1}}~\si{dl}
+> $$
+> 
+> We kunnen zien dat dit inderdaad klopt door de voorvoegsels die voor de eenheden staan ook te gaan vertalen naar hun macht van 10:
+> 
+> $$
+> \begin{aligned}
+> 1~\si{\orange{m}l} &= \frac{10^{-3}}{10^{-1}}~\si{\blue{d}l}\\
+> \Lrarr 1\cdot\orange{10^{-3}}~\si{l} &= \frac{10^{-3}}{10^{-1}}\cdot\blue{10^{-1}}~\si{l}\\
+> \end{aligned}
+> $$
+> 
+> We kunnen rechts de noemer $10^{-1}$ schrappen met de vermenigvuldiging met $10^{-1}$:
+> 
+> $$
+> \begin{aligned}
+> \Lrarr 1\cdot 10^{-3}~\si{l} &= \frac{10^{-3}}{\cancel{10^{-1}}}\cdot \cancel{10^{-1}}~\si{l}\\
+> \Lrarr 1\cdot 10^{-3}~\si{l} &= 10^{-3}\cdot 1~\si{l}\\
+> \Lrarr 10^{-3}~\si{l} &= 10^{-3}~\si{l}\\
+> \end{aligned}
+> $$
+> 
+> We komen uit dat $10^{-3}~\si{l} = 10^{-3}~\si{l}$. Dat klopt natuurlijk. Je kan dit met eender welke combinatie van voorvoegsels proberen, het zal altijd uitkomen.
 
 import HPaNaarKPa from "./exercises/hPaNaarKPa";
 
@@ -433,33 +426,25 @@ $$
 1~\si{l} = 1~\si{dm}^3
 $$
 
-<Expand title="Trucje om te onthouden dat 1 liter gelijk is aan 1 kubieke decimeter">
+import { DrieKubussen, DrieKubussenMetVolume, DrieKubussenMetMelk, Dm3IsMelk } from "./drawings/literIsDm3";
 
-Dit is eigenlijk eenvoudig te onthouden als je je drie verschillende kubussen inbeeldt. De eerste kubus heeft een zijde van $1~\si{cm}$, de tweede kubus heeft een zijde van $1~\si{dm}$ (wat hetzelfde is als $10~\si{cm}$) en de derde kubus heeft een zijde van $1~\si{m}$.
-
-import { DrieKubussen } from "./drawings/literIsDm3";
-
-<DrieKubussen />
-
-Het volume van een kubus kunnen we uitrekenen door de zijde te verheffen tot de derde macht. De eerste kubus heeft dus een volume van $(1~\si{cm})^3 = 1~\si{cm}^3$. Op dezelfde manier vinden we voor de tweede kubus een volume van $1~\si{dm}^3$ en voor de derde kubus een volume van $1~\si{m}^3$.
-
-import { DrieKubussenMetVolume } from "./drawings/literIsDm3";
-
-<DrieKubussenMetVolume />
-
-We weten dat de inhoud van één van deze kubussen exact gelijk is aan 1 liter. Als je je nu bv. een typisch brik melk van 1 liter inbeeldt, dan zou één van onze kubussen hetzelfde volume moeten hebben als dat brik. Je ziet dat de kubus met een volume van $1~\si{dm}^3$ het meest gelijkaardig is:
-
-import { DrieKubussenMetMelk } from "./drawings/literIsDm3";
-
-<DrieKubussenMetMelk />
-
-Meer zelfs: het **volume** van die kubus en het brik melk is **identiek hetzelfde**. Je zou het brik melk volledig kunnen leeggieten in de kubus van $1~\si{dm}^3$ en dan zal de kubus volledig tot aan de rand gevuld zijn.
-
-import { Dm3IsMelk } from "./drawings/literIsDm3";
-
-<Dm3IsMelk />
-
-</Expand>
+> 💡- Trucje om te onthouden dat 1 liter gelijk is aan 1 kubieke decimeter
+> 
+> Dit is eigenlijk eenvoudig te onthouden als je je drie verschillende kubussen inbeeldt. De eerste kubus heeft een zijde van $1~\si{cm}$, de tweede kubus heeft een zijde van $1~\si{dm}$ (wat hetzelfde is als $10~\si{cm}$) en de derde kubus heeft een zijde van $1~\si{m}$.
+> 
+> <DrieKubussen />
+> 
+> Het volume van een kubus kunnen we uitrekenen door de zijde te verheffen tot de derde macht. De eerste kubus heeft dus een volume van $(1~\si{cm})^3 = 1~\si{cm}^3$. Op dezelfde manier vinden we voor de tweede kubus een volume van $1~\si{dm}^3$ en voor de derde kubus een volume van $1~\si{m}^3$.
+> 
+> <DrieKubussenMetVolume />
+> 
+> We weten dat de inhoud van één van deze kubussen exact gelijk is aan 1 liter. Als je je nu bv. een typisch brik melk van 1 liter inbeeldt, dan zou één van onze kubussen hetzelfde volume moeten hebben als dat brik. Je ziet dat de kubus met een volume van $1~\si{dm}^3$ het meest gelijkaardig is:
+> 
+> <DrieKubussenMetMelk />
+> 
+> Meer zelfs: het **volume** van die kubus en het brik melk is **identiek hetzelfde**. Je zou het brik melk volledig kunnen leeggieten in de kubus van $1~\si{dm}^3$ en dan zal de kubus volledig tot aan de rand gevuld zijn.
+> 
+> <Dm3IsMelk />
 
 Nu we weten dat $1~\si{l} = 1~\si{dm}^3$, kunnen we **van kubieke meter via kubieke decimeter naar liter en vervolgens naar hectoliter gaan**:
 

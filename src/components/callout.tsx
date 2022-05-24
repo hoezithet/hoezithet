@@ -52,7 +52,7 @@ const BodyText = styled.div`
     padding-left: ${props => props.hasIcon ? TEXT_ICON_PAD : "0"};
     margin-top: calc(${props => !props.hasTitle && props.hasIcon ? TITLE_FONT_SIZE : 0}*0.3);
     padding-top: ${props => props.hasTitle ? "1em" : 0};
-    overflow: hidden;
+    overflow: scroll;
     & > p {
         margin: 0;
     }
@@ -167,20 +167,7 @@ const useExpandableBody = (expanded) => {
     const useExpand = isExpanded !== null;
     const nodeHeight = React.useRef(0);
     const nodePaddingTop = React.useRef(0);
-    const nodeRef = React.useRef(null);
-    const bodyRef = React.useCallback(node => {
-        if (node !== null) {
-            nodeRef.current = node;
-            nodeHeight.current = node.clientHeight;
-            nodePaddingTop.current = gsap.getProperty(node, "paddingTop");
-            if (useExpand && !isExpanded) {
-                gsap.set(node, {
-                    height: 0,
-                    paddingTop: 0,
-                });
-            }
-        }
-    }, []);
+    const bodyRef = React.useRef(null);
     const iconRef = React.useRef(null);
     const [tl] = React.useState(() => gsap.timeline());
 
@@ -192,11 +179,23 @@ const useExpandableBody = (expanded) => {
     };
 
     React.useEffect(() => {
+        const node = bodyRef.current;
+        nodeHeight.current = node.clientHeight;
+        nodePaddingTop.current = gsap.getProperty(node, "paddingTop");
+        if (useExpand && !isExpanded) {
+            gsap.set(node, {
+                height: 0,
+                paddingTop: 0,
+            });
+        }
+    }, []);
+
+    React.useEffect(() => {
         if (!useExpand) {
             return;
         }
 
-        tl.to(nodeRef.current, {
+        tl.to(bodyRef.current, {
             height: isExpanded ? `${nodeHeight.current}px` : 0,
             paddingTop: isExpanded ? `${nodePaddingTop.current}px` : 0,
         }).to(iconRef.current, {
