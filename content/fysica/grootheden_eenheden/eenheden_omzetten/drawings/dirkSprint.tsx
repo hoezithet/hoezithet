@@ -62,9 +62,9 @@ const DirkReadyToSprint = () => {
 
 const getReadyToSprintPose = ({
     headSize=18,
-    armWidth=8, armLength=38, armBendRadius=-2.0,
-    legWidth=10, legLength=54, legBendRadius=2.0,
-    bodyWidth=17, bodyHeight=27, bodyBendRadius=-2.0
+    armWidth=8, armLength=38, armBendFactor=-0.5,
+    legWidth=10, legLength=54, legBendFactor=0.5,
+    bodyWidth=17, bodyHeight=27, bodyBendFactor=-0.5
 }={}) => {
     const yOff = 52;
     const rFoot = {
@@ -122,15 +122,15 @@ const getReadyToSprintPose = ({
         lHandY: lHand.y,
         armWidth: armWidth,
         armLength: armLength,
-        rArmBendRadius: armBendRadius,
-        lArmBendRadius: armBendRadius,
+        rArmBendFactor: armBendFactor,
+        lArmBendFactor: armBendFactor,
         bodyTopX: torso.x,
         bodyTopY: torso.y,
         bodyBottomX: bottom.x,
         bodyBottomY: bottom.y,
         bodyWidth: bodyWidth,
         bodyHeight: bodyHeight,
-        bodyBendRadius: bodyBendRadius,
+        bodyBendFactor: bodyBendFactor,
         rHipX: rHip.x,
         rHipY: rHip.y,
         rFootX: rFoot.x,
@@ -141,8 +141,8 @@ const getReadyToSprintPose = ({
         lFootY: lFoot.y,
         legWidth: legWidth,
         legLength: legLength,
-        lLegBendRadius: legBendRadius,
-        rLegBendRadius: legBendRadius,
+        lLegBendFactor: legBendFactor,
+        rLegBendFactor: legBendFactor,
   };
 };
 
