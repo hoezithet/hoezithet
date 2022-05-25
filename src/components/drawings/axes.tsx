@@ -1,8 +1,5 @@
 import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { AxisBottom, AxisLeft } from '@visx/axis';
-import { Group } from '@visx/group';
-import { Text } from '@visx/text';
 
 import { DrawingContext } from "./drawing";
 import { ArrowLine } from "./arrow";
@@ -14,7 +11,7 @@ const useStyles = makeStyles({
         '& text': {
             fontFamily: "Quicksand,sans-serif",
         },
-        '& line': {
+        '& path': {
             strokeWidth: 2,
             strokeLinecap: "round",
         }
@@ -24,7 +21,7 @@ const useStyles = makeStyles({
             fontSize: props => props.xFontSize,
             fill: props => props.xColor,
         },
-        '& line': {
+        '& path': {
             stroke: props => props.xColor,
         }
     },
@@ -33,7 +30,7 @@ const useStyles = makeStyles({
             fontSize: props => props.yFontSize,
             fill: props => props.yColor,
         },
-        '& line': {
+        '& path': {
             stroke: props => props.yColor,
         }
     },
@@ -58,6 +55,26 @@ const useStyles = makeStyles({
         color: props => `${props.yColor}`,
     }
 });
+
+const Ticks = ({
+    scale, numTicks=10, isVertical=false, tickClassName="",
+    tickLength=5,
+    labelMargin=5,
+    tickFormat=x => x.toFixed(),
+}) => {
+    const ticksValues = scale.ticks(numTicks);//Array.from({length: numTicks}, (_, i) => start + step * i);
+    const d = ticksValues.map(x => isVertical ? `M 0 ${scale(x)} h ${-tickLength}` : `M ${scale(x)} 0 v ${tickLength}`).join(" ");
+    return (
+        <g className={tickClassName}>
+            <path d={d}/>
+            {
+                ticksValues.map((x, i) =>
+                    <text x={isVertical ? - tickLength - labelMargin : scale(x)} y={isVertical ? scale(x) : tickLength + labelMargin} key={i} textAnchor={isVertical ? "end" : "middle"} alignmentBaseline={isVertical ? "middle" : "hanging"}>{ tickFormat(x) }</text>
+                )
+            }
+        </g>
+    );
+};
 
 export const Axes = ({
     children=null,
@@ -92,20 +109,20 @@ export const Axes = ({
     
     return (
         <>
-            <Group left={xScale(0)}>
-                <AxisLeft scale={yScale} numTicks={yTicks} tickFormat={yTickFormat} hideAxisLine={true} tickClassName={`${classes.tick} ${classes.yTick}`}/>
+            <g transform={`translate(${xScale(0)} 0)`}>
+                <Ticks scale={yScale} numTicks={yTicks} tickFormat={yTickFormat} isVertical tickClassName={`${classes.tick} ${classes.yTick}`}/>
                 <ArrowLine xStart={0} yStart={yScale(yMin) + yAxisMargin} xEnd={0} yEnd={yScale(yMax) - yAxisMargin} color={yColor} />
                 <Annot x={10} y={yScale(yMax) - yAxisMargin} align="top left" className={classes.yAxisLabel}>
                     { yLabel }
                 </Annot>
-            </Group>
-            <Group top={yScale(0)}>
-                <AxisBottom scale={xScale} numTicks={xTicks} tickFormat={xTickFormat} hideAxisLine={true} tickClassName={`${classes.tick} ${classes.xTick}`}/>
+            </g>
+            <g transform={`translate(0 ${yScale(0)})`}>
+                <Ticks scale={xScale} numTicks={xTicks} tickFormat={xTickFormat} tickClassName={`${classes.tick} ${classes.xTick}`}/>
                 <ArrowLine xStart={xScale(xMin) - xAxisMargin} yStart={0} xEnd={xScale(xMax) + xAxisMargin} yEnd={0} color={xColor} />
                 <Annot x={xScale(xMax) + xAxisMargin} y={-5} align="bottom right" className={classes.xAxisLabel}>
                     { xLabel }
                 </Annot>
-            </Group>
+            </g>
             { children }
         </>
     );

@@ -7,13 +7,10 @@ import PauseIcon from '@material-ui/icons/Pause';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import ReplayIcon from '@material-ui/icons/Replay';
 import { Link, IconButton } from 'gatsby-theme-material-ui';
-import { ParentSize } from '@visx/responsive';
-import { scaleLinear } from '@visx/scale';
 import LessonContext from "../../contexts/lessonContext";
-import { Text } from '@visx/text';
 import BareLessonContext from "contexts/bareLessonContext";
 import AnimationContext from "./animationContext";
-
+import ticks from "utils/ticks";
 
 import { getColor } from "../../colors";
 import useArrayRef from "hooks/useArrayRef";
@@ -48,6 +45,21 @@ const useStyles = makeStyles({
     },
 });
 
+const scaleLinear = ({range, domain}) => {
+    const m = (range[1] - range[0])/(domain[1] - domain[0]);
+    const q = range[0] - m * domain[0];
+    const scale = x => m*x + q;
+    scale.inverse = y => (y - q)/m;
+    scale.domain = () => domain;
+    scale.range = () => range;
+    scale.metric = x => Math.abs(scale(x) - scale(0));
+    scale.ticks = (count) => {
+        const d = domain;
+        return ticks(d[0], d[d.length - 1], count == null ? 10 : count);
+    };
+    return scale;
+};
+
 export const DrawingContext = createContext({
     width: null,
     height: null,
@@ -70,6 +82,11 @@ export const Drawing = ({
     const drawingRef = useRef(null);
     const classes = useStyles();
     const [isHovering, setIsHovering] = useState(false);
+    const [parentSize, setParentSize] = useState({
+        width: 0,
+        height: 0,
+    });
+    const parentRef = React.useRef(null);
     const isAnimatingButtonsRef = React.useRef(false);
     const insideBare = useContext(BareLessonContext) !== null;
 
@@ -130,95 +147,90 @@ export const Drawing = ({
 
     aspect = aspect === null ? Math.abs(right - left) / Math.abs(top - bottom) : aspect;
 
-    return (
-        <ParentSize>
-        { ({width}) => {
-            width = Math.min(width, maxWidth);
-            const height = width/aspect;
-            const getScaledMetric = scale => x => Math.abs(scale(x) - scale(0));
-            const xScale = scaleLinear({
-                range: [width*margin, width*(1 - margin)],
-                domain: [left, right],
-                round: false
-            });
-            xScale.metric = getScaledMetric(xScale);
+    const width = Math.min(parentSize.width, maxWidth);
+    const height = width/aspect;
+    const xScale = scaleLinear({
+        range: [width*margin, width*(1 - margin)],
+        domain: [left, right],
+    });
 
-            const yScale = scaleLinear({
-                range: [height*(1 - margin), height*margin],
-                domain: [bottom, top],
-                round: false
-            });
-            yScale.metric = getScaledMetric(yScale);
+    const yScale = scaleLinear({
+        range: [height*(1 - margin), height*margin],
+        domain: [bottom, top],
+    });
 
-            const smoothPlay = () => gsap.to(tl, {timeScale: 1, onStart: () => tl.play(), ease: "power1.out"});
-            const smoothPause = () => gsap.to(tl, {timeScale: 0, onComplete: () => tl.pause(), ease: "power1.out"});
-            const smoothRestart = () => gsap.to(tl, {time: 0, duration: 2, onComplete: () => tl.play(), ease: "power2.inOut"});
+    const smoothPlay = () => gsap.to(tl, {timeScale: 1, onStart: () => tl.play(), ease: "power1.out"});
+    const smoothPause = () => gsap.to(tl, {timeScale: 0, onComplete: () => tl.pause(), ease: "power1.out"});
+    const smoothRestart = () => gsap.to(tl, {time: 0, duration: 2, onComplete: () => tl.play(), ease: "power2.inOut"});
 
-            React.useEffect(() => {
-                if (insideBare) {
-                    // No animations in bare version of lesson
-                    // Jump to second 10 of animation
-                    tl.play(10);
-                    gsap.delayedCall(0.01, () => tl.pause());
-                    return;
-                }
-                gsap.registerPlugin(ScrollTrigger);
-                tl.timeScale(0);
-                ScrollTrigger.create({
-                    trigger: drawingRef.current,
-                    start: "top center",
-                    end: "bottom center",
-                    onToggle: self => {
-                        if (self.isActive) {
-                            smoothPlay();
-                        } else {
-                            smoothPause();
-                        }
-                    },
-                });
-            }, [width]);
-
-            const drawingChild = React.useMemo(() => (
-                <svg width={width} height={height} ref={drawingRef} className={`${classes.drawing} drawing ${className}`} xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
-                    { children }
-                    { noWatermark ?
-                    null :
-                    <Text x={width - 10} y={height - 10} textAnchor="end" className={classes.watermark}>
-                    Meer op: https://hoezithet.nu
-                    </Text>
-                    }
-                </svg>
-            ), [children, noWatermark, width, height, classes.drawing, className]);
-
-            return (
-                <div className={classes.wrapper} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
-                    <AnimationContext.Provider value={{addAnimation: addAnimation}}>
-                        <DrawingContext.Provider value={{width: width, height: height, xScale: xScale, yScale: yScale, ref: drawingRef}}>
-                            { drawingChild }
-                        </DrawingContext.Provider>
-                    </AnimationContext.Provider>
-                    <div className={classes.overlay}>
-                        { tl.getChildren().length > 0 ?
-                            <>
-                                <IconButton ref={setOverlayRef} onClick={smoothPlay} aria-label="play" className={classes.overlayElement} title="Speel animatie af">
-                                    <PlayArrowIcon />
-                                </IconButton>
-                                <IconButton ref={setOverlayRef} onClick={smoothPause} aria-label="pause" className={classes.overlayElement} title="Pauzeer animatie">
-                                    <PauseIcon />
-                                </IconButton>
-                                <IconButton ref={setOverlayRef} onClick={smoothRestart} aria-label="restart" className={classes.overlayElement} title="Herstart animatie">
-                                    <ReplayIcon />
-                                </IconButton>
-                            </>
-                        :
-                        <IconButton ref={setOverlayRef} href={fileHref} download aria-label="save" className={classes.overlayElement} title="Afbeelding opslaan">
-                            <SaveIcon />
-                        </IconButton> }
-                    </div>
-                </div>
-            );
-          }
+    React.useEffect(() => {
+        if (insideBare) {
+            // No animations in bare version of lesson
+            // Jump to second 10 of animation
+            tl.play(10);
+            gsap.delayedCall(0.01, () => tl.pause());
+            return;
         }
-        </ParentSize>
+        gsap.registerPlugin(ScrollTrigger);
+        tl.timeScale(0);
+        ScrollTrigger.create({
+            trigger: drawingRef.current,
+            start: "top center",
+            end: "bottom center",
+            onToggle: self => {
+                if (self.isActive) {
+                    smoothPlay();
+                } else {
+                    smoothPause();
+                }
+            },
+        });
+    }, []);
+
+    useEffect(() => {
+        if (parentRef.current) {
+            const rect = parentRef.current.getBoundingClientRect();
+            setParentSize({width: rect.width, height: rect.height});
+        }
+    }, []);
+
+    const drawingChild = React.useMemo(() => (
+        <svg width={width} height={height} ref={drawingRef} className={`${classes.drawing} drawing ${className}`} xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+            { children }
+            { noWatermark ?
+            null :
+            <text x={width - 10} y={height - 10} textAnchor="end" className={classes.watermark}>
+            Meer op: https://hoezithet.nu
+            </text>
+            }
+        </svg>
+    ), [children, noWatermark, width, height, classes.drawing, className]);
+
+    return (
+        <div ref={parentRef} className={classes.wrapper} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
+            <AnimationContext.Provider value={{addAnimation: addAnimation}}>
+                <DrawingContext.Provider value={{width: width, height: height, xScale: xScale, yScale: yScale, ref: drawingRef}}>
+                    { drawingChild }
+                </DrawingContext.Provider>
+            </AnimationContext.Provider>
+            <div className={classes.overlay}>
+                { tl.getChildren().length > 0 ?
+                    <>
+                        <IconButton ref={setOverlayRef} onClick={smoothPlay} aria-label="play" className={classes.overlayElement} title="Speel animatie af">
+                            <PlayArrowIcon />
+                        </IconButton>
+                        <IconButton ref={setOverlayRef} onClick={smoothPause} aria-label="pause" className={classes.overlayElement} title="Pauzeer animatie">
+                            <PauseIcon />
+                        </IconButton>
+                        <IconButton ref={setOverlayRef} onClick={smoothRestart} aria-label="restart" className={classes.overlayElement} title="Herstart animatie">
+                            <ReplayIcon />
+                        </IconButton>
+                    </>
+                :
+                <IconButton ref={setOverlayRef} href={fileHref} download aria-label="save" className={classes.overlayElement} title="Afbeelding opslaan">
+                    <SaveIcon />
+                </IconButton> }
+            </div>
+        </div>
     );
 };

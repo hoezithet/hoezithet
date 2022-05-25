@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useRef, useState } from 'react';
-import { Line as VisxLine } from '@visx/shape';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Drawing, DrawingContext } from "./drawing";
