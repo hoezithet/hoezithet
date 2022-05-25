@@ -51,29 +51,37 @@ export const theme = createMuiTheme({
                 ".gatsby-resp-image-wrapper": {
                     breakInside: "avoid"
                 },
-		"table": {
-		    textAlign: "center",
-		    margin: "auto",
-		    breakInside: "avoid",
-		    "& thead": {
-			backgroundColor: COLORS.LIGHT_GRAY,
-			border: "solid 1px black",
-			borderCollapse: "separate",
-		    },
-		    "& th": {
-			padding: "16px",
-		    },
-		    "& td": {
-			padding: "16px",
-		    },
-		    "& > tbody > tr:nth-child(odd)": {
-			backgroundColor: "#eee",
-		    },
-		    "& > tbody > tr:nth-child(even)": {
-			backgroundColor: "#f1f1f1",
-		    }
-		}
-		}
+        "table": {
+            textAlign: "center",
+            margin: "auto",
+            breakInside: "avoid",
+            borderCollapse: "separate",
+            "& thead": {
+                backgroundColor: COLORS.LIGHT_GRAY,
+            },
+            "& td, th": {
+                padding: "16px",
+            },
+            "& th:first-child": {
+                 borderRadius: ".5rem 0 0 0",
+            },
+            "& th:last-child": {
+                 borderRadius: "0 .5rem 0 0",
+            },
+            "& > tbody > tr:last-child > td:first-child": {
+                borderRadius: "0 0 0 .5rem",
+            },
+            "& > tbody > tr:last-child > td:last-child": {
+                borderRadius: "0 0 .5rem 0",
+            },
+            "& > tbody > tr:nth-child(odd)": {
+                backgroundColor: "#eee",
+            },
+            "& > tbody > tr:nth-child(even)": {
+                backgroundColor: "#f1f1f1",
+            },
+        }
+        }
         },
         MuiLink: {
             root: {
