@@ -22,12 +22,14 @@ interface TocItems {
 }
 
 const Toc = ({ children }: TocItems) => (
+    children.items ?
     <TocFrame>
         <TocTitle>
             Inhoud
         </TocTitle>
         <ul>{ children.items.map((item) => <li key={ item.title }><TocLink href={item.url}>{item.title}</TocLink></li>) }</ul>
     </TocFrame>
+    : null
 );
 
 export default Toc ;
