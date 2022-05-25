@@ -55,7 +55,6 @@
     "hast-util-is-element": "^1.1.0",
     "jsdom": "^18.0.1",
     "katex": "^0.13.3",
-    "mathjs": "^9.4.4",
     "minimist": "^1.2.5",
     "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",
