@@ -58,6 +58,10 @@ const BodyText = styled.div`
     }
 `;
 
+const CalloutBodyWrapper = styled.div`
+    overflow: hidden;
+`;
+
 const ICONS = {
     "💡": "INFO",
     "⚠️": "WARN",
@@ -162,56 +166,47 @@ const useBareCallout = (title, body) => {
     return [insideBare, expId, appendixId, appendixIdx];
 };
 
-const useExpandableBody = (expanded) => {
-    const [isExpanded, setIsExpanded] = React.useState(expanded);
-    const useExpand = isExpanded !== null;
-    const nodeHeight = React.useRef(0);
-    const nodePaddingTop = React.useRef(0);
+const useExpandableBody = (defaultExpanded) => {
+    const [isExpanded, setIsExpanded] = React.useState(defaultExpanded);
     const bodyRef = React.useRef(null);
     const iconRef = React.useRef(null);
+    const wrapperRef = React.useRef(null);
     const [tl] = React.useState(() => gsap.timeline());
 
+    const getBodySize = () => bodyRef.current ? bodyRef.current.clientHeight : 0;
+
     const handleClick = () => {
-        if (!useExpand) {
-            return;
-        }
         setIsExpanded(prev => !prev);
     };
 
     React.useEffect(() => {
-        const node = bodyRef.current;
-        nodeHeight.current = node.clientHeight;
-        nodePaddingTop.current = gsap.getProperty(node, "paddingTop");
-        if (useExpand && !isExpanded) {
-            gsap.set(node, {
+        if (!defaultExpanded) {
+            gsap.set(wrapperRef.current, {
                 height: 0,
-                paddingTop: 0,
             });
         }
     }, []);
 
     React.useEffect(() => {
-        if (!useExpand) {
-            return;
-        }
+        const bodySize = getBodySize();
 
-        tl.to(bodyRef.current, {
-            height: isExpanded ? `${nodeHeight.current}px` : 0,
-            paddingTop: isExpanded ? `${nodePaddingTop.current}px` : 0,
+        tl.to(wrapperRef.current, {
+            height: isExpanded ? `${bodySize}px` : 0,
         }).to(iconRef.current, {
             rotation: isExpanded ? 0 : -90,
             duration: 0.1,
         }, "<");
     }, [isExpanded]);
     
-    return [useExpand, bodyRef, iconRef, handleClick];
+    return [bodyRef, iconRef, wrapperRef, handleClick];
 };
 
 const Callout = (props) => {
     const [icon, title, body, expanded] = splitIconTitleBodyExpanded(props);
+    const useExpand = expanded !== null;
     const iconType = ICONS[icon];
     const color = ICON_COLORS[iconType] || "gray";
-    const [useExpand, bodyRef, iconRef, handleClick] = useExpandableBody(expanded);
+    const [bodyRef, iconRef, wrapperRef, handleClick] = useExpandableBody(expanded);
     const [insideBare, expId, appendixId, appendixIdx] = useBareCallout(title, body);
 
     return (
@@ -230,7 +225,9 @@ const Callout = (props) => {
                     </TitleText>
                 </TitleBox>
               : null }
-            <BodyText ref={bodyRef} hasIcon={icon !== null} hasTitle={title !== null}>{ body }</BodyText>
+              <CalloutBodyWrapper ref={useExpand ? wrapperRef : null}>
+                  <BodyText ref={useExpand ? bodyRef : null} hasIcon={icon !== null} hasTitle={title !== null}>{ body }</BodyText>
+              </CalloutBodyWrapper>
         </Frame>
     );
 };
