@@ -14,7 +14,8 @@
     "react-dom": "latest",
     "next": "latest",
     "react-redux": "latest",
-    "redux": "latest"
+    "redux": "latest",
+    "lodash": "latest",
   },
   "devDependencies": {
     "puppeteer": "latest",
