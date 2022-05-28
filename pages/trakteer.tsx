@@ -1,11 +1,8 @@
 import React from "react";
-import Layout from '../components/layout';
-import Grid from "@material-ui/core/Grid";
-import { Button } from "gatsby-theme-material-ui";
-import Box from "@material-ui/core/Box";
-import { NearWhite } from "../components/shortcodes/color";
-import donate from "../../images/trakteer/donate.png";
-import styled from "styled-components";
+import Layout from 'components/layout';
+import donate from "../images/trakteer/donate.png";
+import Link from 'next/link';
+
 
 interface TrakteerProps {
     children: React.ReactNode;
@@ -17,22 +14,16 @@ interface TrakteerProps {
 
 function TrakteerButton(props: TrakteerProps) {
     return (
-        <Grid item >
-            <Button href={ props.href } variant="contained" color="primary" size="large">
-                <Grid container direction="column" alignItems="center">
-                    <Grid item>{ props.icon }</Grid>
-                    <Grid item>{ props.text }</Grid>
-                    <Grid item><NearWhite>{ `(${props.amount})` }</NearWhite></Grid>
-                </Grid>
-            </Button>
-        </Grid>
+        <Link href={ props.href }>
+            <a>
+                <div>{ props.icon }</div>
+                <div>{ props.text }</div>
+                <div>{ `(${props.amount})` }</div>
+            </a>
+        </Link>
     );
 }
 
-const TrakteerImg = styled.img`
-    display: block;
-    margin: auto;
-`
 
 export default function Trakteer() {
     const crumbs = [{
@@ -42,21 +33,22 @@ export default function Trakteer() {
     return (
         <Layout crumbs={ crumbs } >
             <h1>🥤 Trakteer op een drankje!</h1>
-            <Box width={ { xs: 3/4, md: 1/2 } } clone>
-                <TrakteerImg src={ donate } />
-            </Box>
+            <img src={ donate } />
             <p>
                 Wil je Hoe Zit Het? graag steunen? Dat kan! Via onderstaande knoppen kan je Hoe Zit Het? trakteren op een symbolisch drankje! 🥤 Jouw traktatie zal integraal worden gebruikt om de website verder uit te breiden met meer lessen, meer illustraties en meer verlichte uitleg! 💡 Zo zorg jij er mee voor dat Hoe Zit Het? voor iedereen helemaal gratis kan blijven! 🙌
             </p>
-
-            <Box my={ 4 }>
-                <Grid container spacing={2} justify="center">
-                    <TrakteerButton href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YZBJ7U5JFSQ8G&source=url" amount="€2" icon="🥤" text="Frisdrankje" />
-                    <TrakteerButton href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NHE8CFLULN9WG&source=url" amount="€4" icon="☕" text="Frappuccino"/>
-                    <TrakteerButton href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TCLFUBNZ3QUGN&source=url" amount="€10" icon="🍻" text="Tournée Générale!"/>
-                    <TrakteerButton href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X8BH56ZVUG2BQ&source=url" amount="Eigen bedrag" icon="🎁" text="Zelf iets kiezen"/>
-                </Grid>
-            </Box>
+            <div>
+                <TrakteerButton href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YZBJ7U5JFSQ8G&source=url" amount="€2" icon="🥤" text="Frisdrankje" />
+                <TrakteerButton href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NHE8CFLULN9WG&source=url" amount="€4" icon="☕" text="Frappuccino"/>
+                <TrakteerButton href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TCLFUBNZ3QUGN&source=url" amount="€10" icon="🍻" text="Tournée Générale!"/>
+                <TrakteerButton href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X8BH56ZVUG2BQ&source=url" amount="Eigen bedrag" icon="🎁" text="Zelf iets kiezen"/>
+            </div>
+            <style jsx>{`
+                img {
+                    display: block;
+                    margin: auto;
+                }
+            `}</style>
         </Layout>
     );
 }
