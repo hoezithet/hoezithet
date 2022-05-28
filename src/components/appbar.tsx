@@ -9,8 +9,8 @@ const LogoLink = ({ color }) => {
         <div>
             <Link href="/">
                 <a>
-                <img src={color == "transparent" ? logo_yellow : logo} alt="Hoe Zit Het? logo" />
-                Hoe Zit Het?
+                    <img src={color == "transparent" ? logo_yellow : logo} alt="Hoe Zit Het? logo" />
+                    Hoe Zit Het?
                 </a>
             </Link>
             <style jsx>{`
@@ -50,7 +50,7 @@ const HzhAppBar = () => {
     return (
         <div>
             <LogoLink />
-            <ButtonLinks />
+            <QuickLinks />
         </div>
     );
 };

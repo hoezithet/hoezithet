@@ -1,7 +1,7 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
-import { useStaticQuery, graphql } from 'gatsby';
-import { getSrc } from "gatsby-plugin-image"
+import Head from 'next/head';
+import config from '../config';
+
 
 interface OpenGraphProps {
   title: string;
@@ -11,37 +11,17 @@ interface OpenGraphProps {
   siteName: string;
 }
 
-function OpenGraph({title, description, url, image, siteName}: OpenGraphProps) {
-  return (
-    <Helmet
-        meta={[
-          {
-            property: `og:title`,
-            content: title,
-          },
-          {
-            property: `og:description`,
-            content: description,
-          },
-          {
-            property: `og:image`,
-            content: image,
-          },
-          {
-            property: `og:url`,
-            content: url,
-          },
-          {
-            property: `og:type`,
-            content: `website`,
-          },
-          {
-            property: `og:site_name`,
-            content: siteName,
-          },
-        ]}
-    />
-  );
+const OpenGraph = ({title, description, url, image, siteName}: OpenGraphProps) => {
+    return (
+        <>
+            <meta property="og:title" content={title} />
+            <meta property="og:description" content={description} />
+            <meta property="og:image" content={image} />
+            <meta property="og:url" content={url} />
+            <meta property="og:type" content="website" />
+            <meta property="og:site_name" content={siteName} />
+        </>
+    );
 }
 
 interface TwitterCardProps {
@@ -51,33 +31,16 @@ interface TwitterCardProps {
   image: string;
 }
 
-function TwitterCard({title, description, image, username}: TwitterCardProps) {
-  return (
-    <Helmet
-      meta={[
-        {
-          name: `twitter:card`,
-          content: `summary`,
-        },
-        {
-          name: `twitter:creator`,
-          content: username,
-        },
-        {
-          name: `twitter:title`,
-          content: title,
-        },
-        {
-          name: `twitter:image`,
-          content: image,
-        },
-        {
-          name: `twitter:description`,
-          content: description,
-        },
-      ]}
-    />
-  );
+const TwitterCard = ({title, description, image, username}: TwitterCardProps) => {
+    return (
+        <>
+            <meta property="twitter:card" content="summary" />
+            <meta property="twitter:creator" content={username} />
+            <meta property="twitter:title" content={title} />
+            <meta property="twitter:image" content={image} />
+            <meta property="twitter:description" content={description} />
+        </>
+    );
 }
 
 interface JsonOrganizationProps {
@@ -91,37 +54,35 @@ interface JsonOrganizationProps {
   socials: string[];
 }
 
-function JsonOrganization({name, url, logo, email, legalName, foundingDate, founderName, socials}: JsonOrganizationProps) {
-  return (
-  <Helmet>
-    <script type="application/ld+json">
-      {`
-        {
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          "url": "${url}",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "${logo}"
-          },
-          "name": "${name}",
-          "legalName": "${legalName}",
-          "foundingDate": "${foundingDate}",
-          "founders": [
+const JsonOrganization = ({name, url, logo, email, legalName, foundingDate, founderName, socials}: JsonOrganizationProps) => {
+    return (
+        <script type="application/ld+json">
+          {`
             {
-              "@type": "Person",
-              "name": "${founderName}"
-            }],
-            "contactPoint": {
-              "@type": "ContactPoint",
-              "email": "${email}"
-            },
-            "sameAs": [${socials.map(s => `"${s}"`).join(",")}]
-          }
-        `}
-    </script>
-  </Helmet>
-  );
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "url": "${url}",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "${logo}"
+              },
+              "name": "${name}",
+              "legalName": "${legalName}",
+              "foundingDate": "${foundingDate}",
+              "founders": [
+                {
+                  "@type": "Person",
+                  "name": "${founderName}"
+                }],
+                "contactPoint": {
+                  "@type": "ContactPoint",
+                  "email": "${email}"
+                },
+                "sameAs": [${socials.map(s => `"${s}"`).join(",")}]
+              }
+            `}
+        </script>
+    );
 }
 
 interface Breadcrumb {
@@ -134,30 +95,29 @@ interface JsonBreadcrumbsProps {
   baseUrl: string;
 }
 
-function JsonBreadcrumbs({crumbs, baseUrl}: JsonBreadcrumbsProps) {
-  const itemList = crumbs.map(({title, slug}, index) => (
-    `{
-        "@type": "ListItem",
-        "position": ${index},
-        "name": "${title}",
-        "item": "${new URL(slug, baseUrl)}"
-     }`
-  ));
-  return (
-  <Helmet>
-    <script type="application/ld+json">
-    {`
-      {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            ${itemList.join(",")}
-        ]
-      }
-    `}
-    </script>
-  </Helmet>
-  );
+const JsonBreadcrumbs = ({crumbs, baseUrl}: JsonBreadcrumbsProps) => {
+    const itemList = crumbs.map(({title, slug}, index) => (
+        `{
+            "@type": "ListItem",
+            "position": ${index},
+            "name": "${title}",
+            "item": "${new URL(slug, baseUrl)}"
+         }`
+    ));
+
+    return (
+        <script type="application/ld+json">
+        {`
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                ${itemList.join(",")}
+            ]
+          }
+        `}
+        </script>
+    );
 }
 
 interface MetaProps {
@@ -166,99 +126,60 @@ interface MetaProps {
   author: string;
 }
 
-function Meta({description, keywords, author}: MetaProps) {
-  return (
-    <Helmet
-      meta={[
-        {
-          name: `description`,
-          content: description,
-        },
-        {
-          name: `keywords`,
-          content: `${keywords}`,
-        },
-        {
-          name: `author`,
-          content: author
-        }
-      ]}
-    />
-  );
+const Meta = ({description, keywords, author}: MetaProps) => {
+    return (
+        <>
+            <meta property="description" content={description} />
+            <meta property="keywords" content={`${keywords}`} />
+            <meta property="author" content={author} />
+        </>
+    );
 }
 
 function SEO({ crumbs, description = ``, tags = null,
                image = `` }: SEOProps) {
-    const { site } = useStaticQuery(
-      graphql`
-        query {
-          site {
-            siteMetadata {
-              organization {
-                name
-                legalName
-                founder
-                foundingDate
-                logo
-              }
-              title
-              siteUrl
-              description
-              tags
-              email
-              twitterUsername
-              socials
-              lang
-            }
-          }
-        }
-      `,
-    );
-    
+    const site = config.site;
+
     const pageCrumb = crumbs.slice(-1)[0];
-    const url = `${new URL(pageCrumb.slug, site.siteMetadata.siteUrl)}`;
+    const url = `${new URL(pageCrumb.slug, config.siteUrl)}`;
     const title = pageCrumb.title;
-    const imgUrl = getSrc(image || site.siteMetadata.organization.logo);
+    const imgUrl = getSrc(image || config.organization.logo);
 
     return (
-      <>
-        <Helmet
-          htmlAttributes={{
-              lang: site.siteMetadata.lang,
-          }}
-          title={title}
-          titleTemplate={`%s | ${site.siteMetadata.title}`}
-        />
+      <Head>
+        <title lang={config.lang}>
+            {`${title} | ${config.title}`}
+        </title>
         <Meta
-          description={description || site.siteMetadata.description}
-          keywords={tags || site.siteMetadata.tags}
-          author={site.siteMetadata.organization.founder}
+          description={description || config.description}
+          keywords={tags || config.tags}
+          author={config.organization.founder}
         />
-        <JsonBreadcrumbs crumbs={crumbs} baseUrl={site.siteMetadata.siteUrl} />
+        <JsonBreadcrumbs crumbs={crumbs} baseUrl={config.siteUrl} />
         <JsonOrganization
-          name={site.siteMetadata.organization.name}
-          url={site.siteMetadata.siteUrl}
-          logo={site.siteMetadata.organization.logo}
-          email={site.siteMetadata.email}
-          legalName={site.siteMetadata.organization.legalName}
-          foundingDate={site.siteMetadata.organization.foundingDate}
-          founderName={site.siteMetadata.organization.founder}
-          socials={site.siteMetadata.socials}
+          name={config.organization.name}
+          url={config.siteUrl}
+          logo={config.organization.logo}
+          email={config.email}
+          legalName={config.organization.legalName}
+          foundingDate={config.organization.foundingDate}
+          founderName={config.organization.founder}
+          socials={config.socials}
         />
         <TwitterCard
           title={title}
-          description={description || site.siteMetadata.description}
+          description={description || config.description}
           image={imgUrl}
-          username={site.siteMetadata.twitterUsername}
+          username={config.twitterUsername}
         />
         <OpenGraph
           title={title}
-          description={description || site.siteMetadata.description}
+          description={description || config.description}
           image={imgUrl}
           url={url}
-          siteName={site.siteMetadata.title}
+          siteName={config.title}
         />
-      </>
+      </Head>
     );
 }
 

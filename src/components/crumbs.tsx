@@ -1,7 +1,6 @@
 import React from "react";
-import { Breadcrumbs } from "@material-ui/core";
-import { Link } from "gatsby-theme-material-ui";
-import styled from "styled-components";
+import Link from 'next/link';
+
 
 export interface CrumbProps {
     crumbs: {
@@ -10,32 +9,22 @@ export interface CrumbProps {
     }[];
 }
 
-const BreadcrumbLink = styled(Link)`
-    color: inherit;
-`;
 
 const Crumbs = ({ crumbs }: CrumbProps) => {
-    const breadCrumbLinks = crumbs.map(({ slug, title }, index) => {
-        if (index < crumbs.length - 1) {
-            return (
-                <BreadcrumbLink to={slug} key={slug}>
-                    {title}
-                </BreadcrumbLink>
-            );
-        } else {
-            return (
-                <BreadcrumbLink to={slug} aria-current="page" key={slug}>
-                    {title}
-                </BreadcrumbLink>
-            );
-        }
-    });
-
     return (
         <header>
-            <Breadcrumbs aria-label="breadcrumb" maxItems={4}>
-                {breadCrumbLinks}
-            </Breadcrumbs>
+            <div aria-label="breadcrumb">
+                {crumbs.map(({ slug, title }, index) =>
+                    <Link href={slug} aria-current={index < crumbs.length - 1 ? null : "page"} key={index}>
+                        <a>{title}</a>
+                    </Link>
+                 )}
+            </div>
+            <style jsx>{`
+                main {
+                    color: inherit;
+                }
+            `}</style>
         </header>
     );
 };

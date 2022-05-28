@@ -1,66 +1,133 @@
 import React from "react";
 
-import styled from "styled-components";
 import COLORS, {getColor} from "colors";
-import _ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { gsap } from 'gsap';
 import BareLessonContext from "contexts/bareLessonContext";
 import _ from "lodash";
 
+const _ExpandMoreIcon = () => {
+    return (
+        <span>
+            TO DO
+            <style jsx>{`
+                span {
+                    float: right;
+                    cursor: pointer;
+                }
+            `}</style>
+        </span>
+    );
+};
 
-const Frame = styled.div`
-    background-color: ${props => getColor(props.color, 0.1)};
-    color: inherit;
-    margin: 1rem 0;
-    padding: 0.75rem;
-    break-inside: avoid;
-    break-before: avoid;
-    border-radius: .5rem;
-    box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
-`
+
+const Frame = ({color, children}) => {
+    return (
+        <div>
+            {children}
+            <style jsx>{`
+                div {
+                    background-color: ${getColor(color, 0.1)};
+                }
+            `}</style>
+            <style jsx>{`
+                div {
+                    color: inherit;
+                    margin: 1rem 0;
+                    padding: 0.75rem;
+                    break-inside: avoid;
+                    break-before: avoid;
+                    border-radius: .5rem;
+                    box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+                }
+            `}</style>
+        </div>
+    );
+};
+
 const TEXT_ICON_PAD = "1.75rem";
 const TITLE_FONT_SIZE = "1.2rem";
 
-const TitleBox = styled.div`
-    color: ${props => getColor(props.color)};
-    font-size: ${TITLE_FONT_SIZE};
-    font-weight: bold;
-    cursor: ${props => props.useExpand ? "pointer" : "auto"};
-    & > p {
-        margin: 0;
-    }
-`
+const TitleBox = ({color, useExpand, children}) => {
+    return (
+        <div>
+            { children }
+            <style jsx>{`
+                div {
+                    color: ${getColor(color)};
+                    font-size: ${TITLE_FONT_SIZE};
+                    font-weight: bold;
+                    cursor: ${useExpand ? "pointer" : "auto"};
+                }
+                div > p {
+                    margin: 0;
+                }
+            `}</style>
+        </div>
+    );
+};
 
-const TitleIcon = styled.span`
-    float: left;
-`;
+const TitleIcon = ({ children }) => {
+    return (
+        <span>
+            {children}
+            <style jsx>{`
+                span {
+                    float: left;
+                }
+            `}</style>
+        </span<
+    );
+};
 
-const ExpandMoreIcon = styled(_ExpandMoreIcon)`
-    float: right;
-    cursor: pointer;
-`;
 
-const TitleText = styled.span`
-    display: block;
-    padding-left: ${props => props.hasIcon ? TEXT_ICON_PAD : "0"};
-    & > p {
-        margin: 0;
-    }
-`;
+const TitleText = ({ children, hasIcon=false }) => {
+    return (
+        <span>
+            {children}
+            <style jsx>{`
+                span {
+                    display: block;
+                    padding-left: ${hasIcon ? TEXT_ICON_PAD : "0"};
+                }
+                span > p {
+                    margin: 0;
+                }
+            `}</style>
+        </span>
+    );
+};
 
-const BodyText = styled.div`
-    padding-left: ${props => props.hasIcon ? TEXT_ICON_PAD : "0"};
-    margin-top: calc(${props => !props.hasTitle && props.hasIcon ? TITLE_FONT_SIZE : 0}*0.3);
-    padding-top: ${props => props.hasTitle ? "1em" : 0};
-    overflow: scroll;
-    & > p {
-        margin: 0;
-    }
-`;
+const BodyText = ({ children, hasIcon=false, hasTitle=false }) => {
+    return (
+        <div>
+            {children}
+            <style jsx>{`
+                div {
+                    padding-left: ${hasIcon ? TEXT_ICON_PAD : "0"};
+                    margin-top: calc(${!hasTitle && hasIcon ? TITLE_FONT_SIZE : 0}*0.3);
+                    padding-top: ${hasTitle ? "1em" : 0};
+                    overflow: scroll;
+                }
+                div > p {
+                    margin: 0;
+                }
+            `}</style>
+        </div>
+    );
+};
 
-const CalloutBodyWrapper = styled.div`
-    overflow: hidden;
-`;
+const CalloutBodyWrapper = ({children}) => {
+    return (
+        <div>
+            {children}
+            <style jsx>{`
+                div {
+                    overflow: hidden;
+                }
+            `}</style>
+        </div>
+    );
+};
 
 const ICONS = {
     "💡": "INFO",

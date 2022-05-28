@@ -1,6 +1,4 @@
 import React from 'react';
-import Container from '@material-ui/core/Container';
-import styled from 'styled-components';
 
 import Footer from './footer';
 import Crumbs from './crumbs';
@@ -18,31 +16,28 @@ export interface LayoutProps {
     image?: string;
 }
 
-const HzhContainer = styled(Container)`
-    padding: ${theme.spacing(2)}px;
-`;
-
-const HzhMain = styled.main`
-    margin-bottom: ${theme.spacing(4)}px;
-`;
 
 const Layout = ({ children, crumbs, description=``, tags=[],
                   image=`` }: LayoutProps) => {
     const breadCrumbs = <Crumbs crumbs={ crumbs }/>;
     return (
         <HzhTheme>
-            <>
             <SEO crumbs={ crumbs } description={ description }
                  tags={ tags } image={ image } />
             <HzhAppBar />
-            <HzhContainer maxWidth="md">
-                <>
+            <div>
                 { breadCrumbs }
-                <HzhMain>{ children }</HzhMain>
+                <main>{ children }</main>
                 <Footer />
-                </>
-            </HzhContainer>
-            </>
+            </div>
+            <style jsx>{`
+                div {
+                    padding: ${theme.spacing(2)}px;
+                }
+                main {
+                    margin-bottom: ${theme.spacing(4)}px;
+                }
+            `}</style>
         </HzhTheme>
     );
 };
