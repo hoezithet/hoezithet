@@ -1,12 +1,12 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 
 interface MatomoProps {
 }
 
 function Matomo(props: MatomoProps) {
     return (
-        <Helmet>
+        <Head>
             <script type="text/javascript">
                 {`
                 var _paq = window._paq = window._paq || [];
@@ -22,7 +22,7 @@ function Matomo(props: MatomoProps) {
                 })();
                 `}
             </script>
-        </Helmet>
+        </Head>
     )
 }
 

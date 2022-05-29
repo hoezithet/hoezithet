@@ -5,7 +5,6 @@ import Crumbs from './crumbs';
 import { CrumbProps } from './crumbs';
 import HzhAppBar from './appbar';
 import HzhTheme from './theme';
-import { theme } from './theme';
 import SEO from './seo';
 
 export interface LayoutProps {
@@ -32,10 +31,10 @@ const Layout = ({ children, crumbs, description=``, tags=[],
             </div>
             <style jsx>{`
                 div {
-                    padding: ${theme.spacing(2)}px;
+                    padding: 1rem;
                 }
                 main {
-                    margin-bottom: ${theme.spacing(4)}px;
+                    margin-bottom: 2rem;
                 }
             `}</style>
         </HzhTheme>

@@ -9,15 +9,7 @@ import archer from "../images/landing/archer.png";
 import free from "../images/landing/free.png";
 import guts from "../images/landing/guts.png";
 import Link from 'next/link';
-
-
-const Grid = ({children}) => {
-    return (
-        <div>
-            {children}
-        </div>
-    );
-};
+import Image from 'next/image';
 
 
 const WhyHzhTriangle = () => {
@@ -47,42 +39,36 @@ interface WhyHzhItemProps {
     img: string;
 }
 
-function WhyHzhItem(props: WhyHzhItemProps) {
+const WhyHzhItem = (props: WhyHzhItemProps) => {
     return (
-        <Grid item xs={ 12 } sm={ 4 } container direction="column" justify="flex-start" alignItems="center">
-            <Grid item>
-                <div>
-                    <img src={ props.img } />
-                    <style jsx>{`
-                        div {
-                            border: .25rem solid ${COLORS.GOLD};
-                            border-radius: 1rem;
-                            height: 8rem;
-                            width: 8rem;
-                            padding: 1rem;
-                            background-color: ${COLORS.NEAR_WHITE};
-                        }
-                        img {
-                            height: 100%;
-                        }
-                    `} </style>
-                </div>
-            </Grid>
-            <Grid item>
-                <h2>{ props.title }</h2>
-            </Grid>
-            <Grid item container justify="center">
-                <Grid item xs={ 10 }>
-                    { props.children }
-                </Grid>
-            </Grid>
-        </Grid>
+        <div className="root">
+            <div className="imgWrapper">
+                <Image src={ props.img } />
+            </div>
+            <h2>{ props.title }</h2>
+            <div>
+                { props.children }
+            </div>
+            <style jsx>{`
+                .imgWrapper {
+                    border: .25rem solid ${COLORS.GOLD};
+                    border-radius: 1rem;
+                    height: 8rem;
+                    width: 8rem;
+                    padding: 1rem;
+                    background-color: ${COLORS.NEAR_WHITE};
+                }
+                img {
+                    height: 100%;
+                }
+            `}</style>
+        </div>
     );
-}
+};
 
 const WhyHzhItems = ({exampleUrl}) => {
     return (
-        <Grid container spacing={4} justify="center" >
+        <div>
             <WhyHzhItem title="Doelgericht" img={ archer }>
                 Elke les is gericht op één onderwerp. Zo kan je gaatjes in je kennis snel opvullen, zonder omwegen. 
             </WhyHzhItem>
@@ -92,19 +78,12 @@ const WhyHzhItems = ({exampleUrl}) => {
             <WhyHzhItem title="Gratis" img={ free }>
                 Omdat iedereen recht heeft op kennis, zijn alle lessen gratis. Voor vandaag. Voor morgen. Voor altijd.
             </WhyHzhItem>
-            <Grid item>
-                <button variant="contained" color="primary" size="large" to={ exampleUrl }>
-            Toon mij een voorbeeld!
-                </button>
-                <style jsx>{`
-                    button {
-                        color: ${COLORS.NEAR_WHITE};
-                        font-weight: bold;
-                        font-size: 2rem;
-                    }
-                `}</style>
-            </Grid>
-        </Grid>
+            <Link href={ exampleUrl }>
+                <a>Toon mij een voorbeeld!</a>
+            </Link>
+            <style jsx>{`
+            `}</style> 
+        </div>
     );
 };
 
@@ -112,7 +91,7 @@ const LandingImg = ({exampleUrl}) => {
     return (
         <div>
             <Link href={ exampleUrl }>
-                <a><img src={landingImg}/></a>
+                <a><Image src={landingImg}/></a>
             </Link>
             <style jsx>{`
                 img {

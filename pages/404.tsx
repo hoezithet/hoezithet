@@ -1,18 +1,8 @@
 import React from "react";
-import Layout from '../components/layout';
-import notFoundImg from '../../images/404/404.png';
-import styled from "styled-components";
-import { Button, Link } from "gatsby-theme-material-ui";
-import Box from '@material-ui/core/Box';
+import Layout from 'components/layout';
+import notFoundImg from '../images/404/404.png';
+import Link from 'next/link';
 
-const Img = styled.img`
-    margin: auto;
-    width: 50%;
-`
-
-const StyledBox = styled(Box)`
-    text-align: center;
-`;
 
 export default function NotFoundPage() {
     const crumbs = [{
@@ -21,16 +11,25 @@ export default function NotFoundPage() {
     }];
     return (
         <Layout crumbs={ crumbs }>
-        <StyledBox>
-            <Img src={ notFoundImg } />
+        <div>
+            <img src={ notFoundImg } />
             <h1>Hier zit je niet goed...</h1>
             <p>
                 De pagina waar je naar surfte, bestaat helaas niet...
             </p>
-            <Button variant="contained" color="primary" size="large" to="/lessen/">
-                Ga naar alle lessen
-            </Button>
-        </StyledBox>
+            <Link href="/lessen/">
+                <a>Ga naar alle lessen</a>
+            </Link>
+            <style jsx>{`
+                div {
+                    text-align: center;
+                }
+                img {
+                    margin: auto;
+                    width: 50%;
+                }
+            `}</style>
+        </div>
         </Layout>
     );
 }

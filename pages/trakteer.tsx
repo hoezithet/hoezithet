@@ -2,6 +2,7 @@ import React from "react";
 import Layout from 'components/layout';
 import donate from "../images/trakteer/donate.png";
 import Link from 'next/link';
+import Image from 'next/image';
 
 
 interface TrakteerProps {
@@ -33,7 +34,7 @@ export default function Trakteer() {
     return (
         <Layout crumbs={ crumbs } >
             <h1>🥤 Trakteer op een drankje!</h1>
-            <img src={ donate } />
+            <Image src={ donate } />
             <p>
                 Wil je Hoe Zit Het? graag steunen? Dat kan! Via onderstaande knoppen kan je Hoe Zit Het? trakteren op een symbolisch drankje! 🥤 Jouw traktatie zal integraal worden gebruikt om de website verder uit te breiden met meer lessen, meer illustraties en meer verlichte uitleg! 💡 Zo zorg jij er mee voor dat Hoe Zit Het? voor iedereen helemaal gratis kan blijven! 🙌
             </p>

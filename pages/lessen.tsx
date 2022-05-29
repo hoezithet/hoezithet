@@ -1,9 +1,7 @@
 import React from "react";
-import Layout, { LayoutProps } from "../components/layout";
-import { CourseChapters, MdxGroup, MdxNodes } from "./course";
-import { graphql } from "gatsby";
-import { CardImage } from "./sectionCard";
-import { MdxNode } from "./lesson";
+import Layout, { LayoutProps } from "components/layout";
+import { CardImage } from "components/sectionCard";
+
 
 interface AllCoursesData {
     pageContext: {

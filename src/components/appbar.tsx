@@ -2,6 +2,7 @@ import React from "react";
 import logo from "../../images/appbar/logo_header.png";
 import logo_yellow from "../../images/appbar/logo_header_yellow_bulb.png";
 import Link from 'next/link';
+import Image from 'next/image';
 
 
 const LogoLink = ({ color }) => {
@@ -9,7 +10,7 @@ const LogoLink = ({ color }) => {
         <div>
             <Link href="/">
                 <a>
-                    <img src={color == "transparent" ? logo_yellow : logo} alt="Hoe Zit Het? logo" />
+                    <Image src={color == "transparent" ? logo_yellow : logo} alt="Hoe Zit Het? logo" />
                     Hoe Zit Het?
                 </a>
             </Link>

@@ -137,13 +137,13 @@ const Meta = ({description, keywords, author}: MetaProps) => {
 }
 
 function SEO({ crumbs, description = ``, tags = null,
-               image = `` }: SEOProps) {
+               image = null }: SEOProps) {
     const site = config.site;
 
     const pageCrumb = crumbs.slice(-1)[0];
     const url = `${new URL(pageCrumb.slug, config.siteUrl)}`;
     const title = pageCrumb.title;
-    const imgUrl = getSrc(image || config.organization.logo);
+    const imgUrl = (image || config.organization.logo);
 
     return (
       <Head>

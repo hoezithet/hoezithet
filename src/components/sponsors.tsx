@@ -2,6 +2,7 @@ import React from 'react';
 import kuLeuvenLogo from "../../images/sponsor/KULEUVEN_RGB_LOGO.png";
 import vivesLogo from "../../images/sponsor/VIVES.png";
 import Link from 'next/link';
+import Image from 'next/image';
 
 const Treat = () => {
     return (
@@ -19,12 +20,12 @@ export default function Sponsors({ width = "56mm", showTreat = true}) {
             <div>
                 <div>
                     <a href="https://www.kuleuven.be/kuleuven">
-                        <img src={ kuLeuvenLogo } alt="KU Leuven sponsor" />
+                        <Image src={ kuLeuvenLogo } alt="KU Leuven sponsor" />
                     </a>
                 </div>
                 <div>
                     <a href="https://www.vives.be/">
-                        <img src={ vivesLogo } alt="VIVES sponsor" />
+                        <Image src={ vivesLogo } alt="VIVES sponsor" />
                     </a>
                 </div>
             </div>
