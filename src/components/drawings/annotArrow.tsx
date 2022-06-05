@@ -141,6 +141,15 @@ export const AnnotArrow = ({
     color="light_gray", opacity=1, lineWidth=2,
     hideHead=false, dashed=false,
 }: AnnotProps) => {
+    const [annotCoord, setAnnotCoord] = React.useState({x: -1, y: -1});
+    const [targetCoords, setTargetCoords] = React.useState([]);
+
+    React.useEffect(() => {
+        setAnnotCoord(convertToCoord(annot, hAlignAnnot, vAlignAnnot));
+        target = Array.isArray(target) && target.length > 0 && typeof target[0] !== "number" ? target : [target];
+        setTargetCoords(target.map(t => convertToCoord(t, hAlignTarget, vAlignTarget)))
+    }, []);
+
     if (anchorRadiusTarget === null) {
         anchorRadiusTarget = anchorRadius;
     }
@@ -150,29 +159,21 @@ export const AnnotArrow = ({
 
     const [vAlignAnnot, hAlignAnnot] = annotAlign.split(" ");
     const [vAlignTarget, hAlignTarget] = targetAlign.split(" ");
-    const annotCoord = convertToCoord(annot, hAlignAnnot, vAlignAnnot);
-    target = Array.isArray(target) && target.length > 0 && typeof target[0] !== "number" ? target : [target];
-    const targetCoords = target.map(t => convertToCoord(t, hAlignTarget, vAlignTarget))
 
     const anchorAngleAnnot = getAngleFromAlign(hAlignAnnot, vAlignAnnot);
     const anchorAngleTarget = getAngleFromAlign(hAlignTarget, vAlignTarget);
 
-    const arrowLines = targetCoords.filter(t => t !== null).map((targetCoord, i) => (
-        <g key={i}>
-            <ArrowLine xStart={annotCoord.x} yStart={annotCoord.y} xEnd={targetCoord.x} yEnd={targetCoord.y}
-                margin={margin}
-                anchorAngleStart={anchorAngleAnnot} anchorRadiusStart={anchorRadiusAnnot}
-                anchorAngleEnd={anchorAngleTarget} anchorRadiusEnd={anchorRadiusTarget}
-                color={color} lineWidth={lineWidth} dashed={dashed} showArrow={!hideHead}
-                opacity={opacity} />
-        </g>
-    ));
 
     return (
-        <>
-        {
-            arrowLines
-        }
-        </>
+        targetCoords.filter(t => t !== null).map((targetCoord, i) => (
+            <g key={i}>
+                <ArrowLine xStart={annotCoord.x} yStart={annotCoord.y} xEnd={targetCoord.x} yEnd={targetCoord.y}
+                    margin={margin}
+                    anchorAngleStart={anchorAngleAnnot} anchorRadiusStart={anchorRadiusAnnot}
+                    anchorAngleEnd={anchorAngleTarget} anchorRadiusEnd={anchorRadiusTarget}
+                    color={color} lineWidth={lineWidth} dashed={dashed} showArrow={!hideHead}
+                    opacity={opacity} />
+            </g>
+        ))
     );
 };
