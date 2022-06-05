@@ -24,12 +24,12 @@ const PrintLink = ({ to }: PrintLinkProps) => {
           <a>
               <PdfIcon />
               Download deze les als pdf
+              <style jsx>{`
+                  a {
+                      color: ${COLORS.GRAY}
+                  }
+              `}</style>
           </a>
-          <style jsx>{`
-              a {
-                  color: ${COLORS.GRAY}
-              }
-          `}</style>
       </Link>
   )
 }

@@ -5,24 +5,29 @@
   "version": "0.1.0",
   "author": "Floris De Feyter",
   "dependencies": {
-    "@gsap/shockingly": "latest",
-    "@next/mdx": "latest",
-    "@reduxjs/toolkit": "latest",
     "@fontsource/quicksand": "latest",
+    "@gsap/shockingly": "latest",
+    "@reduxjs/toolkit": "latest",
+    "gray-matter": "^4.0.3",
     "gsap": "npm:@gsap/shockingly@latest",
+    "lodash": "latest",
+    "next": "^12.1.6",
+    "next-mdx-remote": "^4.0.3",
     "react": "latest",
     "react-dom": "latest",
-    "next": "latest",
     "react-redux": "latest",
     "redux": "latest",
-    "lodash": "latest"
+    "rehype-mathjax": "^4.0.2",
+    "remark-math": "^5.1.1"
   },
   "devDependencies": {
+    "file-loader": "^6.2.0",
     "puppeteer": "latest",
     "typescript": "latest"
   },
   "keywords": [
-    "wiskunde", "fysica"
+    "wiskunde",
+    "fysica"
   ],
   "license": "MIT",
   "scripts": {

@@ -1,110 +1,117 @@
 import React from "react";
-import Layout, { LayoutProps } from "components/layout";
-import { CardImage } from "components/sectionCard";
+import Layout from "components/layout";
+import matter from 'gray-matter';
+import fs from 'fs';
+import { join } from 'path';
+import { CourseChapters } from './lessen/[course]';
 
 
-interface AllCoursesData {
-    pageContext: {
-        slug: string;
-        title: string;
-        crumbs: LayoutProps["crumbs"];
+const contentPath = join(process.cwd(), 'content');
+export const lessenPath = join(contentPath, 'lessen');
+export const lessenSlug = '/lessen';
+const REGISTRY = {};
+
+const getPathSlugMdxs = ({path, slug}) => {
+    const slugs = fs.readdirSync(path, { withFileTypes: true })
+        .filter(dirent => dirent.isDirectory())
+        .map(dirent => dirent.name)
+        .map(s => join(slug, s));
+    return slugs.map((slug) => getMdxBySlug(slug));
+};
+
+const getParentCrumbs = (slug) => {
+    const slugItems = slug.split('/').slice(1);
+    return slugItems.slice(0, -1).map((item, i) => {
+        const parentSlug = `/${join(...slugItems.slice(0, i + 1))}`;
+        const parentMdx = getMdxBySlug(parentSlug);
+        return {
+            title: parentMdx.frontmatter.title,
+            slug: parentSlug,
+        };
+    });    
+};
+
+const getMdxBySlug = (slug) => {
+    if (REGISTRY[slug] === undefined) {
+        const path = join(contentPath, slug);
+        const indexPath = join(path, 'index.mdx');
+        const fileContents = fs.readFileSync(indexPath, 'utf8');
+        const { data, content } = matter(fileContents);
+        const nullIfUndef = x => x === undefined ? null : x;
+        delete data.date;
+        REGISTRY[slug] = {
+            frontmatter: data,
+            slug: slug,
+            path: path,
+            indexPath: indexPath,
+            content: content,
+            crumbs: [
+               ...getParentCrumbs(slug),
+               {
+                   title: data.title,
+                   slug: slug,
+               }
+            ],
+        };
+    }
+    return REGISTRY[slug];
+};
+
+export const getCourseBySlug = (slug) => {
+    const course = getMdxBySlug(slug);
+    return addCourseChapters(course);
+};
+
+export const getChapterBySlug = (slug) => {
+    const chapter = getMdxBySlug(slug);
+    return addChapterLessons(chapter);
+};
+
+export const getLessonBySlug = (slug) => {
+    return getMdxBySlug(slug);
+};
+
+const addChapterLessons = chapter => ({
+    lessons: getPathSlugMdxs(chapter),
+    ...chapter
+});
+
+const addCourseChapters = course => ({
+    chapters: getPathSlugMdxs(course).map(addChapterLessons),
+    ...course
+});
+
+export const getContent = () => {
+    const contentMdx = getMdxBySlug(lessenSlug);
+    return {
+        courses: getPathSlugMdxs(contentMdx).map(addCourseChapters),
+        ...contentMdx
     };
-    data: {
-        courses: MdxNodes;
-        chapters: MdxGroup;
-        lessons: MdxGroup;
-        defaultImg: CardImage;
-    }
-}
+};
 
-function getCourseChapters(course: MdxNode, chapters: MdxGroup) {
-    const courseChapterGroups = chapters.group.filter(({ nodes }) =>
-        nodes.every(n => n.fields.course_slug === course.fields.slug)
-    );
-    if (courseChapterGroups.length > 0) {
-        return courseChapterGroups[0];
-    } else {
-        return {nodes: []};
-    }
-}
+const compWght = (o1, o2) => {
+    return o1.frontmatter.weight - o2.frontmatter.weight;
+};
 
-export default function AllCoursesTemplate({ pageContext, data }: AllCoursesData) {
-    const { title, crumbs } = pageContext;
-    const chaptersPerCourse = data.courses.nodes.map(c => getCourseChapters(c, data.chapters));
+export default function AllCourses({content}) {
     return (
-        <Layout crumbs={crumbs}>
-            {data.courses.nodes.map((course, index) => (
-                <>
+        <Layout crumbs={content.crumbs}>
+            {content.courses.sort(compWght).map((course, index) => (
+                <div key={index}>
                     <h1>{course.frontmatter.title}</h1>
-                    <CourseChapters
-                        chapters={chaptersPerCourse[index]}
-                        lessons={data.lessons}
-                        defaultImg={data.defaultImg}
-                    />
-                </>
+                    <CourseChapters course={course} />
+                </div>
             ))}
         </Layout>
     );
-}
+};
 
-export const allCoursesQuery = graphql`
-    query AllCoursesQuery($slug: String!) {
-        courses: allMdx(
-            filter: { fields: { content_type: { eq: "course" }, all_courses_slug: { eq: $slug } } }
-            sort: { fields: frontmatter___weight, order: ASC }
-        ) {
-            nodes {
-                frontmatter {
-                    title
-                }
-                fields {
-                    slug
-                }
-            }
+export async function getStaticProps() {
+    const content = getContent();
+
+    return {
+        props: {
+            content: content,
         }
-        chapters: allMdx(
-            filter: { fields: { content_type: { eq: "chapter" }, all_courses_slug: { eq: $slug } } }
-            sort: { fields: frontmatter___weight, order: ASC }
-        ) {
-            group(field: fields___course_slug) {
-                nodes {
-                    frontmatter {
-                        image {
-                            ...CardImageFragment
-                        }
-                        title
-                        level
-                    }
-                    fields {
-                        slug
-                        course_slug
-                    }
-                }
-            }
-        }
-        lessons: allMdx(
-            filter: { fields: { content_type: { eq: "lesson" }, all_courses_slug: { eq: $slug } } }
-            sort: { fields: frontmatter___weight, order: ASC }
-        ) {
-            group(field: fields___chapter_slug) {
-                nodes {
-                    frontmatter {
-                        title
-                    }
-                    fields {
-                        slug
-                        chapter_slug
-                        course_slug
-                    }
-                }
-            }
-        }
-        defaultImg: file(
-            sourceInstanceName: { eq: "images" }
-            name: { eq: "default_title_img" }
-            extension: { eq: "png" }
-        ) {
-            ...CardImageFragment
-        }
-    }
-`;
+    };
+}

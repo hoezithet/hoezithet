@@ -3,6 +3,7 @@ import COLORS from "../colors.js";
 import Image from 'next/image';
 import Link from 'next/link';
 
+import default_title_img from '../images/default_title_img.png';
 
 interface SectionItemProps {
     title: string;
@@ -12,12 +13,16 @@ interface SectionItemProps {
 }
 
 
-export default function SectionCard({title, cardImage, link, children}: SectionItemProps) {
+export default function SectionCard({title, cardImage=null, link, children}: SectionItemProps) {
+    cardImage = cardImage || default_title_img.src;
+
     return (
         <div className="root">
-            <Link href={link}>
-                <a><Image src={cardImage} alt={title}/></a>
-            </Link>
+            <div style={{width: '100%', height: '100%', position: 'relative'}}>
+                <Link href={link}>
+                    <a><Image src={cardImage} alt={title} layout="fill" objectFit="contain"/></a>
+                </Link>
+            </div>
             <div>
                 { title }
             </div>

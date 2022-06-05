@@ -8,7 +8,7 @@ import _ from "lodash";
 const _ExpandMoreIcon = () => {
     return (
         <span>
-            TO DO
+            {"To Do"}
             <style jsx>{`
                 span {
                     float: right;
@@ -75,7 +75,7 @@ const TitleIcon = ({ children }) => {
                     float: left;
                 }
             `}</style>
-        </span<
+        </span>
     );
 };
 
