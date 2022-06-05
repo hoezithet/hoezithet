@@ -58,7 +58,13 @@ export const ExercisesFeedback = ({ nCorrect, nTotal }: ExercisesFeedbackProps) 
         const offset = Math.floor(Math.random() * Math.floor(20));
         const url = `${process.env.GATSBY_GIPHY_API_URL}?api_key=${process.env.GATSBY_GIPHY_API_KEY}&q=${query}&limit=1&offset=${offset}&rating=g&lang=en`;
         fetch(url)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    return null;
+                } else {
+                    return response.json();
+                }
+            })
             .then(data => {
                 if (!(data && data.data && data.data[0] && data.data[0].images)) {
                     return;
