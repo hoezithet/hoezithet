@@ -4,7 +4,6 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import { CardActionArea } from "gatsby-theme-material-ui";
 import { GatsbyImage, IGatsbyImageData } from "gatsby-plugin-image";
 import COLORS from "../colors.js";
 import { graphql } from "gatsby";
@@ -41,21 +40,19 @@ export default function SectionCard({title, cardImage, link, children}: SectionI
     return (
         <Grid item xs={12} sm={4}>
             <StyledCard>
-                <CardActionArea to={ link }>
-                    <StyledGrid container justify="center">
-                        <Grid item>
-                            { img }
-                        </Grid>
-                    </StyledGrid>
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
+                <StyledGrid container justify="center">
+                    <Grid item>
+                        { img }
+                    </Grid>
+                </StyledGrid>
+                <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
                         { title }
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                            { children }
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="div">
+                        { children }
+                    </Typography>
+                </CardContent>
             </StyledCard>
         </Grid>
     );

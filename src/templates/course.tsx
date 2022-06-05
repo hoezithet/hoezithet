@@ -60,8 +60,8 @@ function ChapterCard({ chapter, chapterLessons, defaultImg}: ChapterCardProps) {
             <ol>
                 { 
                     chapterLessons.map(
-                        l => (
-                            <LessonListItem>
+                        (l, i) => (
+                            <LessonListItem key={i}>
                                 <Link to={l.fields.slug}>
                                     {l.frontmatter.title}
                                 </Link>
@@ -95,17 +95,19 @@ export function CourseChapters({ chapters, lessons, defaultImg }: QueryData) {
     const grades = Array.from(new Set(gradePerChapter));
     return (
         <>
-            {grades.map(grade => {
+            {grades.map((grade, index) => {
                 const gradeChapterNodes = chapters.nodes.filter(c => levelToGradeName(c.frontmatter.level) === grade);
                 const lessonsPerChapter = gradeChapterNodes.map(c => getChapterLessons(c, lessons));
                 return (
-                    <Grid container spacing={2}>
+                    <Grid key={index} container spacing={2}>
                         {gradeChapterNodes.map((c, index) => (
-                        <ChapterCard
-                            chapter={c}
-                            chapterLessons={lessonsPerChapter[index]}
-                            defaultImg={defaultImg}
-                            />
+                            <React.Fragment key={index}>
+                                <ChapterCard
+                                    chapter={c}
+                                    chapterLessons={lessonsPerChapter[index]}
+                                    defaultImg={defaultImg}
+                                />
+                            </React.Fragment>
                             ))}
                     </Grid>
                 );
