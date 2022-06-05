@@ -1,7 +1,5 @@
 import React, { useRef } from "react";
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
-import Checkbox from '@material-ui/core/Checkbox';
+import uniqueId from "lodash/uniqueId";
 
 import { getChildAtIndex } from "../../utils/children";
 import { useAnswerValue } from "./answer";
@@ -24,6 +22,7 @@ const _MultipleAnswer = ({ choices, children, solution, shuffle=true }: Multiple
         if (v.length !== solution.length) { return false };
         return new Set([...v, ...solution]).size === v.length;
     };
+    const [id] = React.useState(() => uniqueId());
 
     const {answerValue, setAnswerValue, showingSolution} = useAnswerValue(evaluateAnswerValue, solutionNodes, explanation);
     
@@ -48,17 +47,17 @@ const _MultipleAnswer = ({ choices, children, solution, shuffle=true }: Multiple
     const idxs = shuffle ? shuffledIdxsRef.current : choiceIdxs;
 
     return (
-        <FormGroup>
+        <form>
             {
-                idxs.map(index => (
-                    <FormControlLabel
-                        key={index}
-                        control={<Checkbox value={index} checked={answerValue !== null ? answerValue.includes(index) : false} onChange={handleChange} />}
-                        label={choices[index]}
-                        disabled={showingSolution} />
-                ))
+                idxs.map(index => {
+                    const inputId = `${id}_${index}`;
+                    <>
+                        <input type="checkbox" id={inputId} disabled={showingSolution} checked={answerValue !== null ? answerValue.includes(index) : false} onClick={handleChange}/>
+                        <label for={inputId}>{choices[index]}</label>
+                    </>
+                 })
             }
-        </FormGroup>
+        </form>
     );
 };
 

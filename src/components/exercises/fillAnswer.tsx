@@ -1,5 +1,6 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
+
+import uniqueId from "lodash/uniqueId";
 
 import { getChildAtIndex } from "../../utils/children";
 import { useAnswerValue } from "./answer";
@@ -24,9 +25,12 @@ const _FillString = ({ children, solution }: FillStringAnswerProps) => {
         }
     }
 
+    const [formId] = React.useState(() => uniqueId());
+
     return (
-        <TextField disabled={showingSolution} variant="filled" onChange={handleChange}
-            placeholder={showingSolution && answerValue !== null ? answerValue : "Vul in"} value={answerValue !== null ? answerValue : "" } />
+        <form>
+            <input type="text" id={formId} onClick={handleChange} placeholder={showingSolution && answerValue !== null ? answerValue : "Vul in"} value={answerValue !== null ? answerValue : "" } />
+        </form>
     );
 };
 
