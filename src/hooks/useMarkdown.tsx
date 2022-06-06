@@ -16,14 +16,8 @@ const useMarkdown = (mathProcessor: string) => {
     const [markdownSource, setMarkdownSource] = React.useState<string | null>(null);
 
     React.useEffect(() => {
-        let processor = unified().use(remark);
-
-        if (typeof markdownSource === "string" && (
-              markdownSource.toLowerCase().startsWith("\n") ||
-              markdownSource.toLowerCase().startsWith("\r") ||
-              markdownSource.toLowerCase().startsWith("<p>"))) {
-            processor = processor.use(dropParagraph);
-        }
+        let processor = unified().use(remark)
+            .use(dropParagraph);
 
         processor = processor
              .use(math)
