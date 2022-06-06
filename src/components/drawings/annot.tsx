@@ -102,13 +102,11 @@ export const Annot = ({
         fontSize: fontSize,
     };
 
-    const noteContents = <Markdown>{ children }</Markdown>;
-
     return (
         <foreignObject x={x} y={y} width={`${width}`} height={`${height}`}>
             <div xmlns="http://www.w3.org/1999/xhtml" style={divParentStyle}>
                 <div className={`${classes.divNoteChild} ${className}`} style={divChildStyle}>
-                    { noteContents }
+                    <Markdown>{ children }</Markdown>
                 </div>
             </div>
         </foreignObject>
