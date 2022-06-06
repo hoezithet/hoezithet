@@ -1,11 +1,13 @@
 import React from "react";
 
-import styled from "styled-components";
-import COLORS, {getColor} from "colors";
-import _ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { gsap } from 'gsap';
-import BareLessonContext from "contexts/bareLessonContext";
+import styled from "styled-components";
+import _ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import _ from "lodash";
+
+import COLORS, {getColor} from "colors";
+import BareLessonContext from "contexts/bareLessonContext";
+import useExpandable from "hooks/useExpandable";
 
 
 const Frame = styled.div`
@@ -166,47 +168,19 @@ const useBareCallout = (title, body) => {
     return [insideBare, expId, appendixId, appendixIdx];
 };
 
-const useExpandableBody = (defaultExpanded) => {
-    const [isExpanded, setIsExpanded] = React.useState(defaultExpanded);
-    const bodyRef = React.useRef(null);
-    const iconRef = React.useRef(null);
-    const wrapperRef = React.useRef(null);
-    const [tl] = React.useState(() => gsap.timeline());
-
-    const getBodySize = () => bodyRef.current ? bodyRef.current.clientHeight : 0;
-
-    const handleClick = () => {
-        setIsExpanded(prev => !prev);
-    };
-
-    React.useEffect(() => {
-        if (!defaultExpanded) {
-            gsap.set(wrapperRef.current, {
-                height: 0,
-            });
-        }
-    }, []);
-
-    React.useEffect(() => {
-        const bodySize = getBodySize();
-
-        tl.to(wrapperRef.current, {
-            height: isExpanded ? `${bodySize}px` : 0,
-        }).to(iconRef.current, {
-            rotation: isExpanded ? 0 : -90,
-            duration: 0.1,
-        }, "<");
-    }, [isExpanded]);
-    
-    return [bodyRef, iconRef, wrapperRef, handleClick];
-};
-
 const Callout = (props) => {
     const [icon, title, body, expanded] = splitIconTitleBodyExpanded(props);
     const useExpand = expanded !== null;
     const iconType = ICONS[icon];
     const color = ICON_COLORS[iconType] || "gray";
-    const [bodyRef, iconRef, wrapperRef, handleClick] = useExpandableBody(expanded);
+    const iconRef = React.useRef(null);
+    const onExpandStart = (isExpanded) => {
+        gsap.to(iconRef.current, {
+            rotation: isExpanded ? 0 : -90,
+            duration: 0.1,
+        }, "<")
+    };
+    const [bodyRef, wrapperRef, isExpanded, setIsExpanded] = useExpandable(expanded, onExpandStart);
     const [insideBare, expId, appendixId, appendixIdx] = useBareCallout(title, body);
 
     return (
@@ -217,7 +191,7 @@ const Callout = (props) => {
 	    :
         <Frame color={color}>
             { (title !== null || icon !== null)
-              ? <TitleBox color={color} useExpand={useExpand} onClick={useExpand ? handleClick : () => {}}>
+              ? <TitleBox color={color} useExpand={useExpand} onClick={useExpand ? () => setIsExpanded(prev => !prev) : () => {}}>
                     <TitleIcon>{ icon }</TitleIcon>
                     <TitleText hasIcon={icon !== null}>
                         { title }

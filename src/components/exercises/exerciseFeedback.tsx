@@ -4,6 +4,7 @@ import { gsap } from "gsap";
 
 import { theme } from "../theme";
 import { getRandomArrElement } from "../../utils/array";
+import useExpandable from "hooks/useExpandable";
 
 interface ExercisesFeedbackProps {
     nCorrect: number;
@@ -17,19 +18,7 @@ const ExercisesFeedbackImg = styled.img`
 export const ExercisesFeedback = ({ nCorrect, nTotal }: ExercisesFeedbackProps) => {
     const [gifSrc, setGifSrc] = useState<string>("");
     const [gifHeight, setGifHeight] = useState<number>(0);
-    const imgRefNode = useRef(null);
-    const imgRefCallback = useCallback((node) => {
-        if (node) {
-            imgRefNode.current = node;
-            gsap.set(node,
-                {
-                    width: "200px", // Giphy GIFs with fixed_width will have width of 200px
-                    height: "200px", // Set same as width, will be animated to correct value
-                    opacity: 0
-                }
-            );
-        }
-    }, []);
+    const [bodyRef, wrapperRef, isExpanded, setIsExpanded] = useExpandable();
 
     const [query, message] = useMemo(() => {
         let query, message;
@@ -72,31 +61,21 @@ export const ExercisesFeedback = ({ nCorrect, nTotal }: ExercisesFeedbackProps) 
                 const { fixed_width } = data.data[0].images;
                 if (isMounted) {
                     setGifSrc(fixed_width.url);
-                    setGifHeight(fixed_width.height);
                 }
             });
         return () => { isMounted = false };
     }, []);
-
-    const handleGifLoad = () => {
-        if (!imgRefNode.current) {
-            return;
-        }
-        gsap.to(imgRefNode.current,
-            {
-                height: `${gifHeight}px`,
-                opacity: 1,
-                duration: 0.5,
-                ease: "power2.inOut"
-            });
-    };
 
     return (
         <>
             <p>Je behaalde:</p>
             <h3>{`${nCorrect}/${nTotal}`}</h3>
             <p>{message}</p>
-            <ExercisesFeedbackImg ref={imgRefCallback} src={gifSrc} onLoad={handleGifLoad} />
+            <div ref={wrapperRef} style={{overflow: "hidden"}}>
+                <div ref={bodyRef}>
+                    <ExercisesFeedbackImg src={gifSrc} onLoad={() => setIsExpanded(true)} />
+                </div>
+            </div>
         </>
     );
 };

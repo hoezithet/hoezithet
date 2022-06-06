@@ -7,6 +7,7 @@ import { gsap } from "gsap";
 import { getRandomArrElement } from "../../utils/array";
 import { theme } from "../theme";
 import { ReadableAnswerSolution } from "./answerSolution";
+import useExpandable from "hooks/useExpandable";
 
 
 const FeedbackPaper = styled(Paper)`
@@ -88,33 +89,13 @@ type AnsFeedbackProps = {
 };
 
 export const AnswerFeedback = ({ solution, explanation, correct }: AnsFeedbackProps) => {
-    const [showExplanation, setShowExplanation] = useState(false);
-    const nodeHeight = useRef(0);
-    const nodeRef = useRef(null);
-    const explnRef = useCallback(node => {
-        if (node !== null) {
-            nodeRef.current = node;
-            nodeHeight.current = node.clientHeight;
-            gsap.set(node, {
-                height: 0,
-                opacity: 0,
-            });
-        }
-    }, []);
+    const [bodyRef, wrapperRef, isExpanded, setIsExpanded] = useExpandable(false, (isExpanded) => {
+        isExpanded ? setButtonText(HIDE_TEXT) : setButtonText(SHOW_TEXT);
+    });
+    const [SHOW_TEXT, HIDE_TEXT] = ["Toon uitleg", "Verberg uitleg"];
+    const [buttonText, setButtonText] = React.useState(SHOW_TEXT);
 
-    useEffect(() => {
-        const explnNode = nodeRef.current;
-        if (explnNode === null) {
-            return;
-        }
-        gsap.to(explnNode, {
-            height: showExplanation ? `${nodeHeight.current}px` : 0,
-            opacity: showExplanation ? 1 : 0,
-            duration: 0.5,
-            ease: "power2.inOut"
-        });
-    }, [showExplanation]);
-
+    
     return (
         <FeedbackPaper elevation={0} variant="outlined">
             <b>
@@ -127,13 +108,13 @@ export const AnswerFeedback = ({ solution, explanation, correct }: AnsFeedbackPr
             {
                 explanation ?
                 <>
-                    <div ref={explnRef}>
-                        { explanation }
+                    <div ref={wrapperRef} style={{overflow: "scroll"}}>
+                        <div ref={bodyRef}>
+                            { explanation }
+                        </div>
                     </div>
-                    <Button onClick={() => setShowExplanation(prev => !prev)}>
-                        { showExplanation ?
-                          "Verberg uitleg"
-                          : "Toon uitleg" }
+                    <Button onClick={() => setIsExpanded(prev => !prev)}>
+                        { buttonText }
                     </Button>
                 </>
                 :
