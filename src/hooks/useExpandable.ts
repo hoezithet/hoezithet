@@ -11,7 +11,7 @@ const useExpandable = (defaultExpanded=false, onStart=(isExpanded) => {}) => {
     const getBodySize = () => bodyRef.current ? bodyRef.current.offsetHeight : 0;
 
     React.useEffect(() => {
-        if (!defaultExpanded) {
+        if (!defaultExpanded && wrapperRef.current !== null) {
             gsap.set(wrapperRef.current, {
                 height: 0,
             });
@@ -21,10 +21,12 @@ const useExpandable = (defaultExpanded=false, onStart=(isExpanded) => {}) => {
     React.useEffect(() => {
         const bodySize = getBodySize();
 
-        tl.to(wrapperRef.current, {
-            height: isExpanded ? `${bodySize}px` : 0,
-            onStart: () => onStart(isExpanded),
-        });
+        if (wrapperRef.current !== null) {
+            tl.to(wrapperRef.current, {
+                height: isExpanded ? `${bodySize}px` : 0,
+                onStart: () => onStart(isExpanded),
+            });
+        }
     }, [isExpanded]);
     
     return [bodyRef, wrapperRef, isExpanded, setIsExpanded];
