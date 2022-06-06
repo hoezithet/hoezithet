@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import groupBy from 'lodash/groupBy';
 import sortBy from 'lodash/sortBy';
 import filter from 'lodash/filter';
-import md2react from '../../utils/md2react'
+import Markdown from 'components/markdown'
 import COLORS from '../../colors';
 import { gsap } from 'gsap';
 import { makeStyles } from '@material-ui/core/styles';
@@ -342,7 +342,7 @@ export const AnimTex = ({ children }: AnimTexPropsType) => {
 
     return (
         <div ref={nodeRefCallback} className={classes.root} >
-            { md2react(children, 'mathjax') }
+            <Markdown>{ children }</Markdown>
             <Button onClick={handleClick} color="primary" variant="contained" disabled={rootNode === null || isAnimating} >Animate</Button>
         </div>
     );
@@ -432,15 +432,15 @@ export const ExplanationStep = ({ children=null, beforeLhs, beforeRhs, afterLhs,
     
     return (
         <div ref={nodeRefCallback} className={classes.root} >
-            { md2react(`${explanation.endsWith(':') ? explanation.slice(-1) : explanation}:`) }
+            <Markdown>{ `${explanation.endsWith(':') ? explanation.slice(-1) : explanation}:` }</Markdown>
             <div className="eqnBefore">
-                { md2react(`$$\n${beforeLhs} = ${beforeRhs}\n$$`, 'mathjax') }
+                <Markdown>{`$$\n${beforeLhs} = ${beforeRhs}\n$$`}</Markdown>
             </div>
             <div className="eqnArrow">
-                { md2react(`$$\n${arrowTeX}\n$$`, 'mathjax') }
+                <Markdown>{`$$\n${arrowTeX}\n$$`}</Markdown>
             </div>
             <div className="eqnAfter">
-                { md2react(`$$\n${afterLhs} = ${afterRhs}\n$$`, 'mathjax') }
+                <Markdown>{`$$\n${afterLhs} = ${afterRhs}\n$$`}</Markdown>
             </div>
             <Button onClick={handleClick} color="primary" variant="contained" disabled={rootNode === null || isAnimating} >Animate</Button>
         </div>

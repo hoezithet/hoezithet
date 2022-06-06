@@ -1,4 +1,5 @@
-import md2react from "../utils/md2react";
+import React from "react";
+import useMarkdown from "hooks/useMarkdown";
 
 
 type MarkdownPropTypes = {
@@ -7,7 +8,13 @@ type MarkdownPropTypes = {
 }
 
 const Markdown = ({children, mathProcessor = 'mathjax'}: MarkdownPropTypes) => {
-    return md2react(children, mathProcessor);
+    const [reactContent, setMarkdownSource] = useMarkdown(mathProcessor);
+
+    React.useEffect(() => {
+        setMarkdownSource(children);
+    }, [children, setMarkdownSource]);
+  
+    return reactContent;
 };
 
 export default Markdown;

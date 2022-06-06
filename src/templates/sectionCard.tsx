@@ -5,6 +5,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { GatsbyImage, IGatsbyImageData } from "gatsby-plugin-image";
+import { Link } from "gatsby-theme-material-ui";
+
 import COLORS from "../colors.js";
 import { graphql } from "gatsby";
 
@@ -47,7 +49,7 @@ export default function SectionCard({title, cardImage, link, children}: SectionI
                 </StyledGrid>
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
-                        { title }
+                        <Link to={link} style={{color: "black"}}>{ title }</Link>
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="div">
                         { children }
