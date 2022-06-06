@@ -39,7 +39,17 @@ $$
 1{,}84~\si{m} = 1{,}84\cdot 1~\si{m}
 $$
 
-Als we **die $1~\si{m}$ vervangen door iets wat eraan gelijk is**, dan is die nieuwe vermenigvuldiging gelijk aan de oude en hebben we nog steeds **dezelfde lengte**. We weten bijvoorbeeld dat $100$ keer $1~\si{cm}$ hetzelfde is als $1~\si{m}$:
+Als we **die $1~\si{m}$ vervangen door iets wat eraan gelijk is**, dan is die nieuwe vermenigvuldiging gelijk aan de oude en hebben we nog steeds **dezelfde lengte**.
+
+> We gaan dit idee nu gebruiken om $1{,}84~\si{m}$ om te zetten naar $\si{cm}$. Je weet waarschijnlijk meteen al dat dit $184~\si{cm}$ is, maar probeer dit redelijk eenvoudige voorbeeld toch even mee te volgen. Zo zal je de moeilijkere voorbeelden later in de les beter kunnen begrijpen.
+
+We weten dus al dat
+
+$$
+1{,}84~\si{m} = 1{,}84\cdot 1~\si{m}
+$$ 
+
+We weten ook dat $100$ keer $1~\si{cm}$ hetzelfde is als $1~\si{m}$:
 
 $$
 1~\si{m} = 100 \cdot 1~\si{cm}
@@ -417,7 +427,7 @@ $$
 1050~\si{m}^3 = \ldots \si{hl}
 $$
 
-Het lastige is echter dat we van iets met *kubieke meter* naar iets met *liter* willen gaan. Als we bv. van $\si{cl}$ naar $\si{hl}$ moesten, dan moesten we enkel het voorvoegsel veranderen en konden we [ons trucje met de voorvoegsels](#eenheden-met-voorvoegsels-omzetten) toepassen. Nu verandert **alles** precies... 🥴
+Het lastige is echter dat we van iets met *kubieke meter* naar iets met *liter* willen gaan. Als we bv. van $\si{cl}$ naar $\si{hl}$ moesten, dan moesten we enkel het voorvoegsel veranderen en konden we [ons trucje met de voorvoegsels](#eenheden-met-voorvoegsels-omzetten) toepassen. Of als we van $\si{m}^3$ naar $\si{hm}^3$ moesten, dan konden we [het trucje met de exponenten](#eenheden-met-exponenten-omzetten) toepassen. Nu zitten we met meter en liter door elkaar... 🥴
 
 Om de omzetting te kunnen doen, moeten we eerst **een link hebben tussen kubieke meter en liter**. Daarom is het belangrijk te onthouden dat:
 
@@ -653,23 +663,9 @@ import KgPerM3NaarGPerCm3 from './exercises/kgPerM3NaarGPerCm3';
 
 > Eenheden omzetten in het algemeen
 > 
-> Stel dat we een bepaalde eenheid $\si{A}$ willen omzetten naar een andere eenheid $\si{B}$. Dat doen we door uit te zoeken **aan hoeveel $1~\si{A}$ gelijk is in de eenheid $\si{B}$**:
+> We kunnen een eenheid naar een andere eenheid omzetten door te zoeken **waar $1$ van de ene eenheid gelijk aan is in de eenheid waar we naar omzetten**.
 > 
-> $$
-> 1~\si{A} = \ldots~\si{B}
-> $$
-> 
-> Als je dan bijvoorbeeld $5{,}2~\si{A}$ wilt omzetten naar $\si{B}$, dan gaat dit als volgt:
-> 
-> $$
-> \begin{aligned}
-> 5{,}2~\orange{\si{A}} &= 5{,}2\cdot\orange{\ldots~\si{B}}\\
-> \end{aligned}
-> $$
-> 
-> Op de puntjes in de laatste lijn vul je dan hetzelfde in als wat er op de puntjes moest staan bij $1~\si{A} = \ldots~\si{B}$. Vervolgens reken je de vermenigvuldiging verder uit.
-> 
-> <Mute>{String.raw`(Merk op dat we deze methode niet kunnen gebruiken als $0~\si{A} \ne 0~\si{B}$, zoals bij $0~\deg\si{C}\ne 0~\deg\si{F}$)`}</Mute>
+> <Mute>{String.raw`(Merk op dat we deze methode niet kunnen gebruiken bij een omzetting van $\deg\si{C}$ naad $\deg\si{F}$ omdat $0~\deg\si{C}\ne 0~\deg\si{F}$)`}</Mute>
 
 > Eenheden met voorvoegsels omzetten
 > 
