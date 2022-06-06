@@ -175,10 +175,12 @@ const Callout = (props) => {
     const color = ICON_COLORS[iconType] || "gray";
     const iconRef = React.useRef(null);
     const onExpandStart = (isExpanded) => {
-        gsap.to(iconRef.current, {
-            rotation: isExpanded ? 0 : -90,
-            duration: 0.1,
-        }, "<")
+        if (iconRef.current !== null) {
+            gsap.to(iconRef.current, {
+                rotation: isExpanded ? 0 : -90,
+                duration: 0.1,
+            }, "<")
+        }
     };
     const [bodyRef, wrapperRef, isExpanded, setIsExpanded] = useExpandable(expanded, onExpandStart);
     const [insideBare, expId, appendixId, appendixIdx] = useBareCallout(title, body);
