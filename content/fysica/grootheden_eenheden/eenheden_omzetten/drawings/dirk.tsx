@@ -68,7 +68,11 @@ const get1DStretchSizePosAngle = (
 
 
 const _DirkTrui = ({ isFront=false }) => {
-    const [patternId] = React.useState(_uniqueId("dirk_pattern_"));
+    const [patternId, setPatternId] = React.useState<string|null>(null);
+
+    React.useEffect(() => {
+        setPatternId(_uniqueId("dirk_pattern_"));
+    }, []);
 
     return (
         <>
@@ -85,11 +89,11 @@ const _DirkTrui = ({ isFront=false }) => {
             </pattern>
           </defs>
           { isFront ?
-            <path fill={`url(#${patternId})`} fillOpacity="1"
+            <path fill={patternId ? `url(#${patternId})` : null} fillOpacity="1"
               transform="translate(63.3,78) rotate(0) scale(-0.22,0.24)"
               d="m 0,0 c -18.9822,-43.1317 -0.09,-80.3893 -0.1356,-116.5839 6.2982,-13.0449 12.6622,-21.1976 7.6213,-42.8449 25.9282,-7.0777 57.9779,-5.9432 83.0308,0 -0.7689,12.9479 -0.2794,27.0303 7.6706,42.4524 0.1119,36.0016 20.4714,77.2176 -0.1878,116.9764 -33.7271,9.9757 -63.5651,8.6738 -97.9993,0 z"/>
             :
-            <path fill={`url(#${patternId})`} fillOpacity="1"
+            <path fill={patternId ? `url(#${patternId})` : null} fillOpacity="1"
               transform="translate(58.9,72.2) rotate(5) scale(-0.20,0.20)"
               d="m 0,0 c -8.1837,-9.1 -23.3311,-30.3332 -12.9133,-64.3306 15.0395,-49.07961 18.3508,-67.80085 20.8985,-77.89896 4.2916,-17.01078 34.1766,-29.64427 54.0249,-16.0162 34.8602,24.23418 32.2555,110.64066 18.4074,161.46876 -55.4933,14.0721 -68.6676,9.8429 -80.4178,-3.223 z"/>
           }
