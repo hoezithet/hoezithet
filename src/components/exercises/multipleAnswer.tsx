@@ -3,15 +3,17 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import { getChildAtIndex } from "../../utils/children";
+import Markdown from "components/markdown";
+import { shuffle as shuffleArray } from 'utils/array';
+import { getChildAtIndex } from "utils/children";
+
 import { useAnswerValue } from "./answer";
 import { withFeedback } from "./withFeedback";
-import { shuffle as shuffleArray } from '../../utils/array';
 
 
 type MultipleAnswerProps = {
     children: React.ReactNode,
-    choices: React.ReactNode[],
+    choices: string[],
     solution: number[],
     shuffle?: boolean,
 };
@@ -26,7 +28,7 @@ const _MultipleAnswer = ({ choices, children, solution, shuffle=true }: Multiple
     };
 
     const {answerValue, setAnswerValue, showingSolution} = useAnswerValue(evaluateAnswerValue, solutionNodes, explanation);
-    
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const val = Number(e.target.value);
         if (answerValue === null) {
@@ -42,7 +44,7 @@ const _MultipleAnswer = ({ choices, children, solution, shuffle=true }: Multiple
             }
         }
     }
-    
+
     const choiceIdxs = [...Array(choices?.length || 0).keys()];
     const shuffledIdxsRef = useRef(shuffleArray(choiceIdxs));
     const idxs = shuffle ? shuffledIdxsRef.current : choiceIdxs;
@@ -54,7 +56,7 @@ const _MultipleAnswer = ({ choices, children, solution, shuffle=true }: Multiple
                     <FormControlLabel
                         key={index}
                         control={<Checkbox value={index} checked={answerValue !== null ? answerValue.includes(index) : false} onChange={handleChange} />}
-                        label={choices[index]}
+                        label={<Markdown>{choices[index]}</Markdown>}
                         disabled={showingSolution} />
                 ))
             }

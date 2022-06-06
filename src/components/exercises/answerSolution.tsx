@@ -1,6 +1,7 @@
 import React from "react";
 import styled from 'styled-components';
 
+import Markdown from "components/markdown";
 
 type QuotedProps = {
     children: React.ReactNode,
@@ -18,9 +19,7 @@ const Quoted = ({ children }: QuotedProps) => {
     return (
         <span>
             {'"'}
-            <QuoteChild>
-                {children}
-            </QuoteChild>
+            <Markdown>{children}</Markdown>
             {'"'}
         </span>
     );

@@ -3,8 +3,10 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-import { getChildAtIndex } from "../../utils/children";
-import { shuffle as shuffleArray } from '../../utils/array';
+import { getChildAtIndex } from "utils/children";
+import { shuffle as shuffleArray } from 'utils/array';
+import Markdown from "components/markdown";
+
 import { useAnswerValue } from "./answer";
 import { withFeedback } from "./withFeedback";
 
@@ -40,7 +42,7 @@ const _MultipleChoice = ({ children, choices, solution, shuffle=true}: MultipleC
         <RadioGroup value={answerValue} onChange={handleChange}>
             {
                 choiceIdxs.map((index) => (
-                    <FormControlLabel key={index} value={index} control={<Radio />} label={choices[index]} disabled={showingSolution} />
+                    <FormControlLabel key={index} value={index} control={<Radio />} label={<Markdown>{choices[index]}</Markdown>} disabled={showingSolution} />
                 ))
             }
         </RadioGroup>

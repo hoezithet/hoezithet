@@ -3,7 +3,6 @@ import React from "react";
 import { Exercise } from "components/exercises/exercise";
 import { ExerciseStepper } from "components/exercises/exerciseStepper";
 import { MultipleChoice } from "components/exercises/multipleChoice";
-import { Explanation } from "components/exercises/explanation";
 import Md from "components/markdown";
 
 const ex1 = String.raw`Vul aan: $1~\si{m}$ is gelijk aan`;
@@ -43,18 +42,14 @@ const MeterNaarDecimeter = () => {
         <ExerciseStepper>
             <Exercise>
                 <Md>{ ex1 }</Md>
-                <MultipleChoice choices={ex1Choices.map(c => <Md>{c}</Md>)} solution={0}>
-                <Explanation>
-                    <Md>{ ex1Expl }</Md>
-                </Explanation>
+                <MultipleChoice choices={ex1Choices} solution={0}>
+                    { ex1Expl }
                 </MultipleChoice>
             </Exercise>
             <Exercise>
                 <Md>{ ex2 }</Md>
-                <MultipleChoice choices={ex2Choices.map(c => <Md>{c}</Md>)} solution={0}>
-                <Explanation>
-                    <Md>{ ex2Expl }</Md>
-                </Explanation>
+                <MultipleChoice choices={ex2Choices} solution={0}>
+                    { ex2Expl }
                 </MultipleChoice>
             </Exercise>
         </ExerciseStepper>

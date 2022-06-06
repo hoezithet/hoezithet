@@ -14,8 +14,8 @@ export type AnswerType<T> = {
     value: T|null,
     correct: boolean,
     answered: boolean,
-    explanation?: React.ReactNode,
-    solution: React.ReactNode,
+    explanation?: string,
+    solution: string,
     showingSolution: boolean,
 };
 
@@ -53,8 +53,8 @@ export const makeSelectAnswerFromId = () => {
 
 export function useAnswerValue<T> (
     evaluateAnswerValue: (v: T|null) => boolean,
-    solution: React.ReactNode|React.ReactNode[],
-    explanation: React.ReactNode,
+    solution: string|string[],
+    explanation: string,
 ): {answerValue: T|null, setAnswerValue: (newValue: T|null) => void, showingSolution: boolean} {
     const id = useRef(nanoid());
     const selectAnswerFromId = useMemo(makeSelectAnswerFromId, []);

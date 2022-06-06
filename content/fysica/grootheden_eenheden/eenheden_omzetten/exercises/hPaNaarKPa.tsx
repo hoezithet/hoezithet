@@ -3,7 +3,6 @@ import React from "react";
 import { Exercise } from "components/exercises/exercise";
 import { ExerciseStepper } from "components/exercises/exerciseStepper";
 import { MultipleChoice } from "components/exercises/multipleChoice";
-import { Explanation } from "components/exercises/explanation";
 import Md from "components/markdown";
 
 const ex1 = String.raw`Welke macht van $10$ komt overeen met $\si{h}$ (*hecto-*)?`;
@@ -82,26 +81,20 @@ const HPaNaarKPa = () => {
         <ExerciseStepper>
             <Exercise>
                 <Md>{ ex1 }</Md>
-                <MultipleChoice choices={ex1Choices.map(c => <Md>{c}</Md>)} solution={0}>
-                <Explanation>
-                    <Md>{ ex1Expl }</Md>
-                </Explanation>
+                <MultipleChoice choices={ex1Choices} solution={0}>
+                    { ex1Expl }
                 </MultipleChoice>
             </Exercise>
             <Exercise>
                 <Md>{ ex2 }</Md>
-                <MultipleChoice choices={ex2Choices.map(c => <Md>{c}</Md>)} solution={0}>
-                <Explanation>
-                    <Md>{ ex2Expl }</Md>
-                </Explanation>
+                <MultipleChoice choices={ex2Choices} solution={0}>
+                    { ex2Expl }
                 </MultipleChoice>
             </Exercise>
             <Exercise>
                 <Md>{ ex3 }</Md>
-                <MultipleChoice choices={ex3Choices.map(c => <Md>{c}</Md>)} solution={0}>
-                <Explanation>
-                    <Md>{ ex3Expl }</Md>
-                </Explanation>
+                <MultipleChoice choices={ex3Choices} solution={0}>
+                    { ex3Expl }
                 </MultipleChoice>
             </Exercise>
         </ExerciseStepper>

@@ -4,10 +4,12 @@ import Paper from '@material-ui/core/Paper';
 import styled from "styled-components";
 import { gsap } from "gsap";
 
-import { getRandomArrElement } from "../../utils/array";
-import { theme } from "../theme";
-import { ReadableAnswerSolution } from "./answerSolution";
+import { getRandomArrElement } from "utils/array";
+import Markdown from "components/markdown";
+import { theme } from "components/theme";
 import useExpandable from "hooks/useExpandable";
+
+import { ReadableAnswerSolution } from "./answerSolution";
 
 
 const FeedbackPaper = styled(Paper)`
@@ -110,7 +112,7 @@ export const AnswerFeedback = ({ solution, explanation, correct }: AnsFeedbackPr
                 <>
                     <div ref={wrapperRef} style={{overflow: "scroll"}}>
                         <div ref={bodyRef}>
-                            { explanation }
+                            <Markdown>{ explanation }</Markdown>
                         </div>
                     </div>
                     <Button onClick={() => setIsExpanded(prev => !prev)}>
