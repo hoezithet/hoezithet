@@ -336,7 +336,7 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
                         <Button variant="contained"
                             color="primary"
                             onClick={handleNext}>
-                            { "Toon feedback" }
+                            { "Toon oplossing" }
                         </Button>
                     </Grid>
                 </NextPrevBtnGrid>
