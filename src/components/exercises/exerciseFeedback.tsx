@@ -20,7 +20,10 @@ export const ExercisesFeedback = ({ nCorrect, nTotal }: ExercisesFeedbackProps) 
     const [gifHeight, setGifHeight] = useState<number>(0);
     const [bodyRef, wrapperRef, isExpanded, setIsExpanded] = useExpandable();
 
-    const [query, message] = useMemo(() => {
+    const [query, setQuery] = useState<string|null>(null);
+    const [message, setMessage] = useState<string|null>(null);
+
+    React.useEffect(() => {
         let query, message;
         const pct = nCorrect / nTotal;
         if (pct === 1.0) {
@@ -39,7 +42,9 @@ export const ExercisesFeedback = ({ nCorrect, nTotal }: ExercisesFeedbackProps) 
             query = getRandomArrElement(["darn"]);
             message = getRandomArrElement(["Helaas toch enkele foutjes...", "Jammer!", "Volgende keer beter!"]);
         }
-        return [query, message];
+
+        setQuery(query);
+        setMessage(message);
     }, []);
 
     useEffect(() => {
@@ -64,7 +69,7 @@ export const ExercisesFeedback = ({ nCorrect, nTotal }: ExercisesFeedbackProps) 
                 }
             });
         return () => { isMounted = false };
-    }, []);
+    }, [query]);
 
     return (
         <>
