@@ -61,7 +61,7 @@ const BodyText = styled.div`
 `;
 
 const CalloutBodyWrapper = styled.div`
-    overflow: hidden;
+    overflow: scroll;
 `;
 
 const ICONS = {
