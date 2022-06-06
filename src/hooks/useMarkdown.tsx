@@ -13,14 +13,15 @@ import {select, selectAll} from 'unist-util-select';
 
 const useMarkdown = (mathProcessor: string) => {
     const [reactContent, setReactContent] = React.useState<React.ReactElement | null>(null);
+    const [markdownSource, setMarkdownSource] = React.useState<string | null>(null);
 
-    const setMarkdownSource = React.useCallback((source: string) => {
+    React.useEffect(() => {
         let processor = unified().use(remark);
 
-        if (typeof source === "string" && (
-              source.toLowerCase().startsWith("\n") ||
-              source.toLowerCase().startsWith("\r") ||
-              source.toLowerCase().startsWith("<p>"))) {
+        if (typeof markdownSource === "string" && (
+              markdownSource.toLowerCase().startsWith("\n") ||
+              markdownSource.toLowerCase().startsWith("\r") ||
+              markdownSource.toLowerCase().startsWith("<p>"))) {
             processor = processor.use(dropParagraph);
         }
 
@@ -34,17 +35,18 @@ const useMarkdown = (mathProcessor: string) => {
             processor = processor.use(rehypeMathjaxSvg, mathjaxOptions);
         }
 
+        let isMounted = true;
+
         processor = processor.use(rehype2react, { createElement: React.createElement, Fragment: React.Fragment });
-        let isSubscribed = true;
-        processor.process(source)
+        processor.process(markdownSource)
           .then((vfile) => {
-              if (isSubscribed) {
+              if (isMounted) {
                   setReactContent(vfile.result as React.ReactElement);
               }
           });
 
-        return () => { isSubscribed = false };
-    }, []);
+        return () => { isMounted = false };
+    }, [markdownSource]);
 
     return [reactContent, setMarkdownSource];
 };
