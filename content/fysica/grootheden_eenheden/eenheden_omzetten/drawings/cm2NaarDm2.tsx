@@ -7,16 +7,18 @@ import _uniqueId from "lodash/uniqueId";
 
 
 const Cm2NaarDm2Child = () => {
-    const [tellerId] = React.useState(_uniqueId("teller_dm2")) ;
-    const [noemerId] = React.useState(_uniqueId("noemer_cm2"));
-    const [expId] = React.useState(_uniqueId("exp_cm2dm2"));
+    const [tellerId, setTellerId] = React.useState(null);
+    const [noemerId, setNoemerId] = React.useState(null);
+    const [annotTellerId, setAnnotTellerId] = React.useState(null);
+    const [annotNoemerId, setAnnotNoemerId] = React.useState(null);
     const {xScale, yScale} = React.useContext(DrawingContext);
-    
+ 
+
     const annotTeller = String.raw`
-We komen van *centi-* met een exponent $\orange{2},$ dus in de **teller** komt $\htmlId{teller_annot_cm2}{\orange{\left(10^{-2}\right)^{\! 2}}}$`;
+We komen van *centi-* met een exponent $\orange{2},$ dus in de **teller** komt $\htmlId{${annotTellerId}}{\orange{\left(10^{-2}\right)^{\! 2}}}$`;
 
     const annotNoemer = String.raw`
-We gaan naar *deci-* met een exponent $\blue{2},$ dus in de **noemer** komt $\htmlId{noemer_annot_dm2}{\blue{\left(10^{-1}\right)^{\! 2}}}$
+We gaan naar *deci-* met een exponent $\blue{2},$ dus in de **noemer** komt $\htmlId{${annotNoemerId}}{\blue{\left(10^{-1}\right)^{\! 2}}}$
 `;
 
     const breuk = String.raw`
@@ -25,17 +27,49 @@ $$
 $$
 `;
 
+    const annotTellerReadyRef = React.useRef(false);
+    const annotNoemerReadyRef = React.useRef(false);
+    const breukReadyRef = React.useRef(false);
+    const [isArrowDrawn, setIsArrowDrawn] = React.useState(false);
+
+    const buildOnComplete = (ref) => () => {
+        ref.current = true;
+        if (annotTellerReadyRef.current
+            && annotNoemerReadyRef.current
+            && breukReadyRef.current
+            && !isArrowDrawn) {
+                setIsArrowDrawn(true);
+        }
+    };
+
+    React.useEffect(() => {
+        setTellerId(_uniqueId("cm2NaarDm2_teller"));
+        setNoemerId(_uniqueId("cm2NaarDm2_noemer"));
+        setAnnotTellerId(_uniqueId("cm2NaarDm2_teller_annot"));
+        setAnnotNoemerId(_uniqueId("cm2NaarDm2l_noemer_annot"));
+    }, []);
+
+    const fontSize = yScale.metric(4);
+    const anchorRadius = yScale.metric(10);
+
     return (
         <>
-            <AnnotArrow target={`#${tellerId}`} annot="#teller_annot_cm2" annotAlign="center right" targetAlign="top center" />
-            <AnnotArrow target={`#${noemerId}`} annot="#noemer_annot_dm2" annotAlign="center right" targetAlign="bottom center" />
-            <Annot x={xScale(40)} y={yScale(70)} fontSize="1rem" width={xScale.metric(40)} align="bottom right">
+            { isArrowDrawn ?
+              <>
+                <AnnotArrow target={`#${tellerId}`} annot={`#${annotTellerId}`} annotAlign="center right" targetAlign="top center" anchorRadiusTarget={anchorRadius} anchorRadiusAnnot={anchorRadius}/>
+                <AnnotArrow target={`#${noemerId}`} annot={`#${annotNoemerId}`} annotAlign="center right" targetAlign="bottom center" anchorRadiusTarget={anchorRadius} anchorRadiusAnnot={anchorRadius}/>
+              </>
+              : null }
+            <Annot x={xScale(40)} y={yScale(70)} fontSize={fontSize} width={xScale.metric(40)} align="bottom right"
+                onComplete={buildOnComplete(annotTellerReadyRef)}>
                 { annotTeller }
             </Annot>
-            <Annot x={xScale(50)} y={yScale(50)} fontSize="1.5rem">
+            <Annot x={xScale(50)} y={yScale(50)} fontSize={fontSize}
+                onComplete={buildOnComplete(breukReadyRef)}>
                 { breuk }
             </Annot>
-            <Annot x={xScale(40)} y={yScale(40)} fontSize="1rem" width={xScale.metric(40)} align="top right">
+            <Annot x={xScale(40)} y={yScale(40)} fontSize={fontSize} width={xScale.metric(40)} align="top right"
+                onComplete={buildOnComplete(annotNoemerReadyRef)}>
                 { annotNoemer }
             </Annot>
         </>

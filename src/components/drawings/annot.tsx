@@ -21,6 +21,27 @@ const useStylesNote = makeStyles({
     }
 });
 
+
+export type AnnotProps = {
+    x: number,
+    y: number,
+    width?: number,
+    height?: number,
+    backgroundColor?: string,
+    backgroundOpacity?: number,
+    showBackground?: boolean,
+    align?: string,
+    className?: string,
+    fontSize?: string|number,
+    color?: string,
+    textPadding?: string|number,
+    borderRadius?: string|number,
+    parentPadding?: string|number,
+    onComplete: () => void,
+    children: string
+};
+
+
 export const Annot = ({
     x=0, y=0, width=null, height=null,
     backgroundColor="white", backgroundOpacity=1,
@@ -29,8 +50,9 @@ export const Annot = ({
     fontSize="inherit", color="inherit",
     textPadding=null, borderRadius=null,
     parentPadding=null,
+    onComplete=() => {},
     children
-}) => {
+}: AnnotProps) => {
     [textPadding, borderRadius, parentPadding] = (
         showBackground ?
         [textPadding || ".5em", borderRadius || ".25em", parentPadding || ".25em"]
@@ -106,7 +128,7 @@ export const Annot = ({
         <foreignObject x={x} y={y} width={`${width}`} height={`${height}`}>
             <div xmlns="http://www.w3.org/1999/xhtml" style={divParentStyle}>
                 <div className={`${classes.divNoteChild} ${className}`} style={divChildStyle}>
-                    <Markdown>{ children }</Markdown>
+                    <Markdown onComplete={onComplete}>{ children }</Markdown>
                 </div>
             </div>
         </foreignObject>

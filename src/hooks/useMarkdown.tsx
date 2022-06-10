@@ -11,7 +11,7 @@ import rehypeMathjaxSvg from 'rehype-mathjax/svg.js';
 import {select, selectAll} from 'unist-util-select';
 
 
-const useMarkdown = (mathProcessor: string) => {
+const useMarkdown = (mathProcessor: string, onComplete = () => {}) => {
     const [reactContent, setReactContent] = React.useState<React.ReactElement | null>(null);
     const [markdownSource, setMarkdownSource] = React.useState<string | null>(null);
 
@@ -36,6 +36,7 @@ const useMarkdown = (mathProcessor: string) => {
           .then((vfile) => {
               if (isMounted) {
                   setReactContent(vfile.result as React.ReactElement);
+                  onComplete();
               }
           });
 

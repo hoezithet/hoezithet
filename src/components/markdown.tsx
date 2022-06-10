@@ -4,11 +4,12 @@ import useMarkdown from "hooks/useMarkdown";
 
 type MarkdownPropTypes = {
     children: string,
-    mathProcessor: string
+    mathProcessor: string,
+    onComplete: () => void,
 }
 
-const Markdown = ({children, mathProcessor = 'mathjax'}: MarkdownPropTypes) => {
-    const [reactContent, setMarkdownSource] = useMarkdown(mathProcessor);
+const Markdown = ({children, mathProcessor = 'mathjax', onComplete = () => {}}: MarkdownPropTypes) => {
+    const [reactContent, setMarkdownSource] = useMarkdown(mathProcessor, onComplete);
 
     React.useEffect(() => {
         setMarkdownSource(children);

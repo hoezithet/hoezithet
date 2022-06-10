@@ -12,7 +12,7 @@ type Coordinate = {
     y: number,
 }|number[]
 
-type AnnotProps = {
+export type AnnotArrowProps = {
     annot: string|Coordinate,
     target: string|Coordinate|Coordinate[],
     margin?: number,
@@ -140,15 +140,23 @@ export const AnnotArrow = ({
     targetAlign="top center",
     color="light_gray", opacity=1, lineWidth=2,
     hideHead=false, dashed=false,
-}: AnnotProps) => {
-    const [annotCoord, setAnnotCoord] = React.useState({x: -1, y: -1});
-    const [targetCoords, setTargetCoords] = React.useState([]);
+}: AnnotArrowProps) => {
+    const [annotCoord, setAnnotCoord] = React.useState(null);
+    const [targetCoords, setTargetCoords] = React.useState(null);
+    const [vAlignAnnot, hAlignAnnot] = annotAlign.split(" ");
+    const [vAlignTarget, hAlignTarget] = targetAlign.split(" ");
+
+    const anchorAngleAnnot = getAngleFromAlign(hAlignAnnot, vAlignAnnot);
+    const anchorAngleTarget = getAngleFromAlign(hAlignTarget, vAlignTarget);
 
     React.useEffect(() => {
-        setAnnotCoord(convertToCoord(annot, hAlignAnnot, vAlignAnnot));
-        target = Array.isArray(target) && target.length > 0 && typeof target[0] !== "number" ? target : [target];
-        setTargetCoords(target.map(t => convertToCoord(t, hAlignTarget, vAlignTarget)))
-    }, []);
+        const newAnnotCoord = convertToCoord(annot, hAlignAnnot, vAlignAnnot);
+        const formattedTarget = Array.isArray(target) && target.length > 0 && typeof target[0] !== "number" ? target : [target];
+        const newTargetCoords = formattedTarget.map(t => convertToCoord(t, hAlignTarget, vAlignTarget));
+
+        setAnnotCoord(newAnnotCoord);
+        setTargetCoords(newTargetCoords)
+    }, [annot, target]);
 
     if (anchorRadiusTarget === null) {
         anchorRadiusTarget = anchorRadius;
@@ -157,23 +165,22 @@ export const AnnotArrow = ({
         anchorRadiusAnnot = anchorRadius;
     }
 
-    const [vAlignAnnot, hAlignAnnot] = annotAlign.split(" ");
-    const [vAlignTarget, hAlignTarget] = targetAlign.split(" ");
-
-    const anchorAngleAnnot = getAngleFromAlign(hAlignAnnot, vAlignAnnot);
-    const anchorAngleTarget = getAngleFromAlign(hAlignTarget, vAlignTarget);
-
-
     return (
-        targetCoords.filter(t => t !== null).map((targetCoord, i) => (
-            <g key={i}>
-                <ArrowLine xStart={annotCoord.x} yStart={annotCoord.y} xEnd={targetCoord.x} yEnd={targetCoord.y}
-                    margin={margin}
-                    anchorAngleStart={anchorAngleAnnot} anchorRadiusStart={anchorRadiusAnnot}
-                    anchorAngleEnd={anchorAngleTarget} anchorRadiusEnd={anchorRadiusTarget}
-                    color={color} lineWidth={lineWidth} dashed={dashed} showArrow={!hideHead}
-                    opacity={opacity} />
-            </g>
-        ))
+        <>
+            {
+                annotCoord ?
+                targetCoords.filter(t => t !== null).map((targetCoord, i) => (
+                    <g key={i}>
+                        <ArrowLine xStart={annotCoord.x} yStart={annotCoord.y} xEnd={targetCoord.x} yEnd={targetCoord.y}
+                            margin={margin}
+                            anchorAngleStart={anchorAngleAnnot} anchorRadiusStart={anchorRadiusAnnot}
+                            anchorAngleEnd={anchorAngleTarget} anchorRadiusEnd={anchorRadiusTarget}
+                            color={color} lineWidth={lineWidth} dashed={dashed} showArrow={!hideHead}
+                            opacity={opacity} />
+                    </g>
+                ))
+                : null
+            }
+        </>
     );
 };
