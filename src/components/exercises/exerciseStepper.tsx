@@ -197,7 +197,11 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
                 id: id.current,
             })
         )
-        return () => { removeExerciseStepper({ id: id.current }) };
+        return () => {
+            dispatch(
+                removeExerciseStepper({ id: id.current })
+            );
+        };
     }, []);
 
     useEffect(() => {

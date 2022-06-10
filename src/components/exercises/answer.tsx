@@ -82,7 +82,11 @@ export function useAnswerValue<T> (
             addAnswer(id.current);
         }
 
-        return () => { removeAnswer({ id: id.current }) };
+        return () => {
+            dispatch(
+                removeAnswer({ id: id.current })
+            );
+        };
     }, []);
 
     const setAnswerValue = (newValue: T|null) => {

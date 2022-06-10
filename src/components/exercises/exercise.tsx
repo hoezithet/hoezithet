@@ -141,7 +141,11 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
         if (addExerciseIdToStepper !== null) {
             addExerciseIdToStepper(id.current)
         }
-        return () =>  { removeExercise({ id: id.current }) };
+        return () =>  {
+            dispatch(
+                removeExercise({ id: id.current })
+            );
+        };
     }, []);
 
     useEffect(() => {
