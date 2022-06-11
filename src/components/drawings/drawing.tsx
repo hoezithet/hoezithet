@@ -89,6 +89,7 @@ export const Drawing = ({
     const parentRef = React.useRef(null);
     const isAnimatingButtonsRef = React.useRef(false);
     const insideBare = useContext(BareLessonContext) !== null;
+    const containsAnimation = tl.getChildren().length > 0;
 
     const lessonContext = useContext(LessonContext);
 
@@ -164,6 +165,9 @@ export const Drawing = ({
     const smoothRestart = () => gsap.to(tl, {time: 0, duration: 2, onComplete: () => tl.play(), ease: "power2.inOut"});
 
     React.useEffect(() => {
+        if (!containsAnimation) {
+            return;
+        }
         if (insideBare) {
             // No animations in bare version of lesson
             // Jump to second 10 of animation
@@ -171,9 +175,9 @@ export const Drawing = ({
             gsap.delayedCall(0.01, () => tl.pause());
             return;
         }
-        gsap.registerPlugin(ScrollTrigger);
         tl.timeScale(0);
-        ScrollTrigger.create({
+        gsap.registerPlugin(ScrollTrigger);
+        const scrollTrigger = ScrollTrigger.create({
             trigger: drawingRef.current,
             start: "top center",
             end: "bottom center",
@@ -185,7 +189,8 @@ export const Drawing = ({
                 }
             },
         });
-    }, []);
+        return () => scrollTrigger.kill();
+    }, [containsAnimation]);
 
     useEffect(() => {
         if (parentRef.current) {
@@ -194,27 +199,23 @@ export const Drawing = ({
         }
     }, []);
 
-    const drawingChild = React.useMemo(() => (
-        <svg width={width} height={height} ref={drawingRef} className={`${classes.drawing} drawing ${className}`} xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
-            { children }
-            { noWatermark ?
-            null :
-            <text x={width - 10} y={height - 10} textAnchor="end" className={classes.watermark}>
-            Meer op: https://hoezithet.nu
-            </text>
-            }
-        </svg>
-    ), [children, noWatermark, width, height, classes.drawing, className]);
-
     return (
         <div ref={parentRef} className={classes.wrapper} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
             <AnimationContext.Provider value={{addAnimation: addAnimation}}>
                 <DrawingContext.Provider value={{width: width, height: height, xScale: xScale, yScale: yScale, ref: drawingRef}}>
-                    { drawingChild }
+                    <svg width={width} height={height} ref={drawingRef} className={`${classes.drawing} drawing ${className}`} xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+                        { children }
+                        { noWatermark ?
+                        null :
+                        <text x={width - 10} y={height - 10} textAnchor="end" className={classes.watermark}>
+                        Meer op: https://hoezithet.nu
+                        </text>
+                        }
+                    </svg>
                 </DrawingContext.Provider>
             </AnimationContext.Provider>
             <div className={classes.overlay}>
-                { tl.getChildren().length > 0 ?
+                { containsAnimation ?
                     <>
                         <IconButton ref={setOverlayRef} onClick={smoothPlay} aria-label="play" className={classes.overlayElement} title="Speel animatie af">
                             <PlayArrowIcon />
