@@ -1,8 +1,9 @@
 import React, { useState, useContext, useCallback, useEffect, DOMElement, useRef, useLayoutEffect } from "react";
 import Markdown from "../../markdown";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import { makeStyles, Theme } from "@material-ui/core/styles";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+import { Theme } from "@mui/material/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import colors from "../../../colors";
 import { ExerciseContext } from "../exercise";
 import { StepType, getSolveEquationSteps } from "./mathsteps_utils";
@@ -321,4 +322,4 @@ function useMjxOuterHeight(): [number|null, (node: any) => void] {
         }
     }, []);
     return [outerHeight, wrapperRef];
-};
+}

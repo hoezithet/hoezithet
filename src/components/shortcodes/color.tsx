@@ -1,7 +1,8 @@
 import React from "react";
 import { getColor } from "../../colors";
 import styled from "styled-components";
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import Markdown from "../markdown";
 
 

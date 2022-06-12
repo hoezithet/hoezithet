@@ -1,16 +1,16 @@
 import React, { useState, useCallback, useRef, createContext, useEffect } from 'react';
 
-import Step from '@material-ui/core/Step';
-import { StepIconProps } from '@material-ui/core/StepIcon';
-import StepLabel from '@material-ui/core/StepLabel';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Stepper from '@material-ui/core/Stepper';
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
+import Step from '@mui/material/Step';
+import { StepIconProps } from '@mui/material/StepIcon';
+import StepLabel from '@mui/material/StepLabel';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import CircularProgress from '@mui/material/CircularProgress';
+import Stepper from '@mui/material/Stepper';
+import Paper from '@mui/material/Paper';
+import makeStyles from '@mui/styles/makeStyles';
 
 import styled from "styled-components";
 import SwipeableViews from 'react-swipeable-views';
@@ -35,8 +35,8 @@ interface ExerciseStepperProps {
 }
 
 const StyledPaper = styled(Paper)`
-    padding: ${theme.spacing(2)}px;
-    margin: ${theme.spacing(1)}px;
+    padding: ${theme.spacing(2)};
+    margin: ${theme.spacing(1)};
     break-inside: avoid;
 `;
 
@@ -50,7 +50,7 @@ const StyledStep = styled(Step)`
 
 const ExercisesFeedbackDiv = styled.div`
     text-align: center;
-    margin: ${theme.spacing(2)}px;
+    margin: ${theme.spacing(2)};
 `;
 
 
@@ -63,7 +63,7 @@ function ExerciseStepIcon(props: StepIconProps) {
 }
 
 const NextPrevBtnGrid = styled(Grid)`
-    margin-top: ${theme.spacing(1)}px;
+    margin-top: ${theme.spacing(1)};
 `
 
 const getExerciseStepsFromChildren = (children: React.ReactNode) => {

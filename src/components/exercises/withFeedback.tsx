@@ -3,7 +3,7 @@ import React, { useContext, useRef } from "react";
 import { AnswerFeedback } from './answerFeedback';
 import { AnswerType } from './answer';
 import { ExerciseContext, ExerciseContextValueType } from './exercise'
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 
 import { useDispatch } from 'react-redux'
 import { answerChanged, showAnswerSolution, resetAnswer } from '../../state/answersSlice'

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from 'styled-components';
 import COLORS from '../colors';
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 
 const TocTitle = styled.p`
     font-weight: bold;

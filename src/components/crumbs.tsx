@@ -1,5 +1,5 @@
 import React from "react";
-import { Breadcrumbs } from "@material-ui/core";
+import { Breadcrumbs } from "@mui/material";
 import { Link } from "gatsby-theme-material-ui";
 import styled from "styled-components";
 

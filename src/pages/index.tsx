@@ -8,8 +8,8 @@ import landingImg from "../../images/landing/landing_large.png";
 import archer from "../../images/landing/archer.png";
 import free from "../../images/landing/free.png";
 import guts from "../../images/landing/guts.png";
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import styled from "styled-components";
 import { Button, Link } from "gatsby-theme-material-ui";
 
@@ -73,7 +73,7 @@ interface WhyHzhItemProps {
 
 function WhyHzhItem(props: WhyHzhItemProps) {
     return (
-        <Grid item xs={ 12 } sm={ 4 } container direction="column" justify="flex-start" alignItems="center">
+        <Grid item xs={ 12 } sm={ 4 } container direction="column" justifyContent="flex-start" alignItems="center">
             <Grid item>
                 <WhyHzhItemImgBox>
                     <WhyHzhItemImg src={ props.img } />
@@ -82,7 +82,7 @@ function WhyHzhItem(props: WhyHzhItemProps) {
             <Grid item>
                 <h2>{ props.title }</h2>
             </Grid>
-            <Grid item container justify="center">
+            <Grid item container justifyContent="center">
                 <Grid item xs={ 10 }>
                     { props.children }
                 </Grid>
@@ -109,7 +109,7 @@ export default function Landing() {
                     <a href="#why">
                         <WhyHzhTriangle />
                     </a>
-                    <Grid container spacing={4} justify="center" >
+                    <Grid container spacing={4} justifyContent="center" >
                         <WhyHzhItem title="Doelgericht" img={ archer }>
                             Elke les is gericht op één onderwerp. Zo kan je gaatjes in je kennis snel opvullen, zonder omwegen. 
                         </WhyHzhItem>

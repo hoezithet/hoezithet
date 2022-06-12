@@ -3,8 +3,8 @@ import styled from "styled-components";
 import kuLeuvenLogo from "../../images/sponsor/KULEUVEN_RGB_LOGO.png";
 import vivesLogo from "../../images/sponsor/VIVES.png";
 import { Link } from 'gatsby-theme-material-ui';
-import Grid from "@material-ui/core/Grid";
-import { makeStyles } from '@material-ui/core/styles';
+import Grid from "@mui/material/Grid";
+import makeStyles from '@mui/styles/makeStyles';
 
 const useStyles = makeStyles({
     img: {
@@ -24,7 +24,7 @@ export default function Sponsors({ width = "56mm", showTreat = true}) {
     return (
         <div className={classes.wrapper}>
         <p className={classes.headText}>Hoe Zit Het? wordt met trots gesteund door</p>
-        <Grid container spacing={ 4 } justify="center" alignItems="center" >
+        <Grid container spacing={ 4 } justifyContent="center" alignItems="center" >
           <Grid item>
             <a href="https://www.kuleuven.be/kuleuven">
                 <img src={ kuLeuvenLogo } className={classes.img} alt="KU Leuven sponsor" />

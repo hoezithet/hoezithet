@@ -1,5 +1,5 @@
 import React from "react";
-import unified from 'unified';
+import {unified} from 'unified';
 import math from 'remark-math';
 import remark from 'remark-parse';
 import katex from 'rehype-katex';

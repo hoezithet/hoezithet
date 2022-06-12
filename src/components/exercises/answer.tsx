@@ -24,9 +24,12 @@ export const selectAnswers = (state: RootState) => {
 };
 
 export const compareAnswers = (answers1, answers2) => {
+    if (answers1 === answers2) {
+        return true;
+    }
     return (
-        answers1.length === answers2.length
-        && answers1.every((a1, idx) => {
+        answers1?.length === answers2?.length
+        && answers1?.every((a1, idx) => {
             const a2 = answers2[idx];
             return (
                 a1.value === a2.value

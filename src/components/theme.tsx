@@ -1,12 +1,20 @@
 import React from 'react';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import { createTheme, ThemeProvider, Theme, StyledEngineProvider, adaptV4Theme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import COLORS from '../colors';
 import Matomo from './matomo';
 import 'fontsource-quicksand';
 
 
-export const theme = createMuiTheme({
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
+
+
+export const theme = createTheme(adaptV4Theme({
     typography: {
         fontFamily: [
             'Quicksand',
@@ -92,7 +100,7 @@ export const theme = createMuiTheme({
             }
         }
     }
-});
+}));
 
 interface HzhThemeProps {
     children: React.ReactElement;
@@ -101,10 +109,12 @@ interface HzhThemeProps {
 
 export default function HzhTheme({ children }: HzhThemeProps) {
     return (
-        <ThemeProvider theme={theme}>
-            <Matomo />
-            <CssBaseline />
-            { children }
-        </ThemeProvider>
+        <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>
+                <Matomo />
+                <CssBaseline />
+                { children }
+            </ThemeProvider>
+        </StyledEngineProvider>
     );
 }

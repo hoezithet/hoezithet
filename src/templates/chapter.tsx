@@ -3,7 +3,7 @@ import { graphql } from "gatsby";
 import { LayoutProps } from "../components/layout";
 import Layout from "../components/layout";
 import SectionCard, { CardImage } from "./sectionCard";
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import { MdxNode } from "./lesson";
 
 interface ChapterData {

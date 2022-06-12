@@ -1,11 +1,11 @@
 import React, { createContext, useState, useRef, useContext, useEffect, useCallback } from 'react';
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { makeStyles } from '@material-ui/core/styles';
-import SaveIcon from '@material-ui/icons/Save';
-import PauseIcon from '@material-ui/icons/Pause';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import ReplayIcon from '@material-ui/icons/Replay';
+import makeStyles from '@mui/styles/makeStyles';
+import SaveIcon from '@mui/icons-material/Save';
+import PauseIcon from '@mui/icons-material/Pause';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import ReplayIcon from '@mui/icons-material/Replay';
 import { Link, IconButton } from 'gatsby-theme-material-ui';
 import LessonContext from "../../contexts/lessonContext";
 import BareLessonContext from "contexts/bareLessonContext";
@@ -217,18 +217,43 @@ export const Drawing = ({
             <div className={classes.overlay}>
                 { containsAnimation ?
                     <>
-                        <IconButton ref={setOverlayRef} onClick={smoothPlay} aria-label="play" className={classes.overlayElement} title="Speel animatie af">
+                        <IconButton
+                            ref={setOverlayRef}
+                            onClick={smoothPlay}
+                            aria-label="play"
+                            className={classes.overlayElement}
+                            title="Speel animatie af"
+                            size="large">
                             <PlayArrowIcon />
                         </IconButton>
-                        <IconButton ref={setOverlayRef} onClick={smoothPause} aria-label="pause" className={classes.overlayElement} title="Pauzeer animatie">
+                        <IconButton
+                            ref={setOverlayRef}
+                            onClick={smoothPause}
+                            aria-label="pause"
+                            className={classes.overlayElement}
+                            title="Pauzeer animatie"
+                            size="large">
                             <PauseIcon />
                         </IconButton>
-                        <IconButton ref={setOverlayRef} onClick={smoothRestart} aria-label="restart" className={classes.overlayElement} title="Herstart animatie">
+                        <IconButton
+                            ref={setOverlayRef}
+                            onClick={smoothRestart}
+                            aria-label="restart"
+                            className={classes.overlayElement}
+                            title="Herstart animatie"
+                            size="large">
                             <ReplayIcon />
                         </IconButton>
                     </>
                 :
-                <IconButton ref={setOverlayRef} href={fileHref} download aria-label="save" className={classes.overlayElement} title="Afbeelding opslaan">
+                <IconButton
+                    ref={setOverlayRef}
+                    href={fileHref}
+                    download
+                    aria-label="save"
+                    className={classes.overlayElement}
+                    title="Afbeelding opslaan"
+                    size="large">
                     <SaveIcon />
                 </IconButton> }
             </div>

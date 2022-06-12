@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
-import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import Checkbox from '@mui/material/Checkbox';
 
 import Markdown from "components/markdown";
 import { shuffle as shuffleArray } from 'utils/array';

@@ -3,7 +3,7 @@ import Layout from '../components/layout';
 import notFoundImg from '../../images/404/404.png';
 import styled from "styled-components";
 import { Button, Link } from "gatsby-theme-material-ui";
-import Box from '@material-ui/core/Box';
+import Box from '@mui/material/Box';
 
 const Img = styled.img`
     margin: auto;

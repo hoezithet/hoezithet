@@ -5,8 +5,8 @@ import filter from 'lodash/filter';
 import Markdown from 'components/markdown'
 import COLORS from '../../colors';
 import { gsap } from 'gsap';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import makeStyles from '@mui/styles/makeStyles';
+import Button from '@mui/material/Button';
 import { nanoid } from '@reduxjs/toolkit'
 
 const inClient = typeof window !== "undefined";

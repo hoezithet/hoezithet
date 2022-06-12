@@ -1,5 +1,5 @@
 import React from 'react';
-import Container from '@material-ui/core/Container';
+import Container from '@mui/material/Container';
 import styled from 'styled-components';
 
 import Footer from './footer';
@@ -19,11 +19,11 @@ export interface LayoutProps {
 }
 
 const HzhContainer = styled(Container)`
-    padding: ${theme.spacing(2)}px;
+    padding: ${theme.spacing(2)};
 `;
 
 const HzhMain = styled.main`
-    margin-bottom: ${theme.spacing(4)}px;
+    margin-bottom: ${theme.spacing(4)};
 `;
 
 const Layout = ({ children, crumbs, description=``, tags=[],

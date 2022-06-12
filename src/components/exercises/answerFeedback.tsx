@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
 import styled from "styled-components";
 import { gsap } from "gsap";
 
@@ -13,9 +13,9 @@ import { ReadableAnswerSolution } from "./answerSolution";
 
 
 const FeedbackPaper = styled(Paper)`
-    padding: ${theme.spacing(1)}px;
-    margin-top: ${theme.spacing(1)}px;
-    margin-bottom: ${theme.spacing(2)}px;
+    padding: ${theme.spacing(1)};
+    margin-top: ${theme.spacing(1)};
+    margin-bottom: ${theme.spacing(2)};
 `;
 
 type PositiveFeedbackProps = {

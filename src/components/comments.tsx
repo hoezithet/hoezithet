@@ -1,6 +1,6 @@
 import React, { DOMElement, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import unified from "unified";
+import {unified} from "unified";
 import math from "remark-math";
 import remark from "remark-parse";
 import rehype from "rehype-parse";

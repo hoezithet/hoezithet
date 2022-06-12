@@ -28,8 +28,8 @@ import Sponsors from '../components/sponsors';
 import Feedback from "../components/feedback";
 import PrintLink from "../components/printlink";
 import { Link } from 'gatsby-theme-material-ui';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import Callout from "../components/callout";
 import { LayoutProps } from "../components/layout";
 import Comments from "../components/comments";
@@ -128,7 +128,7 @@ export default function Template(
                 <PrintLink to={ pdfLink } />
                 <Feedback />
                 <Box my={ 4 }>
-                    <Grid container spacing={ 2 } justify="space-between">
+                    <Grid container spacing={ 2 } justifyContent="space-between">
                         { prevSiblingCard }
                         { nextSiblingCard }
                     </Grid>

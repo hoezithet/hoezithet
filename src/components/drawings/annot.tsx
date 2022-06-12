@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { hexToRGB, getColor } from "../../colors";
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+import makeStyles from '@mui/styles/makeStyles';
+import Paper from '@mui/material/Paper';
 
 import { theme } from "../theme";
 import { DrawingContext } from "./drawing";

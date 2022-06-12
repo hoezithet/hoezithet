@@ -1,22 +1,22 @@
 import React from "react";
 import styled from "styled-components";
 import { theme } from "./theme";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
 import { Button, Link } from "gatsby-theme-material-ui";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import Hidden from '@material-ui/core/Hidden';
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Hidden from '@mui/material/Hidden';
 import logo from "../../images/appbar/logo_header.png";
 import logo_yellow from "../../images/appbar/logo_header_yellow_bulb.png";
 
 const LogoImg = styled.img`
     height: ${theme.typography.h4.fontSize};
-    margin-right: ${theme.spacing(1)}px;
+    margin-right: ${theme.spacing(1)};
 `;
 
 const LogoLink = styled(Link)`
-    margin: ${theme.spacing(2)}px;
+    margin: ${theme.spacing(2)};
     display: flex;
     flex-grow: 1;
     align-items: center;
@@ -53,18 +53,18 @@ const HzhAppBar = ({ color = "primary", elevation = 1 }: { color: "primary" | "t
                 <Grid container alignItems="center">
                     <Grid item xs={12} md={6} container>
                         <Hidden mdUp>
-                            <Grid container justify="center">{ logoLink }</Grid>
+                            <Grid container justifyContent="center">{ logoLink }</Grid>
                         </Hidden>
-                        <Hidden smDown>
-                            <Grid container justify="flex-start">{ logoLink }</Grid>
+                        <Hidden mdDown>
+                            <Grid container justifyContent="flex-start">{ logoLink }</Grid>
                         </Hidden>
                     </Grid>
                     <PageButtonsGrid item xs={12} md={6} container>
                         <Hidden mdUp>
-                            <Grid container justify="center">{ buttonLinks }</Grid>
+                            <Grid container justifyContent="center">{ buttonLinks }</Grid>
                         </Hidden>
-                        <Hidden smDown>
-                            <Grid container justify="flex-end">{ buttonLinks }</Grid>
+                        <Hidden mdDown>
+                            <Grid container justifyContent="flex-end">{ buttonLinks }</Grid>
                         </Hidden>
                     </PageButtonsGrid>
                 </Grid>

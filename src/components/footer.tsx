@@ -1,7 +1,7 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
-import { GitHub, Facebook } from '@material-ui/icons';
-import { Link, SvgIcon, SvgIconProps } from '@material-ui/core';
+import { Grid } from "@mui/material";
+import { GitHub, Facebook } from '@mui/icons-material';
+import { Link, SvgIcon, SvgIconProps } from '@mui/material';
 import styled from 'styled-components';
 import COLORS from '../colors';
 
@@ -61,7 +61,7 @@ const Footer = () => {
             <FooterItem>
                 ON 0736.486.356 RPR Brussel
             </FooterItem>
-        <Grid container justify="center" >
+        <Grid container justifyContent="center" >
             <FooterIcon>
                 <IconLink href="https://creativecommons.org/licenses/by-nc-sa/4.0/" >
                     <CCIcon/>

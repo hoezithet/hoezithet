@@ -2,7 +2,7 @@ import React from "react";
 
 import { gsap } from 'gsap';
 import styled from "styled-components";
-import _ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import _ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import _ from "lodash";
 
 import COLORS, {getColor} from "colors";

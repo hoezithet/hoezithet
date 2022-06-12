@@ -12,7 +12,7 @@ interface ExercisesFeedbackProps {
 };
 
 const ExercisesFeedbackImg = styled.img`
-    border-radius: ${theme.spacing(1)}px;
+    border-radius: ${theme.spacing(1)};
 `;
 
 export const ExercisesFeedback = ({ nCorrect, nTotal }: ExercisesFeedbackProps) => {

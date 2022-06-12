@@ -10,11 +10,11 @@ import HzhTheme from "../components/theme";
 import BareLessonContext from "contexts/bareLessonContext";
 
 import { Link } from "gatsby-theme-material-ui";
-import Box from "@material-ui/core/Box";
+import Box from "@mui/material/Box";
 import { components, MdxNode, shortcodes } from "./lesson";
 import LessonContext from "../contexts/lessonContext";
 import { ToggleImageBare } from "../components/shortcodes/toggleImage";
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import { LessonSolutions } from '../components/exercises/lessonSolutions'
 
 
