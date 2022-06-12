@@ -1,10 +1,8 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 
-import { theme } from "../theme";
 import { DrawingContext } from "./drawing";
 import { ArrowLine } from "./arrow";
 import { useStyles } from "./line";
-import _ from "lodash";
 
 
 type Coordinate = {
@@ -133,7 +131,7 @@ const convertToCoord = (annotOrTarget: string|Coordinate, hAlign: string, vAlign
 
 export const AnnotArrow = ({
     annot, target,
-    margin=theme.spacing(1),
+    margin=5,
     anchorRadius=20,
     anchorRadiusTarget=null, anchorRadiusAnnot=null,
     annotAlign="top center",

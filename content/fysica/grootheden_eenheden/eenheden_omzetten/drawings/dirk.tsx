@@ -7,9 +7,9 @@ import {
 import { RubberHose } from "components/drawings/rubberHose";
 import { withBreathing } from "./breathingPerson";
 import { gsap } from "gsap";
-import _uniqueId from "lodash/uniqueId";
 import _flatten from "lodash/flatten";
 import _range from "lodash/range";
+import useId from 'hooks/useId';
 
 
 const [TRUI_WIDTH, TRUI_HEIGHT] = [20.961890, 35.384704];
@@ -68,11 +68,7 @@ const get1DStretchSizePosAngle = (
 
 
 const _DirkTrui = ({ isFront=false }) => {
-    const [patternId, setPatternId] = React.useState<string|null>(null);
-
-    React.useEffect(() => {
-        setPatternId(_uniqueId("dirk_pattern_"));
-    }, []);
+    const patternId = useId();
 
     return (
         <>

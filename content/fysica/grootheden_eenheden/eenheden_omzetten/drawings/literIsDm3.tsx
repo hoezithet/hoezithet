@@ -3,7 +3,6 @@ import { Drawing, DrawingContext } from "components/drawings/drawing";
 import DrawingGrid from "components/drawings/drawingGrid";
 import { Annot } from "components/drawings/annot";
 import { getColor } from "colors";
-import _uniqueId from "lodash/uniqueId";
 import { AnnotArrow } from "components/drawings/annotArrow";
 import { TextAccolade } from "./watIs1m84";
 import {isoTopTfm, isoLeftTfm, isoRightTfm} from "utils/isoTransform";

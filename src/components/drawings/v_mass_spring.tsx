@@ -7,6 +7,7 @@ import Mass from "./mass";
 import Wall from "./wall";
 import { Line } from "./line";
 import Ruler from "./ruler";
+import useId from 'hooks/useId';
 
 const isBrowser = typeof window !== "undefined";
 
@@ -31,10 +32,8 @@ type VMassSpringProps = {
 const VMassSpring = ({x, y}: VMassSpringProps) => {
     const {xScale, yScale} = useContext(DrawingContext);
     const [time, setTime] = React.useState(0);
-    const groupIdRef = React.useRef(_.uniqueId("vms-group-"));
-    const handleIdRef = React.useRef(_.uniqueId("vms-handle-"));
-    const groupId = groupIdRef.current;
-    const handleId = handleIdRef.current;
+    const groupId = useId();
+    const handleId = useId();
     
     const rulerSize = 50;
     const m = 0.1;

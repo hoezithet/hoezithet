@@ -8,7 +8,6 @@ import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux'
 import { answerChanged, showAnswerSolution, resetAnswer } from '../../state/answersSlice'
 import { useSelector } from 'react-redux'
-import { nanoid } from '@reduxjs/toolkit'
 import { RootState } from '../../state/store'
 
 

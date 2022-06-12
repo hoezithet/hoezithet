@@ -25,10 +25,11 @@ import { RootState } from 'state/store'
 import { exerciseStepperAdded, exerciseStepAdded, removeExerciseStepper } from '../../state/exerciseSteppersSlice'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import { nanoid, createSelector } from '@reduxjs/toolkit'
+import { createSelector } from '@reduxjs/toolkit'
 import { showAnswerSolution, resetAnswer } from 'state/answersSlice'
 import BareLessonContext from "contexts/bareLessonContext";
 
+import useId from 'hooks/useId';
 
 interface ExerciseStepperProps {
     children: React.ReactNode;
@@ -170,15 +171,15 @@ export type ExerciseStepperType = {
  * @prop {ExerciseStepperProps} children: Each direct child should be an `Exercise` component.
  */
 export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
-    const id = useRef(nanoid());
+    const id = useId();
     const steps = getExerciseStepsFromChildren(children);
 
     const selectExerciseStepperFromId = React.useMemo(makeSelectExerciseStepperFromId, []);
-    const exerciseStepper = useSelector(state => selectExerciseStepperFromId(state, id.current));
+    const exerciseStepper = useSelector(state => selectExerciseStepperFromId(state, id));
 
     const selectExerciseStepperAnswersFromId = React.useMemo(makeSelectExerciseStepperAnswers, []);
     const answers = useSelector(state => {
-        return selectExerciseStepperAnswersFromId(state, id.current);
+        return selectExerciseStepperAnswersFromId(state, id);
     },
     (answersAfter, answersBefore) => {
         answersBefore = flattenAnswers(answersBefore);
@@ -194,12 +195,12 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
     useEffect(() => {
         dispatch(
             exerciseStepperAdded({
-                id: id.current,
+                id: id,
             })
         )
         return () => {
             dispatch(
-                removeExerciseStepper({ id: id.current })
+                removeExerciseStepper({ id: id })
             );
         };
     }, []);
@@ -213,7 +214,7 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
     const addExerciseId = (exerciseId: string) => {
         dispatch(
             exerciseStepAdded({
-                exerciseStepperId: id.current,
+                exerciseStepperId: id,
                 exerciseId: exerciseId,
             })
         )
@@ -353,7 +354,7 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
     );
     
     const stepperCtx = {
-        id: id.current,
+        id: id,
         addExercise: addExerciseId,
         rank: exerciseStepper?.rank,
     };

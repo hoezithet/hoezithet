@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import _ from "lodash";
 
 import { getColor } from "../../colors";
 import { DrawingContext } from "./drawing";
 import { useStyles } from "./line";
+import useId from 'hooks/useId';
 
 const Wall = ({x=0, y=0, angle=0, width, height, fill="light_gray", stroke="dark_gray", strokeWidth=3, opacity=1}) => {
     const {xScale, yScale} = useContext(DrawingContext);
@@ -12,7 +12,7 @@ const Wall = ({x=0, y=0, angle=0, width, height, fill="light_gray", stroke="dark
     const scaledWidth = Math.abs(xScale(width) - xScale(0));
     const scaledHeight = Math.abs(yScale(height) - yScale(0));
 
-    const gradId = _.uniqueId("gradient-");
+    const gradId = useId();
 
     return (
         <g transform={`translate(${xScale(x)} ${yScale(y)}) rotate(${angle})`} >

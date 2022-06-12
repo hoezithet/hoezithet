@@ -3,7 +3,7 @@ import React from "react";
 import { gsap } from 'gsap';
 import styled from "styled-components";
 import _ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import _ from "lodash";
+import useId from 'hooks/useId';
 
 import COLORS, {getColor} from "colors";
 import BareLessonContext from "contexts/bareLessonContext";
@@ -140,8 +140,8 @@ const useBareCallout = (title, body) => {
     const bareContext = React.useContext(BareLessonContext);
     const insideBare = bareContext !== null;
     const [appendixIdx, setAppendixIdx] = React.useState(-1);
-    const [expId] = React.useState(() => _.uniqueId("expand_"));
-    const [appendixId] = React.useState(() => _.uniqueId("appendix_"));
+    const expId = useId();
+    const appendixId = useId();
 
     const idxToHtmlId = idx => `appendix_${idx}`;
 

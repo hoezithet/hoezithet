@@ -2,8 +2,9 @@ import React, { useContext, useState, useEffect, useCallback, useMemo, useRef } 
 
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import { nanoid, createSelector } from '@reduxjs/toolkit'
+import { createSelector } from '@reduxjs/toolkit'
 import { RootState } from '../../state/store'
+import useId from 'hooks/useId';
 
 import { answerAdded, answerChanged, removeAnswer } from '../../state/answersSlice'
 import { ExerciseContext } from './exercise'
@@ -59,9 +60,9 @@ export function useAnswerValue<T> (
     solution: string|string[],
     explanation: string,
 ): {answerValue: T|null, setAnswerValue: (newValue: T|null) => void, showingSolution: boolean} {
-    const id = useRef(nanoid());
+    const id = useId();
     const selectAnswerFromId = useMemo(makeSelectAnswerFromId, []);
-    const answer = useSelector(state => selectAnswerFromId(state, id.current));
+    const answer = useSelector(state => selectAnswerFromId(state, id));
 
     const exCtx = useContext(ExerciseContext);
 
@@ -70,7 +71,7 @@ export function useAnswerValue<T> (
     useEffect(() => {
         dispatch(
             answerAdded({
-                id: id.current,
+                id: id,
                 value: null,
                 correct: false,
                 answered: false,
@@ -82,12 +83,12 @@ export function useAnswerValue<T> (
         )
         if (exCtx !== null) {
             const { addAnswer } = exCtx;
-            addAnswer(id.current);
+            addAnswer(id);
         }
 
         return () => {
             dispatch(
-                removeAnswer({ id: id.current })
+                removeAnswer({ id: id })
             );
         };
     }, []);

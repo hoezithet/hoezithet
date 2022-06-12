@@ -7,7 +7,6 @@ import COLORS from '../../colors';
 import { gsap } from 'gsap';
 import makeStyles from '@mui/styles/makeStyles';
 import Button from '@mui/material/Button';
-import { nanoid } from '@reduxjs/toolkit'
 
 const inClient = typeof window !== "undefined";
 const MorphSVGPlugin = inClient ? require("gsap/dist/MorphSVGPlugin").MorphSVGPlugin : null;

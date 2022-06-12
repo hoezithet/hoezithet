@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useRef } from 'react';
 import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import { nanoid, createSelector } from '@reduxjs/toolkit'
+import { createSelector } from '@reduxjs/toolkit'
 
 import { AnswerType, selectAnswers, compareAnswers } from "./answer";
 import { ExerciseStepperContext, makeSelectExerciseStepperExercises, makeSelectExerciseStepperFromId } from './exerciseStepper';
@@ -13,6 +13,8 @@ import { RootState } from '../../state/store'
 import { exerciseAdded, exerciseAnswerAdded, removeExercise, exerciseNameChanged } from '../../state/exercisesSlice';
 import { answerChanged, showAnswerSolution, resetAnswer } from '../../state/answersSlice';
 import BareLessonContext from "contexts/bareLessonContext";
+
+import useId from 'hooks/useId';
 
 
 export type ExerciseType = {
@@ -111,13 +113,13 @@ export const makeSelectExerciseRankInStepper = () => {
  * ```
  */
 export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
-    const id = useRef(nanoid());
+    const id = useId();
 
     const selectExerciseFromId = React.useMemo(makeSelectExerciseById, []);
-    const exercise = useSelector(state => selectExerciseFromId(state, id.current));
+    const exercise = useSelector(state => selectExerciseFromId(state, id));
 
     const selectExerciseAnswersFromId = React.useMemo(makeSelectExerciseAnswers, []);
-    const answers = useSelector(state => selectExerciseAnswersFromId(state, id.current), compareAnswers);
+    const answers = useSelector(state => selectExerciseAnswersFromId(state, id), compareAnswers);
 
     const nodeRef = useRef<HTMLDivElement>(null);
 
@@ -128,22 +130,22 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
     const dispatch = useDispatch();
 
     const selectExerciseRankInStepperFromId = React.useMemo(makeSelectExerciseRankInStepper, []);
-    let rank = useSelector(state => selectExerciseRankInStepperFromId(state, stepperId, id.current));
+    let rank = useSelector(state => selectExerciseRankInStepperFromId(state, stepperId, id));
     rank = rank !== -1 ? rank : exercise?.rank;
     const name = rank !== undefined ? getExerciseName({rank: rank, stepperRank: stepperRank}) : "";
 
     useEffect(() => {
         dispatch(
             exerciseAdded({
-                id: id.current,
+                id: id,
             })
         )
         if (addExerciseIdToStepper !== null) {
-            addExerciseIdToStepper(id.current)
+            addExerciseIdToStepper(id)
         }
         return () =>  {
             dispatch(
-                removeExercise({ id: id.current })
+                removeExercise({ id: id })
             );
         };
     }, []);
@@ -151,7 +153,7 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
     useEffect(() => {
         dispatch(
             exerciseNameChanged({
-                id: id.current,
+                id: id,
                 name: name,
             })
         )
@@ -160,7 +162,7 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
     const addAnswerId = (answerId: string) => {
         dispatch(
             exerciseAnswerAdded({
-                exerciseId: id.current,
+                exerciseId: id,
                 answerId: answerId,
             })
         )

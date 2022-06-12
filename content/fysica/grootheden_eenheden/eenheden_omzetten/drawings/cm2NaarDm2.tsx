@@ -3,14 +3,14 @@ import { Drawing, DrawingContext } from "components/drawings/drawing";
 import DrawingGrid from "components/drawings/drawingGrid";
 import { Annot } from "components/drawings/annot";
 import { AnnotArrow } from "components/drawings/annotArrow";
-import _uniqueId from "lodash/uniqueId";
+import useId from 'hooks/useId';
 
 
 const Cm2NaarDm2Child = () => {
-    const [tellerId, setTellerId] = React.useState(null);
-    const [noemerId, setNoemerId] = React.useState(null);
-    const [annotTellerId, setAnnotTellerId] = React.useState(null);
-    const [annotNoemerId, setAnnotNoemerId] = React.useState(null);
+    const tellerId = useId();
+    const noemerId = useId();
+    const annotTellerId = useId();
+    const annotNoemerId = useId();
     const {xScale, yScale} = React.useContext(DrawingContext);
  
 
@@ -27,20 +27,11 @@ $$
 $$
 `;
 
-    React.useEffect(() => {
-        setTellerId(_uniqueId("cm2NaarDm2_teller"));
-        setNoemerId(_uniqueId("cm2NaarDm2_noemer"));
-        setAnnotTellerId(_uniqueId("cm2NaarDm2_teller_annot"));
-        setAnnotNoemerId(_uniqueId("cm2NaarDm2l_noemer_annot"));
-    }, []);
-
     const fontSize = yScale.metric(4);
     const anchorRadius = yScale.metric(10);
 
     return (
         <>
-            <AnnotArrow target={`#${tellerId}`} annot={`#${annotTellerId}`} annotAlign="center right" targetAlign="top center" anchorRadiusTarget={anchorRadius} anchorRadiusAnnot={anchorRadius}/>
-            <AnnotArrow target={`#${noemerId}`} annot={`#${annotNoemerId}`} annotAlign="center right" targetAlign="bottom center" anchorRadiusTarget={anchorRadius} anchorRadiusAnnot={anchorRadius}/>
             <Annot x={xScale(40)} y={yScale(70)} fontSize={fontSize} width={xScale.metric(40)} align="bottom right">
                 { annotTeller }
             </Annot>
@@ -50,6 +41,8 @@ $$
             <Annot x={xScale(40)} y={yScale(40)} fontSize={fontSize} width={xScale.metric(40)} align="top right">
                 { annotNoemer }
             </Annot>
+            <AnnotArrow target={`#${tellerId}`} annot={`#${annotTellerId}`} annotAlign="center right" targetAlign="top center" anchorRadiusTarget={anchorRadius} anchorRadiusAnnot={anchorRadius}/>
+            <AnnotArrow target={`#${noemerId}`} annot={`#${annotNoemerId}`} annotAlign="center right" targetAlign="bottom center" anchorRadiusTarget={anchorRadius} anchorRadiusAnnot={anchorRadius}/>
         </>
    );
 };

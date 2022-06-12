@@ -3,14 +3,14 @@ import { Drawing, DrawingContext } from "components/drawings/drawing";
 import DrawingGrid from "components/drawings/drawingGrid";
 import { Annot } from "components/drawings/annot";
 import { AnnotArrow } from "components/drawings/annotArrow";
-import _uniqueId from "lodash/uniqueId";
+import useId from 'hooks/useId';
 
 
 const _MlNaarDl = () => {
-    const [tellerId, setTellerId] = React.useState(null);
-    const [noemerId, setNoemerId] = React.useState(null);
-    const [annotTellerId, setAnnotTellerId] = React.useState(null);
-    const [annotNoemerId, setAnnotNoemerId] = React.useState(null);
+    const tellerId = useId();
+    const noemerId = useId();
+    const annotTellerId = useId();
+    const annotNoemerId = useId();
     const {xScale, yScale} = React.useContext(DrawingContext);
 
     const annotTeller = String.raw`We komen van *milli-,* dus in de **teller** komt $\htmlId{${annotTellerId}}{\orange{10^{-3}}}$`;
@@ -19,13 +19,6 @@ const _MlNaarDl = () => {
     const breuk = String.raw`$$
 1~\si{\orange{m}l} = \frac{\htmlId{${tellerId}}{\orange{10^{-3}}}}{\htmlId{${noemerId}}{\blue{10^{-1}}}}\si{\blue{d}l}
 $$`;
-
-    React.useEffect(() => {
-        setTellerId(_uniqueId("mlNaarDl_teller"));
-        setNoemerId(_uniqueId("mlNaarDl_noemer"));
-        setAnnotTellerId(_uniqueId("mlNaarDl_teller_annot"));
-        setAnnotNoemerId(_uniqueId("mlNaarDl_noemer_annot"));
-    }, []);
 
     const fontSize = yScale.metric(4);
     const anchorRadius = yScale.metric(10);

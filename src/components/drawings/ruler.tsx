@@ -4,6 +4,7 @@ import _ from "lodash";
 import { getColor } from "../../colors";
 import { DrawingContext } from "./drawing";
 import { useStyles } from "./line";
+import useId from 'hooks/useId';
 
 const Ruler = ({x=0, y=0, angle=0, size=30, major=10, emphasize=null, unit="m", color="yellow", tickColor="dark_gray", opacity=1, lineWidth=1}) => {
     const {xScale, yScale} = useContext(DrawingContext);
@@ -26,7 +27,7 @@ const Ruler = ({x=0, y=0, angle=0, size=30, major=10, emphasize=null, unit="m", 
     const scaledSize = Math.sqrt(Math.pow(xScaledSize, 2) + Math.pow(yScaledSize, 2))
     const width = scaledSize + 2*tickMargin;
 
-    const rulerId = _.uniqueId("rulerRect-");
+    const rulerId = useId();
 
     const rulerRect = (
         <rect x={-tickMargin} y="0" width={width} height={rulerHeight} id={rulerId} rx={rulerRx} fill={color}/>
