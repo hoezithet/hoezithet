@@ -82,16 +82,18 @@ export const Drawing = ({
     const drawingRef = useRef(null);
     const classes = useStyles();
     const [isHovering, setIsHovering] = useState(false);
-    const [parentSize, setParentSize] = useState({
-        width: 0,
-        height: 0,
-    });
     const parentRef = React.useRef(null);
     const isAnimatingButtonsRef = React.useRef(false);
     const insideBare = useContext(BareLessonContext) !== null;
     const containsAnimation = tl.getChildren().length > 0;
 
     const lessonContext = useContext(LessonContext);
+
+    aspect = aspect === null ? Math.abs(right - left) / Math.abs(top - bottom) : aspect;
+    const [parentSize, setParentSize] = useState({
+        width: maxWidth,
+        height: maxWidth/aspect,
+    });
 
     if (lessonContext && fileNrRef.current === 0) {
         lessonContext.fileCount = (
@@ -145,8 +147,6 @@ export const Drawing = ({
     function addAnimation(child, position="+=0") {
         tl.add(child, position);
     };
-
-    aspect = aspect === null ? Math.abs(right - left) / Math.abs(top - bottom) : aspect;
 
     const width = Math.min(parentSize.width, maxWidth);
     const height = width/aspect;
