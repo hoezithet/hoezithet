@@ -30,7 +30,6 @@ const StyledGrid = styled(Grid)`
 `;
 
 const StyledCard = styled(Card)`
-
 `;
 
 export default function SectionCard({title, cardImage, link, children}: SectionItemProps) {
@@ -40,16 +39,14 @@ export default function SectionCard({title, cardImage, link, children}: SectionI
         objectFit="cover"
         objectPosition="50% 50%" />;
     return (
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={4} style={{paddingBottom: "16px"}}>
             <StyledCard>
                 <StyledGrid container justify="center">
-                    <Grid item>
                         { img }
-                    </Grid>
                 </StyledGrid>
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
-                        <Link to={link} style={{color: "black"}}>{ title }</Link>
+                        <Link to={link} style={{color: "inherit", textDecoration: "none"}}>{ title }</Link>
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="div">
                         { children }

@@ -22,9 +22,13 @@ const LogoLink = styled(Link)`
     align-items: center;
     font-weight: 600;
     color: inherit;
-    &:hover {
-        text-decoration: none;
-    }
+    text-decoration: none;
+`;
+
+const QuickLink = styled(Link)`
+    color: inherit;
+    text-decoration: none;
+    padding: .5em;
 `;
 
 const PageButtonsGrid = styled(Grid)``;
@@ -40,11 +44,11 @@ const HzhAppBar = ({ color = "primary", elevation = 1 }: { color: "primary" | "t
     );
     const buttonLinks = (
         <Grid item>
-            <Button to="/lessen">Lessen</Button>
+            <QuickLink to="/lessen">Lessen</QuickLink>
             <span>|</span>
-            <Button to="/trakteer">Drankje trakteren</Button>
+            <QuickLink to="/trakteer">Drankje trakteren</QuickLink>
             <span>|</span>
-            <Button to="/about">Over HZH</Button>
+            <QuickLink to="/about">Over HZH</QuickLink>
         </Grid>
     );
     return (

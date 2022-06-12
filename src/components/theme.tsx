@@ -1,5 +1,5 @@
 import React from 'react';
-import { createTheme, ThemeProvider, Theme, StyledEngineProvider, adaptV4Theme } from '@mui/material/styles';
+import { createTheme, ThemeProvider, Theme, StyledEngineProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import COLORS from '../colors';
 import Matomo from './matomo';
@@ -8,13 +8,13 @@ import 'fontsource-quicksand';
 
 
 declare module '@mui/styles/defaultTheme' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DefaultTheme extends Theme {}
+    // eslint-disable-next-line @typescript-eslint/no-empty-interface
+    interface DefaultTheme extends Theme {}
 }
 
 
 
-export const theme = createTheme(adaptV4Theme({
+export const theme = createTheme({
     typography: {
         fontFamily: [
             'Quicksand',
@@ -41,9 +41,9 @@ export const theme = createTheme(adaptV4Theme({
             main: COLORS.GREEN,
         },
     },
-    overrides: {
+    components: {
         MuiCssBaseline: {
-            '@global': {
+            styleOverrides: {
                 body: {
                     backgroundColor: COLORS.NEAR_WHITE,
                     fontSize: "1rem",
@@ -59,48 +59,58 @@ export const theme = createTheme(adaptV4Theme({
                 ".gatsby-resp-image-wrapper": {
                     breakInside: "avoid"
                 },
-        "table": {
-            textAlign: "center",
-            margin: "auto",
-            breakInside: "avoid",
-            borderCollapse: "separate",
-            "& thead": {
-                backgroundColor: COLORS.LIGHT_GRAY,
-            },
-            "& td, th": {
-                padding: "16px",
-            },
-            "& th:first-of-type": {
-                 borderRadius: ".5rem 0 0 0",
-            },
-            "& th:last-child": {
-                 borderRadius: "0 .5rem 0 0",
-            },
-            "& > tbody > tr:last-child > td:first-of-type": {
-                borderRadius: "0 0 0 .5rem",
-            },
-            "& > tbody > tr:last-child > td:last-child": {
-                borderRadius: "0 0 .5rem 0",
-            },
-            "& > tbody > tr:nth-of-type(odd)": {
-                backgroundColor: "#eee",
-            },
-            "& > tbody > tr:nth-of-type(even)": {
-                backgroundColor: "#f1f1f1",
-            },
-        }
-        }
+                "table": {
+                    textAlign: "center",
+                    margin: "auto",
+                    breakInside: "avoid",
+                    borderCollapse: "separate",
+                    "& thead": {
+                        backgroundColor: COLORS.LIGHT_GRAY,
+                    },
+                    "& td, th": {
+                        padding: "16px",
+                    },
+                    "& th:first-of-type": {
+                        borderRadius: ".5rem 0 0 0",
+                    },
+                    "& th:last-child": {
+                        borderRadius: "0 .5rem 0 0",
+                    },
+                    "& > tbody > tr:last-child > td:first-of-type": {
+                        borderRadius: "0 0 0 .5rem",
+                    },
+                    "& > tbody > tr:last-child > td:last-child": {
+                        borderRadius: "0 0 .5rem 0",
+                    },
+                    "& > tbody > tr:nth-of-type(odd)": {
+                        backgroundColor: "#eee",
+                    },
+                    "& > tbody > tr:nth-of-type(even)": {
+                        backgroundColor: "#f1f1f1",
+                    },
+                }
+            }
         },
         MuiLink: {
-            root: {
-                color: COLORS.BLUE,
-                "&:hover": {
-                    opacity: "60%",
-                },
+            styleOverrides: {
+                root: {
+                    color: COLORS.BLUE,
+                    textDecorationColor: COLORS.BLUE,
+                    "&:hover": {
+                        opacity: "60%",
+                    },
+                }
             }
-        }
-    }
-}));
+        },
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    color: "inherit",
+                }
+            }
+        },
+    },
+});
 
 interface HzhThemeProps {
     children: React.ReactElement;

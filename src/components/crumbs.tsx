@@ -12,6 +12,7 @@ export interface CrumbProps {
 
 const BreadcrumbLink = styled(Link)`
     color: inherit;
+    text-decoration: none;
 `;
 
 const Crumbs = ({ crumbs }: CrumbProps) => {
