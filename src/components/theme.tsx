@@ -70,22 +70,22 @@ export const theme = createTheme(adaptV4Theme({
             "& td, th": {
                 padding: "16px",
             },
-            "& th:first-child": {
+            "& th:first-of-type": {
                  borderRadius: ".5rem 0 0 0",
             },
             "& th:last-child": {
                  borderRadius: "0 .5rem 0 0",
             },
-            "& > tbody > tr:last-child > td:first-child": {
+            "& > tbody > tr:last-child > td:first-of-type": {
                 borderRadius: "0 0 0 .5rem",
             },
             "& > tbody > tr:last-child > td:last-child": {
                 borderRadius: "0 0 .5rem 0",
             },
-            "& > tbody > tr:nth-child(odd)": {
+            "& > tbody > tr:nth-of-type(odd)": {
                 backgroundColor: "#eee",
             },
-            "& > tbody > tr:nth-child(even)": {
+            "& > tbody > tr:nth-of-type(even)": {
                 backgroundColor: "#f1f1f1",
             },
         }
