@@ -139,22 +139,17 @@ export const AnnotArrow = ({
     color="light_gray", opacity=1, lineWidth=2,
     hideHead=false, dashed=false,
 }: AnnotArrowProps) => {
-    const [annotCoord, setAnnotCoord] = React.useState(null);
-    const [targetCoords, setTargetCoords] = React.useState(null);
+    let [annotCoord, setAnnotCoord] = React.useState(null);
+    let [targetCoords, setTargetCoords] = React.useState(null);
     const [vAlignAnnot, hAlignAnnot] = annotAlign.split(" ");
     const [vAlignTarget, hAlignTarget] = targetAlign.split(" ");
 
     const anchorAngleAnnot = getAngleFromAlign(hAlignAnnot, vAlignAnnot);
     const anchorAngleTarget = getAngleFromAlign(hAlignTarget, vAlignTarget);
 
-    React.useEffect(() => {
-        const newAnnotCoord = convertToCoord(annot, hAlignAnnot, vAlignAnnot);
-        const formattedTarget = Array.isArray(target) && target.length > 0 && typeof target[0] !== "number" ? target : [target];
-        const newTargetCoords = formattedTarget.map(t => convertToCoord(t, hAlignTarget, vAlignTarget));
-
-        setAnnotCoord(newAnnotCoord);
-        setTargetCoords(newTargetCoords)
-    }, [annot, target]);
+    annotCoord = convertToCoord(annot, hAlignAnnot, vAlignAnnot);
+    const formattedTarget = Array.isArray(target) && target.length > 0 && typeof target[0] !== "number" ? target : [target];
+    targetCoords = formattedTarget.map(t => convertToCoord(t, hAlignTarget, vAlignTarget));
 
     if (anchorRadiusTarget === null) {
         anchorRadiusTarget = anchorRadius;
