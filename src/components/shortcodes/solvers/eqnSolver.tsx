@@ -81,7 +81,7 @@ const useStyles = makeStyles<Theme, UseStylesProps>(theme => ({
     descrText: {
         textAlign: ({ showSubsteps }) => (showSubsteps ? "center" : "left"),
         position: "absolute",
-        left: ({ descrWidth }) => `${descrWidth / 2 + theme.spacing(2)}px`,
+        left: ({ descrWidth }) => `${descrWidth / 2 + 10}px`,
     },
     descrWrapper: {
         position: "relative",

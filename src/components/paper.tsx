@@ -11,8 +11,8 @@ type StylesPropType = {
 
 const useStyles = makeStyles({
     paper: {
-        padding: (props: StylesPropType) => `${props.theme.spacing(2)}px`,
-        margin: (props: StylesPropType) => `${props.theme.spacing(1)}px`,
+        padding: (props: StylesPropType) => `${props.theme.spacing(2)}`,
+        margin: (props: StylesPropType) => `${props.theme.spacing(1)}`,
         breakInside: "avoid",
     }
 });
