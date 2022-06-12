@@ -20,21 +20,6 @@ const _MlNaarDl = () => {
 1~\si{\orange{m}l} = \frac{\htmlId{${tellerId}}{\orange{10^{-3}}}}{\htmlId{${noemerId}}{\blue{10^{-1}}}}\si{\blue{d}l}
 $$`;
 
-    const annotTellerReadyRef = React.useRef(false);
-    const annotNoemerReadyRef = React.useRef(false);
-    const breukReadyRef = React.useRef(false);
-    const [isArrowDrawn, setIsArrowDrawn] = React.useState(false);
-
-    const buildOnComplete = (ref) => () => {
-        ref.current = true;
-        if (annotTellerReadyRef.current
-            && annotNoemerReadyRef.current
-            && breukReadyRef.current
-            && !isArrowDrawn) {
-                setIsArrowDrawn(true);
-        }
-    };
-
     React.useEffect(() => {
         setTellerId(_uniqueId("mlNaarDl_teller"));
         setNoemerId(_uniqueId("mlNaarDl_noemer"));
@@ -48,24 +33,17 @@ $$`;
 
     return (
         <>
-            <Annot x={xScale(40)} y={yScale(70)} fontSize={fontSize} width={xScale.metric(40)} align="bottom right"
-                onComplete={buildOnComplete(annotTellerReadyRef)}>
+            <Annot x={xScale(40)} y={yScale(70)} fontSize={fontSize} width={xScale.metric(40)} align="bottom right">
                 { annotTeller }
             </Annot>
-            <Annot x={xScale(50)} y={yScale(50)} fontSize={fontSize}
-                onComplete={buildOnComplete(breukReadyRef)}>
+            <Annot x={xScale(50)} y={yScale(50)} fontSize={fontSize}>
                 { breuk }
             </Annot>
-            <Annot x={xScale(90)} y={yScale(30)} fontSize={fontSize} width={xScale.metric(40)} align="top right"
-                onComplete={buildOnComplete(annotNoemerReadyRef)}>
+            <Annot x={xScale(90)} y={yScale(30)} fontSize={fontSize} width={xScale.metric(40)} align="top right">
                 { annotNoemer }
             </Annot>
-            { isArrowDrawn ?
-              <>
-                <AnnotArrow target={`#${tellerId}`} annot={`#${annotTellerId}`} annotAlign="bottom center" targetAlign="top left" anchorRadiusTarget={anchorRadius} anchorRadiusAnnot={anchorRadius}/>
-                <AnnotArrow target={`#${noemerId}`} annot={`#${annotNoemerId}`} annotAlign="top right" targetAlign="bottom right" anchorRadiusTarget={anchorRadius} anchorRadiusAnnot={anchorRadius2}/>
-              </>
-              : null }
+            <AnnotArrow target={`#${tellerId}`} annot={`#${annotTellerId}`} annotAlign="bottom center" targetAlign="top left" anchorRadiusTarget={anchorRadius} anchorRadiusAnnot={anchorRadius}/>
+            <AnnotArrow target={`#${noemerId}`} annot={`#${annotNoemerId}`} annotAlign="top right" targetAlign="bottom right" anchorRadiusTarget={anchorRadius} anchorRadiusAnnot={anchorRadius2}/>
         </>
    );
 };

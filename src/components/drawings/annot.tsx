@@ -37,7 +37,6 @@ export type AnnotProps = {
     textPadding?: string|number,
     borderRadius?: string|number,
     parentPadding?: string|number,
-    onComplete: () => void,
     children: string
 };
 
@@ -50,7 +49,6 @@ export const Annot = ({
     fontSize="inherit", color="inherit",
     textPadding=null, borderRadius=null,
     parentPadding=null,
-    onComplete=() => {},
     children
 }: AnnotProps) => {
     [textPadding, borderRadius, parentPadding] = (
@@ -128,7 +126,7 @@ export const Annot = ({
         <foreignObject x={x} y={y} width={`${width}`} height={`${height}`}>
             <div xmlns="http://www.w3.org/1999/xhtml" style={divParentStyle}>
                 <div className={`${classes.divNoteChild} ${className}`} style={divChildStyle}>
-                    <Markdown onComplete={onComplete}>{ children }</Markdown>
+                    <Markdown>{ children }</Markdown>
                 </div>
             </div>
         </foreignObject>

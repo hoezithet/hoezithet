@@ -11,11 +11,8 @@ import rehypeMathjaxSvg from 'rehype-mathjax/svg.js';
 import {select, selectAll} from 'unist-util-select';
 
 
-const useMarkdown = (mathProcessor: string, onComplete = () => {}) => {
-    const [reactContent, setReactContent] = React.useState<React.ReactElement | null>(null);
-    const [markdownSource, setMarkdownSource] = React.useState<string | null>(null);
-
-    React.useEffect(() => {
+const useMarkdown = (markdownSource, mathProcessor: string = 'mathjax') => {
+    return React.useMemo(() => {
         let processor = unified().use(remark)
             .use(dropParagraph);
 
@@ -29,21 +26,9 @@ const useMarkdown = (mathProcessor: string, onComplete = () => {}) => {
             processor = processor.use(rehypeMathjaxSvg, mathjaxOptions);
         }
 
-        let isMounted = true;
-
         processor = processor.use(rehype2react, { createElement: React.createElement, Fragment: React.Fragment });
-        processor.process(markdownSource)
-          .then((vfile) => {
-              if (isMounted) {
-                  setReactContent(vfile.result as React.ReactElement);
-                  onComplete();
-              }
-          });
-
-        return () => { isMounted = false };
+        return processor.processSync(markdownSource).result;
     }, [markdownSource]);
-
-    return [reactContent, setMarkdownSource];
 };
 
 

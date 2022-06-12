@@ -27,21 +27,6 @@ $$
 $$
 `;
 
-    const annotTellerReadyRef = React.useRef(false);
-    const annotNoemerReadyRef = React.useRef(false);
-    const breukReadyRef = React.useRef(false);
-    const [isArrowDrawn, setIsArrowDrawn] = React.useState(false);
-
-    const buildOnComplete = (ref) => () => {
-        ref.current = true;
-        if (annotTellerReadyRef.current
-            && annotNoemerReadyRef.current
-            && breukReadyRef.current
-            && !isArrowDrawn) {
-                setIsArrowDrawn(true);
-        }
-    };
-
     React.useEffect(() => {
         setTellerId(_uniqueId("cm2NaarDm2_teller"));
         setNoemerId(_uniqueId("cm2NaarDm2_noemer"));
@@ -54,22 +39,15 @@ $$
 
     return (
         <>
-            { isArrowDrawn ?
-              <>
-                <AnnotArrow target={`#${tellerId}`} annot={`#${annotTellerId}`} annotAlign="center right" targetAlign="top center" anchorRadiusTarget={anchorRadius} anchorRadiusAnnot={anchorRadius}/>
-                <AnnotArrow target={`#${noemerId}`} annot={`#${annotNoemerId}`} annotAlign="center right" targetAlign="bottom center" anchorRadiusTarget={anchorRadius} anchorRadiusAnnot={anchorRadius}/>
-              </>
-              : null }
-            <Annot x={xScale(40)} y={yScale(70)} fontSize={fontSize} width={xScale.metric(40)} align="bottom right"
-                onComplete={buildOnComplete(annotTellerReadyRef)}>
+            <AnnotArrow target={`#${tellerId}`} annot={`#${annotTellerId}`} annotAlign="center right" targetAlign="top center" anchorRadiusTarget={anchorRadius} anchorRadiusAnnot={anchorRadius}/>
+            <AnnotArrow target={`#${noemerId}`} annot={`#${annotNoemerId}`} annotAlign="center right" targetAlign="bottom center" anchorRadiusTarget={anchorRadius} anchorRadiusAnnot={anchorRadius}/>
+            <Annot x={xScale(40)} y={yScale(70)} fontSize={fontSize} width={xScale.metric(40)} align="bottom right">
                 { annotTeller }
             </Annot>
-            <Annot x={xScale(50)} y={yScale(50)} fontSize={fontSize}
-                onComplete={buildOnComplete(breukReadyRef)}>
+            <Annot x={xScale(50)} y={yScale(50)} fontSize={fontSize}>
                 { breuk }
             </Annot>
-            <Annot x={xScale(40)} y={yScale(40)} fontSize={fontSize} width={xScale.metric(40)} align="top right"
-                onComplete={buildOnComplete(annotNoemerReadyRef)}>
+            <Annot x={xScale(40)} y={yScale(40)} fontSize={fontSize} width={xScale.metric(40)} align="top right">
                 { annotNoemer }
             </Annot>
         </>
