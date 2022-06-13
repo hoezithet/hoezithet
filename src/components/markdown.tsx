@@ -8,6 +8,9 @@ type MarkdownPropTypes = {
 }
 
 const Markdown = ({children, mathProcessor = 'mathjax'}: MarkdownPropTypes) => {
+    if (typeof children !== "string") {
+        return children;
+    }
     return useMarkdown(children);
 };
 
