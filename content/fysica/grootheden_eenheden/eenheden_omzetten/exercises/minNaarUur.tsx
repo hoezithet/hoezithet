@@ -29,7 +29,7 @@ Hoeveel uur zijn $93{,}72~\si{min}$ dan?
 `;
 const ex2Choices = String.raw`$1{,}562~\si{h}$
 $5623~\si{h}$
-$0,02603~\si{h}$
+$0{,}02603~\si{h}$
 $337~392~\si{h}$`.split('\n');
 const ex2Expl = String.raw`
 Uit de vorige vraag leerden we dat $1~\si{min} = \frac{1}{60}~\si{h}$. We kunnen de $\si{min}$ in $93{,}72~\si{min}$ dus vervangen door $\frac{1}{60}~\si{h}$:
