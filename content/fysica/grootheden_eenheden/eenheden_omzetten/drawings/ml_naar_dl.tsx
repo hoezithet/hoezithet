@@ -35,8 +35,8 @@ $$`;
             <Annot x={xScale(90)} y={yScale(30)} fontSize={fontSize} width={xScale.metric(40)} align="top right">
                 { annotNoemer }
             </Annot>
-            <AnnotArrow target={`#${tellerId}`} annot={`#${annotTellerId}`} annotAlign="bottom center" targetAlign="top left" anchorRadiusTarget={anchorRadius} anchorRadiusAnnot={anchorRadius}/>
-            <AnnotArrow target={`#${noemerId}`} annot={`#${annotNoemerId}`} annotAlign="top right" targetAlign="bottom right" anchorRadiusTarget={anchorRadius} anchorRadiusAnnot={anchorRadius2}/>
+            <AnnotArrow annot={[xScale(35.5), yScale(70.5)]} target={[xScale(51), yScale(56)]} annotAlign="bottom center" targetAlign="top left" anchorRadiusTarget={anchorRadius} anchorRadiusAnnot={anchorRadius}/>
+            <AnnotArrow annot={[xScale(90), yScale(18)]} target={[xScale(60), yScale(44)]} annotAlign="top right" targetAlign="bottom right" anchorRadiusTarget={anchorRadius} anchorRadiusAnnot={anchorRadius2}/>
         </>
    );
 };
