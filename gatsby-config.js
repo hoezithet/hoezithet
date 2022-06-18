@@ -1,5 +1,5 @@
 module.exports = {
-    flags: { PRESERVE_WEBPACK_CACHE: true, FAST_DEV: true, PARALLEL_SOURCING: true },
+    flags: { PRESERVE_WEBPACK_CACHE: true, FAST_DEV: true },
     siteMetadata: {
         organization: {
             name: `Hoe Zit Het?`,
@@ -91,5 +91,8 @@ module.exports = {
         },
         `gatsby-plugin-styled-components`,
         `gatsby-plugin-catch-links`,
+        {
+            resolve: `gatsby-plugin-nprogress`,
+        },
     ],
 };
