@@ -37,7 +37,7 @@ export default function SectionCard({title, cardImage, link, children}: SectionI
         image={cardImage.childImageSharp.gatsbyImageData}
         alt={title}
         objectFit="cover"
-        objectPosition="50% 50%" />;
+        objectPosition="50% 50%" style={{margin: 'auto'}} />;
     return (
         <Grid item xs={12} sm={4} style={{paddingBottom: "16px"}}>
             <StyledCard>
