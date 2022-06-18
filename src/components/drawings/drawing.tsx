@@ -150,13 +150,15 @@ export const Drawing = ({
 
     const width = Math.min(parentSize.width, maxWidth);
     const height = width/aspect;
+
     const xScale = scaleLinear({
-        range: [width*margin, width*(1 - margin)],
+        range: [maxWidth*margin, maxWidth*(1 - margin)],
         domain: [left, right],
     });
 
+    const maxHeight = maxWidth/aspect;
     const yScale = scaleLinear({
-        range: [height*(1 - margin), height*margin],
+        range: [maxHeight*(1 - margin), maxHeight*margin],
         domain: [bottom, top],
     });
 
@@ -202,8 +204,8 @@ export const Drawing = ({
     return (
         <div ref={parentRef} className={classes.wrapper} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
             <AnimationContext.Provider value={{addAnimation: addAnimation}}>
-                <DrawingContext.Provider value={{width: width, height: height, xScale: xScale, yScale: yScale, ref: drawingRef}}>
-                    <svg width={width} height={height} ref={drawingRef} className={`${classes.drawing} drawing ${className}`} xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+                <DrawingContext.Provider value={{width: maxWidth, height: maxHeight, xScale: xScale, yScale: yScale, ref: drawingRef}}>
+                    <svg width={width} height={height} ref={drawingRef} className={`${classes.drawing} drawing ${className}`} xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox={`0 0 ${maxWidth} ${maxHeight}`}>
                         { children }
                         { noWatermark ?
                         null :
