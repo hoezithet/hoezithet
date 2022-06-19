@@ -2,7 +2,6 @@ import React, { createContext, useContext, useEffect, useRef, useState } from 'r
 
 import { DrawingContext } from "./drawing";
 import { ArrowLine } from "./arrow";
-import { useStyles } from "./line";
 
 
 type Coordinate = {

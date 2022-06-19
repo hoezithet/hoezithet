@@ -1,16 +1,15 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import makeStyles from '@mui/styles/makeStyles';
-import { getColor } from "../../colors";
+import styled from "styled-components";
+
+import { getColor } from "colors";
 import { Drawing } from "./drawing";
 import { Axes } from "./axes";
 
 
-const useStyles = makeStyles({
-    plot: {
-        display: "block",
-        margin: "auto"
-    },
-});
+const PlotDrawing = styled(Drawing)`
+    display: block;
+    margin: auto;
+`;
 
 export const Plot = ({
     children=null,
@@ -26,12 +25,10 @@ export const Plot = ({
     maxWidth=500
 }) => {
     // Wrapper class for Drawing + Axes
-    const classes = useStyles();
     return (
-        <Drawing maxWidth={maxWidth} aspect={aspect}
+        <PlotDrawing maxWidth={maxWidth} aspect={aspect}
             margin={margin + axisMargin}
-            left={xMin} bottom={yMin} right={xMax} top={yMax}
-            className={classes.plot}>
+            left={xMin} bottom={yMin} right={xMax} top={yMax}>
             <Axes xTicks={xTicks} yTicks={yTicks}
                 xLabel={xLabel} yLabel={yLabel}
                 xTickFormat={xTickFormat} yTickFormat={yTickFormat}
@@ -40,6 +37,6 @@ export const Plot = ({
                 xAxisMargin={axisMargin} yAxisMargin={axisMargin}>
                 {children} 
             </Axes>
-        </Drawing>
+        </PlotDrawing>
     );
 };

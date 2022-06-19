@@ -3,15 +3,13 @@ import _ from "lodash";
 
 import { getColor } from "../../colors";
 import { DrawingContext } from "./drawing";
-import { useStyles } from "./line";
+import { StyledPath } from "./line";
 import useId from 'hooks/useId';
 
 const Ruler = ({x=0, y=0, angle=0, size=30, major=10, emphasize=null, unit="m", color="yellow", tickColor="dark_gray", opacity=1, lineWidth=1}) => {
     const {xScale, yScale} = useContext(DrawingContext);
     color = getColor(color);
     tickColor = getColor(tickColor);
-    const tickClasses = useStyles({color: tickColor, lineWidth: lineWidth, opacity: opacity});
-    const emphasizeTickClasses = useStyles({color: tickColor, lineWidth: lineWidth*2, opacity: opacity});
     const tickMargin = 20;
     const majorTickLength = 10;
     const minorTickLength = 5;
@@ -48,8 +46,8 @@ const Ruler = ({x=0, y=0, angle=0, size=30, major=10, emphasize=null, unit="m", 
                     const isEmphasize = i === emphasize;
                     return (
                     <g key={i}>
-                        <path d={`M ${xPos},0 v ${isMajor || isSemiMajor ? majorTickLength : minorTickLength}`}
-                              className={isEmphasize ? emphasizeTickClasses.line : tickClasses.line} />
+                        <StyledPath d={`M ${xPos},0 v ${isMajor || isSemiMajor ? majorTickLength : minorTickLength}`}
+                            tickColor={tickColor} strokeWidth={isEmphasize ? 2*lineWidth : lineWidth} strokeOpacity={opacity} />
                         { isMajor ?
                           <text x={xPos} y={majorTickLength} fontSize="x-small"
                                 fill={tickColor}

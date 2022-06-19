@@ -27,7 +27,7 @@ $$
 $$
 `;
 
-    const fontSize = yScale.metric(4);
+    const fontSize = `${yScale.metric(4)}px`;
     const anchorRadius = yScale.metric(10);
 
     return (

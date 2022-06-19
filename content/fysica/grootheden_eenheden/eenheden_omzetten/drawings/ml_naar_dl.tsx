@@ -20,7 +20,7 @@ const _MlNaarDl = () => {
 1~\si{\orange{m}l} = \frac{\htmlId{${tellerId}}{\orange{10^{-3}}}}{\htmlId{${noemerId}}{\blue{10^{-1}}}}\si{\blue{d}l}
 $$`;
 
-    const fontSize = yScale.metric(4);
+    const fontSize = `${yScale.metric(4)}px`;
     const anchorRadius = yScale.metric(10);
     const anchorRadius2 = yScale.metric(20);
 

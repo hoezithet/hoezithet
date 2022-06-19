@@ -1,30 +1,20 @@
 import React from 'react';
-import { useTheme, Theme } from '@mui/material/styles';
-import makeStyles from '@mui/styles/makeStyles';
+import styled from "styled-components";
 import MuiPaper from '@mui/material/Paper';
 
 
-type StylesPropType = {
-    theme: Theme
-}
+const _Paper = styled(MuiPaper)`
+    padding: 32px;
+    margin: 16px;
+    break-inside: "avoid";
+`;
 
-
-const useStyles = makeStyles({
-    paper: {
-        padding: (props: StylesPropType) => `${props.theme.spacing(2)}`,
-        margin: (props: StylesPropType) => `${props.theme.spacing(1)}`,
-        breakInside: "avoid",
-    }
-});
 
 const Paper = (props: React.PropsWithChildren<any>) => {
-    const theme = useTheme();
-    const classes = useStyles({ theme });
-
     return (
-        <MuiPaper className={classes.paper}>
+        <_Paper>
             { props.children }
-        </MuiPaper>
+        </_Paper>
     );
 };
 

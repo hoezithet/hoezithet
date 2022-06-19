@@ -1,13 +1,11 @@
 import React, { useContext } from 'react';
-import makeStyles from '@mui/styles/makeStyles';
 
 import { getColor } from "../../colors";
 import { DrawingContext } from "./drawing";
-import { useStyles } from "./line";
+import { StyledPath } from "./line";
 
 
 export const Fx = ({fx, nSamples=null, xStart=null, xEnd=null, color="blue", opacity=1, lineWidth=3}) => {
-    const classes = useStyles({color: getColor(color), lineWidth: lineWidth, opacity: opacity});
     const {xScale, yScale, xMargin, yMargin} = useContext(DrawingContext);
     const [xMin, xMax] = xScale.domain();
     xStart = xStart === null ? xMin - 0.5*(xMax - xMin) : xStart;
@@ -16,6 +14,6 @@ export const Fx = ({fx, nSamples=null, xStart=null, xEnd=null, color="blue", opa
     const xs = [...Array(nSamples + 1).keys()].map((x, i) => x*(xEnd - xStart)/nSamples + xStart).filter(x => !isNaN(fx(x)));
     const getCoord = x => `${xScale(x)} ${yScale(fx(x))}`;
     return (
-        <path d={`M${xs.map(x => getCoord(x)).join(' L ')}`} className={classes.line}/>
+        <StyledPath d={`M${xs.map(x => getCoord(x)).join(' L ')}`} stroke={getColor(color)} strokeWidth={lineWidth}/>
     );
 };

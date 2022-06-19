@@ -1,25 +1,23 @@
 import React, { useContext } from 'react';
 import { hexToRGB, getColor } from "../../colors";
-import makeStyles from '@mui/styles/makeStyles';
-import Paper from '@mui/material/Paper';
 
-import { theme } from "../theme";
+import styled from 'styled-components';
+
 import { DrawingContext } from "./drawing";
 import Markdown from "../markdown";
 import { isNumeric } from "../../utils/number";
 
 
-const useStylesNote = makeStyles({
-    divNoteChild: {
-        '& p': {
-            margin: "0",  // Remove paragraph margin
-        },
-        backgroundColor: props => props.backgroundColor,
-        borderRadius: props => props.borderRadius,
-        padding: props => props.textPadding,
-        color: props => props.color,
+const AnnotChild = styled.div`
+    & p {
+        margin: 0;  // Remove paragraph margin
     }
-});
+    background-color: ${props => props.backgroundColor};
+    border-radius: ${props => props.borderRadius};
+    padding: ${props => props.textPadding};
+    color: ${props => props.color};
+    font-size: ${props => props.fontSize};
+`;
 
 
 export type AnnotProps = {
@@ -31,7 +29,6 @@ export type AnnotProps = {
     backgroundOpacity?: number,
     showBackground?: boolean,
     align?: string,
-    className?: string,
     fontSize?: string|number,
     color?: string,
     textPadding?: string|number,
@@ -45,7 +42,6 @@ export const Annot = ({
     x=0, y=0, width=null, height=null,
     backgroundColor="white", backgroundOpacity=1,
     showBackground=false, align="center center",
-    className="",
     fontSize="inherit", color="inherit",
     textPadding=null, borderRadius=null,
     parentPadding=null,
@@ -101,14 +97,6 @@ export const Annot = ({
 
     backgroundColor = getColor(backgroundColor, backgroundOpacity);
 
-    const classes = useStylesNote({
-        justifyContent: justifyContent, alignItems: alignItems,
-        backgroundColor: backgroundColor,
-        color: color,
-        borderRadius: borderRadius,
-        textPadding: textPadding,
-    }); 
-
     const divParentStyle = {
         height: "100%",
         width: "100%",
@@ -118,16 +106,18 @@ export const Annot = ({
         textAlign: hAlign,
         padding: parentPadding,
     };
-    const divChildStyle = {
-        fontSize: fontSize,
-    };
 
     return (
         <foreignObject x={x} y={y} width={`${width}`} height={`${height}`}>
             <div xmlns="http://www.w3.org/1999/xhtml" style={divParentStyle}>
-                <div className={`${classes.divNoteChild} ${className}`} style={divChildStyle}>
+                <AnnotChild backgroundColor={backgroundColor}
+                    color={color}
+                    borderRadius={borderRadius}
+                    textPadding={textPadding}
+                    fontSize={fontSize}
+                >
                     <Markdown>{ children }</Markdown>
-                </div>
+                </AnnotChild>
             </div>
         </foreignObject>
     );

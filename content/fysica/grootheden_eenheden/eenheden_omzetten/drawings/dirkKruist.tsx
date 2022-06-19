@@ -73,7 +73,7 @@ const TextBallon = ({text, gsapPosition, width=1000}) => {
               lineWidth={10}
               anchorRadiusTarget={50} anchorRadiusAnnot={50}
               annotAlign="bottom right" hideHead color="gray"/>
-          <Annot x={noteX} y={noteY} width={width} height={1080} fontSize={60}
+          <Annot x={noteX} y={noteY} width={width} height={1080} fontSize="60px"
               align="bottom right"
               textPadding=".5em"
               borderRadius=".25em"

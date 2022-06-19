@@ -2,11 +2,10 @@ import React, { useContext } from 'react';
 
 import { getColor } from "../../colors";
 import { DrawingContext } from "./drawing";
-import { useStyles } from "./line";
+import { StyledPath } from "./line";
 
 const Spring = ({x=0, y=0, length=30, endsLength=5, loopDiameter=10, numLongLoops=10, numShortLoops=3, color="gray", opacity=1, lineWidth=3, angle=0}) => {
     const {xScale, yScale} = useContext(DrawingContext);
-    const classes = useStyles({color: getColor(color), lineWidth: lineWidth, opacity: opacity});
     const totalLoopSize = (length - 2*endsLength);
     const totalLongLoopSize = totalLoopSize*(18/20);
     const totalShortLoopSize = totalLoopSize*(1/20);
@@ -23,7 +22,7 @@ const Spring = ({x=0, y=0, length=30, endsLength=5, loopDiameter=10, numLongLoop
     const shortLoopStr = getLoopStr(sShortLoopSize, sLoopDiameter);
     return (
         <g transform={`translate(${xScale(x)} ${yScale(y)}) rotate(${angle})`} >
-            <path d={`M 0,0 h ${sEndsLength} ${shortLoopStr.repeat(numShortLoops)} ${longLoopStr.repeat(numLongLoops)} ${shortLoopStr.repeat(numShortLoops)} h ${sEndsLength}`} className={classes.line}/>
+            <StyledPath d={`M 0,0 h ${sEndsLength} ${shortLoopStr.repeat(numShortLoops)} ${longLoopStr.repeat(numLongLoops)} ${shortLoopStr.repeat(numShortLoops)} h ${sEndsLength}`} stroke={getColor(color)} strokeWidth={lineWidth} strokeOpacity={opacity} />
         </g>
     );
 };

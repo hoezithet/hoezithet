@@ -1,8 +1,5 @@
 import React from "react";
 import { getColor } from "../../colors";
-import styled from "styled-components";
-import { Theme } from '@mui/material/styles';
-import makeStyles from '@mui/styles/makeStyles';
 import Markdown from "../markdown";
 
 
@@ -15,16 +12,9 @@ type ColorSpanProps = {
     colorValue: string
 };
 
-const useStyles = makeStyles<Theme, ColorSpanProps>({
-    colorSpan: {
-        color: props => props.colorValue,
-    }
-});
-
 const Color = ({ color, children }: ColorProps) => {
-    const classes = useStyles({colorValue: getColor(color)});
     return (
-    <span className={classes.colorSpan}>
+    <span style={{color: getColor(color)}}>
         <Markdown>{ children }</Markdown>
     </span>
     );

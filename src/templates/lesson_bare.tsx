@@ -14,55 +14,36 @@ import Box from "@mui/material/Box";
 import { components, MdxNode, shortcodes } from "./lesson";
 import LessonContext from "../contexts/lessonContext";
 import { ToggleImageBare } from "../components/shortcodes/toggleImage";
-import makeStyles from '@mui/styles/makeStyles';
+import styled from 'styled-components';
 import { LessonSolutions } from '../components/exercises/lessonSolutions'
 
 
-const useStyles = makeStyles({
-    img: {
-        width: "100%",
-        height: "auto",
-        position: "absolute",
-        top: "0px",
-    },
-    header: {
-        breakInside: "avoid",
-        "&::after": {
-            content: '""',
-            display: "block",
-            height: "100px",
-            marginBottom: "-100px",
-        }
-    }
-});
+const _BareImage = styled.img`
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0px;
+`;
 
 const BareImage = (props) => {
-    const classes = useStyles();
     return (
-        <img src={props.src} className={`gatsby-resp-image-image bare-img ${classes.img}`}/>
+        <_BareImage src={props.src} className={`gatsby-resp-image-image bare-img`}/>
     );
 };
 
-const BareH1 = (props) => {
-    const classes = useStyles();
-    return (
-        <h1 {...props} className={`${props.className || ""} ${classes.header}`}/>
-    );
-};
+const headerStyle = `
+    break-inside: avoid;
+    &::after {
+        content: "";
+        display: block;
+        height: 100px;
+        margin-bottom: -100px;
+    }
+`;
 
-const BareH2 = (props) => {
-    const classes = useStyles();
-    return (
-        <h2 {...props} className={`${props.className || ""} ${classes.header}`}/>
-    );
-};
-
-const BareH3 = (props) => {
-    const classes = useStyles();
-    return (
-        <h3 {...props} className={`${props.className || ""} ${classes.header}`}/>
-    );
-};
+const BareH1 = styled.h1`${headerStyle}`;
+const BareH2 = styled.h2`${headerStyle}`;
+const BareH3 = styled.h3`${headerStyle}`;
 
 type AnchorProps = {
     href: string

@@ -5,7 +5,7 @@ import filter from 'lodash/filter';
 import Markdown from 'components/markdown'
 import COLORS from '../../colors';
 import { gsap } from 'gsap';
-import makeStyles from '@mui/styles/makeStyles';
+import styled from "styled-components";
 import Button from '@mui/material/Button';
 
 const inClient = typeof window !== "undefined";
@@ -21,11 +21,9 @@ type AnimTexPropsType = {
     children: string
 }
 
-const useStyles = makeStyles({
-    root: {
-        position: 'relative',
-    }
-});
+const RootDiv = styled.div`
+    position: 'relative',
+`;
 
 const hideAllChildrenWithoutClass = (svg, className) => {
     if (svg?.className?.baseVal === className.baseVal) {
@@ -290,7 +288,6 @@ const cartesian =
   (...a) => a.reduce((a, b) => a.flatMap(d => b.map(e => [d, e].flat()))); 
 
 export const AnimTex = ({ children }: AnimTexPropsType) => {
-    const classes = useStyles();
     const [rootNode, setRootNode] = useState(null);
     const [isAnimating, setIsAnimating] = useState(false);
 
@@ -340,10 +337,10 @@ export const AnimTex = ({ children }: AnimTexPropsType) => {
     };
 
     return (
-        <div ref={nodeRefCallback} className={classes.root} >
+        <RootDiv ref={nodeRefCallback}>
             <Markdown>{ children }</Markdown>
             <Button onClick={handleClick} color="primary" variant="contained" disabled={rootNode === null || isAnimating} >Animate</Button>
-        </div>
+        </RootDiv>
     );
 };
 
@@ -380,7 +377,6 @@ const drawMath = (pathNode, highlight=true) => {
  * Children contains optional substeps.
  */
 export const ExplanationStep = ({ children=null, beforeLhs, beforeRhs, afterLhs, afterRhs, selector, explanation, arrow='equivalence', detailedExplanation=null }: ExplanationStepPropsType) => {
-    const classes = useStyles();
     const [rootNode, setRootNode] = useState(null);
     const [isAnimating, setIsAnimating] = useState(false);
 
@@ -430,7 +426,7 @@ export const ExplanationStep = ({ children=null, beforeLhs, beforeRhs, afterLhs,
     }
     
     return (
-        <div ref={nodeRefCallback} className={classes.root} >
+        <RootDiv ref={nodeRefCallback}>
             <Markdown>{ `${explanation.endsWith(':') ? explanation.slice(-1) : explanation}:` }</Markdown>
             <div className="eqnBefore">
                 <Markdown>{`$$\n${beforeLhs} = ${beforeRhs}\n$$`}</Markdown>
@@ -442,7 +438,7 @@ export const ExplanationStep = ({ children=null, beforeLhs, beforeRhs, afterLhs,
                 <Markdown>{`$$\n${afterLhs} = ${afterRhs}\n$$`}</Markdown>
             </div>
             <Button onClick={handleClick} color="primary" variant="contained" disabled={rootNode === null || isAnimating} >Animate</Button>
-        </div>
+        </RootDiv>
     );
 };
 

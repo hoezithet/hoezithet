@@ -19,7 +19,7 @@ const Pool = ({strokeWidth=0.1, poolX=24, poolY=0, poolLength: _poolLength=25, p
     const poolDepth = yScale.metric(_poolDepth);
     lanePathWidth = xScale.metric(lanePathWidth);
     poolBorderWidth = xScale.metric(poolBorderWidth);
-    const fontSize = yScale.metric(2);
+    const fontSize = `${yScale.metric(2)}px`;
     const accStrokeWidth = xScale.metric(0.2);
     const stroke = getColor("near_white");
     const fill = getColor("light_blue", 0.5);

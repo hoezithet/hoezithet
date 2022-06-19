@@ -1,5 +1,5 @@
 import React from 'react'
-import makeStyles from '@mui/styles/makeStyles';
+import styled from "styled-components";
 
 import { ReadableAnswerSolution } from "./answerSolution"
 
@@ -13,11 +13,9 @@ type LessonAnswerSolutionProps = {
 };
 
 
-const useStyles = makeStyles({
-    solutionsWrapper: {
-        breakBefore: "always",
-    }
-});
+const SolutionsWrapper = styled.div`
+    break-before: "always";
+`;
 
 const LessonAnswerSolution = ({ answer }: LessonAnswerSolutionProps) => {
     return (
@@ -41,7 +39,6 @@ const LessonAnswerSolution = ({ answer }: LessonAnswerSolutionProps) => {
 export const LessonSolutions = ({}) => {
     const answers = useSelector(selectAnswers);
     const exercises = useSelector(selectExercises);
-    const classes = useStyles();
 
     const lessonAnswers = exercises.map(ex =>
         ex?.answerIds.map(exId => answers.find(ans => ans?.id === exId))
@@ -86,10 +83,10 @@ export const LessonSolutions = ({}) => {
 
     return (
        solutionElements.length > 0 ?
-         <div className={classes.solutionsWrapper}>
+         <SolutionsWrapper>
              <h2>Oplossingen</h2>
              { solutionElements }
-         </div>
+         </SolutionsWrapper>
        : null
     );
 };

@@ -10,7 +10,6 @@ import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import CircularProgress from '@mui/material/CircularProgress';
 import Stepper from '@mui/material/Stepper';
 import Paper from '@mui/material/Paper';
-import makeStyles from '@mui/styles/makeStyles';
 
 import styled from "styled-components";
 import SwipeableViews from 'react-swipeable-views';

@@ -2,8 +2,7 @@ import React, { useState, useContext, useCallback, useEffect, DOMElement, useRef
 import Markdown from "../../markdown";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import { Theme } from "@mui/material/styles";
-import makeStyles from '@mui/styles/makeStyles';
+import styled from "styled-components";
 import colors from "../../../colors";
 import { ExerciseContext } from "../exercise";
 import { StepType, getSolveEquationSteps } from "./mathsteps_utils";
@@ -66,34 +65,23 @@ type UseStylesProps = {
     descrHeight: number,
 };
 
-const useStyles = makeStyles<Theme, UseStylesProps>(theme => ({
-    substepsDiv: {
-        textAlign: "center",
-        border: `3px dotted ${colors.LIGHT_GRAY}`,
-        borderRadius: theme.spacing(1),
-        margin: theme.spacing(0, 1),
-    },
-    substepsBtn: {
-        alignSelf: "center",
-        paddingRight: theme.spacing(2),
-        color: colors.LIGHT_GRAY,
-    },
-    descrText: {
-        textAlign: ({ showSubsteps }) => (showSubsteps ? "center" : "left"),
-        position: "absolute",
-        left: ({ descrWidth }) => `${descrWidth / 2 + 10}px`,
-    },
-    descrWrapper: {
-        position: "relative",
-        height: ({ descrHeight }) => `${descrHeight}px`,
-        width: "100%",
-    },
-    descrSvg: {
-        position: "absolute",
-        top: 0,
-        left: 0,
-    },
-}));
+const DescrTextDiv = styled.div`
+    text-align: ${props => props.showSubsteps ? "center" : "left"};
+    position: absolute;
+    left: ${props => props.descrWidth / 2 + 10};
+`;
+
+const DescWrapper = styled.div`
+    position: relative;
+    height: ${props => props.descrHeight};
+    width: 100%;
+`;
+
+const DescrSvg = styled.svg`
+    position: absolute;
+    top: 0;
+    left: 0;
+`;
 
 type EqnSolutionStepProps = {
     step: StepType,
@@ -128,12 +116,6 @@ const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = 
     const [descrWidth, descrHeight] = [descrWrapperRect?.width || 0, (descrTextRect?.height || 0) + (descrTextRect !== null && showBulb ? bulbSize : 0)];
     const strokeLength = descrHeight - strokeWidth - (showBulb ? bulbSize : 0);
     const totalHeight = (beforeEqnHeight || 0) + descrHeight + (afterEqnHeight || 0);
-
-    const classes = useStyles({
-        showSubsteps: showingSubsteps,
-        descrWidth: descrWidth,
-        descrHeight: descrHeight,
-    });
 
     const stepWrapperRef = useGsapFromTo<HTMLDivElement>(
         {
@@ -208,8 +190,8 @@ const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = 
                     <MathJax>{step.before}</MathJax>
                 </div>
             ) : null}
-            <div className={classes.descrWrapper} ref={descrWrapperRef}>
-                <svg width={descrWidth} height={descrHeight} className={classes.descrSvg}>
+            <DescWrapper descrHeight={descrHeight} ref={descrWrapperRef}>
+                <DescrSvg width={descrWidth} height={descrHeight}>
                     <path
                         d={`M ${descrWidth / 2} ${strokeWidth / 2} v ${strokeLength}`}
                         stroke={colors.BLACK}
@@ -227,16 +209,16 @@ const EqnSolutionStep = ({ step, substeps = [], hideBefore = false, hideAfter = 
                             <LightBulb size={bulbSize} off={!bulbOn} />
                         </g>
                     ) : null}
-                </svg>
-                <div className={classes.descrTextAnim} ref={descrTextAnimRef}>
-                    <div className={classes.descrText} ref={descrTextRef}>
+                </DescrSvg>
+                <div ref={descrTextAnimRef}>
+                    <DescrTextDiv showSubsteps={showSubsteps} descrWidth={descrWidth} ref={descrTextRef}>
                         <Markdown mathProcessor="mathjax">{step.description}</Markdown>
-                    </div>
+                    </DescrTextDiv>
                 </div>
-            </div>
+            </DescWrapper>
             {!hideAfter ? (
                 <div ref={afterEqnWrapperRef}>
-                    <div ref={afterEqnRef} className={classes.afterEqn}>
+                    <div ref={afterEqnRef}>
                         <MathJax>{step.after}</MathJax>
                     </div>
                 </div>

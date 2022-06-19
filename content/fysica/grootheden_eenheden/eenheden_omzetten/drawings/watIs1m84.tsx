@@ -38,7 +38,7 @@ const _Blocks = ({x, y, blockHeight, blockWidth, strokeWidth, hText=false, fontS
 
 const Blocks = React.forwardRef(_Blocks);
 
-const _TextAccolade = ({x1, x2=null, y, flipText=false, hText=false, width, height, strokeWidth, fontSize=null, color="gray", children}, ref) => {
+const _TextAccolade = ({x1, x2=null, y, flipText=false, hText=false, width, height, strokeWidth, fontSizePx=null, color="gray", children}, ref) => {
     /**
      * x1: Start of the dashed line
      * x2: End of the dashed line
@@ -53,7 +53,7 @@ const _TextAccolade = ({x1, x2=null, y, flipText=false, hText=false, width, heig
 
     color = getColor(color);
 
-    fontSize = fontSize !== null ? fontSize : width*2/3;
+    fontSizePx = fontSizePx !== null ? fontSizePx : width*2/3;
     x2 = x2 === null ? x1 : x2;
     const dashArray = `4,4`;
 
@@ -62,7 +62,7 @@ const _TextAccolade = ({x1, x2=null, y, flipText=false, hText=false, width, heig
     };
 
     const getNoteTransform = (width, height) => {
-        return `translate(${width + (flipText && !hText ? 2*fontSize : 0) + (hText ? width : 0)},${-height/2}) rotate(${(flipText ? -90 : 90) + (hText ? 90 : 0)})`;
+        return `translate(${width + (flipText && !hText ? 2*fontSizePx : 0) + (hText ? width : 0)},${-height/2}) rotate(${(flipText ? -90 : 90) + (hText ? 90 : 0)})`;
     };
 
     return (
@@ -78,7 +78,7 @@ const _TextAccolade = ({x1, x2=null, y, flipText=false, hText=false, width, heig
                     <g ref={noteRef} transform={getNoteTransform(width, height)}>
                         <Annot
                             align={hText ? "center left" : "bottom center"}
-                            color={color} fontSize={fontSize}>
+                            color={color} fontSize={`${fontSizePx}px`}>
                             {children}
                         </Annot>
                     </g>
@@ -144,7 +144,7 @@ const Watis1M84 = () => {
     );
 };
 
-const _BlockCounter = ({blocksX, accoladeX, y, numBlocks: _numBlocks, textCallback, fontSize, blockHeight, blockWidth, accStrokeWidth, blockStrokeWidth, accoladeWidth, color="orange"}, ref) => {
+const _BlockCounter = ({blocksX, accoladeX, y, numBlocks: _numBlocks, textCallback, fontSizePx, blockHeight, blockWidth, accStrokeWidth, blockStrokeWidth, accoladeWidth, color="orange"}, ref) => {
     const [numBlocks, setNumBlocks] = React.useState(_numBlocks);
 
     React.useImperativeHandle(ref, () => ({
@@ -158,7 +158,7 @@ const _BlockCounter = ({blocksX, accoladeX, y, numBlocks: _numBlocks, textCallba
 
     return (
         <>
-            <TextAccolade fontSize={(fontSize)} x1={(accoladeX)} x2={(blocksX)} y={(y)} width={(accoladeWidth)} height={(numBlocks*blockHeight)} strokeWidth={accStrokeWidth} color={color}>
+            <TextAccolade fontSizePx={fontSizePx} x1={(accoladeX)} x2={(blocksX)} y={(y)} width={(accoladeWidth)} height={(numBlocks*blockHeight)} strokeWidth={accStrokeWidth} color={color}>
                 {textCallback(numBlocks)}
             </TextAccolade>
             <Blocks x={blocksX} y={y} blockHeight={blockHeight} blockWidth={blockWidth} strokeWidth={blockStrokeWidth} numBlocks={numBlocks} color={color} />
@@ -204,7 +204,7 @@ const _MeterIs100Cm = () => {
             <BlockCounter ref={blockCounterRef} blocksX={xScale(1.25)} accoladeX={xScale(1.5)} y={yScale(0)} numBlocks={0}
                 blockWidth={xScale.metric(0.2)} accoladeWidth={xScale.metric(0.2)} blockStrokeWidth={xScale.metric(0.002)}
                 accStrokeWidth={xScale.metric(0.01)}
-                blockHeight={yScale.metric(0.01)} fontSize={yScale.metric(0.08)}
+                blockHeight={yScale.metric(0.01)} fontSizePx={yScale.metric(0.08)}
                 textCallback={x => String.raw`**${x}** keer $1~\si{cm}$`} />
         </>
     );
@@ -255,7 +255,7 @@ const _DirkInCm = () => {
             </g>
             <BlockCounter ref={blockCounterRef} blocksX={xScale(1.5)} accoladeX={xScale(1.65)} y={yScale(0)} numBlocks={0}
                   blockWidth={xScale.metric(0.2)} accoladeWidth={xScale.metric(0.2)}
-                  blockHeight={yScale.metric(0.01)} fontSize={yScale.metric(0.12)} blockStrokeWidth={xScale.metric(0.002)}
+                  blockHeight={yScale.metric(0.01)} fontSizePx={yScale.metric(0.12)} blockStrokeWidth={xScale.metric(0.002)}
                   accStrokeWidth={xScale.metric(0.01)}
                   textCallback={(numBlocks) => String.raw`**${numBlocks}** keer $1~\si{cm}$`} />
         </>

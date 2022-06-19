@@ -1,7 +1,8 @@
 import React, { createContext, useState, useRef, useContext, useEffect, useCallback } from 'react';
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import makeStyles from '@mui/styles/makeStyles';
+import styled from 'styled-components';
+
 import SaveIcon from '@mui/icons-material/Save';
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
@@ -16,34 +17,37 @@ import { getColor } from "../../colors";
 import useArrayRef from "hooks/useArrayRef";
 
 
-const useStyles = makeStyles({
-    drawing: {
-        display: "block",
-        margin: "auto",
-        breakInside: "avoid",
-        borderRadius: ".5rem",
-    },
-    watermark: {
-        fill: getColor("gray"),
-        fontSize: 11,
-    },
-    wrapper: {
-        position: "relative",
-        width: "100%",
-    },
-    overlay: {
-        position: "absolute",
-        top: "0px",
-        right: "0px",
-        display: "flex",
-        flexDirection: "column",
-    },
-    overlayElement: {
-        opacity: 0,
-        padding: 0,
-        position: "relative",
-    },
-});
+const DrawingSvg = styled.svg`
+    display: block;
+    margin: auto;
+    break-inside: avoid;
+    border-radius: .5rem;
+    font-family: Quicksand,sans-serif;
+`;
+
+const WatermarkText = styled.text`
+    fill: ${getColor("gray")};
+    font-size: 11;
+`;
+
+const DrawingWrapper = styled.div`
+    position: relative;
+    width: 100%;
+`;
+
+const DrawingOverlay = styled.div`
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    display: flex;
+    flex-direction: column;
+`;
+
+const OverlayElement = styled(IconButton)`
+    opacity: 0;
+    padding: 0;
+    position: relative;
+`;
 
 const scaleLinear = ({range, domain}) => {
     const m = (range[1] - range[0])/(domain[1] - domain[0]);
@@ -71,7 +75,7 @@ export const DrawingContext = createContext({
 
 export const Drawing = ({
     children=null, aspect=null, maxWidth=500, margin=.0,
-    left=0, bottom=0, right=100, top=100, noWatermark=false, className=""
+    left=0, bottom=0, right=100, top=100, noWatermark=false
 }) => {
     // A Drawing takes the width of its parent, limited to maxWidth pixels. Its
     // height is calculated from the width and the aspect ratio. If the aspect
@@ -80,7 +84,6 @@ export const Drawing = ({
     const [overlayRefs, setOverlayRef] = useArrayRef();
     const fileNrRef = useRef(0);
     const drawingRef = useRef(null);
-    const classes = useStyles();
     const [isHovering, setIsHovering] = useState(false);
     const parentRef = React.useRef(null);
     const isAnimatingButtonsRef = React.useRef(false);
@@ -202,63 +205,59 @@ export const Drawing = ({
     }, []);
 
     return (
-        <div ref={parentRef} className={classes.wrapper} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
+        <DrawingWrapper ref={parentRef} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
             <AnimationContext.Provider value={{addAnimation: addAnimation}}>
                 <DrawingContext.Provider value={{width: maxWidth, height: maxHeight, xScale: xScale, yScale: yScale, ref: drawingRef}}>
-                    <svg width={width} height={height} ref={drawingRef} className={`${classes.drawing} drawing ${className}`} xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox={`0 0 ${maxWidth} ${maxHeight}`}>
+                    <DrawingSvg width={width} height={height} ref={drawingRef} className="drawing" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox={`0 0 ${maxWidth} ${maxHeight}`}>
                         { children }
                         { noWatermark ?
                         null :
-                        <text x={width - 10} y={height - 10} textAnchor="end" className={classes.watermark}>
+                        <WatermarkText x={width - 10} y={height - 10} textAnchor="end">
                         Meer op: https://hoezithet.nu
-                        </text>
+                        </WatermarkText>
                         }
-                    </svg>
+                    </DrawingSvg>
                 </DrawingContext.Provider>
             </AnimationContext.Provider>
-            <div className={classes.overlay}>
+            <DrawingOverlay>
                 { containsAnimation ?
                     <>
-                        <IconButton
+                        <OverlayElement
                             ref={setOverlayRef}
                             onClick={smoothPlay}
                             aria-label="play"
-                            className={classes.overlayElement}
                             title="Speel animatie af"
                             size="large">
                             <PlayArrowIcon />
-                        </IconButton>
-                        <IconButton
+                        </OverlayElement>
+                        <OverlayElement
                             ref={setOverlayRef}
                             onClick={smoothPause}
                             aria-label="pause"
-                            className={classes.overlayElement}
                             title="Pauzeer animatie"
                             size="large">
                             <PauseIcon />
-                        </IconButton>
-                        <IconButton
+                        </OverlayElement>
+                        <OverlayElement
                             ref={setOverlayRef}
                             onClick={smoothRestart}
                             aria-label="restart"
-                            className={classes.overlayElement}
                             title="Herstart animatie"
                             size="large">
                             <ReplayIcon />
-                        </IconButton>
+                        </OverlayElement>
                     </>
                 :
-                <IconButton
+                <OverlayElement
                     ref={setOverlayRef}
                     href={fileHref}
                     download
                     aria-label="save"
-                    className={classes.overlayElement}
                     title="Afbeelding opslaan"
                     size="large">
                     <SaveIcon />
-                </IconButton> }
-            </div>
-        </div>
+                </OverlayElement> }
+            </DrawingOverlay>
+        </DrawingWrapper>
     );
 };

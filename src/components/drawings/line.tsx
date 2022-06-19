@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useRef, useState } from 'react';
-import makeStyles from '@mui/styles/makeStyles';
+import styled from "styled-components";
 
 import { Drawing, DrawingContext } from "./drawing";
 import { getColor } from "../../colors";
@@ -8,17 +8,12 @@ export const STROKE_DASHARRAY = "4";
 const toRad = a => (a / 180) * Math.PI;
 
 
-export const useStyles = makeStyles({
-    line: {
-        fill: "none",
-        stroke: props => props.color, 
-        strokeWidth: props => props.lineWidth,
-        strokeLinecap: "round",
-        strokeLinejoin: "round",
-        strokeOpacity: props => props.opacity,
-        shapeRendering: "geometricPrecision",
-    }
-});
+export const StyledPath = styled.path`
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    shape-rendering: geometricPrecision;
+`;
 
 export const Line = ({
     xStart, yStart, xEnd, yEnd, color="blue", margin=0,
@@ -27,8 +22,6 @@ export const Line = ({
     lineWidth=3, dashed=false,
     opacity=1
 }) => {
-    const classes = useStyles({color: getColor(color), lineWidth: lineWidth});
-
     anchorAngleStart = toRad(anchorAngleStart);
     anchorAngleEnd = toRad(anchorAngleEnd);
     
@@ -46,8 +39,8 @@ export const Line = ({
     ];
     
     return (
-        <path d={`M ${xEndLine} ${yEndLine} C ${xEndAnch} ${yEndAnch}, ${xStartAnch} ${yStartAnch}, ${xStartLine} ${yStartLine}`}
-            stroke={getColor(color)} fill="#00000000" strokeDasharray={dashed ? STROKE_DASHARRAY : "none"}
-            strokeLinecap="round" strokeWidth={lineWidth} strokeOpacity={opacity} />
+        <StyledPath d={`M ${xEndLine} ${yEndLine} C ${xEndAnch} ${yEndAnch}, ${xStartAnch} ${yStartAnch}, ${xStartLine} ${yStartLine}`}
+            stroke={getColor(color)} strokeDasharray={dashed ? STROKE_DASHARRAY : "none"}
+            strokeWidth={lineWidth} strokeOpacity={opacity} />
     );
 };

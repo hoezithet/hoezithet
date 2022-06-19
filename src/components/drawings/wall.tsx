@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 
 import { getColor } from "../../colors";
 import { DrawingContext } from "./drawing";
-import { useStyles } from "./line";
 import useId from 'hooks/useId';
 
 const Wall = ({x=0, y=0, angle=0, width, height, fill="light_gray", stroke="dark_gray", strokeWidth=3, opacity=1}) => {

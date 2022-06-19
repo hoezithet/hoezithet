@@ -3,8 +3,6 @@ import { graphql, useStaticQuery } from "gatsby";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
-import styled from "styled-components";
-import makeStyles from '@mui/styles/makeStyles';
 
 import { trackEvent } from "./matomo";
 import LessonContext from "../contexts/lessonContext";
@@ -23,14 +21,7 @@ const feedbackBtnsQuery = graphql`{
 }
 `;
 
-const useStyles = makeStyles({
-    fbItem: {
-        opacity: props => (props.selected || !props.disabled) ? 1 : 0.3,
-    }
-});
-
 const FeedbackItem = (props) => {
-    const classes = useStyles(props);
     const imgData = useStaticQuery(feedbackBtnsQuery);
     const node = imgData.allFile.edges.find(({ node }) => node.name === props.imgName).node;
     return (
