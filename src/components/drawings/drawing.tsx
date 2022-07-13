@@ -210,12 +210,6 @@ export const Drawing = ({
                 <DrawingContext.Provider value={{width: maxWidth, height: maxHeight, xScale: xScale, yScale: yScale, ref: drawingRef}}>
                     <DrawingSvg width={width} height={height} ref={drawingRef} className="drawing" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox={`0 0 ${maxWidth} ${maxHeight}`}>
                         { children }
-                        { noWatermark ?
-                        null :
-                        <WatermarkText x={width - 10} y={height - 10} textAnchor="end">
-                        Meer op: https://hoezithet.nu
-                        </WatermarkText>
-                        }
                     </DrawingSvg>
                 </DrawingContext.Provider>
             </AnimationContext.Provider>
