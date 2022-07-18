@@ -34,6 +34,7 @@ import Callout from "../components/callout";
 import { LayoutProps } from "../components/layout";
 import Comments from "../components/comments";
 import SectionCard, { CardImage } from "./sectionCard";
+import Matomo from 'components/matomo';
 
 export const shortcodes = {
     Mute,
@@ -137,6 +138,7 @@ export default function Template(
                     <Sponsors />
                 </Box>
                 <Comments />
+                <Matomo />
             </Layout>
         </LessonContext.Provider>
     );

@@ -1,7 +1,7 @@
 import React from "react";
 import { Breadcrumbs } from "@mui/material";
 import { Link } from "gatsby-theme-material-ui";
-import styled from "styled-components";
+import { styled } from '@mui/system';
 
 export interface CrumbProps {
     crumbs: {
@@ -10,10 +10,10 @@ export interface CrumbProps {
     }[];
 }
 
-const BreadcrumbLink = styled(Link)`
-    color: inherit;
-    text-decoration: none;
-`;
+const BreadcrumbLink = styled(Link)({
+    color: 'inherit',
+    textDecoration: 'none',
+});
 
 const Crumbs = ({ crumbs }: CrumbProps) => {
     const breadCrumbLinks = crumbs.map(({ slug, title }, index) => {

@@ -1,12 +1,12 @@
 import React from "react";
 import Layout from '../components/layout';
 import cookiesImg from '../../images/cookies/cookies.png';
-import styled from "styled-components";
+import { styled } from '@mui/system';
 
-const Img = styled.img`
-    margin: auto;
-    width: 75%;
-`
+const Img = styled('img')({
+    margin: 'auto',
+    width: '75%',
+})
 
 export default function Cookies() {
     const crumbs = [{

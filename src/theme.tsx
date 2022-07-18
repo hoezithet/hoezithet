@@ -1,8 +1,6 @@
 import React from 'react';
-import { createTheme, ThemeProvider, Theme, StyledEngineProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import COLORS from '../colors';
-import Matomo from './matomo';
+import { createTheme, Theme } from '@mui/material/styles';
+import COLORS from 'colors';
 import 'fontsource-quicksand';
 
 
@@ -14,7 +12,7 @@ declare module '@mui/styles/defaultTheme' {
 
 
 
-export const theme = createTheme({
+const theme = createTheme({
     typography: {
         fontFamily: [
             'Quicksand',
@@ -112,19 +110,4 @@ export const theme = createTheme({
     },
 });
 
-interface HzhThemeProps {
-    children: React.ReactElement;
-}
-
-
-export default function HzhTheme({ children }: HzhThemeProps) {
-    return (
-        <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={theme}>
-                <Matomo />
-                <CssBaseline />
-                { children }
-            </ThemeProvider>
-        </StyledEngineProvider>
-    );
-}
+export default theme;

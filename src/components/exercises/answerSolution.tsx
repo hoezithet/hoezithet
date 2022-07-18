@@ -1,5 +1,5 @@
 import React from "react";
-import styled from 'styled-components';
+import { styled } from '@mui/system';
 
 import Markdown from "components/markdown";
 
@@ -7,13 +7,13 @@ type QuotedProps = {
     children: React.ReactNode,
 };
 
-const QuoteChild = styled.span`
-& div,p {
-    display: inline-block;
-    padding: 0;
-    margin: 0;
-}
-`;
+const QuoteChild = styled('span')({
+    '& div,p': {
+        display: 'inline-block',
+        padding: 0,
+        margin: 0,
+    }
+})
 
 const Quoted = ({ children }: QuotedProps) => {
     return (

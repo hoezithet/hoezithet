@@ -2,31 +2,31 @@ import React from "react";
 import Layout from "../components/layout";
 import Grid from "@mui/material/Grid";
 import COLORS from "../colors";
-import styled from "styled-components";
+import { styled } from '@mui/system';
 import demotivated from "../../images/about/leerling_gedemotiveerd.png";
 import bfg_watch from "../../images/about/HZH_GVR_watching.png";
 import bfg_run from "../../images/about/HZH_GVR_run.png";
 import bfg_lift from "../../images/about/HZH_GVR_lifter.png";
 import floris from "../../images/about/floris.jpg";
 
-const StyledCite = styled.cite`
-    color: ${COLORS.GRAY};
-`;
+const StyledCite = styled('cite')({
+    color: COLORS.GRAY,
+});
 
-const AboutImg = styled.img`
-    display: block;
-    margin: auto;
-    max-width: 100%;
-    width: 75%;
-`;
+const AboutImg = styled('img')({
+    display: 'block',
+    margin: 'auto',
+    maxWidth: '100%',
+    width: '75%',
+});
 
-const ProfileImg = styled.img`
-    display: block;
-    margin: auto;
-    max-width: 100px;
-    width: 75%;
-    border-radius: 5px;
-`;
+const ProfileImg = styled('img')({
+    display: 'block',
+    margin: 'auto',
+    maxWidth: '100px',
+    width: '75%',
+    borderRadius: '5px',
+});
 
 
 export default function About() {

@@ -1,6 +1,5 @@
 import React from "react";
-import styled from "styled-components";
-import { theme } from "./theme";
+import { styled } from '@mui/system';
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { Button, Link } from "gatsby-theme-material-ui";
@@ -10,28 +9,28 @@ import Hidden from '@mui/material/Hidden';
 import logo from "../../images/appbar/logo_header.png";
 import logo_yellow from "../../images/appbar/logo_header_yellow_bulb.png";
 
-const LogoImg = styled.img`
-    height: ${theme.typography.h4.fontSize};
-    margin-right: ${theme.spacing(1)};
-`;
+const LogoImg = styled('img')(({ theme }) => ({
+    height: theme.typography.h4.fontSize,
+    marginRight: theme.spacing(1),
+}));
 
-const LogoLink = styled(Link)`
-    margin: ${theme.spacing(2)};
-    display: flex;
-    flex-grow: 1;
-    align-items: center;
-    font-weight: 600;
-    color: inherit;
-    text-decoration: none;
-`;
+const LogoLink = styled(Link)(({ theme }) => ({
+    margin: theme.spacing(2),
+    display: 'flex',
+    flexGrow: 1,
+    alignItems: 'center',
+    fontWeight: 600,
+    color: 'inherit',
+    textDecoration: 'none',
+}));
 
-const QuickLink = styled(Link)`
-    color: inherit;
-    text-decoration: none;
-    padding: .5em;
-`;
+const QuickLink = styled(Link)({
+    color: 'inherit',
+    textDecoration: 'none',
+    padding: '.5em',
+});
 
-const PageButtonsGrid = styled(Grid)``;
+const PageButtonsGrid = styled(Grid)({});
 
 const HzhAppBar = ({ color = "primary", elevation = 1 }: { color: "primary" | "transparent"; elevation: number }) => {
     const logoLink = (

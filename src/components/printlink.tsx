@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from 'gatsby-theme-material-ui';
 import SvgIcon from '@mui/material/SvgIcon';
 import Grid from '@mui/material/Grid';
-import styled from "styled-components";
 import { Gray } from "./shortcodes/color";
 
 interface PrintLinkProps {

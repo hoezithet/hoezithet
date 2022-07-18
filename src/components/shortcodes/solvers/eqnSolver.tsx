@@ -2,7 +2,7 @@ import React, { useState, useContext, useCallback, useEffect, DOMElement, useRef
 import Markdown from "../../markdown";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import styled from "styled-components";
+import { styled } from '@mui/system';
 import colors from "../../../colors";
 import { ExerciseContext } from "../exercise";
 import { StepType, getSolveEquationSteps } from "./mathsteps_utils";
@@ -65,23 +65,23 @@ type UseStylesProps = {
     descrHeight: number,
 };
 
-const DescrTextDiv = styled.div`
-    text-align: ${props => props.showSubsteps ? "center" : "left"};
-    position: absolute;
-    left: ${props => props.descrWidth / 2 + 10};
-`;
+const DescrTextDiv = styled('div')({
+    textAlign: props => props.showSubsteps ? "center" : "left",
+    position: 'absolute',
+    left: props => props.descrWidth / 2 + 10,
+});
 
-const DescWrapper = styled.div`
-    position: relative;
-    height: ${props => props.descrHeight};
-    width: 100%;
-`;
+const DescWrapper = styled('div')({
+    position: 'relative',
+    height: props => props.descrHeight,
+    width: '100%',
+});
 
-const DescrSvg = styled.svg`
-    position: absolute;
-    top: 0;
-    left: 0;
-`;
+const DescrSvg = styled('svg')({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+});
 
 type EqnSolutionStepProps = {
     step: StepType,

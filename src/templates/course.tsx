@@ -8,7 +8,7 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import styled from "styled-components";
+import { styled } from '@mui/system';
 import { MdxNode } from "./lesson";
 import { graphql } from "gatsby";
 
@@ -17,9 +17,9 @@ const levelToGradeName = (level: number) => (
   `${Math.ceil(level / 2)}e graad`
 );
 
-const LessonListItem = styled.li`
-    font-size: 12pt;
-`
+const LessonListItem = styled('li')({
+    fontSize: '12pt',
+})
 
 export interface MdxNodes {
     nodes: MdxNode[];
@@ -86,9 +86,9 @@ function getChapterLessons(chapter: MdxNode, lessons: MdxGroup) {
     }
 }
 
-const StyledAccordion = styled(Accordion)`
-    background-color: transparent;
-`;
+const StyledAccordion = styled(Accordion)({
+    backgroundColor: 'transparent',
+});
 
 export function CourseChapters({ chapters, lessons, defaultImg }: QueryData) {
     const gradePerChapter = chapters.nodes.map(c => levelToGradeName(c.frontmatter.level));

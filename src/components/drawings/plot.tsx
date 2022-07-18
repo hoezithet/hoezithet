@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import styled from "styled-components";
+import { styled } from '@mui/system';
 
 import { getColor } from "colors";
 import { Drawing } from "./drawing";
 import { Axes } from "./axes";
 
 
-const PlotDrawing = styled(Drawing)`
-    display: block;
-    margin: auto;
-`;
+const PlotDrawing = styled(Drawing)({
+    display: 'block',
+    margin: 'auto',
+});
 
 export const Plot = ({
     children=null,

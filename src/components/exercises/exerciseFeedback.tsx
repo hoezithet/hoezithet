@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import styled from "styled-components";
+import { styled } from '@mui/system';
 import { gsap } from "gsap";
 
-import { theme } from "../theme";
 import { getRandomArrElement } from "../../utils/array";
 import useExpandable from "hooks/useExpandable";
 
@@ -11,9 +10,9 @@ interface ExercisesFeedbackProps {
     nTotal: number;
 };
 
-const ExercisesFeedbackImg = styled.img`
-    border-radius: ${theme.spacing(1)};
-`;
+const ExercisesFeedbackImg = styled('img')(({ theme }) => ({
+    borderRadius: theme.spacing(1),
+}));
 
 export const ExercisesFeedback = ({ nCorrect, nTotal }: ExercisesFeedbackProps) => {
     const [gifSrc, setGifSrc] = useState<string>("");

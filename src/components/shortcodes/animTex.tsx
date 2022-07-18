@@ -5,7 +5,6 @@ import filter from 'lodash/filter';
 import Markdown from 'components/markdown'
 import COLORS from '../../colors';
 import { gsap } from 'gsap';
-import styled from "styled-components";
 import Button from '@mui/material/Button';
 
 const inClient = typeof window !== "undefined";
@@ -21,9 +20,9 @@ type AnimTexPropsType = {
     children: string
 }
 
-const RootDiv = styled.div`
+const RootDiv = styled('div')({
     position: 'relative',
-`;
+});
 
 const hideAllChildrenWithoutClass = (svg, className) => {
     if (svg?.className?.baseVal === className.baseVal) {

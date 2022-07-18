@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import { styled } from '@mui/system';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -24,13 +24,12 @@ interface SectionItemProps {
     children?: React.ReactElement|string;
 }
 
-const StyledGrid = styled(Grid)`
-    background-color: ${COLORS.NEAR_WHITE};
-    height: 140px;
-`;
+const StyledGrid = styled(Grid)({
+    backgroundColor: COLORS.NEAR_WHITE,
+    height: '140px',
+});
 
-const StyledCard = styled(Card)`
-`;
+const StyledCard = styled(Card)({});
 
 export default function SectionCard({title, cardImage, link, children}: SectionItemProps) {
     const img = <GatsbyImage

@@ -1,7 +1,7 @@
 import React, { createContext, useState, useRef, useContext, useEffect, useCallback } from 'react';
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import styled from 'styled-components';
+import { styled } from '@mui/system';
 
 import SaveIcon from '@mui/icons-material/Save';
 import PauseIcon from '@mui/icons-material/Pause';
@@ -17,37 +17,37 @@ import { getColor } from "../../colors";
 import useArrayRef from "hooks/useArrayRef";
 
 
-const DrawingSvg = styled.svg`
-    display: block;
-    margin: auto;
-    break-inside: avoid;
-    border-radius: .5rem;
-    font-family: Quicksand,sans-serif;
-`;
+const DrawingSvg = styled('svg')({
+    display: 'block',
+    margin: 'auto',
+    breakInside: 'avoid',
+    borderRadius: '.5rem',
+    fontFamily: 'Quicksand,sans-serif',
+});
 
-const WatermarkText = styled.text`
-    fill: ${getColor("gray")};
-    font-size: 11;
-`;
+const WatermarkText = styled('text')({
+    fill: getColor("gray"),
+    fontSize: 11,
+});
 
-const DrawingWrapper = styled.div`
-    position: relative;
-    width: 100%;
-`;
+const DrawingWrapper = styled('div')({
+    position: 'relative',
+    width: '100%',
+});
 
-const DrawingOverlay = styled.div`
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    display: flex;
-    flex-direction: column;
-`;
+const DrawingOverlay = styled('div')({
+    position: 'absolute',
+    top: '0px',
+    right: '0px',
+    display: 'flex',
+    flexDirection: 'column',
+});
 
-const OverlayElement = styled(IconButton)`
-    opacity: 0;
-    padding: 0;
-    position: relative;
-`;
+const OverlayElement = styled(IconButton)({
+    opacity: 0,
+    padding: 0,
+    position: 'relative',
+});
 
 const scaleLinear = ({range, domain}) => {
     const m = (range[1] - range[0])/(domain[1] - domain[0]);

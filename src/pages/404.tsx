@@ -1,18 +1,18 @@
 import React from "react";
 import Layout from '../components/layout';
 import notFoundImg from '../../images/404/404.png';
-import styled from "styled-components";
+import { styled } from '@mui/system';
 import { Button, Link } from "gatsby-theme-material-ui";
 import Box from '@mui/material/Box';
 
-const Img = styled.img`
-    margin: auto;
-    width: 50%;
-`
+const Img = styled('img')({
+    margin: 'auto',
+    width: '50%',
+})
 
-const StyledBox = styled(Box)`
-    text-align: center;
-`;
+const StyledBox = styled(Box)({
+    textAlign: 'center',
+});
 
 export default function NotFoundPage() {
     const crumbs = [{

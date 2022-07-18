@@ -1,22 +1,21 @@
 import React, { useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
-import styled from "styled-components";
+import { styled } from '@mui/system';
 import { gsap } from "gsap";
 
 import { getRandomArrElement } from "utils/array";
 import Markdown from "components/markdown";
-import { theme } from "components/theme";
 import useExpandable from "hooks/useExpandable";
 
 import { ReadableAnswerSolution } from "./answerSolution";
 
 
-const FeedbackPaper = styled(Paper)`
-    padding: ${theme.spacing(1)};
-    margin-top: ${theme.spacing(1)};
-    margin-bottom: ${theme.spacing(2)};
-`;
+const FeedbackPaper = styled(Paper)(({ theme }) => ({
+    padding: theme.spacing(1),
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(2),
+}));
 
 type PositiveFeedbackProps = {
 

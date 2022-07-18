@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from "styled-components";
+import { styled } from '@mui/system';
 
 import { ReadableAnswerSolution } from "./answerSolution"
 
@@ -13,9 +13,9 @@ type LessonAnswerSolutionProps = {
 };
 
 
-const SolutionsWrapper = styled.div`
-    break-before: "always";
-`;
+const SolutionsWrapper = styled('div')({
+    breakBefore: "always",
+})
 
 const LessonAnswerSolution = ({ answer }: LessonAnswerSolutionProps) => {
     return (

@@ -11,10 +11,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Stepper from '@mui/material/Stepper';
 import Paper from '@mui/material/Paper';
 
-import styled from "styled-components";
+import { styled } from '@mui/system';
 import SwipeableViews from 'react-swipeable-views';
 
-import { theme } from "../theme";
 import { ExerciseType, selectExercises } from "./exercise";
 import { ExercisesFeedback } from "./exerciseFeedback";
 import COLORS from 'colors';
@@ -34,24 +33,24 @@ interface ExerciseStepperProps {
     children: React.ReactNode;
 }
 
-const StyledPaper = styled(Paper)`
-    padding: ${theme.spacing(2)};
-    margin: ${theme.spacing(1)};
-    break-inside: avoid;
-`;
+const StyledPaper = styled(Paper)(({ theme }) => ({
+    padding: theme.spacing(2),
+    margin: theme.spacing(1),
+    breakInside: 'avoid',
+}));
 
-const StyledStepper = styled(Stepper)`
-    background-color: transparent;
-`;
+const StyledStepper = styled(Stepper)({
+    backgroundColor: 'transparent',
+});
 
-const StyledStep = styled(Step)`
-    cursor: pointer;
-`;
+const StyledStep = styled(Step)({
+    cursor: 'pointer',
+});
 
-const ExercisesFeedbackDiv = styled.div`
-    text-align: center;
-    margin: ${theme.spacing(2)};
-`;
+const ExercisesFeedbackDiv = styled('div')(({ theme }) => ({
+    textAlign: 'center',
+    margin: theme.spacing(2),
+}));
 
 
 function ExerciseStepIcon(props: StepIconProps) {
@@ -62,9 +61,9 @@ function ExerciseStepIcon(props: StepIconProps) {
     );
 }
 
-const NextPrevBtnGrid = styled(Grid)`
-    margin-top: ${theme.spacing(1)};
-`
+const NextPrevBtnGrid = styled(Grid)(({ theme }) => ({
+    marginTop: theme.spacing(1),
+}));
 
 const getExerciseStepsFromChildren = (children: React.ReactNode) => {
     return React.Children.toArray(children);

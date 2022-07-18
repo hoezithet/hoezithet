@@ -1,23 +1,23 @@
 import React, { useContext } from 'react';
 import { hexToRGB, getColor } from "../../colors";
 
-import styled from 'styled-components';
+import { styled } from '@mui/system';
 
 import { DrawingContext } from "./drawing";
 import Markdown from "../markdown";
 import { isNumeric } from "../../utils/number";
 
 
-const AnnotChild = styled.div`
-    & p {
-        margin: 0;  // Remove paragraph margin
-    }
-    background-color: ${props => props.backgroundColor};
-    border-radius: ${props => props.borderRadius};
-    padding: ${props => props.textPadding};
-    color: ${props => props.color};
-    font-size: ${props => props.fontSize};
-`;
+const AnnotChild = styled('div')({
+    '& p': {
+        margin: 0,  // Remove paragraph margin
+    },
+    backgroundColor: props => props.backgroundColor,
+    borderRadius: props => props.borderRadius,
+    padding: props => props.textPadding,
+    color: props => props.color,
+    fontSize: props => props.fontSize,
+});
 
 
 export type AnnotProps = {

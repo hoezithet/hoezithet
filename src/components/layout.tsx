@@ -1,13 +1,14 @@
 import React from 'react';
 import Container from '@mui/material/Container';
-import styled from 'styled-components';
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from 'theme';
+import { styled } from '@mui/system';
 
 import Footer from './footer';
 import Crumbs from './crumbs';
 import { CrumbProps } from './crumbs';
 import HzhAppBar from './appbar';
-import HzhTheme from './theme';
-import { theme } from './theme';
 import SEO from './seo';
 
 export interface LayoutProps {
@@ -18,32 +19,33 @@ export interface LayoutProps {
     image?: string;
 }
 
-const HzhContainer = styled(Container)`
-    padding: ${theme.spacing(2)};
-`;
+const HzhContainer = styled(Container)(({ theme }) => ({
+    padding: theme.spacing(2),
+}));
 
-const HzhMain = styled.main`
-    margin-bottom: ${theme.spacing(4)};
-`;
+const HzhMain = styled('main')(({ theme }) => ({
+    marginBottom: theme.spacing(4),
+}));
 
 const Layout = ({ children, crumbs, description=``, tags=[],
                   image=`` }: LayoutProps) => {
     const breadCrumbs = <Crumbs crumbs={ crumbs }/>;
     return (
-        <HzhTheme>
-            <>
-            <SEO crumbs={ crumbs } description={ description }
-                 tags={ tags } image={ image } />
-            <HzhAppBar />
-            <HzhContainer maxWidth="md">
-                <>
-                { breadCrumbs }
-                <HzhMain>{ children }</HzhMain>
-                <Footer />
-                </>
-            </HzhContainer>
-            </>
-        </HzhTheme>
+        <>
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <SEO crumbs={ crumbs } description={ description }
+                    tags={ tags } image={ image } />
+                <HzhAppBar />
+                <HzhContainer maxWidth="md">
+                    <>
+                        { breadCrumbs }
+                        <HzhMain>{ children }</HzhMain>
+                        <Footer />
+                    </>
+                </HzhContainer>
+            </ThemeProvider>
+        </>
     );
 };
 

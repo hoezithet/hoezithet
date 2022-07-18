@@ -2,7 +2,7 @@ import React from "react";
 import { Grid } from "@mui/material";
 import { GitHub, Facebook } from '@mui/icons-material';
 import { Link, SvgIcon, SvgIconProps } from '@mui/material';
-import styled from 'styled-components';
+import { styled } from '@mui/system';
 import COLORS from '../colors';
 
 function CCIcon(props: SvgIconProps) {
@@ -13,18 +13,18 @@ function CCIcon(props: SvgIconProps) {
     );
 }
 
-const IconLink = styled(Link)`
-    color: ${COLORS.GRAY};
-`
+const IconLink = styled(Link)({
+    color: COLORS.GRAY,
+})
 IconLink.defaultProps = {
     target: "_blank",
     rel: "noopener noreferrer",
 }
 
 
-const FooterGrid = styled(Grid)`
-    break-inside: avoid;
-`;
+const FooterGrid = styled(Grid)({
+    breakInside: 'avoid',
+});
 
 FooterGrid.defaultProps = {
     container: true,
@@ -34,20 +34,20 @@ FooterGrid.defaultProps = {
     alignItems: "center",
 };
 
-const FooterItem = styled(Grid)`
-    text-align: center;
-    color: ${COLORS.GRAY};
-`
+const FooterItem = styled(Grid)({
+    textAlign: 'center',
+    color: COLORS.GRAY,
+})
 
 FooterItem.defaultProps = {
     item: true,
 };
 
-const FooterTitle = styled(FooterItem)`
-    font-weight: bold;
-`;
+const FooterTitle = styled(FooterItem)({
+    fontWeight: 'bold',
+});
 
-const FooterIcon = styled(FooterItem)``;
+const FooterIcon = styled(FooterItem)({});
 FooterIcon.defaultProps = {
     xs: 1,
 }

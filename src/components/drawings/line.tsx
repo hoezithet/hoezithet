@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useRef, useState } from 'react';
-import styled from "styled-components";
+import { styled } from '@mui/system';
 
 import { Drawing, DrawingContext } from "./drawing";
 import { getColor } from "../../colors";
@@ -8,12 +8,12 @@ export const STROKE_DASHARRAY = "4";
 const toRad = a => (a / 180) * Math.PI;
 
 
-export const StyledPath = styled.path`
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    shape-rendering: geometricPrecision;
-`;
+export const StyledPath = styled('path')({
+    fill: 'none',
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    shapeRendering: 'geometricPrecision',
+});
 
 export const Line = ({
     xStart, yStart, xEnd, yEnd, color="blue", margin=0,

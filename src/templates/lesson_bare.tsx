@@ -5,7 +5,6 @@ import { MDXProvider } from "@mdx-js/react";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import { Helmet } from 'react-helmet';
 import Sponsors from "../components/sponsors";
-import HzhTheme from "../components/theme";
 
 import BareLessonContext from "contexts/bareLessonContext";
 
@@ -14,16 +13,16 @@ import Box from "@mui/material/Box";
 import { components, MdxNode, shortcodes } from "./lesson";
 import LessonContext from "../contexts/lessonContext";
 import { ToggleImageBare } from "../components/shortcodes/toggleImage";
-import styled from 'styled-components';
+import { styled } from '@mui/system';
 import { LessonSolutions } from '../components/exercises/lessonSolutions'
 
 
-const _BareImage = styled.img`
-    width: 100%;
-    height: auto;
-    position: absolute;
-    top: 0px;
-`;
+const _BareImage = styled('img')({
+    width: '100%',
+    height: 'auto',
+    position: 'absolute',
+    top: '0px',
+});
 
 const BareImage = (props) => {
     return (
@@ -31,19 +30,19 @@ const BareImage = (props) => {
     );
 };
 
-const headerStyle = `
-    break-inside: avoid;
-    &::after {
-        content: "";
-        display: block;
-        height: 100px;
-        margin-bottom: -100px;
+const headerStyle = {
+    breakInside: 'avoid',
+    '&::after': {
+        content: "",
+        display: 'block',
+        height: '100px',
+        marginBottom: '-100px',
     }
-`;
+};
 
-const BareH1 = styled.h1`${headerStyle}`;
-const BareH2 = styled.h2`${headerStyle}`;
-const BareH3 = styled.h3`${headerStyle}`;
+const BareH1 = styled('h1')(headerStyle);
+const BareH2 = styled('h2')(headerStyle);
+const BareH3 = styled('h3')(headerStyle);
 
 type AnchorProps = {
     href: string
@@ -96,43 +95,41 @@ export default function Template({ data }: LessonData) {
     const { frontmatter, body, fields } = lesson;
     const absURL = `${new URL(fields.slug, siteMetadata.siteUrl)}`;
     const slug = lesson.fields.slug;
-    
+
     const [appendixItems, setAppendixItems] = useState([]);
     return (
         <BareLessonContext.Provider value={{absURL: absURL, setAppendixItems: setAppendixItems}}>
         <LessonContext.Provider value={{title: frontmatter.title, slug: slug}}>
-        <HzhTheme>
-            <>
-                <Helmet title={frontmatter.title} />
-                <h1>{frontmatter.title}</h1>
-                <p>
-                    <span>Bron: </span>
-                    <Link to={absURL}>{absURL}</Link>
-                </p>
-                <MDXProvider components={bareShortcodes}>
-                    <MDXProvider components={bareComponents}>
-                        <MDXRenderer>{body}</MDXRenderer>
-                    </MDXProvider>
+        <>
+            <Helmet title={frontmatter.title} />
+            <h1>{frontmatter.title}</h1>
+            <p>
+                <span>Bron: </span>
+                <Link to={absURL}>{absURL}</Link>
+            </p>
+            <MDXProvider components={bareShortcodes}>
+                <MDXProvider components={bareComponents}>
+                    <MDXRenderer>{body}</MDXRenderer>
                 </MDXProvider>
-                <Box my={4} textAlign="center" justifyContent="center">
-                    <Sponsors width="28mm" showTreat={false} />
-                </Box>
-                { appendixItems.length > 0 ?
-                  <>
-                  <h2 style={{pageBreakBefore: "always"}}>Appendices</h2>
-                  {
-                      appendixItems.map(({appendixId, expandId, title, children, idx}) => (
-                          <div key={idx} id={appendixId}>
-                              <h3>A{idx}. {title} <a href={`#${expandId}`}>↩</a></h3>
-                              { children }
-                          </div>
-                      ))
-                  }
-                  </>
-                  : null }
-                <LessonSolutions />
-            </>
-        </HzhTheme>
+            </MDXProvider>
+            <Box my={4} textAlign="center" justifyContent="center">
+                <Sponsors width="28mm" showTreat={false} />
+            </Box>
+            { appendixItems.length > 0 ?
+                <>
+                <h2 style={{pageBreakBefore: "always"}}>Appendices</h2>
+                {
+                    appendixItems.map(({appendixId, expandId, title, children, idx}) => (
+                        <div key={idx} id={appendixId}>
+                            <h3>A{idx}. {title} <a href={`#${expandId}`}>↩</a></h3>
+                            { children }
+                        </div>
+                    ))
+                }
+                </>
+                : null }
+            <LessonSolutions />
+        </>
         </LessonContext.Provider>
         </BareLessonContext.Provider>
     );

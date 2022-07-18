@@ -89,10 +89,7 @@ module.exports = {
         {
             resolve: `gatsby-theme-material-ui`,
         },
-        `gatsby-plugin-styled-components`,
+        `gatsby-plugin-material-ui`,
         `gatsby-plugin-catch-links`,
-        {
-            resolve: `gatsby-plugin-nprogress`,
-        },
     ],
 };

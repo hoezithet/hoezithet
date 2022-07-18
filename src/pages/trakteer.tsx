@@ -5,7 +5,7 @@ import { Button } from "gatsby-theme-material-ui";
 import Box from "@mui/material/Box";
 import { NearWhite } from "../components/shortcodes/color";
 import donate from "../../images/trakteer/donate.png";
-import styled from "styled-components";
+import { styled } from '@mui/system';
 
 interface TrakteerProps {
     children: React.ReactNode;
@@ -29,10 +29,10 @@ function TrakteerButton(props: TrakteerProps) {
     );
 }
 
-const TrakteerImg = styled.img`
-    display: block;
-    margin: auto;
-`
+const TrakteerImg = styled('img')({
+    display: 'block',
+    margin: 'auto',
+})
 
 export default function Trakteer() {
     const crumbs = [{
