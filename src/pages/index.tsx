@@ -60,7 +60,6 @@ const WhyHzhBox = styled(Box)({
 
 const ShowLessonButton = styled(Button)({
     color: COLORS.NEAR_WHITE,
-    backgroundColor: 'rgba(255, 183, 0)',
     fontWeight: 'bold',
     fontSize: '18pt',
 });
