@@ -1,6 +1,6 @@
 #!/bin/sh
 
-srcdir="/tmp/Quicksand"
+srcdir="/tmp/NotoColorEmoji"
 pkgdir="/usr/share/fonts/truetype/NotoColorEmoji"
 
 mkdir $srcdir
