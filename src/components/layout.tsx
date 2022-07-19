@@ -27,25 +27,31 @@ const HzhMain = styled('main')(({ theme }) => ({
     marginBottom: theme.spacing(4),
 }));
 
-const Layout = ({ children, crumbs, description=``, tags=[],
-                  image=`` }: LayoutProps) => {
-    const breadCrumbs = <Crumbs crumbs={ crumbs }/>;
+export const BaseLayout = ({ children, barColor="primary", barElevation=1 }) => {
     return (
         <>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
-                <SEO crumbs={ crumbs } description={ description }
-                    tags={ tags } image={ image } />
-                <HzhAppBar />
-                <HzhContainer maxWidth="md">
-                    <>
-                        { breadCrumbs }
-                        <HzhMain>{ children }</HzhMain>
-                        <Footer />
-                    </>
-                </HzhContainer>
+                <HzhAppBar color={barColor} elevation={barElevation} />
+                { children }
+                <Footer />
             </ThemeProvider>
         </>
+    );
+};
+
+const Layout = ({ children, crumbs, description=``, tags=[],
+                  image=`` }: LayoutProps) => {
+    const breadCrumbs = <Crumbs crumbs={ crumbs }/>;
+    return (
+        <BaseLayout>
+            <SEO crumbs={ crumbs } description={ description }
+                tags={ tags } image={ image } />
+            <HzhContainer maxWidth="md">
+                { breadCrumbs }
+                <HzhMain>{ children }</HzhMain>
+            </HzhContainer>
+        </BaseLayout>
     );
 };
 
