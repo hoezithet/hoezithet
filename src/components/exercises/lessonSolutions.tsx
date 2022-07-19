@@ -7,6 +7,7 @@ import { selectAnswers, AnswerType } from './answer'
 import { selectExercises } from './exercise'
 import { selectExerciseSteppers } from './exerciseStepper'
 import { useSelector } from 'react-redux'
+import Markdown from "components/markdown";
 
 type LessonAnswerSolutionProps = {
     answer: AnswerType<any>,
@@ -28,7 +29,7 @@ const LessonAnswerSolution = ({ answer }: LessonAnswerSolutionProps) => {
             answer?.explanation ?
             <p>
                 <b>Uitleg: </b>
-                { answer.explanation }
+                <Markdown>{ answer.explanation }</Markdown>
             </p>
             : null
             }

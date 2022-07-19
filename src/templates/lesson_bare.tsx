@@ -33,7 +33,7 @@ const BareImage = (props) => {
 const headerStyle = {
     breakInside: 'avoid',
     '&::after': {
-        content: "",
+        content: '""',
         display: 'block',
         height: '100px',
         marginBottom: '-100px',
