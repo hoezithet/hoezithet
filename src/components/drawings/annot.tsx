@@ -8,16 +8,37 @@ import Markdown from "../markdown";
 import { isNumeric } from "../../utils/number";
 
 
-const AnnotChild = styled('div')({
+type AnnotChildProps = {
+    backgroundColor: string,
+    borderRadius: string,
+    textPadding: string,
+    color: string,
+    fontSize: string,
+}
+
+const AnnotChild = styled('div',
+    {
+        shouldForwardProp: (prop) => (
+            prop !== "backgroundColor"
+            && prop !== 'borderRadius'
+            && prop !== 'textPadding'
+            && prop !== 'color'
+            && prop !== 'fontSize'
+        ),
+    }
+)<AnnotChildProps> (({
+    theme, backgroundColor, borderRadius, textPadding, color, fontSize
+}) =>
+({
     '& p': {
         margin: 0,  // Remove paragraph margin
     },
-    backgroundColor: props => props.backgroundColor,
-    borderRadius: props => props.borderRadius,
-    padding: props => props.textPadding,
-    color: props => props.color,
-    fontSize: props => props.fontSize,
-});
+    backgroundColor: backgroundColor,
+    borderRadius: borderRadius,
+    padding: textPadding,
+    color: color,
+    fontSize: fontSize,
+}));
 
 
 export type AnnotProps = {

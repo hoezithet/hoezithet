@@ -65,17 +65,41 @@ type UseStylesProps = {
     descrHeight: number,
 };
 
-const DescrTextDiv = styled('div')({
-    textAlign: props => props.showSubsteps ? "center" : "left",
-    position: 'absolute',
-    left: props => props.descrWidth / 2 + 10,
-});
+type DescrTextDivProps = {
+    showSubsteps: boolean,
+    descrWidth: number,
+};
 
-const DescWrapper = styled('div')({
+const DescrTextDiv = styled('div', {
+    shouldForwardProp: (prop) => (
+        prop !== "showSubsteps"
+        && prop !== "descrWidth"
+    )
+})<DescrTextDivProps> (({
+    showSubsteps, descrWidth
+}) => ({
+    textAlign: showSubsteps ? "center" : "left",
+    position: 'absolute',
+    left: descrWidth / 2 + 10,
+})
+);
+
+type DescWrapperProps = {
+    descrHeight: number,
+};
+
+const DescWrapper = styled('div', {
+    shouldForwardProp: (prop) => (
+        prop !== 'descrHeight',
+    )
+})<DescWrapperProps> (({
+    descrHeight
+}) => ({
     position: 'relative',
-    height: props => props.descrHeight,
+    height: descrHeight,
     width: '100%',
-});
+})
+);
 
 const DescrSvg = styled('svg')({
     position: 'absolute',

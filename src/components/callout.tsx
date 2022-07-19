@@ -10,8 +10,17 @@ import BareLessonContext from "contexts/bareLessonContext";
 import useExpandable from "hooks/useExpandable";
 
 
-const Frame = styled('div')({
-    backgroundColor: props => getColor(props.color, 0.1),
+type FrameProps = {
+    color: string,
+};
+
+
+const Frame = styled('div', {
+    shouldForwardProp: (prop) => prop !== 'color'
+})<FrameProps> (({
+    color
+}) => ({
+    backgroundColor: getColor(color, 0.1),
     color: 'inherit',
     margin: '1rem 0',
     padding: '0.75rem',
@@ -20,19 +29,33 @@ const Frame = styled('div')({
     borderRadius: '.5rem',
     boxShadow: '0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12)',
 })
+);
 
 const TEXT_ICON_PAD = "1.75rem";
 const TITLE_FONT_SIZE = "1.2rem";
 
-const TitleBox = styled('div')({
-    color: props => getColor(props.color),
+type TitleBoxProps = {
+    color: string,
+    useExpand?: boolean,
+}
+
+const TitleBox = styled('div', {
+    shouldForwardProp: prop => (
+        prop !== 'color'
+        && prop !== 'useExpand'
+    )
+})<TitleBoxProps> (({
+    color, useExpand
+}) => ({
+    color: getColor(color),
     fontSize: TITLE_FONT_SIZE,
     fontWeight: 'bold',
-    cursor: props => props.useExpand ? "pointer" : "auto",
+    cursor: useExpand ? "pointer" : "auto",
     '& > p': {
         margin: 0,
     }
 })
+);
 
 const TitleIcon = styled('span')({
     float: 'left',
@@ -43,23 +66,47 @@ const ExpandMoreIcon = styled(_ExpandMoreIcon)({
     cursor: 'pointer',
 });
 
-const TitleText = styled('span')({
+type TitleTextProps = {
+    hasIcon?: boolean
+};
+
+const TitleText = styled('span', {
+    shouldForwardProp: prop => (
+        prop !== 'hasIcon'
+    )
+})<TitleTextProps> (({
+    hasIcon
+}) => ({
     display: 'block',
-    paddingLeft: props => props.hasIcon ? TEXT_ICON_PAD : "0",
+    paddingLeft: hasIcon ? TEXT_ICON_PAD : "0",
     '& > p': {
         margin: 0,
     }
 })
+);
 
-const BodyText = styled('div')({
-    paddingLeft: props => props.hasIcon ? TEXT_ICON_PAD : "0",
-    marginTop: `calc(${props => !props.hasTitle && props.hasIcon ? TITLE_FONT_SIZE : 0}*0.3)`,
-    paddingTop: props => props.hasTitle ? "1em" : 0,
+type BodyTextProps = {
+    hasIcon?: boolean,
+    hasTitle?: boolean,
+};
+
+const BodyText = styled('div', {
+    shouldForwardProp: prop => (
+        prop !== 'hasIcon'
+        && prop !== 'hasTitle'
+    )
+})<BodyTextProps> (({
+    hasIcon, hasTitle
+}) => ({
+    paddingLeft: hasIcon ? TEXT_ICON_PAD : "0",
+    marginTop: `calc(${!hasTitle && hasIcon ? TITLE_FONT_SIZE : 0}*0.3)`,
+    paddingTop: hasTitle ? "1em" : 0,
     overflow: 'scroll',
     '& > p': {
         margin: 0,
     }
 })
+);
 
 const CalloutBodyWrapper = styled('div')({
     overflow: 'scroll',
