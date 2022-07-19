@@ -227,7 +227,13 @@ function SEO({ crumbs, description = ``, tags = null,
               lang: site.siteMetadata.lang,
           }}
           title={title}
-          titleTemplate={`%s | ${site.siteMetadata.title}`}
+          titleTemplate={
+            title !== site.siteMetadata.title 
+            ?
+            `%s | ${site.siteMetadata.title}`
+            :
+            `%s`
+          }
         />
         <Meta
           description={description || site.siteMetadata.description}
