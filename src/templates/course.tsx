@@ -3,12 +3,12 @@ import { LayoutProps } from "../components/layout";
 import Layout from "../components/layout";
 import { Link } from "gatsby-theme-material-ui";
 import SectionCard, { CardImage } from "./sectionCard";
-import Grid from '@material-ui/core/Grid';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import styled from "styled-components";
+import Grid from '@mui/material/Grid';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { styled } from '@mui/system';
 import { MdxNode } from "./lesson";
 import { graphql } from "gatsby";
 
@@ -17,9 +17,9 @@ const levelToGradeName = (level: number) => (
   `${Math.ceil(level / 2)}e graad`
 );
 
-const LessonListItem = styled.li`
-    font-size: 12pt;
-`
+const LessonListItem = styled('li')({
+    fontSize: '12pt',
+})
 
 export interface MdxNodes {
     nodes: MdxNode[];
@@ -60,8 +60,8 @@ function ChapterCard({ chapter, chapterLessons, defaultImg}: ChapterCardProps) {
             <ol>
                 { 
                     chapterLessons.map(
-                        l => (
-                            <LessonListItem>
+                        (l, i) => (
+                            <LessonListItem key={i}>
                                 <Link to={l.fields.slug}>
                                     {l.frontmatter.title}
                                 </Link>
@@ -86,26 +86,28 @@ function getChapterLessons(chapter: MdxNode, lessons: MdxGroup) {
     }
 }
 
-const StyledAccordion = styled(Accordion)`
-    background-color: transparent;
-`;
+const StyledAccordion = styled(Accordion)({
+    backgroundColor: 'transparent',
+});
 
 export function CourseChapters({ chapters, lessons, defaultImg }: QueryData) {
     const gradePerChapter = chapters.nodes.map(c => levelToGradeName(c.frontmatter.level));
     const grades = Array.from(new Set(gradePerChapter));
     return (
         <>
-            {grades.map(grade => {
+            {grades.map((grade, index) => {
                 const gradeChapterNodes = chapters.nodes.filter(c => levelToGradeName(c.frontmatter.level) === grade);
                 const lessonsPerChapter = gradeChapterNodes.map(c => getChapterLessons(c, lessons));
                 return (
-                    <Grid container spacing={2}>
+                    <Grid key={index} container spacing={2}>
                         {gradeChapterNodes.map((c, index) => (
-                        <ChapterCard
-                            chapter={c}
-                            chapterLessons={lessonsPerChapter[index]}
-                            defaultImg={defaultImg}
-                            />
+                            <React.Fragment key={index}>
+                                <ChapterCard
+                                    chapter={c}
+                                    chapterLessons={lessonsPerChapter[index]}
+                                    defaultImg={defaultImg}
+                                />
+                            </React.Fragment>
                             ))}
                     </Grid>
                 );

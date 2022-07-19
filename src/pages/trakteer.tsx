@@ -1,11 +1,11 @@
 import React from "react";
 import Layout from '../components/layout';
-import Grid from "@material-ui/core/Grid";
+import Grid from "@mui/material/Grid";
 import { Button } from "gatsby-theme-material-ui";
-import Box from "@material-ui/core/Box";
+import Box from "@mui/material/Box";
 import { NearWhite } from "../components/shortcodes/color";
 import donate from "../../images/trakteer/donate.png";
-import styled from "styled-components";
+import { styled } from '@mui/system';
 
 interface TrakteerProps {
     children: React.ReactNode;
@@ -29,10 +29,10 @@ function TrakteerButton(props: TrakteerProps) {
     );
 }
 
-const TrakteerImg = styled.img`
-    display: block;
-    margin: auto;
-`
+const TrakteerImg = styled('img')({
+    display: 'block',
+    margin: 'auto',
+})
 
 export default function Trakteer() {
     const crumbs = [{
@@ -50,7 +50,7 @@ export default function Trakteer() {
             </p>
 
             <Box my={ 4 }>
-                <Grid container spacing={2} justify="center">
+                <Grid container spacing={2} justifyContent="center">
                     <TrakteerButton href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YZBJ7U5JFSQ8G&source=url" amount="€2" icon="🥤" text="Frisdrankje" />
                     <TrakteerButton href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NHE8CFLULN9WG&source=url" amount="€4" icon="☕" text="Frappuccino"/>
                     <TrakteerButton href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TCLFUBNZ3QUGN&source=url" amount="€10" icon="🍻" text="Tournée Générale!"/>

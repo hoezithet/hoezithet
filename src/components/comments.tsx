@@ -1,6 +1,6 @@
 import React, { DOMElement, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import unified from "unified";
+import {unified} from "unified";
 import math from "remark-math";
 import remark from "remark-parse";
 import rehype from "rehype-parse";
@@ -9,9 +9,10 @@ import rehype_stringify from "rehype-stringify";
 import remark_stringify from "remark-stringify";
 import remark2rehype from "remark-rehype";
 import rehype2remark from "rehype-remark";
+import katexOptions from "../katexOptions"
 
 const to_md = unified().use(rehype).use(rehype2remark, { newlines: true }).use(remark_stringify);
-const to_katex = unified().use(remark).use(math).use(remark2rehype).use(katex).use(rehype_stringify);
+const to_katex = unified().use(remark).use(math).use(remark2rehype).use(katex, katexOptions).use(rehype_stringify);
 
 // Helper to add scripts to our page
 function insertScript(src: string, id: string, parentElement: HTMLElement) {

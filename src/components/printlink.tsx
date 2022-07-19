@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from 'gatsby-theme-material-ui';
-import SvgIcon from '@material-ui/core/SvgIcon';
-import Grid from '@material-ui/core/Grid';
-import styled from "styled-components";
+import SvgIcon from '@mui/material/SvgIcon';
+import Grid from '@mui/material/Grid';
 import { Gray } from "./shortcodes/color";
 
 interface PrintLinkProps {
@@ -23,7 +22,7 @@ const PdfIcon = (props) => {
 
 const PrintLink = ({ to }: PrintLinkProps) => {
   return (
-      <Link to={ to }>
+      <Link to={ to } style={{textDecoration: 'none'}}>
       <Gray>
       <Grid container spacing={ 1 } alignItems="center" >
           <Grid item >

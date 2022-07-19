@@ -1,33 +1,36 @@
 import React from "react";
-import styled from "styled-components";
-import { theme } from "./theme";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
+import { styled } from '@mui/system';
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
 import { Button, Link } from "gatsby-theme-material-ui";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import Hidden from '@material-ui/core/Hidden';
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Hidden from '@mui/material/Hidden';
 import logo from "../../images/appbar/logo_header.png";
 import logo_yellow from "../../images/appbar/logo_header_yellow_bulb.png";
 
-const LogoImg = styled.img`
-    height: ${theme.typography.h4.fontSize};
-    margin-right: ${theme.spacing(1)}px;
-`;
+const LogoImg = styled('img')(({ theme }) => ({
+    height: theme.typography.h4.fontSize,
+    marginRight: theme.spacing(1),
+}));
 
-const LogoLink = styled(Link)`
-    margin: ${theme.spacing(2)}px;
-    display: flex;
-    flex-grow: 1;
-    align-items: center;
-    font-weight: 600;
-    color: inherit;
-    &:hover {
-        text-decoration: none;
-    }
-`;
+const LogoLink = styled(Link)(({ theme }) => ({
+    margin: theme.spacing(2),
+    display: 'flex',
+    flexGrow: 1,
+    alignItems: 'center',
+    fontWeight: 600,
+    color: 'inherit',
+    textDecoration: 'none',
+}));
 
-const PageButtonsGrid = styled(Grid)``;
+const QuickLink = styled(Link)({
+    color: 'inherit',
+    textDecoration: 'none',
+    padding: '.5em',
+});
+
+const PageButtonsGrid = styled(Grid)({});
 
 const HzhAppBar = ({ color = "primary", elevation = 1 }: { color: "primary" | "transparent"; elevation: number }) => {
     const logoLink = (
@@ -40,11 +43,11 @@ const HzhAppBar = ({ color = "primary", elevation = 1 }: { color: "primary" | "t
     );
     const buttonLinks = (
         <Grid item>
-            <Button to="/lessen">Lessen</Button>
+            <QuickLink to="/lessen">Lessen</QuickLink>
             <span>|</span>
-            <Button to="/trakteer">Drankje trakteren</Button>
+            <QuickLink to="/trakteer">Drankje trakteren</QuickLink>
             <span>|</span>
-            <Button to="/about">Over HZH</Button>
+            <QuickLink to="/about">Over HZH</QuickLink>
         </Grid>
     );
     return (
@@ -53,18 +56,18 @@ const HzhAppBar = ({ color = "primary", elevation = 1 }: { color: "primary" | "t
                 <Grid container alignItems="center">
                     <Grid item xs={12} md={6} container>
                         <Hidden mdUp>
-                            <Grid container justify="center">{ logoLink }</Grid>
+                            <Grid container justifyContent="center">{ logoLink }</Grid>
                         </Hidden>
-                        <Hidden smDown>
-                            <Grid container justify="flex-start">{ logoLink }</Grid>
+                        <Hidden mdDown>
+                            <Grid container justifyContent="flex-start">{ logoLink }</Grid>
                         </Hidden>
                     </Grid>
                     <PageButtonsGrid item xs={12} md={6} container>
                         <Hidden mdUp>
-                            <Grid container justify="center">{ buttonLinks }</Grid>
+                            <Grid container justifyContent="center">{ buttonLinks }</Grid>
                         </Hidden>
-                        <Hidden smDown>
-                            <Grid container justify="flex-end">{ buttonLinks }</Grid>
+                        <Hidden mdDown>
+                            <Grid container justifyContent="flex-end">{ buttonLinks }</Grid>
                         </Hidden>
                     </PageButtonsGrid>
                 </Grid>

@@ -1,137 +1,694 @@
 ---
 title: "Eenheden omzetten"
-date: 2019-02-08T07:53:47+01:00
+date: 2021-08-26T06:47
 weight: 4
 tags: ["kilometer per uur naar meter per seconde", "uur naar seconde", "eenheden omzetten"]
 description: "In deze les leggen we uit hoe je eenheden kan omzetten, zoals bijvoorbeeld uur naar seconde of meter per seconde naar kilometer per uur en omgekeerd."
 image: img/liter_conversion.png
 ---
 
-Vaak wordt er gevraagd om een eindresultaat te noteren in [SI-eenheden](../intro#si-eenheden-maken-duidelijke-afspraken), terwijl de opgave niet in SI-eenheden gegeven is. Dan is het belangrijk om die eenheden te kunnen omzetten naar de SI-eenheden.
+Er zijn verschillende situaties waarbij we eenheden moeten omzetten. Er wordt bijvoorbeeld vaak gevraagd om **een eindresultaat te noteren in [SI-eenheden](../intro#si-eenheden-maken-duidelijke-afspraken),** terwijl de opgave niet in SI-eenheden gegeven is. Soms zullen we een eenheid ook omzetten om **beter te begrijpen wat ze betekent.** Als je bij een oefening bijvoorbeeld uitkomt op een tijdsduur van 9000 seconden, voel je waarschijnlijk niet meteen aan hoe lang dat nu precies duurt. Als we dat omzetten naar uur komen we uit op 2,5 uur, wat we wel beter kunnen interpreteren.
 
-Soms zullen we een eenheid ook omzetten om beter te begrijpen wat ze betekent. Zo kunnen we ons beter voorstellen hoe lang 2 uren duren, eerder dan hoe lang 7200 seconden duren, ondanks dat de seconde de SI-eenheid van tijd is.
+In deze les bespreken we hoe je zulke omzettingen kan doen.
 
-Er zijn dus verschillende situaties waarbij we eenheden zullen moeten omzetten. In deze les bespreken we hoe je zulke omzettingen kan doen.
+## Een eenheid als deel van een vermenigvuldiging
 
-## Van en naar prefixen
+Op een zonnige lentedag ben je op wandel door een park bij jou in de buurt. De frisse buitenlucht vult je longen, je voelt de warmte van een stralende zon, heerlijk rustgevend... 😌
 
-In de les over [prefixen](../prefixen) zagen we al hoe we eenheden konden omzetten waarvan enkel de prefix verschilde. Hierin zijn drie gevallen te onderscheiden:
+import WandelingInPark from './drawings/wandeling_in_park';
 
-1. Het [omzetten van een prefix naar een macht van $10$](../prefixen#een-prefix-omzetten-naar-een-macht-van-10), zoals van $\si{km}$ naar $\cdot 10^3~\si{m}$. Dat doen we door **de prefix te vervangen door de bijhorende macht van $10$**. Daarvoor is het belangrijk dat je de [tabel met prefixen](../prefixen#de-belangrijkste-prefixen) uit je hoofd kent.
-2. Het [toevoegen van een prefix aan een eenheid](../prefixen#een-prefix-toevoegen-aan-een-eenheid), zoals van $\si{s}$ naar $\si{ms}$. Dat doen we door te vermenigvuldigen met <Blue>de macht van $10$ die hoort bij de prefix</Blue> én te vermenigvuldigen met <Orange>het **omgekeerde van die macht**</Orange>. $5{,}0~\si{s}$ omzetten naar $\si{ms}$, bijvoorbeeld, gaat zo:
+<WandelingInPark/>
+
+Plots kruist Dirk jouw pad en hij roept: "Ik ben $1{,}84~\si{m}$ groot!" 
+
+import DirkKruist from './drawings/dirkKruist';
+
+<DirkKruist />
+
+Je zal wellicht even schrikken. Je had Dirk namelijk helemaal niet gevraagd naar zijn grootte. Maar dat hij $1{,}84~\si{m}$ groot is, wat betekent dat eigenlijk?
+
+Wel, als Dirk $1{,}84~\si{m}$ groot is, dan is hij exact even lang als **$1{,}84$ keer één meter**:
+
+import WatIs1m84, {MeterIs100Cm, DirkInCm} from './drawings/watIs1m84';
+
+<WatIs1m84 />
+
+Nu, "$1{,}84$ keer één meter", dat is eigenlijk een **vermenigvuldiging** van "$1{,}84$" en "één meter":
+
+$$
+1{,}84~\si{m} = 1{,}84\cdot 1~\si{m}
+$$
+
+Als we **die $1~\si{m}$ vervangen door iets wat eraan gelijk is,** dan is die nieuwe vermenigvuldiging gelijk aan de oude en hebben we nog steeds **dezelfde lengte.**
+
+> We gaan dit idee nu gebruiken om $1{,}84~\si{m}$ om te zetten naar $\si{cm}.$ Je weet waarschijnlijk meteen al dat dit $184~\si{cm}$ is, maar probeer dit redelijk eenvoudige voorbeeld toch even mee te volgen. Zo zal je de moeilijkere voorbeelden later in de les beter kunnen begrijpen.
+
+We weten dus al dat
+
+$$
+1{,}84~\si{m} = 1{,}84\cdot 1~\si{m}
+$$ 
+
+We weten ook dat $100$ keer $1~\si{cm}$ hetzelfde is als $1~\si{m}:$
+
+$$
+1~\si{m} = 100 \cdot 1~\si{cm}
+$$
+
+<MeterIs100Cm />
+
+We kunnen onze $1{,}84~\si{m}$ dus herschrijven door de $1~\si{m}$ te vervangen door $100\cdot 1~\si{cm}:$
+
 $$
 \begin{aligned}
-5{,}0~\si{s} &= 5{,}0\cdot \orange{10^3}\cdot \underbrace{\blue{10^{-3}} ~\si{s}}_{= \si{ms}}\\
-&= 5{,}0\cdot \orange{10^3}~\blue{\si{ms}}
+1{,}84~\si{m} &= 1{,}84\cdot \orange{1~\si{m}}\\
+&= 1{,}84\cdot \orange{100\cdot 1~\si{cm}}\\
+&= 184~\si{cm}
 \end{aligned}
 $$
-3. Het [omzetten van een prefix naar een andere prefix](../prefixen#een-prefix-omzetten-naar-een-andere-prefix), zoals van $\si{kW}$ naar $\si{GW}$. Daarvoor zetten we eerst beide prefixen om naar de bijhorende macht van $10$. Vervolgens vermenigvuldigen we het getal in de opgave met <Blue>de gevraagde macht van $10$</Blue> én met <Orange>het **omgekeerde** van die macht van $10$</Orange>. Ten slotte rekenen we alle machten van $10$ uit, behalve de gevraagde macht. De gevraagde macht kunnen we dan gewoon vervangen door de gevraagde prefix. Stel bijvoorbeeld dat we $300~\si{\green{k}W}$ moeten omzetten naar $\si{\blue{G}W}$. Dat is hetzelfde als $300\cdot\green{10^3}~\si{W}$ omzetten naar $\cdot\blue{10^9}~\si{W}$:
+
+Zeggen dat Dirk $1{,}84~\si{m}$ groot is, is hetzelfde als zeggen dat hij $1{,}84\cdot 100\cdot 1~\si{cm}$ groot is en ook hetzelfde als zeggen dat hij $184~\si{cm}$ groot is.
+
+<DirkInCm />
+
+We hebben dus gevonden dat $1{,}84~\si{m}$ hetzelfde is als $184~\si{cm}.$ We hebben de eenheid dus omgezet van *meter* naar *centimeter*! 🤯
+
+In onze bovenstaande berekening om van $1{,}84~\si{m}$ naar $184~\si{cm}$ te gaan, hebben we nogal veel vermenigvuldigingen met $1$ staan. Dat zorgt voor schrijfwerk dat we eigenlijk kunnen vermijden. In plaats daarvan gaan we vanaf nu de eenheid rechtstreeks vervangen. De vorige omzetting kunnen we dan korter schrijven als:
+
 $$
 \begin{aligned}
-300\cdot 10^3~\si{W} &= 300\cdot \underbrace{10^3\cdot\orange{10^{-9}}}_{= 10^{-6}} \cdot\blue{10^9}~\si{W}\\
-&= 300\cdot10^{-6}\cdot\underbrace{\blue{10^9}~\si{W}}_{= \si{GW}}\\
-&= 300\cdot10^{-6}~\si{\blue{G}W}\\
+1{,}84~\orange{\si{m}} &= 1{,}84\cdot \orange{100~\si{cm}}\\
+&= 184~\si{cm}
+\end{aligned}
+$$ 
+
+> 💡 Algemene methode om eenheden om te zetten
+>
+> We hebben $1{,}84~\si{m}$ omgezet naar $\si{cm}$ door de *meter* in $1{,}84~\si{m}$ te vervangen door $100~\si{cm}:$
+>
+> $$
+> \begin{aligned}
+> 1{,}84~\orange{\si{m}} &= 1{,}84\cdot \orange{100~\si{cm}}\\
+> &= 184~\si{cm}
+> \end{aligned}
+> $$
+> 
+> Dat mogen we doen omdat $1~\si{m} = 100~\si{cm}.$ Door te weten **waaraan één meter gelijk is in centimeter,** kunnen we dus **meter omzetten naar centimeter.** Zo kunnen we eigenlijk *altijd* te werk gaan wanneer we een eenheid moeten omzetten: we zoeken **waar $1$ van de ene eenheid** *(bv. meter)* **gelijk aan is in de eenheid waarnaar we willen omzetten** *(bv. centimeter).*
+
+import MeterNaarDecimeter from "./exercises/meterNaarDecimeter";
+
+<MeterNaarDecimeter />
+
+## Seconden naar minuten omzetten door te bepalen hoeveel één seconde is in minuten
+
+In de vorige paragraaf hebben we een lengte in *meter* kunnen omzetten naar *centimeter* door $1~\si{m}$ te vervangen door $100~\si{cm}.$ Die vervanging mochten we doen omdat $1~\si{m} = 100~\si{cm}.$ Dat is een algemene methode die we doorheen de les voortdurend zullen gebruiken om eenheden om te zetten. In deze paragraaf geven we nog een voorbeeld van die methode. We gaan nu **seconden omzetten naar minuten** door te **zoeken hoeveel één seconde in minuten is.**
+
+Stel bijvoorbeeld dat Dirk tegen je zegt: "Ik loop al $5623~\si{s}$ rond in dit park!"
+
+import { DirkZegtTijd } from './drawings/dirkKruist';
+
+<DirkZegtTijd />
+
+Van een tijdsduur van $5623~\si{s}$ kunnen we moeilijk aanvoelen hoe lang die precies duurt. Om die tijdsduur beter te kunnen interpreteren, zouden we ze kunnen omzetten naar minuten. Om seconden om te zetten naar minuten, moeten we volgens onze methode eerst weten hoeveel minuten $1~\si{s}$ is. We kunnen vinden dat:
+
+$$
+1~\si{s} = \frac{1}{60}~\si{min}
+$$
+
+Als je de onderstaande blok openklapt, kan je zien hoe we aan dit resultaat zijn gekomen.
+
+> -1 seconde omzetten naar minuten
+> 
+> Je zou moeten weten dat:
+> 
+> $$
+> 60~\si{s} = 1~\si{min}
+> $$
+> 
+> Als we nu beide kanten van deze gelijkheid **delen door 60,** dan vinden we waaraan $1~\si{s}$ gelijk is in minuten:
+> 
+> $$
+> \begin{aligned}
+> 60~\si{s} &= 1~\si{min}\\
+> \Lrarr\frac{60~\si{s}}{\orange{60}} &= \frac{1~\si{min}}{\orange{60}}\\
+> \Lrarr 1~\si{s} &= \frac{1~\si{min}}{60}\\
+> \end{aligned}
+> $$
+> 
+> We vinden dus inderdaad dat
+> 
+> $$
+> 1~\si{s} = \frac{1}{60}~\si{min}
+> $$
+
+Nu we weten dat $1~\si{s} = \frac{1}{60}~\si{min},$ kunnen we de $5623~\si{s}$ van Dirk omzetten naar minuten! 🙌 We moeten gewoon de $\si{s}$ vervangen door $\frac{1}{60}~\si{min}:$
+
+$$
+\begin{aligned}
+5623~\orange{\si{s}} &= 5623\cdot \orange{\frac{1}{60}~\si{min}}\\
+&= 93{,}7166\ldots~\si{min}\\
+&\overset{\text{BR}}{=} 93{,}72~\si{min}
 \end{aligned}
 $$
 
-Als je nog niet zo vertrouwd bent met het toevoegen, omzetten of wegwerken van prefixen, lees dan zeker de [les over prefixen](../prefixen) nog eens na.
+<Mute>(In de laatste lijn hebben we [de benaderingsregels (BR)](../benaderingsregels) toegepast.)</Mute>
 
-## Tijden omzetten
+Een tijdsduur van $93{,}72~\si{min}$ kunnen we ons al iets beter inbeelden! Als we dit naar uur omzetten, zal het nog duidelijker zijn hoe lang dit precies duurt. Probeer dit aan de hand van de volgende oefening.
 
-Het omzetten van tijden is iets lastiger.
-Bijvoorbeeld: uren ($\si{h}$) naar seconden ($\si{s}$), minuten ($\si{min}$) naar seconden, seconden naar uren...
-Het belangrijkste om te onthouden, weet je waarschijnlijk al:
+import MinNaarUur from "./exercises/minNaarUur";
 
+<MinNaarUur />
+
+We hebben nu al enkele voorbeelden gezien van hoe we een eenheid <Mute>*(bv. seconden)*</Mute> naar een andere eenheid <Mute>*(bv. minuten)*</Mute> kunnen omzetten door te zoeken **waar $1$ van de ene eenheid** <Mute>*(seconden)*</Mute> **gelijk aan is in de eenheid waar we naar omzetten** <Mute>*(minuten)*</Mute>. Deze methode kunnen we **bijna altijd** toepassen wanneer we eenheden willen omzetten. De belangrijkste omzetting waarvoor we deze methode **niet** kunnen toepassen is de omzetting van graden Celsius naar graden Fahrenheit. Waarom dit zo is en hoe je die omzetting dan wel moet doen, kan je lezen in de onderstaande blok.
+
+> -Uitbreiding: methode kunnen we niet toepassen bij een omzetting tussen °C en °F omdat 0 °C ≠ 0 °F
+> 
+> De omzetting tussen $\deg\si{C}$ en $\deg\si{F}$ is een **speciaal geval** waarvoor de methode die we zonet hebben besproken **niet toepasbaar is.** Als we bijvoorbeeld $100~\deg\si{F}$ zouden willen omzetten naar $\deg\si{C},$ moeten we volgens onze methode eerst weten hoeveel $1~\deg\si{F}$ is in graden Celsius om vervolgens de $\deg\si{F}$ daardoor te vervangen. Je kan opzoeken dat:
+> 
+> $$
+> 1~\deg\si{F} = -17{,}22\ldots~\deg\si{C}
+> $$
+> 
+> Volgens onze methode zou dan
+> 
+> $$
+> \begin{aligned}
+> 100~\deg\si{F} &= 100\cdot \orange{1~\deg\si{F}}\\
+> &= 100 \cdot \orange{-17{,}22\ldots~\deg\si{C}}\\
+> &= \cancel{-1722{,}22\ldots~\deg\si{C}}\\
+> \end{aligned}
+> $$
+> 
+> Dit is natuurlijk **fout**! Het juiste antwoord is:
+> 
+> $$
+> 100~\deg\si{F} = 37,77\ldots~\deg\si{C}
+> $$
+> 
+> Maar *waarom* kunnen we onze methode hier niet toepassen? Het probleem is eigenlijk dat $0~\deg\si{F}$ **niet gelijk is aan** $0~\deg\si{C}.$ Dat is een vereiste om onze methode te kunnen gebruiken. Gelukkig is dit bij omzettingen tussen afstandsmaten, tijdsmaten enz. *wel* altijd het geval:
+> 
+> * $0~\si{cm} = 0~\si{km}$
+> * $0~\si{h} = 0~\si{s}$
+> * $0~\frac{\si{km}}{\si{h}} = 0~\frac{\si{m}}{\si{s}}$
+> * $0~\si{kN} = 0~\si{N}$
+> * ...
+> 
+> De juiste manier om graden Fahrenheit naar graden Celsius om te zetten, is met de volgende formule:
+> 
+> $$
+> c = \frac{5}{9}\cdot (\orange{f}- 32)
+> $$
+> 
+> waarbij $\orange{f}$ de temperatuur in $\deg\si{F}$ is en $c$ de temperatuur in $\deg\si{C}.$ Met behulp van die formule kunnen we $100~\deg\si{F}$ juist omzetten naar $\deg\si{C}:$
+> 
+> $$
+> \begin{aligned}
+> c &= \frac{5}{9}\cdot (\orange{100} - 32)\\
+> &= \frac{5}{9}\cdot 68\\
+> &= 37{,}77\ldots
+> \end{aligned}
+> $$
+> 
+> Je kan de formule $c = \frac{5}{9}\cdot (f - 32)$ omvormen om ook de formule te vinden die van graden Celsius naar graden Fahrenheit gaat (probeer dit zelf). Je zou moeten vinden dat:
+> 
+> $$
+> f = \frac{9}{5}\cdot c + 32
+> $$
+
+Voor het omzetten van <Mute>(de meeste)</Mute> eenheden, moeten we dus weten **waar $1$ van de ene eenheid gelijk aan is in de andere eenheid.** Bij sommige omzettingen is het echter niet altijd zo eenvoudig om te zien waar $1$ van de ene eenheid gelijk aan is in de andere eenheid. Daarom gaan we voor enkele veel voorkomende omzettingen een trucje leren om dit snel te kunnen berekenen. We zullen een trucje leren voor de volgende omzettingen:
+
+* Omzettingen waarbij enkel het **[voorvoegsel](../prefixen)** verandert, zoals van $\si{m}$ naar $\si{cm}$;
+* Omzettingen van eenheden met **exponenten,** zoals van $\si{m}^2$ naar $\si{cm}^2$;
+* Omzettingen tussen **kubieke meter en liter,** zoals van $\si{m}^3$ naar $\si{hl}$;
+* Omzettingen tussen eenheden die in een **breuk** staan, zoals van $\si{m}/\si{s}$ naar $\si{km}/\si{h}.$
+
+Deze vier gevallen bespreken we hieronder elk in een aparte paragraaf.
+
+## Eenheden met voorvoegsels omzetten
+
+Deze paragraaf gaat over omzettingen waarbij enkel het **voorvoegsel** verandert. Enkele voorbeelden met *meter*:
+
+* Van $\si{m}$ naar $\si{cm}$
+* Van $\si{m}$ naar $\si{dm}$
+* Van $\si{hm}$ naar $\si{km}$
+* Van $\mu\si{m}$ naar $\si{nm}$
+* Van $\si{mm}$ naar $\si{m}$
+
+Je ziet dat inderdaad telkens gewoon het *lettertje* dat voor de eenheid staat verandert of verdwijnt. We gaan een trucje leren om dit soort omzettingen snel te kunnen berekenen.
+
+Voor dit trucje hebben we de onderstaande tabel nodig. Je ziet dat bij elk voorvoegsel een bepaalde macht van 10 hoort. Het is heel belangrijk dat je **van elk voorvoegsel weet welke macht van 10 erbij hoort.** Je moet onderstaande tabel dus (helaas) uit je hoofd leren...
+
+> -Tabel met prefixen
+> 
+> | Symbool   | Naam  | Macht van 10 |
+> | --------- | ----- | ------------ |
+> | $\si{T}$  | Tera  | $10^{12}$ |
+> | $\si{G}$  | Giga  | $10^9$   |
+> | $\si{M}$  | Mega  | $10^6$   |
+> | $\si{k}$  | kilo  | $10^3$   |
+> | $\si{h}$  | hecto | $10^2$   |
+> | $\si{da}$ | deca  | $10^1$   |
+> | (geen voorvoegsel) |   -   | $10^0$   |
+> | $\si{d}$  | deci  | $10^{-1}$   |
+> | $\si{c}$  | centi | $10^{-2}$   |
+> | $\si{m}$  | milli | $10^{-3}$   |
+> | $\mu$     | micro | $10^{-6}$   |
+> | $\si{n}$  | nano  | $10^{-9}$   |
+> | $\si{p}$  | pico  | $10^{-12}$   |
+
+Stel nu dat je $2{,}0~\si{ml}$ moet omzetten naar $\si{dl}.$ Daarvoor moeten we dus weten hoeveel deciliter $1~\si{ml}$ is en dus wat in de volgende gelijkheid op de puntjes moet komen te staan: 
 
 $$
-1 \si{ h} = 60 \si{ min}
+1~\si{ml} = \ldots~\si{dl}
 $$
 
+Het trucje gaat als volgt. **Op die puntjes komt een breuk** met:
+
+- in de **teller** <Mute>(bovenaan)</Mute> de macht van 10 die hoort bij het voorvoegsel **waar we vandaan komen**;
+- en in de **noemer** <Mute>(onderaan)</Mute> de macht van 10 die hoort bij het voorvoegsel **waar we naartoe gaan** <Mute>(onthoud: **n**oemer, **n**aartoe)</Mute>.
+
+Merk op dat **wanneer er geen voorvoegsel voor de eenheid staat, $10^0$ de bijhorende macht van 10 is.**
+
+We willen $2{,}0~\si{ml}$ omzetten naar $\si{dl}.$ We vertrekken dus van *milli-* en gaan naar *deci-.* Ons trucje zegt dat we dan op de puntjes een breuk moeten zetten met in de teller de macht van 10 die hoort bij *milli-* en in de noemer de macht van 10 die hoort bij *deci-.* Uit de tabel van hierboven halen we dat bij *milli-* de macht $10^{-3}$ hoort en bij *deci-* $10^{-1}.$ Als we deze breuk invullen op de plaats van de puntjes, vinden we:
+
+import MlNaarDl from "./drawings/ml_naar_dl";
+
+<MlNaarDl/>
+
+We kunnen die breuk natuurlijk verder vereenvoudigen met behulp van de [rekenregels voor het quotiënt van breuken met eenzelfde grondtal](../../../wiskunde/eentermen/product#een-eenterm-delen-door-een-eenterm):
 
 $$
-1 \si{ min} = 60 \si{ s}
+\begin{aligned}
+1~\si{ml} &= \frac{10^{\orange{-3}}}{10^{\blue{-1}}}~\si{dl}\\
+&= 10^{\left(\orange{-3}-(\blue{-1})\right)}~\si{dl}\\
+&= 10^{(-3 + 1)}~\si{dl}\\
+&= 10^{-2}~\si{dl}\\
+\end{aligned}
 $$
 
-
-Met de voorgaande 2 gelijkheden, kunnen we alle omzettingen tussen uren,
-minuten en seconden doen. Hieronder een samenvatting van alle mogelijke
-omzettingen. Leer deze omzettingen alsjeblieft **niet uit je hoofd**. Je
-vergeet ze vroeg of laat toch. Probeer in de plaats daarvan telkens de **afleiding te
-begrijpen** zodat je deze tijdens een toets snel op een kladblad kan hermaken.
-Het enige wat je van buiten moet kennen zijn de bovenstaande 2 gelijkheden.
-
-Merk op: we maken gebruik van de [benaderingsregels](../benaderingsregels) in de kolom met voorbeelden.
-
-### Van uur naar...
-
-| Van      | Naar       | Afleiding                                                                                                                     | Kort gezegd                | Voorbeeld                                                                                                                            |
-| -------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| uur ($\si{h}$) | minuten ($\si{min}$) | /                                                                                                                             | $1 \si{ h} = 60 \si{ min}$ | $$\begin{aligned}8{,}00~\orange{\si{h}} &= 8{,}00 \cdot \orange{60~\si{min}}\\ &= 480~\orange{\si{min}} \end{aligned}$$          |
-| uur ($\si{h}$) | seconden ($\si{s}$)   | $$\begin{aligned}1 \si{ h} &= 60~\underbrace{\orange{\si{min}}}_{= 60~\si{s}}\\ &= \underbrace{60 \cdot \orange{60}}_{= 3600} ~\orange{\si{s}}\\ &= 3600~\orange{\si{s}}\end{aligned}$$ | $1 \si{ h} = 3600 \si{ s}$ | $$\begin{aligned}8{,}00~\orange{\si{h}} &= 8{,}00 \cdot~\orange{3600~\si{s}} \\ &= 28{,}8 \cdot 10^{3}~\orange{\si{s}} \end{aligned}$$ |
-
-### Van minuut naar...
-
-| Van        | Naar     | Afleiding                                                                                                                                                                                                                                                                              | Kort gezegd                          | Voorbeeld                                                                                                                                                                   |
-| ---------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| minuten ($\si{min}$) | uur ($\si{h}$) | $$\begin{aligned}1 \si{ h} &= 60 \si{ min}\\ &\Updownarrow\\ \frac{1 \si{ h}}{\orange{60}} &= \frac{60 \si{ min}}{\orange{60}}\\ &\Updownarrow\\ \frac{1}{\orange{60}} \si{ h} &= 1 \si{ min} \\ &\Updownarrow\\ 1 \si{ min} &= \frac{1}{\orange{60}} \si{ h}\end{aligned}$$ | $1 \si{ min} = \frac{1}{60} \si{ h}$ | $$\begin{aligned}90{,}0 \orange{\si{ min}} &= 90{,}0 \cdot \orange{\frac{1}{60} \si{ h}}\\ &= \frac{90{,}0}{60} \orange{\si{ h}}\\ &= 1{,}50 \orange{\si{ h}} \end{aligned}$$ |
-| minuten ($\si{min}$) | seconden ($\si{s}$) | /                                                                                                                                                                                                                                                                                      | $1 \si{ min} = 60 \si{ s}$           | $$\begin{aligned}90{,}0 \orange{\si{ min}} &= 90{,}0 \cdot \orange{60 \si{ s}} \\ &= 5{,}40 \cdot 10^{3} \orange{\si{ s}} \end{aligned}$$                                        |
-
-### Van seconde naar...
-
-| Van      | Naar       | Afleiding                                                                                                                                                                                                                                                                              | Kort gezegd                          | Voorbeeld                                                                                                                                                                                  |
-| -------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| seconden ($\si{s}$) | minuten ($\si{min}$) | $$\begin{aligned}1 \si{ min} &= 60 \si{ s}\\ &\Updownarrow\\ \frac{1 \si{ min}}{\orange{60}} &= \frac{60 \si{ s}}{\orange{60}}\\ &\Updownarrow\\ \frac{1}{\orange{60}} \si{ min} &= 1 \si{ s} \\ &\Updownarrow\\ 1 \si{ s} &= \frac{1}{\orange{60}} \si{ min}\end{aligned}$$ | $1 \si{ s} = \frac{1}{60} \si{ min}$ | $$\begin{aligned}30{,}0 \orange{\si{ s}} &= 30{,}0 \cdot \orange{\frac{1}{60} \si{ min}}\\ &= \frac{30{,}0}{60} \orange{\si{ min}}\\ &= 0{,}500 \orange{\si{ min}} \end{aligned}$$           |
-| seconden ($\si{s}$) | uur ($\si{h}$)   | $$\begin{aligned}1 \si{ s} &= \frac{1}{60}\orange{\si{ min}} \\ &=\frac{1}{60}\cdot \orange{\frac{1}{60}\si{ h}}\\ &=\frac{1}{\orange{3600}}\si{ h} \end{aligned}$$                                                                                                                      | $1 \si{ s} = \frac{1}{3600} \si{ h}$ | $$\begin{aligned}30{,}0 \orange{\si{ s}} &= 30{,}0 \cdot \orange{\frac{1}{3600} \si{ h}}\\ &= \frac{30{,}0}{3600} \orange{\si{ h}}\\ &= 8{,}33\cdot 10^{-3} \orange{\si{ h}} \end{aligned}$$ |
-
-## Snelheden omzetten
-
-Door het omzetten van [prefixen](#van-en-naar-prefixen) te combineren met het
-omzetten van [tijden](#tijden-omzetten), kunnen we $\si{km}/\si{h}$ omzetten
-naar $\si{m}/\si{s}$ en omgekeerd. Hieronder weer een samenvattende tabel.
-
-| Van              | Naar             | Afleiding                                                                                                                                                                                                                                                                                                                                               | Kort gezegd                                         | Voorbeeld                                                                                                                                                                                                      |
-| ---------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| kilometer per uur ($\si{km}/\si{h}$) | meter per seconde ($\si{m}/\si{s}$)  | $$\begin{aligned} 1 \frac{\blue{\si{k}}\si{m}}{\orange{\si{h}}} &= 1 \cdot \frac{\blue{10^3}\si{ m}}{\orange{3600\si{ s}}}\\ &= \frac{1\cdot \blue{10^3}} {\orange{3600}} \frac{\si{m}}{\si{s}}\\ &= \frac{1}{3{,}6} \frac{\si{m}}{\si{s}} \end{aligned}$$                                                                                                | $1 \si{ km}/\si{h} = \frac{1}{3{,}6} \si{m}/\si{s}$ | $$\begin{aligned} 30{,}0~\orange{\si{km}/\si{h}} &= 30{,}0 \cdot \orange{\frac{1}{3{,}6}~\si{m}/\si{s}}\\ &= \frac{30{,}0}{\orange{3{,}6}}~\orange{\si{m}/\si{s}}\\ &= 8{,}33~\si{m}/\si{s}\end{aligned}$$ |
-| meter per seconde ($\si{m}/\si{s}$)  | kilometer per uur ($\si{km}/\si{h}$) | $$\begin{aligned} 1 \si{ km}/\si{h} &= \frac{1}{3{,}6} \si{ m}/\si{s}\\ &\Updownarrow\\ \orange{3{,}6}\cdot 1 \si{ km}/\si{h} &= \orange{3{,}6}\cdot \frac{1}{3{,}6} \si{ m}/\si{s}\\ &\Updownarrow\\ \orange{3{,}6} \si{ km}/\si{h} &= 1 \si{ m}/\si{s}\\ &\Updownarrow\\ 1 \si{ m}/\si{s} &= \orange{3{,}6} \si{ km}/\si{h} \end{aligned}$$ | $1 \si{ m}/\si{s} = 3{,}6 \si{ km}/\si{h}$          | $$\begin{aligned} 25{,}0~\orange{\si{m}/\si{s}} &= 25{,}0 \cdot \orange{3{,}6~\si{km}/\si{h}}\\ &= 90{,}0~\si{km}/\si{h} \end{aligned}$$                                                                        |
-
-## Volumes omzetten
-
-In het dagelijkse leven drukt men volumes meestal uit in liter ($\si{l}$) of
-een afgeleide hiervan (vnl. $\si{ml}$, $\si{cl}$ of $\si{dl}$). De SI-eenheid
-voor volume is echter de kubieke meter ($\si{m}^3$). Een omzetting tussen
-beide is niet zo voor de hand liggend. Het belangrijkste dat je moet onthouden
-is:
-
+We vinden dus dat:
 
 $$
-1 \si{ l} = 1 \si{ dm}^3
+1~\si{ml} = 10^{-2}~\si{dl}
 $$
 
+Nu we dit weten, kunnen we $2{,}0~\si{ml}$ omzetten naar $\si{dl}:$
 
-Dit kan je als volgt onthouden: beeld je een fles melk in van $1 \si{ l}$.
-Stel je nu 3 kubussen voor: een met zijden van $1 \si{ m}$, een met zijden van
-$10 \si{ cm}$ en een met zijden van $1 \si{ cm}$. Welke van deze kubussen heeft
-ongeveer hetzelfde volume als het melkkarton? Ter illustratie <Mute>(de
-figuur is niet op exacte schaal, maar geeft wel een idee van de groottes)</Mute>:
+$$
+\begin{aligned}
+2{,}0~\orange{\si{ml}} &= 2{,}0\cdot \orange{10^{-2}~\si{dl}}\\
+&= 0{,}020~\si{dl}\\
+\end{aligned}
+$$
 
-![Een liter is gelijk aan een kubieke decimeter](img/liter_conversion.png)
+> -Uitbreiding: Waarom werkt dit trucje?
+> 
+> In ons trucje vermenigvuldigen we de eenheid waar we naartoe willen met een breuk die in de teller en noemer een macht van 10 bevat. In de teller staat de macht van 10 die hoort bij het voorvoegsel waar we vandaan komen en in de noemer de macht van 10 die hoort bij het voorvoegsel waar we naartoe gaan.
+> 
+> Voor de omzetting van $\si{ml}$ naar $\si{dl}$ vonden we op die manier dat:
+> 
+> $$
+> 1~\si{ml} = \frac{10^{-3}}{10^{-1}}~\si{dl}
+> $$
+> 
+> We kunnen zien dat dit inderdaad klopt door de voorvoegsels die voor de eenheden staan ook te gaan vertalen naar hun macht van 10:
+> 
+> $$
+> \begin{aligned}
+> 1~\si{\orange{m}l} &= \frac{10^{-3}}{10^{-1}}~\si{\blue{d}l}\\
+> \Lrarr 1\cdot\orange{10^{-3}}~\si{l} &= \frac{10^{-3}}{10^{-1}}\cdot\blue{10^{-1}}~\si{l}\\
+> \end{aligned}
+> $$
+> 
+> We kunnen rechts de noemer $10^{-1}$ schrappen met de vermenigvuldiging met $10^{-1}:$
+> 
+> $$
+> \begin{aligned}
+> \Lrarr 1\cdot 10^{-3}~\si{l} &= \frac{10^{-3}}{\cancel{10^{-1}}}\cdot \cancel{10^{-1}}~\si{l}\\
+> \Lrarr 1\cdot 10^{-3}~\si{l} &= 10^{-3}\cdot 1~\si{l}\\
+> \Lrarr 10^{-3}~\si{l} &= 10^{-3}~\si{l}\\
+> \end{aligned}
+> $$
+> 
+> We komen uit dat $10^{-3}~\si{l} = 10^{-3}~\si{l}.$ Dat klopt natuurlijk. Je kan dit met eender welke combinatie van voorvoegsels proberen, het zal altijd uitkomen.
 
-Je ziet dat de kubus met een zijde van $1 \si{ dm}$ <Mute>($= 10 \si{
-cm}$)</Mute> ongeveer hetzelfde volume heeft als de fles melk, en inderdaad $1
-\si{ l} = 1 \si{ dm}^3$.
+import HPaNaarKPa from "./exercises/hPaNaarKPa";
 
-Hiermee kan je dan aan de slag om de omzetting te doen tussen liter en kubieke meter.
+<HPaNaarKPa />
 
-| Van        | Naar       | Afleiding                                                                                                                                                                                                                                                                            | Kort gezegd                     | Voorbeeld |
-| ---------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------- | --------- |
-| liter ($\si{l}$)   | kubieke meter ($\si{m}^3$) | $$\begin{aligned} 1 \si{ l} &= 1 \blue{\si{ d}} \si{m}^3\\ &= 1 \cdot (\blue{10^{-1}}\si{ m})^3\\ &= 1 \cdot (\blue{10^{-1}})^3 \si{ m}^3\\ &= 10^{-3} \si{ m}^3 \end{aligned}$$                                                                                                    | $1 \si{ l} = 10^{-3} \si{ m}^3$ |   $$\begin{aligned}7{,}0~\orange{\si{l}} &= 7{,}0\cdot\orange{10^{-3}~\si{m}^3} \end{aligned}$$      |
-| kubieke meter ($\si{m}^3$) | liter ($\si{l}$)   | $$\begin{aligned} 1 \si{ l} &= 10^{-3} \si{ m}^3 \\ \Updownarrow \\ \orange{10^3} \cdot 1 \si{ l} &= \orange{10^3} \cdot 10^{-3} \si{ m}^3 \\ \Updownarrow \\ \orange{10^3} \si{ l} &= 1 \si{ m}^3 \\ \Updownarrow \\ 1 \si{ m}^3 &= \orange{10^3} \si{ l} \end{aligned}$$ | $1 \si{ m}^3 = 10^3 \si{ l}$    |   $$\begin{aligned}23{,}5~\orange{\si{m}^3} &= 23{,}5\cdot\orange{10^{3}~\si{l}} \end{aligned}$$        |
+## Eenheden met exponenten omzetten
 
-## Massadichtheid omzetten
+We weten ondertussen al dat we voor het omzetten van eenheden telkens moeten weten **waar $1$ van de ene eenheid gelijk aan is in de andere eenheid.** In deze paragraaf leren we een trucje om dit te berekenen voor omzettingen van eenheden met **exponenten.** Dit komt voornamelijk voor bij oppervlakte- en inhoudsmaten zoals $\si{m}^2$ en $\si{dm}^3.$
 
-Ten slotte tonen we hoe je de omzetting van $\si{g}/\si{ml}$ naar $\si{kg}/\si{m}^3$ kan doen en omgekeerd.
+Stel bijvoorbeeld dat we $15~\si{cm}^2$ moeten omzetten naar $\si{dm}^2.$ Dan moeten we eerst te weten komen hoeveel vierkante decimeter $1~\si{cm}^2$ is en dus wat hier op de puntjes moet komen te staan:
 
-| Van                | Naar               | Afleiding                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Kort gezegd                                     | Voorbeeld |
-| ------------------ | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- | --------- |
-| gram per milliliter ($\si{g}/\si{ml}$)   | kilogram per kubieke meter ($\si{kg}/\si{m}^3$) | $$\begin{aligned} 1 \frac{\si{g}}{\blue{\si{m}}\orange{\si{l}}} &= 1 \frac{\si{g}}{\blue{10^{-3}}\cdot\orange{10^{-3}\si{ m}^3}}\\ &= \frac{1}{10^{(\blue{-3}) + (\orange{-3})}} \frac{\si{g}}{\si{ m}^3}\\ &= \frac{1}{10^{-6}} \frac{\si{g}}{\si{ m}^3}\\ &= 10^{6} \frac{\si{g}}{\si{ m}^3}\\ &= 10^{6} \frac{\pink{10^{-3}}\cdot\green{10^3}\si{g}}{\si{ m}^3}\\ &= 10^{6}\cdot \pink{10^{-3}}\frac{\green{\si{k}}\si{g}}{\si{ m}^3}\\ &= 10^{3} \frac{\green{\si{k}}\si{g}}{\si{ m}^3}\\ \end{aligned}$$ | $1\si{ g}/\si{ml} = 10^3 \si{ kg}/\si{m}^3$     |     $$\begin{aligned} 91{,}6~\orange{\si{g}/\si{ml}} &= 91{,}6\cdot\orange{10^3~\si{kg}/\si{m}^3} \end{aligned}$$      |
-| kilogram per kubieke meter ($\si{kg}/\si{m}^3$) | gram per milliliter ($\si{g}/\si{ml}$)   | $$\begin{aligned} 1 \frac{\si{g}}{\si{ml}} &= 10^3 \frac{\si{ kg}}{\si{m}^3}\\ &\Updownarrow \\ \frac{1 \si{ g}/\si{ml}}{\orange{10^3}} &= \frac{10^3 \si{ kg}/\si{m}^3}{\orange{10^3}}\\ &\Updownarrow \\ \frac{1}{\orange{10^3}} \frac{\si{ g}}{\si{ml}} &= 1\frac{\si{kg}}{\si{m}^3}\\ &\Updownarrow \\ 1\frac{\si{kg}}{\si{m}^3} &= \frac{1}{\orange{10^3}} \frac{\si{ g}}{\si{ml}} \\ &\Updownarrow \\ 1\frac{\si{kg}}{\si{m}^3} &= 10^{-3} \frac{\si{ g}}{\si{ml}}\end{aligned}$$                    | $1\si{ kg}/\si{m}^3 = 10^{-3} \si{ g}/\si{ml}$ |     $$\begin{aligned} 4{,}68~\orange{\si{kg}/\si{m}^3} &= 4{,}68\cdot\orange{10^{-3}~\si{g}/\si{ml}} \end{aligned}$$      |
+$$
+1~\si{cm}^2 = \ldots~\si{dm}^2
+$$
+
+We gebruiken hetzelfde trucje als uit de vorige paragraaf, maar we zullen nu extra exponenten moeten toevoegen. Op de puntjes komt weer een breuk met in de teller de macht van $10$ waar we vandaan komen en in de **n**oemer de macht van $10$ waar we **n**aartoe gaan. Het verschil is dat we **de machten van $10$ ook gaan verheffen tot de exponent die bij de overeenkomstige eenheid staat.** Voor $\si{cm}^2$ en $\si{dm}^2$ krijgen we:
+
+import Cm2NaarDm2 from "./drawings/cm2NaarDm2";
+
+<Cm2NaarDm2/>
+
+We kunnen eerst de machten uitrekenen:
+
+$$
+\begin{aligned}
+1~\si{cm}^{2} &= \frac{\orange{\left(10^{-2}\right)^{2}}}{\blue{\left(10^{-1}\right)^2}}~\si{dm}^2\\
+&= \frac{\orange{10^{-2\cdot 2}}}{\blue{10^{-1\cdot 2}}}~\si{dm}^2\\
+&= \frac{\orange{10^{-4}}}{\blue{10^{-2}}}~\si{dm}^2\\
+\end{aligned}
+$$
+
+en vervolgens kunnen we de breuk vereenvoudigen:
+
+$$
+\begin{aligned}
+\phantom{1~\si{cm}^{2}} &= \frac{10^{\orange{-4}}}{10^{\blue{-2}}}~\si{dm}^2\\
+&= 10^{\orange{-4}-(\blue{-2})}~\si{dm}^2\\
+&= 10^{-2}~\si{dm}^2\\
+\end{aligned}
+$$
+
+We vinden dus dat:
+
+$$
+1~\si{cm}^{2} = 10^{-2}~\si{dm}^2
+$$
+
+$15~\si{cm}^2$ omzetten naar $\si{dm}^2,$ gaat dan als volgt:
+
+$$
+\begin{aligned}
+15~\orange{\si{cm}^2} &= 15\cdot \orange{10^{-2}~\si{dm}^2}\\
+\end{aligned}
+$$
+
+Dit kunnen we verder uitrekenen:
+
+$$
+\begin{aligned}
+&= 15\cdot 10^{-2}~\si{dm}^2\\
+&= 0{,}15~\si{dm}^2
+\end{aligned}
+$$
+
+import M3NaarDm3 from "./exercises/m3NaarDm3";
+
+<M3NaarDm3 />
+
+## Liter en kubieke meter omzetten
+
+Zoals we al meerdere keren in deze les hebben herhaald, moeten we bij het omzetten van eenheden telkens weten **waar $1$ van de ene eenheid gelijk aan is in de andere eenheid.** In deze paragraaf leren we een trucje om dit te berekenen voor omzettingen tussen liter en kubieke meter.
+
+Zowel de eenheid *liter* als *kubieke meter* worden namelijk regelmatig gebruikt om een volume in uit te drukken. Een eenvoudig voorbeeld is het berekenen van de hoeveelheid water die in een zwembad kan. Als je de afmetingen van een rechthoekig zwembad in *meter* kent, kan je het volume eenvoudig uitrekenen in *kubieke meter.* Door dat resultaat om te zetten naar *liter,* kunnen we ook weten hoeveel liter water erin past. Bij zulke grote hoeveelheden water, is het echter gebruikelijker om *hectoliter* te gebruiken als eenheid.
+
+Stel bijvoorbeeld dat Dirk de taak heeft gekregen om het gemeentelijk zwembad te vullen. Het zwembad is $25{,}0~\si{m}$ lang, $21{,}0~\si{m}$ breed en $2{,}00~\si{m}$ diep. Hoeveel **hectoliter** water heeft hij daarvoor nodig?
+
+import DirkVultBad from "./drawings/dirkVultBad";
+
+<DirkVultBad />
+
+Het volume van het zwembad kunnen we vinden door de lengte, breedte en diepte met elkaar te vermenigvuldigen:
+
+$$
+\begin{aligned}
+V &= l\cdot b\cdot d\\
+&= 25{,}0~\si{m}\cdot 21{,}0~\si{m} \cdot 2{,}00~\si{m}\\
+&= 1050~\si{m}^3
+\end{aligned}
+$$
+
+Het zwembad heeft dus een volume <Mute>(of inhoud)</Mute> van $1050~\si{m}^3.$ We willen nu weten hoeveel **hectoliter** ($\si{hl}$) dit is.
+
+$$
+1050~\si{m}^3 = \ldots \si{hl}
+$$
+
+Het lastige is echter dat we van iets met *kubieke meter* naar iets met *liter* willen gaan. Als we bv. van $\si{cl}$ naar $\si{hl}$ moesten, dan moesten we enkel het voorvoegsel veranderen en konden we [ons trucje met de voorvoegsels](#eenheden-met-voorvoegsels-omzetten) toepassen. Of als we van $\si{m}^3$ naar $\si{hm}^3$ moesten, dan konden we [het trucje met de exponenten](#eenheden-met-exponenten-omzetten) toepassen. Nu zitten we met meter en liter door elkaar... 🥴
+
+Om de omzetting te kunnen doen, moeten we eerst **een link hebben tussen kubieke meter en liter.** Daarom is het belangrijk te onthouden dat:
+
+$$
+1~\si{l} = 1~\si{dm}^3
+$$
+
+import { DrieKubussen, DrieKubussenMetVolume, DrieKubussenMetMelk, Dm3IsMelk } from "./drawings/literIsDm3";
+
+> 💡- Trucje om te onthouden dat 1 liter gelijk is aan 1 kubieke decimeter
+> 
+> Dit is eigenlijk eenvoudig te onthouden als je je drie verschillende kubussen inbeeldt. De eerste kubus heeft een zijde van $1~\si{cm},$ de tweede kubus heeft een zijde van $1~\si{dm}$ (wat hetzelfde is als $10~\si{cm}$) en de derde kubus heeft een zijde van $1~\si{m}.$
+> 
+> <DrieKubussen />
+> 
+> Het volume van een kubus kunnen we uitrekenen door de zijde te verheffen tot de derde macht. De eerste kubus heeft dus een volume van $(1~\si{cm})^3 = 1~\si{cm}^3.$ Op dezelfde manier vinden we voor de tweede kubus een volume van $1~\si{dm}^3$ en voor de derde kubus een volume van $1~\si{m}^3.$
+> 
+> <DrieKubussenMetVolume />
+> 
+> We weten dat de inhoud van één van deze kubussen exact gelijk is aan 1 liter. Als je je nu bv. een typisch brik melk van 1 liter inbeeldt, dan zou één van onze kubussen hetzelfde volume moeten hebben als dat brik. Je ziet dat de kubus met een volume van $1~\si{dm}^3$ het meest gelijkaardig is:
+> 
+> <DrieKubussenMetMelk />
+> 
+> Meer zelfs: het **volume** van die kubus en het brik melk is **identiek hetzelfde.** Je zou het brik melk volledig kunnen leeggieten in de kubus van $1~\si{dm}^3$ en dan zal de kubus volledig tot aan de rand gevuld zijn.
+> 
+> <Dm3IsMelk />
+
+Nu we weten dat $1~\si{l} = 1~\si{dm}^3,$ kunnen we **van kubieke meter via kubieke decimeter naar liter en vervolgens naar hectoliter gaan**:
+
+1. Eerst zetten we **kubieke meter om naar kubieke decimeter.**
+2. Omdat $1~\si{l} = 1~\si{dm}^3,$ mogen we **kubieke decimeter gewoon vervangen door liter.**
+3. Ten slotte zetten we de **liter om naar hectoliter.**
+
+We werken dit hieronder verder uit.
+
+### Stap 1: kubieke meter omzetten naar kubieke decimeter
+
+We beginnen met de omzetting van kubieke meter naar kubieke decimeter. Dat is [een omzetting met exponenten](#eenheden-met-exponenten-omzetten). We leerden al hoe we zo'n omzetting kunnen doen:
+
+$$
+\begin{aligned}
+    1~\si{m}^3 &= \frac{\left(10^{0}\right)^3}{\left(10^{-1}\right)^3}~\si{dm}^3\\
+    &= \frac{10^{0\cdot 3}}{10^{-1\cdot 3}}~\si{dm}^3\\
+    &= \frac{10^{0}}{10^{-3}}~\si{dm}^3\\
+    &= 10^{0 - (-3)}~\si{dm}^3\\
+    &= 10^{3}~\si{dm}^3\\
+\end{aligned}
+$$
+
+We vinden dus dat
+
+$$
+1~\si{m}^3 = 10^{3}~\si{dm}^3
+$$ 
+
+### Stap 2: kubieke decimeter vervangen door liter
+
+In de vorige stap vonden we dat $1~\si{m}^3 = 10^{3}~\si{dm}^3.$ Omdat $1~\si{l} = 1~\si{dm}^3,$ mogen we de $\si{dm}^3$ gewoon vervangen door $\si{l}:$
+
+$$
+\begin{aligned}
+    1~\si{m}^3 &= 10^{3}~\orange{\si{dm}^3}\\
+    &= 10^{3}~\orange{\si{l}}\\
+\end{aligned}
+$$
+
+We vinden dus dat 
+
+$$
+1~\si{m}^3 = 10^{3}~\si{l}
+$$
+
+We zijn er **bijna**! 💪 Nu moeten we de **liter** enkel nog verder omzetten naar **hectoliter.** Dat doen we in de laatste stap.
+
+### Stap 3: liter omzetten naar hectoliter
+
+Uit de vorige stap hebben we gevonden dat
+
+$$
+1~\si{m}^3 = 10^{3}~\si{l}
+$$
+
+We willen echter naar **hectoliter** gaan in plaats van liter. Die $10^{3}~\orange{\si{l}}$ zouden we dus nog moeten omzetten naar hectoliter. De omzetting van *liter* naar *hectoliter* is er eentje waarbij [enkel het voorvoegsel verandert](#eenheden-met-voorvoegsels-omzetten). Dat soort omzetting kunnen we dus zonder probleem doen.
+
+$$
+\begin{aligned}
+    1~\si{m}^3 &= 10^{3}~\orange{\si{l}}\\
+    &= 10^{3}\cdot\orange{\frac{10^0}{10^2}~\si{hl}}\\
+    &= 10^{3}\cdot\orange{10^{0-2}~\si{hl}}\\
+    &= 10^{3}\cdot 10^{-2}~\si{hl}\\
+    &= 10^{3 - 2}\si{hl}\\
+    &= 10^{1}\si{hl}\\
+\end{aligned}
+$$
+
+We vinden dat
+
+$$
+1~\si{m}^3 = 10^{1}~\si{hl}
+$$
+
+We kunnen nu dus de $1050~\si{m}^3$ omzetten naar $\si{hl}:$
+
+$$
+\begin{aligned}
+1050~\orange{\si{m}^3} &= 1050\cdot\orange{10^{1}~\si{hl}}\\
+&\overset{\text{BR}}{=} 105\cdot 10^{2}~\si{hl}\\
+\end{aligned}
+$$
+
+<Mute>(In de laatste lijn hebben we [de benaderingsregels (BR)](../benaderingsregels) toegepast, wetende dat de lengte, breedte en diepte van het zwembad gegeven waren met 3 beduidende cijfers.)</Mute>
+
+> 💡 Eenheid met kubieke meter omzetten naar eenheid met liter
+> 
+> Omzettingen van kubieke (hecto, deca, deci, centi...)-meter naar (...)-liter doe je in **drie stappen**:
+> 
+> 1. Zet kubieke (...)-meter om naar $\si{dm}^3.$
+> 2. Vervang $\si{dm}^3$ door liter.
+> 3. Zet liter om naar (...)-liter.
+
+### En wat als we van liter naar kubieke meter willen?
+
+We hebben zonet kubieke meter omgezet naar hectoliter. Het kan natuurlijk ook dat je een eenheid met liter moet omzetten naar een eenheid met kubieke meter. Dan moet je de drie stappen gewoon omdraaien:
+
+> 💡 Eenheid met liter omzetten naar eenheid met kubieke meter
+> 
+> Omzettingen van (hecto-, deca-, deci-, centi-, milli-...)-liter naar kubieke (...)-meter doe je als volgt:
+> 
+> 1. Zet (...)-liter om naar liter.
+> 2. Vervang liter door $\si{dm}^3.$
+> 3. Zet $\si{dm}^3$ verder om naar kubieke (...)-meter.
+
+Als we bv. een omzetting van $\si{ml}$ naar $\si{cm}^3$ moeten doen, dan volgen we deze drie stappen:
+
+1. Zet $\si{ml}$ om naar $\si{l}$ (liter).
+2. Vervang $\si{l}$ (liter) door $\si{dm}^3.$
+3. Zet $\si{dm}^3$ om naar $\si{cm}^3.$
+
+import MlNaarCm3 from './exercises/mlNaarCm3';
+
+<MlNaarCm3/>
+
+## Eenheden in een breuk omzetten
+
+Eenheden komen vaak ook in een **breukvorm** voor, denk maar aan:
+
+* $\si{m}/\si{s}$ bij snelheid;
+* $\si{kg}/\si{m}^3$ bij massadichtheid;
+* $\si{N}/\si{kg}$ bij zwaarteveldsterkte;
+
+Om zulke eenheden om te zetten, gebruiken we dezelfde methodes als bij een gewone omzetting, maar **passen we ze gewoon twee keer toe**: een eerste keer voor de eenheid in de **teller** en een tweede keer voor de eenheid in de **noemer.** Het eindresultaat is dan een breuk met in de **teller de omzetting van de eenheid in de teller** en in de **noemer de omzetting van de eenheid in de noemer.**
+
+Stel bijvoorbeeld dat Dirk zich aan de 100 meter sprint waagt op de atletiekpiste <Mute>(naast het gemeentelijk zwembad)</Mute>.
+
+import DirkReadyToSprint from './drawings/dirkSprint';
+
+<DirkReadyToSprint />
+
+
+Hij trekt zijn sprintje in $20{,}6~\si{s}.$ Zijn gemiddelde snelheid was dus
+
+$$
+\frac{100~\si{m}}{20{,}6~\si{s}} = 4,85437\ldots~\frac{\si{m}}{\si{s}}
+$$
+
+Hij wil echter graag weten hoeveel **kilometer per uur dit is.** We moeten dan, zoals altijd, eerst te weten komen hoeveel $1~\frac{\si{m}}{\si{s}}$ in kilometer per uur is en dus wat er op de puntjes moet komen in de volgende gelijkheid:
+
+$$
+1~\frac{\si{m}}{\si{s}} = \ldots~\frac{\si{km}}{\si{h}}
+$$
+
+Omdat de eenheden in een breuk staan, gaan we dit opsplitsen in twee aparte omzettingen:
+
+$$
+1~\si{m} = \ldots~\si{km}
+$$
+
+en
+
+$$
+1~\si{s} = \ldots~\si{h}
+$$
+
+Met behulp van de vorige paragrafen, zou je moeten kunnen vinden dat:
+
+$$
+1~\si{m} = 10^{-3}~\si{km}
+$$
+
+en
+
+$$
+1~\si{s} = \frac{1}{3600}~\si{h}
+$$
+
+Deze twee omzettingen combineren we nu terug in een breuk. In de teller van die breuk zetten we de omzetting van $\si{m}$ naar $\si{km},$ en in de noemer zetten we de omzetting van $\si{s}$ naar $\si{h}.$ We zetten dus altijd in de **teller de omzetting van de eenheid van de teller** en in de **noemer de omzetting van de eenheid van de noemer.** We krijgen:
+
+$$
+1~\frac{\orange{\si{m}}}{\blue{\si{s}}} = \frac{\orange{10^{-3}}}{\blue{\frac{1}{3600}}}~\frac{\orange{\si{km}}}{\blue{\si{h}}}
+$$
+
+Deze breuk kunnen we verder vereenvoudigen:
+
+$$
+\begin{aligned}
+1~\frac{\si{m}}{\si{s}} &= \frac{10^{-3}}{\frac{1}{3600}}~\frac{\si{km}}{\si{h}}\\
+&= 10^{-3}\cdot 3600~\frac{\si{km}}{\si{h}}\\
+&= 3{,}6~\frac{\si{km}}{\si{h}}\\
+\end{aligned}
+$$
+
+We vinden dus dat:
+
+$$
+1~\frac{\si{m}}{\si{s}} = 3{,}6~\frac{\si{km}}{\si{h}}
+$$
+
+$4{,}85437\ldots~\frac{\si{m}}{\si{s}}$ omzetten naar $\frac{\si{km}}{\si{h}}$ gaat dan als volgt:
+
+$$
+\begin{aligned}
+4{,}85437\ldots~\orange{\frac{\si{m}}{\si{s}}} &= 4{,}85437\ldots\cdot \orange{3{,}6~\frac{\si{km}}{\si{h}}}\\
+&= 17{,}4757\ldots~\frac{\si{km}}{\si{h}}\\
+&\overset{\text{BR}}{=} 17{,}5~\frac{\si{km}}{\si{h}}
+\end{aligned}
+$$
+
+import KgPerM3NaarGPerCm3 from './exercises/kgPerM3NaarGPerCm3';
+
+<KgPerM3NaarGPerCm3 />
+
+## Samengevat
+
+> Eenheden omzetten in het algemeen
+> 
+> We kunnen een eenheid naar een andere eenheid omzetten door te zoeken **waar $1$ van de ene eenheid gelijk aan is in de eenheid waar we naar omzetten.**
+> 
+> <Mute>{String.raw`(Merk op dat we deze methode niet kunnen gebruiken bij een omzetting van $\deg\si{C}$ naad $\deg\si{F}$ omdat $0~\deg\si{C}\ne 0~\deg\si{F}$)`}</Mute>
+
+> Eenheden met voorvoegsels omzetten
+> 
+> Bij omzettingen met voorvoegsels weten we dat $1$ van de ene eenheid in de andere eenheid gelijk is aan een **breuk** met in de **teller de macht van 10 die hoort bij het voorvoegsel waar we vandaan komen** en in de **noemer de macht van 10 die hoort bij het voorvoegsel waar we naartoe gaan** <Mute>(Onthoud: **n**oemer, **n**aartoe)</Mute>.
+
+> Eenheden met exponenten omzetten
+> 
+> Bij omzettingen met voorvoegsels en exponenten, passen we dezelfde methode toe als bij het omzetten van eenheden met voorvoegsels, maar **plaatsen we de exponent telkens ook bij de machten van 10 die bij de voorvoegsels horen.**
+
+> Liter en kubieke meter omzetten
+> 
+> Omzettingen van (hecto-, deca-, deci-, centi-, milli-,...)-liter naar kubieke (...)-meter doe je als volgt:
+> 
+> 1. Zet (...)-liter om naar liter.
+> 2. Vervang liter door $\si{dm}^3.$
+> 3. Zet $\si{dm}^3$ verder om naar kubieke (...)-meter.
+> 
+> En voor de omzetting van kubieke (...)-meter naar (...)-liter:
+> 
+> 1. Zet kubieke (...)-meter om naar $\si{dm}^3.$
+> 2. Vervang $\si{dm}^3$ door liter.
+> 3. Zet liter om naar (...)-liter.
+
+> Eenheden in een breuk omzetten
+> 
+> Eenheden die in een breuk staan, zetten we om door eerst **teller en noemer apart om te zetten** en vervolgens de **uitkomst van de omzettingen terug in een breuk te zetten.** De omzetting van de teller komt terug in de teller terecht en de omzetting van de noemer terug in de noemer.

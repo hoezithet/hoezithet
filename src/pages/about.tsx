@@ -1,32 +1,32 @@
 import React from "react";
 import Layout from "../components/layout";
-import Grid from "@material-ui/core/Grid";
+import Grid from "@mui/material/Grid";
 import COLORS from "../colors";
-import styled from "styled-components";
+import { styled } from '@mui/system';
 import demotivated from "../../images/about/leerling_gedemotiveerd.png";
 import bfg_watch from "../../images/about/HZH_GVR_watching.png";
 import bfg_run from "../../images/about/HZH_GVR_run.png";
 import bfg_lift from "../../images/about/HZH_GVR_lifter.png";
 import floris from "../../images/about/floris.jpg";
 
-const StyledCite = styled.cite`
-    color: ${COLORS.GRAY};
-`;
+const StyledCite = styled('cite')({
+    color: COLORS.GRAY,
+});
 
-const AboutImg = styled.img`
-    display: block;
-    margin: auto;
-    max-width: 100%;
-    width: 75%;
-`;
+const AboutImg = styled('img')({
+    display: 'block',
+    margin: 'auto',
+    maxWidth: '100%',
+    width: '75%',
+});
 
-const ProfileImg = styled.img`
-    display: block;
-    margin: auto;
-    max-width: 100px;
-    width: 75%;
-    border-radius: 5px;
-`;
+const ProfileImg = styled('img')({
+    display: 'block',
+    margin: 'auto',
+    maxWidth: '100px',
+    width: '75%',
+    borderRadius: '5px',
+});
 
 
 export default function About() {
@@ -44,7 +44,7 @@ export default function About() {
         <p>
             Misschien herken je het bovenstaande verhaal wel, net als veel leerlingen van het middelbaar. Mijn naam is Floris De Feyter 👋 en tussen ons gezegd en gezwegen vind ik wiskunde en wetenschappen eigenlijk heel interessant. Het doet wat pijn om te zien dat de vakken die ik zelf heel graag doe zulke angst en paniek kunnen veroorzaken bij leerlingen. Het voelt alsof veel leerlingen bang zijn voor de Grote Vriendelijke Reus, terwijl ze hem <b>nooit echt hebben leren kennen</b>.
         </p>
-        <Grid container spacing={ 2 } justify="space-between">
+        <Grid container spacing={ 2 } justifyContent="space-between">
             <Grid item xs={ 12 } sm={ 6 }>
                 <AboutImg src={ bfg_watch } />
             </Grid>
@@ -61,7 +61,7 @@ export default function About() {
         </p>
         <AboutImg src={ bfg_lift } />
         <h1>Over de auteur</h1>
-        <Grid container spacing={ 2 } justify="center">
+        <Grid container spacing={ 2 } justifyContent="center">
             <Grid item xs={ 12 } md={ 2 }>
                 <p>
                 <ProfileImg src={ floris } alt="Floris De Feyter, auteur van Hoe Zit Het?" />

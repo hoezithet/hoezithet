@@ -1,81 +1,55 @@
-import React, { useContext } from "react";
+import React, { useContext, createContext, useState } from "react";
 import { graphql } from "gatsby";
 import "katex/dist/katex.min.css";
 import { MDXProvider } from "@mdx-js/react";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import { Helmet } from 'react-helmet';
 import Sponsors from "../components/sponsors";
-import HzhTheme from "../components/theme";
+
+import BareLessonContext from "contexts/bareLessonContext";
 
 import { Link } from "gatsby-theme-material-ui";
-import Box from "@material-ui/core/Box";
-import { components, MdxNode, shortcodes, LessonContext } from "./lesson";
+import Box from "@mui/material/Box";
+import { components, MdxNode, shortcodes } from "./lesson";
+import LessonContext from "../contexts/lessonContext";
 import { ToggleImageBare } from "../components/shortcodes/toggleImage";
-import { ExpandBare } from "../components/shortcodes/expand";
-import { makeStyles } from '@material-ui/core/styles';
-import { Plot } from "../components/shortcodes/plot";
-import { Drawing } from "../components/shortcodes/drawing";
+import { styled } from '@mui/system';
+import { LessonSolutions } from '../components/exercises/lessonSolutions'
 
-const useStyles = makeStyles({
-    img: {
-        width: "100%",
-        height: "auto",
-        position: "absolute",
-        top: "0px",
-    },
-    header: {
-        breakInside: "avoid",
-        "&::after": {
-            content: '""',
-            display: "block",
-            height: "100px",
-            marginBottom: "-100px",
-        }
-    }
+
+const _BareImage = styled('img')({
+    width: '100%',
+    height: 'auto',
+    position: 'absolute',
+    top: '0px',
 });
 
-const bareShortcodes = {
-    ...shortcodes,
-    ToggleImage: ToggleImageBare,
-    Expand: ExpandBare,
-    Plot: Plot,
-    Drawing: Drawing,
-};
-
 const BareImage = (props) => {
-    const classes = useStyles();
     return (
-        <img src={props.src} className={`gatsby-resp-image-image bare-img ${classes.img}`}/>
+        <_BareImage src={props.src} className={`gatsby-resp-image-image bare-img`}/>
     );
 };
 
-const BareH1 = (props) => {
-    const classes = useStyles();
-    return (
-        <h1 {...props} className={`${props.className || ""} ${classes.header}`}/>
-    );
+const headerStyle = {
+    breakInside: 'avoid',
+    '&::after': {
+        content: "",
+        display: 'block',
+        height: '100px',
+        marginBottom: '-100px',
+    }
 };
 
-const BareH2 = (props) => {
-    const classes = useStyles();
-    return (
-        <h2 {...props} className={`${props.className || ""} ${classes.header}`}/>
-    );
-};
-
-const BareH3 = (props) => {
-    const classes = useStyles();
-    return (
-        <h3 {...props} className={`${props.className || ""} ${classes.header}`}/>
-    );
-};
+const BareH1 = styled('h1')(headerStyle);
+const BareH2 = styled('h2')(headerStyle);
+const BareH3 = styled('h3')(headerStyle);
 
 type AnchorProps = {
     href: string
 };
 
 const BareAnchor = (props: AnchorProps) => {
-    const lessonContext = useContext(LessonContext);
+    const lessonContext = useContext(BareLessonContext);
     const href = lessonContext && lessonContext.absURL
         ?
         new URL(props.href, lessonContext.absURL).href
@@ -87,6 +61,12 @@ const BareAnchor = (props: AnchorProps) => {
     return (
         <a {...newProps} />
     );
+};
+
+
+const bareShortcodes = {
+    ...shortcodes,
+    ToggleImage: ToggleImageBare,
 };
 
 const bareComponents = {
@@ -116,27 +96,42 @@ export default function Template({ data }: LessonData) {
     const absURL = `${new URL(fields.slug, siteMetadata.siteUrl)}`;
     const slug = lesson.fields.slug;
 
+    const [appendixItems, setAppendixItems] = useState([]);
     return (
-        <LessonContext.Provider value={{title: frontmatter.title, slug: slug, absURL: absURL}}>
-        <HzhTheme>
-            <>
-                <Helmet title={frontmatter.title} />
-                <h1>{frontmatter.title}</h1>
-                <p>
-                    <span>Bron: </span>
-                    <Link to={absURL}>{absURL}</Link>
-                </p>
-                <MDXProvider components={bareShortcodes}>
-                    <MDXProvider components={bareComponents}>
-                        <MDXRenderer>{body}</MDXRenderer>
-                    </MDXProvider>
+        <BareLessonContext.Provider value={{absURL: absURL, setAppendixItems: setAppendixItems}}>
+        <LessonContext.Provider value={{title: frontmatter.title, slug: slug}}>
+        <>
+            <Helmet title={frontmatter.title} />
+            <h1>{frontmatter.title}</h1>
+            <p>
+                <span>Bron: </span>
+                <Link to={absURL}>{absURL}</Link>
+            </p>
+            <MDXProvider components={bareShortcodes}>
+                <MDXProvider components={bareComponents}>
+                    <MDXRenderer>{body}</MDXRenderer>
                 </MDXProvider>
-                <Box my={4} textAlign="center" justifyContent="center">
-                    <Sponsors width="28mm" showTreat={false} />
-                </Box>
-            </>
-        </HzhTheme>
+            </MDXProvider>
+            <Box my={4} textAlign="center" justifyContent="center">
+                <Sponsors width="28mm" showTreat={false} />
+            </Box>
+            { appendixItems.length > 0 ?
+                <>
+                <h2 style={{pageBreakBefore: "always"}}>Appendices</h2>
+                {
+                    appendixItems.map(({appendixId, expandId, title, children, idx}) => (
+                        <div key={idx} id={appendixId}>
+                            <h3>A{idx}. {title} <a href={`#${expandId}`}>↩</a></h3>
+                            { children }
+                        </div>
+                    ))
+                }
+                </>
+                : null }
+            <LessonSolutions />
+        </>
         </LessonContext.Provider>
+        </BareLessonContext.Provider>
     );
 }
 

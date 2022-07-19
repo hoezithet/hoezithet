@@ -6,6 +6,8 @@ tags: ["Functies", "Analyse"]
 image: img/wiskunde_functies_nulpunten-1.png
 ---
 
+import {Nulpunten} from "./drawings/plots.tsx"
+
 In veel toepassingen van functies zijn we geïnteresseerd in de waarde die we
 voor $x$ moeten kiezen zodat $f(x)$ gelijk wordt aan nul. Een $\orange{x}$ die zorgt dat
 $f(\orange{x}) = 0$, noemen we een **nulwaarde**. Het bijhorend **nulpunt** is
@@ -45,7 +47,9 @@ De namen _nulpunten_ en _nulwaarden_ worden soms door elkaar gebruikt, maar
 strikt gezien zijn ze niet hetzelfde. Nul*waarden* zijn x-_waarden_, maar
 nul*punten* zijn _punten_ met een x- én y-coördinaat. De x-coördinaat van een
 nulpunt is de nul*waarde*. De y-coördinaat van een nulpunt is altijd
-_nul_ <Mute>(uiteraard)</Mute>. Als de nulwaarde bijvoorbeeld $\orange{-2}$ is,
+_nul_ <Mute>(uiteraard)</Mute>.
+
+Als de nulwaarde bijvoorbeeld $\orange{-2}$ is,
 dan is het nulpunt $(\orange{-2},~0)$.
 
 ## Nulpunten op een grafiek
@@ -60,24 +64,16 @@ Hieronder staat de grafiek getekend van de functie $f(x) = -x^2 + 9$ die de
 nul*waarden* $x=-3$ en $x=3$ heeft en dus de nul*punten* $(-3,~0)$ en $(3,~0)$.
 De twee nulpunten zijn aangeduid in het **<Orange>oranje</Orange>**.
 
-<Plot xColor="gray" yColor="gray">
-  <Fx fx={x => -Math.pow(x, 2) + 9}/>
-  <Point x={3} y={0} color="orange" size={10}/>
-  <Annot xTarget={3} yTarget={0} xAnnot={6} yAnnot={2}>Nulpunt</Annot>
-  <Point x={-3} y={0} color="orange" size={10}/>
-  <Annot xTarget={-3} yTarget={0} xAnnot={-6} yAnnot={2}>Nulpunt</Annot>
-</Plot>
+<Nulpunten />
 
 ## Samengevat
 
-<Attention title="Definitie nulwaarden">
+> Definitie nulwaarden
+> 
+> De **nulwaarden van een functie** zijn de **x-waarden waarvoor de
+> functiewaarde gelijk is aan 0**.
 
-De **nulwaarden van een functie** zijn de **x-waarden waarvoor de
-functiewaarde gelijk is aan 0**.
-</Attention>
-
-<Attention title="Definitie nulpunten">
-
-De **nulpunten van een functie** zijn de punten op de grafiek van die functie
-die als **y-waarde 0 hebben**. Ze zijn de **snijpunten met de x-as**.
-</Attention>
+> Definitie nulpunten
+> 
+> De **nulpunten van een functie** zijn de punten op de grafiek van die functie
+> die als **y-waarde 0 hebben**. Ze zijn de **snijpunten met de x-as**.

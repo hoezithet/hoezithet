@@ -4,8 +4,7 @@ import "katex/dist/katex.min.css";
 import { MDXProvider } from "@mdx-js/react"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import { getSrc } from "gatsby-plugin-image";
-import { Attention } from "../components/shortcodes/attention";
-import { Expand } from "../components/shortcodes/expand";
+import LessonContext from "../contexts/lessonContext";
 import { ToggleImage } from "../components/shortcodes/toggleImage";
 import Color, {
     Black,
@@ -28,33 +27,17 @@ import Layout from "../components/layout";
 import Sponsors from '../components/sponsors';
 import Feedback from "../components/feedback";
 import PrintLink from "../components/printlink";
-import { Exercise } from "../components/shortcodes/exercise";
-import { Answer } from "../components/shortcodes/answer";
-import { AnswerFeedback } from "../components/shortcodes/answerFeedback";
-import { ExerciseStepper } from "../components/shortcodes/exerciseStepper";
-import { SaveablePlot as Plot } from "../components/shortcodes/plot";
-import { SaveableDrawing as Drawing } from "../components/shortcodes/drawing";
-import { ArrowLine } from "../components/shortcodes/arrow";
-import { Fx } from "../components/shortcodes/fx";
-import { SvgNote } from "../components/shortcodes/svgNote";
-import { Annot } from "../components/shortcodes/annot";
-import { Line } from "../components/shortcodes/line";
-import { Point } from "../components/shortcodes/point";
-import { Rectangle } from "../components/shortcodes/rectangle";
-import { HairLines } from "../components/shortcodes/hairlines";
 import { Link } from 'gatsby-theme-material-ui';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import BlockquoteBox from "../components/blockquote";
-import Table from '../components/table';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Callout from "../components/callout";
 import { LayoutProps } from "../components/layout";
 import Comments from "../components/comments";
 import SectionCard, { CardImage } from "./sectionCard";
+import Matomo from 'components/matomo';
 
 export const shortcodes = {
     Mute,
-    Attention,
-    Expand,
     ToggleImage,
     Color,
     Black,
@@ -67,14 +50,11 @@ export const shortcodes = {
     Gold,
     Orange,
     Red, DarkRed, Purple, Gray,
-    Exercise, Answer, AnswerFeedback, ExerciseStepper,
-    Plot, Drawing, Fx, Point, Annot, HairLines, Line, ArrowLine, Rectangle, SvgNote
 };
 
 export const components = {
     a: Link,
-    blockquote: BlockquoteBox,
-    table: Table,
+    blockquote: Callout,
 }
 
 export interface MdxNode {
@@ -108,8 +88,6 @@ export interface LessonData {
       crumbs: LayoutProps["crumbs"];
     };
 }
-
-export const LessonContext = createContext({title: "", slug: ""});
 
 export default function Template(
     { data, pageContext }: LessonData // this prop will be injected by the GraphQL query below.
@@ -151,7 +129,7 @@ export default function Template(
                 <PrintLink to={ pdfLink } />
                 <Feedback />
                 <Box my={ 4 }>
-                    <Grid container spacing={ 2 } justify="space-between">
+                    <Grid container spacing={ 2 } justifyContent="space-between">
                         { prevSiblingCard }
                         { nextSiblingCard }
                     </Grid>
@@ -160,6 +138,7 @@ export default function Template(
                     <Sponsors />
                 </Box>
                 <Comments />
+                <Matomo />
             </Layout>
         </LessonContext.Provider>
     );

@@ -15,24 +15,9 @@ positief of negatief is. Deze informatie vatten we overzichtelijk samen in een
 
 Welke x-waarden welk teken <Mute>(positief/negatief/nul)</Mute> opleveren voor de y-waarden, vatten we samen in een **tekenschema** <Mute>(ook wel "tekentabel" of "tekenverloop" genoemd)</Mute>.  Als de [grafiek van een functie](../grafiek) is gegeven, kunnen we zien waar de functiewaarden <Mute>(of de y-waarden)</Mute> _positief_, _negatief_ of _nul_ zijn.
 
-<Plot>
-<Fx fx={x => - Math.pow(x, 2) + 9} />
-<Rectangle x1={-15} x2={-3} y1={0} y2={-15} fill="red" fillOpacity={0.5} />
-<Rectangle x1={-3} x2={3} y1={0} y2={15} fill="green" fillOpacity={0.5} />
-<Rectangle x1={3} x2={15} y1={0} y2={-15} fill="red" fillOpacity={0.5} />
-<SvgNote x={-8} y={-2} backgroundOpacity={0.5}>
+import { TekenschemaPlot } from "./drawings/plots";
 
-$f(x)\lt 0$
-</SvgNote>
-<SvgNote x={0} y={2} backgroundOpacity={0.5}>
-
-$f(x)\gt 0$
-</SvgNote>
-<SvgNote x={8} y={-2} backgroundOpacity={0.5}>
-
-$f(x)\lt 0$
-</SvgNote>
-</Plot>
+<TekenschemaPlot />
 
 We zien op de grafiek:
 
@@ -186,16 +171,13 @@ Zorgen voor later! 👋
 
 ## Samengevat
 
-<Attention title="Tekenschema">
+> Tekenschema
+> 
+> Het **tekenschema van een functie $f$** toont schematisch **het teken van $y$
+> voor alle x-waarden** die in het domein van $f$ zitten.
 
-Het **tekenschema van een functie $f$** toont schematisch **het teken van $y$
-voor alle x-waarden** die in het domein van $f$ zitten.
-</Attention>
-
-<Attention title="Tekenschema opstellen">
-
-1. Zet de **grenzen van het domein** in het tekenschema;
-2. Zoek alle **nulpunten** en zet ze tussen de grenzen van het domein;
-3. Vind de **tekens van $y$** tussen alle x-waarden in het schema.
-
-</Attention>
+> Tekenschema opstellen
+> 
+> 1. Zet de **grenzen van het domein** in het tekenschema;
+> 2. Zoek alle **nulpunten** en zet ze tussen de grenzen van het domein;
+> 3. Vind de **tekens van $y$** tussen alle x-waarden in het schema.

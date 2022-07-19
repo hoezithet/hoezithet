@@ -1,6 +1,6 @@
-import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
-import Switch from "@material-ui/core/Switch";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Switch from "@mui/material/Switch";
 import React, { useState } from "react";
 
 interface ToggleImageProps {
@@ -20,7 +20,7 @@ export const ToggleImage = ({children, toggleText}: ToggleImageProps) => {
 
   const explanationSwitch = (
       <Grid xs={12} item>
-          <Grid container justify="flex-end" alignItems="center">
+          <Grid container justifyContent="flex-end" alignItems="center">
               <Grid item>
                   <Switch color="primary" onChange={e => setState({ toggled: e.target.checked })} />
               </Grid>
@@ -49,7 +49,7 @@ export const ToggleImageBare = ({children, toggleText}: ToggleImageProps) => {
 
   const explanationSwitch = (
       <Grid xs={12} item>
-          <Grid container justify="flex-end" alignItems="center">
+          <Grid container justifyContent="flex-end" alignItems="center">
               <Grid item>
                   <Switch color="primary" onChange={e => setState({ toggled: e.target.checked })} />
               </Grid>

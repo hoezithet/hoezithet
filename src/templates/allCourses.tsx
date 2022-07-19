@@ -36,14 +36,14 @@ export default function AllCoursesTemplate({ pageContext, data }: AllCoursesData
     return (
         <Layout crumbs={crumbs}>
             {data.courses.nodes.map((course, index) => (
-                <>
+                <React.Fragment key={index}>
                     <h1>{course.frontmatter.title}</h1>
                     <CourseChapters
                         chapters={chaptersPerCourse[index]}
                         lessons={data.lessons}
                         defaultImg={data.defaultImg}
                     />
-                </>
+                </React.Fragment>
             ))}
         </Layout>
     );
