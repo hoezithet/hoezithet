@@ -17,7 +17,7 @@ const MilkCarton = ({x, y, width, height, depth}) => {
            <g transform={`translate(${-width*cos30},${-width*sin30}) ${isoLeftTfm}`}>
                <rect width={width} height={height} fill={getColor("near_white")} stroke={getColor("black")} strokeLinejoin="round" />
                <CowHead x={width/2} y={height/3} align="center center" width={width/2} height={height/2} />
-               <Annot x={width/2} y={height} align="bottom center" fontSize={`${height/3}px`}>
+               <Annot x={width/2} y={height} align="bottom center" fontSize={height/3}>
                    {String.raw`**1L**`}
                </Annot>
            </g>
@@ -47,7 +47,7 @@ const Cube = ({x, y, size, strokeWidth=5, accWidth=null, fontSizePx=null, text=n
                    <TextAccolade x1={-fontSizePx} x2={0} y={size}
                       color={getColor("gray")}
                       height={size} width={accWidth}
-                      fontSize={`${fontSizePx}px`} strokeWidth={strokeWidth}>
+                      fontSizePx={fontSizePx} strokeWidth={strokeWidth}>
                       {text}
                    </TextAccolade>
                  ) : null }
@@ -100,7 +100,7 @@ const _DrieKubussenMetVolume = () => {
     const [note1X, note1Y] = [xScale(3), cube1Y - (0.5 + sin30)*cube1Size];
     const [note2X, note2Y] = [note1X, cube2Y - (0.5 + sin30)*cube2Size];
     const [note3X, note3Y] = [note2X, cube3Y - (0.5 + sin30)*cube3Size];
-    const fontSize = `${yScale.metric(0.2)}px`;
+    const fontSize = `yScale.metric(0.2)}px`;
 
     return (
         <>
@@ -144,7 +144,7 @@ const _DrieKubussenMetMelk = () => {
     const cubeStrokeWidth = xScale.metric(0.01);
 
     const fontSizePx = yScale.metric(0.2);
-    const fontSize = `${yScale.metric(0.2)}`;
+    const fontSize = `${yScale.metric(0.2)}px`;
     const [note1X, note1Y] = [cube1X + cube1Size * cos30 + 2.3*fontSizePx, cube1Y - (0.5 + sin30)*cube1Size];
     const [note2X, note2Y] = [cube2X + cube2Size * cos30 + 2.3*fontSizePx, cube2Y - (0.5 + sin30)*cube2Size];
     const [note3X, note3Y] = [cube3X + cube3Size * cos30 + 2.3*fontSizePx, cube3Y - (0.5 + sin30)*cube3Size];
@@ -196,7 +196,7 @@ const _Dm3IsMelk = () => {
 
     const [note1dm3X, note1dm3Y] = [xScale(0.75), cube2Y + 1.5*cube2Size];
 
-    const fontSize = yScale.metric(0.1);
+    const fontSize = `${yScale.metric(0.1)}px`;
     const [note2X, note2Y] = [xScale(0.75), cube2Y - (0.5 + sin30)*cube2Size];
 
     const [cartonWidth, cartonHeight, cartonDepth] = [xScale.metric(0.1), yScale.metric(0.2), xScale.metric(0.05)];

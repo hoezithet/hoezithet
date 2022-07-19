@@ -19,7 +19,7 @@ const Pool = ({strokeWidth=0.1, poolX=24, poolY=0, poolLength: _poolLength=25, p
     const poolDepth = yScale.metric(_poolDepth);
     lanePathWidth = xScale.metric(lanePathWidth);
     poolBorderWidth = xScale.metric(poolBorderWidth);
-    const fontSize = `${yScale.metric(2)}px`;
+    const fontSize = yScale.metric(2);
     const accStrokeWidth = xScale.metric(0.2);
     const stroke = getColor("near_white");
     const fill = getColor("light_blue", 0.5);
@@ -64,14 +64,14 @@ const Pool = ({strokeWidth=0.1, poolX=24, poolY=0, poolLength: _poolLength=25, p
                 <TextAccolade x1={-poolWidth-3*poolBorderWidth} x2={-poolWidth} y={0}
                     color={getColor("orange")}
                     height={poolLength} width={poolBorderWidth}
-                    fontSize={fontSize} strokeWidth={accStrokeWidth}>
+                    fontSizePx={fontSize} strokeWidth={accStrokeWidth}>
                     {String.raw`$l=${_poolLength.toFixed(1)}~\si{m}$`}
                 </TextAccolade>
                 <g transform={`translate(${-poolWidth}) rotate(90)`}>
                     <TextAccolade x1={3*poolBorderWidth} x2={0} y={0} flipText
                         color={getColor("orange")}
                         height={poolWidth} width={poolBorderWidth}
-                        fontSize={fontSize} strokeWidth={accStrokeWidth}>
+                        fontSizePx={fontSize} strokeWidth={accStrokeWidth}>
                         {String.raw`$b=${_poolWidth.toFixed(1)}~\si{m}$`}
                     </TextAccolade>
                 </g>
@@ -103,7 +103,7 @@ const Pool = ({strokeWidth=0.1, poolX=24, poolY=0, poolLength: _poolLength=25, p
             <TextAccolade x1={5*poolBorderWidth} x2={0} y={0} flipText hText
                 color={getColor("orange")}
                 height={poolDepth} width={poolBorderWidth}
-                fontSize={fontSize} strokeWidth={accStrokeWidth}>
+                fontSizePx={fontSize} strokeWidth={accStrokeWidth}>
                 {String.raw`$d=${_poolDepth.toFixed(2)}~\si{m}$`}
             </TextAccolade>
             <Border />

@@ -179,7 +179,7 @@ const _MeterIs100Cm = () => {
         tl.clear();
         tl.to(blockCounterRef.current, {
             numBlocks: 100,
-            duration: 2,
+            duration: 0,
             ease: "power2.inOut",
             modifiers: {
                 numBlocks: Math.round
@@ -187,7 +187,7 @@ const _MeterIs100Cm = () => {
         }).from(meterBlockRef.current, {
             x: xScale(0), 
             opacity: 0,
-            duration: 1,
+            duration: 0,
             ease: "power2.inOut",
         });
         addAnimation(tl, 0);
@@ -230,7 +230,7 @@ const _DirkInCm = () => {
         tl.clear();
         tl.to(blockCounterRef.current, {
             numBlocks: 184,
-            duration: 2,
+            duration: 0,
             ease: "power2.inOut",
             modifiers: {
                 numBlocks: Math.round
@@ -238,7 +238,7 @@ const _DirkInCm = () => {
         }).from(meterBlockRef.current, {
             x: xScale(0),
             opacity: 0,
-            duration: 1,
+            duration: 0,
             ease: "power2.inOut",
         });
         addAnimation(tl, 0);
