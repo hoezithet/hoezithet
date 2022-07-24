@@ -22,13 +22,13 @@ type MultipleChoiceProps = {
 const _MultipleChoice = ({ children, choices, solution, shuffle=true}: MultipleChoiceProps) => {
     const solutionNode = choices[solution];
     const explanation = getChildAtIndex(children, 0) || null;
-    const evaluateAnswerValue = React.useCallback((v: number|null) => v === solution, [solution]);
+    const evaluateAnswerValue = (v: number|null) => v === solution;
 
     const {answerValue, setAnswerValue, showingSolution, trial} = useAnswerValue(evaluateAnswerValue, solutionNode, explanation);
 
-    const handleChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setAnswerValue(e.target ? Number(e.target.value) : null);
-    }, [setAnswerValue]);
+    };
     
     const [choiceIdxs, setChoiceIdxs] = React.useState([...Array(choices?.length || 0).keys()]);
 
