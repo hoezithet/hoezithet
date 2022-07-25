@@ -6,34 +6,34 @@ tags: []
 ---
 
 De beduidende cijfers zijn de cijfers in een getal **vanaf het eerste cijfer 
-dat verschillend is van nul**. Ze zijn hieronder aangeduid in het <Orange>oranje</Orange>:
+dat verschillend is van nul**. Ze zijn hieronder aangeduid:
 
 
 $$
--0{,}000\orange{50846}
-$$
-
-
-$$
-0{,}\orange{950}\cdot{10^3}
+-0{,}000\underline{\orange{50846}}
 $$
 
 
 $$
-\orange{1}{,}\orange{059}
+0{,}\underline{\orange{950}}\cdot{10^3}
 $$
 
 
 $$
--\orange{5000}\cdot{10^{-9}}
+\underline{\orange{1}{,}\orange{059}}
 $$
 
 
 $$
-0{,}0\orange{2}
+-\underline{\orange{5000}}\cdot{10^{-9}}
 $$
 
-import { DuidBCAan, DuidBCAan2 } from './exercises/beduidendeCijfers';
+
+$$
+0{,}0\underline{\orange{2}}
+$$
+
+import { DuidBCAan, DuidBCAan2, TelBCs } from './exercises/beduidendeCijfers';
 
 <DuidBCAan/>
 
@@ -44,10 +44,12 @@ import { DuidBCAan, DuidBCAan2 } from './exercises/beduidendeCijfers';
 
 Bij [benaderingsregels](../benaderingsregels) zullen we soms het aantal beduidende cijfers moeten tellen. Eens we de beduidende cijfers van een getal kunnen aanduiden, tellen we gewoon hoeveel er zijn, en dat geeft ons het **aantal beduidende cijfers**.
 
-| Getal                 | Beduidende cijfers | Aantal beduidende cijfers |
-| --------------------- | ------------------ | ------------------------- |
-| $-0{,}00050846$       | $5\ 0\ 8\ 4\ 6$    | 5                         |
-| $0{,}950\cdot{10^3}$  | $9\ 5\ 0$          | 3                         |
-| $1{,}059$             | $1\ 0\ 5\ 9$       | 4                         |
-| $-5000\cdot{10^{-9}}$ | $5\ 0\ 0\ 0$       | 4                         |
-| $0{,}02$              | $2$                | 1                         |
+| Getal                 | Beduidende cijfers        | Aantal beduidende cijfers |
+| --------------------- | ------------------------- | ------------------------- |
+| $-0{,}00050846$       | $5$, $0$, $8$, $4$ en $6$ | 5                         |
+| $0{,}950\cdot{10^3}$  | $9$, $5$ en $0$           | 3                         |
+| $1{,}059$             | $1$, $0$, $5$ en $9$      | 4                         |
+| $-5000\cdot{10^{-9}}$ | $5$, $0$, $0$ en $0$      | 4                         |
+| $0{,}02$              | Enkel $2$                 | 1                         |
+
+<TelBCs />
