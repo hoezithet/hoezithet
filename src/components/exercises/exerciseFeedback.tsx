@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { styled } from '@mui/system';
+import Grid from '@mui/material/Grid';
 import { gsap } from "gsap";
 
-import { getRandomArrElement } from "../../utils/array";
+import { getRandomArrElement } from "utils/array";
 import useExpandable from "hooks/useExpandable";
+import giphyLogo from "../../../images/GiphyLogo_vert.png";
 
 interface ExercisesFeedbackProps {
     nCorrect: number;
@@ -77,7 +79,14 @@ export const ExercisesFeedback = ({ nCorrect, nTotal }: ExercisesFeedbackProps) 
             <p>{message}</p>
             <div ref={wrapperRef} style={{overflow: "hidden"}}>
                 <div ref={bodyRef}>
-                    <ExercisesFeedbackImg src={gifSrc} onLoad={() => setIsExpanded(true)} />
+                    <Grid container spacing={3}>
+                        <Grid item xs={12}>
+                            <ExercisesFeedbackImg src={gifSrc} onLoad={() => setIsExpanded(true)} />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <img src={giphyLogo} />
+                        </Grid>
+                    </Grid>
                 </div>
             </div>
         </>

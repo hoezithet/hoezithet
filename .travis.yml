@@ -8,6 +8,7 @@ before_install:
 - npm config set @gsap:registry=https://npm.greensock.com
 - npm install gsap@npm:@gsap/shockingly
 script:
+- rsync $HZH_USER@$HZH_IP:$HZH_DIR/.env.production $TRAVIS_BUILD_DIR
 - gatsby build
 - rsync -r --delete-after $TRAVIS_BUILD_DIR/public/ $HZH_USER@$HZH_IP:$HZH_DIR/public_$TRAVIS_BRANCH
 - node scripts/create_lesson_pdfs_pngs.js --host=$(if [[ $TRAVIS_BRANCH = "develop"
