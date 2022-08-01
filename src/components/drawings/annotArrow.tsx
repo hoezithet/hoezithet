@@ -85,9 +85,29 @@ const getAngleFromAlign = (hAlign, vAlign) => {
 }
 
 
+const getNodeParents = node => (node.parentElement ? parents(node.parentElement) : []).concat([node]);
+
+
 const getElCoord = (el: Element, hAlign: string, vAlign: string) => {
     const rect = el.getBoundingClientRect()
-    const originRect = el.closest("svg.drawing")?.getBoundingClientRect();
+    const svgRoot = el.closest("svg.drawing");
+    const originRect = svgRoot?.getBoundingClientRect();
+    let revParents = getNodeParents(el).reverse();
+
+    // Skip MathJax group transforms
+    const mjxIdx = revParents.findIndex(node => node.hasAttribute('jax'));
+    if (mjxIdx !== -1) {
+        revParents = revParents.slice(mjxIdx);
+    }
+
+    // Find matrix that undoes all transforms
+    const tfmMatrix = revParents.filter(node => node instanceof SVGGElement
+        && node.hasAttribute('transform')
+    ).reduce((prev, curr) =>
+        prev.multiply(curr.getCTM().inverse()),
+        svgRoot.createSVGMatrix()
+    );
+
     const [tLeft, tTop, tRight, tBottom] = [
         rect?.left - (originRect?.x || 0),
         rect?.top - (originRect?.y || 0),
@@ -98,10 +118,12 @@ const getElCoord = (el: Element, hAlign: string, vAlign: string) => {
         tLeft + rect?.width/2,
         tTop + rect?.height/2,
     ];
-    return {
-        x: hAlign === "left" ? tLeft : (hAlign === "right" ? tRight : tCenterX),
-        y: vAlign === "top" ? tTop : (vAlign === "bottom" ? tBottom : tCenterY),
-    }
+
+    const point = svgRoot.createSVGPoint();
+    point.x = hAlign === "left" ? tLeft : (hAlign === "right" ? tRight : tCenterX);
+    point.y = vAlign === "top" ? tTop : (vAlign === "bottom" ? tBottom : tCenterY);
+
+    return point.matrixTransform(tfmMatrix);
 }
 
 
