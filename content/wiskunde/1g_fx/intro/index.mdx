@@ -24,35 +24,44 @@ Een toegangsticket voor het festival bedraagt €25 en voor een glas melk vraagt
 We weten dat Dirk al minstens €25 nodig zal hebben om het toegangsticket te kunnen betalen. Maar dan heeft hij nog geen enkel glas melk natuurlijk. Voor **elk glas melk** dat hij wil drinken, komt er €3 bovenop die €25. Het budget dat hij moet onderhandelen is dus €25 plus het aantal glazen melk dat hij wil drinken maal de prijs van een glas melk:
 
 $$
-\text{budget} = €25 + \left(\text{aantal glazen melk}\times €3~\text{per glas melk}\right)
+\text{budget} = \left(€3~\text{per glas melk}\cdot \text{aantal glazen melk}\right) + €25
 $$
 
-Als hij $\orange{5}$ glazen melk wil drinken, zal hij dus een budget van $€25 + (\orange{5}\cdot €3) = €40$ nodig hebben. We kunnen een tabel maken met, voor elk aantal glazen melk, het budget dat hij nodig heeft.
+Als Dirk bijvoorbeeld $\orange{5}$ glazen melk wil drinken, dan zal hij een budget van $(€3\cdot \orange{5}) + €25 = €40$ nodig hebben.
 
-| Aantal glazen melk | Budget |
-|--------------------|--------|
-| 0                  |  €25   |
-| 1                  |  €28   |
-| 2                  |  €31   |
-| 3                  |  €34   |
-| 4                  |  €37   |
-| 5                  |  €40   |
+We kunnen wat schrijfwerk besparen door de formule als volgt te schrijven:
+
+import { AnnotatedFx } from "./drawings";
+
+<AnnotatedFx m={3} q={25} yName="budget" xName="aantal glazen melk" />
+
+Hierbij is $y$ het budget en $x$ het aantal glazen melk. De eenheid van euro laten we even weg omdat die uit de context duidelijk is. Onthoud deze formule even, want ze komt straks nog terug.
 
 (oefening die helpt om later onderliggend verband te zien)
 
 ### Voorbeeld 2: Maria eet pralines
 
-Maria eet al eens graag een praline. Ze toonde dan ook met plezier haar groot hart toen haar vorige week werd gevraagd om de lokale gymclub te steunen door chocolade zeevruchten te kopen. Ze kocht meteen een grote doos van $1{,}5~\si{kg}$. Zo'n doos bevat 96 pralines.
+Maria eet al eens graag een praline. Ze toonde dan ook met plezier haar groot hart toen de lokale gymclub haar vorige week vroeg om hen te steunen door chocolade zeevruchten te kopen. 🤤 Ze kocht meteen een grote doos van $1~\si{kg}$. Zo'n doos bevat 64 pralines.
 
 (illustratie)
 
-Maria weet natuurlijk wel dat ze die hele doos best niet op één dag naar binnen speelt. Ze heeft dan ook besloten om elke dag slechts 3 pralines te eten. Na enkele dagen vraagt ze zich af hoeveel pralines er nog in de doos zitten. Hoe kan ze dit berekenen?
+Maria weet natuurlijk wel dat ze die hele doos best niet op één dag naar binnen speelt. Ze heeft dan ook besloten om elke dag slechts 4 pralines te eten. Na enkele dagen vraagt ze zich af hoeveel pralines er nog in de doos zitten. Hoe kan ze dit berekenen?
 
-Er zitten oorspronkelijk $96$ pralines in de doos en er gaan er iedere dag $3$ uit. Het aantal pralines dat op een bepaalde dag nog in de doos zit, is dus gelijk aan $96$ min het aantal dagen maal $3$:
+Er zitten oorspronkelijk $64$ pralines in de doos en er gaan er iedere dag $4$ uit. Het aantal pralines dat op een bepaalde dag nog in de doos zit, is dus gelijk aan $64$ min het aantal dagen maal $4$:
 
 $$
-\text{aantal pralines in doos} = 96~\si{pralines} - \left(\text{aantal dagen}\times 3~\text{pralines per dag}\right)
+\text{aantal pralines in doos} = \left(-4~\text{pralines per dag}\cdot\text{aantal dagen}\right) + 64~\si{pralines}
 $$
+
+Na bijvoorbeeld $\orange{5}$ dagen zullen er nog $(-4\cdot \orange{5}) + 64 = 44$ pralines in de doos zitten.
+
+We kunnen weer wat schrijfwerk besparen door de formule als volgt te schrijven:
+
+$$
+y = -4\cdot x + 64
+$$
+
+Hierbij is $y$ het aantal pralines dat nog in de doos zit en is $x$ het aantal dagen.
 
 ## Andere voorbeelden
 
