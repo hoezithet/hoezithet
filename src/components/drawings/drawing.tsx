@@ -49,7 +49,7 @@ const OverlayElement = styled(IconButton)({
     position: 'relative',
 });
 
-const scaleLinear = ({range, domain}) => {
+export const scaleLinear = ({range, domain}) => {
     const m = (range[1] - range[0])/(domain[1] - domain[0]);
     const q = range[0] - m * domain[0];
     const scale = x => m*x + q;
