@@ -63,7 +63,12 @@ const GridLines = ({
     );
 };
 
-const DrawingGrid = ({color="blue", majorX=10, majorY=10, minorX=1, minorY=1, opacity=0.1, lineWidth=1}) => {
+const DrawingGrid = ({color="blue", major=10, minor=1, majorX=null, majorY=null, minorX=null, minorY=null, opacity=0.1, lineWidth=1}) => {
+    majorX = majorX === null ? major : majorX;
+    majorY = majorY === null ? major : majorY;
+    minorX = minorX === null ? minor : minorX;
+    minorY = minorY === null ? minor : minorY;
+
     const {xScale, yScale, width, height} = useContext(DrawingContext);
     color = getColor(color);
 
