@@ -37,6 +37,17 @@ import { AnnotatedFx } from "./drawings";
 
 Hierbij is $y$ het budget en $x$ het aantal glazen melk. De eenheid van euro laten we even weg omdat die uit de context duidelijk is. Onthoud deze formule even, want ze komt straks nog terug.
 
+We kunnen ook een tabel maken met daarin het benodigde budget $(y)$ voor elk aantal glazen melk $(x)$.
+
+| Aantal glazen melk $(x)$ | Budget $(y)$ |
+|--------------------------|-------------|
+| 0 | €25 |
+| 1 | €28 |
+| 2 | €31 |
+| 3 | €34 |
+| 4 | €37 |
+| 5 | €40 |
+
 (oefening die helpt om later onderliggend verband te zien)
 
 ### Voorbeeld 2: Maria eet pralines
@@ -57,14 +68,87 @@ Na bijvoorbeeld $\orange{5}$ dagen zullen er nog $(-4\cdot \orange{5}) + 64 = 44
 
 We kunnen weer wat schrijfwerk besparen door de formule als volgt te schrijven:
 
-$$
-y = -4\cdot x + 64
-$$
+<AnnotatedFx m={-4} q={64} yName="aantal pralines" xName="aantal dagen" />
 
 Hierbij is $y$ het aantal pralines dat nog in de doos zit en is $x$ het aantal dagen.
 
-## Andere voorbeelden
+We kunnen ook een tabel maken met daarin het aantal pralines $(y)$ voor elk aantal gepasseerde dagen $(x)$.
 
-* Prijs voor taxirit
-* Fabricagekost
-* 
+| Aantal gepasseerde dagen $(x)$ | Aantal pralines $(y)$ |
+|--------------------------|-------------|
+| 0 | 64 |
+| 1 | 60 |
+| 2 | 56 |
+| 3 | 52 |
+| 4 | 48 |
+| 5 | 44 |
+
+(oefening)
+
+### Algemene vorm van een eerstegraadsfunctie
+
+Bij het eerste voorbeeld vonden we de volgende uitdrukking:
+
+$$
+y = 3 x + 25
+$$
+
+Bij het tweede voorbeeld, kwamen we uit bij
+
+$$
+y = -4 x + 64
+$$
+
+Als je beide uitdrukkingen eens naast elkaar legt, zie je dat ze een heel gelijkaardige vorm hebben. We rekenen telkens een $y$ uit door een $x$ te **vermenigvuldigen met een bepaald getal** en daar dan een ander **getal bij op te tellen**. Als we het eerste getal vervangen door een $m$ en het tweede getal door een $q$, dan krijgen we:
+
+$$
+y = m x + q
+$$
+
+(vraag: wat is m en q bij voorbeelden?)
+
+Er zijn talloze situaties waar we een $y$ kunnen uitrekenen met een $x$ via $y=m x + q$. Dat komt zelfs zo vaak voor dat we er een speciale naam aan geven: **eerstegraadsfuncties**.
+
+> 💡 Eerstegraadsfunctie
+>
+> Een functie $f(x)$ is een eerstegraadsfunctie als en slechts als haar functievoorschrift geschreven kan worden als
+>
+> $$
+> f(x) = mx + q
+> $$
+>
+> Hierbij zijn $m\in\RR_0$ en $q\in\RR$.
+
+We gebruiken de naam *eerstegraadsfunctie* omdat de hoogste macht van $x$ in $mx + q$ gelijk is aan $1$. We noemen $mx + q$ ook wel een [veelterm](../../veeltermen/veelterm) van de *eerste graad* in $x$.
+
+> ⚠️ Opgelet: $m$ en $q$ zijn géén variabelen!
+>
+> Al die letters in $y = mx + q$ kunnen nogal verwarrend zijn. De letters $m$ en $q$ hebben echter een **heel andere rol** dan $x$ en $y$! De letters **$x$ en $y$ zijn variabelen** en hebben geen vaste waarde. In het eerste voorbeeld zochten we het verband tussen een aantal glazen melk ($x$) en een totaalbudget ($y$). We kunnen dat verband voor eender welk aantal glazen melk gebruiken. We kunnen veel verschillende waarden kiezen voor $x$, waar dan ook veel verschillende waarden voor $y$ uit zullen volgen. De prijs per glas melk ($m$) en de prijs voor een toegangsticket ($q$) liggen echter **vast**. Zij bepalen hoe de functie zich zal gedragen, bv. hoe snel het budget stijgt per extra glas melk. We noemen $m$ en $q$ ook wel de **parameters** van de eerstegraadsfunctie.
+
+> -Waarom mag $m\neq 0$?
+>
+> Als $m$ gelijk zou zijn aan nul, dan is ook $m\cdot x=0$ en dan wordt $y=0+q$ of korter $y=q$. De hoogste graad van $x$ is dan nul. Dit is dan een *nuldegraadsfunctie* of een *constante functie*.p
+
+(oefening: herken de eerstegraadsfunctie)
+
+## Intuïtie achter functies van de eerste graad
+
+Hoe komt het dat het voorbeeld van Dirk die naar een festival gaat en van Maria die pralines eet allebei leiden tot een functie van de eerste graad? Wel, per extra glas melk ($x$) kwam er een **vast** bedrag van €3 bij het budget bij; en per extra dag (ook $x$) ging er een **vast** aantal pralines uit de doos. Elke situatie waar er **voor elke extra $x$ een vast aantal weggaat of bijkomt bij het beginaantal**, kunnen we wiskundig beschrijven met een eerstegraadsfunctie. Het vast aantal dat per $x$ weggaat of bijkomt, is $m$. Het beginaantal (wanneer $x = 0$), is $q$.
+
+Je ziet dat we met onze eerstegraadsfunctie inderdaad de **onderliggende werking** blootleggen, waar we het in het begin van de les over hadden.
+
+> 💡 Een functie van de eerste graad herkennen en omzetten naar $y = mx + q$
+>
+> Telkens wanneer er per ... een vast aantal ... bij een beginaantal ... komt (of ervan af gaat), kunnen we een eerstegraadsfunctie gebruiken om de situatie te beschrijven. Door de puntjes in te vullen, weet je wat de betekenis van $x$, $y$, $m$ en $q$ zijn. Per extra $x$ komt er een vast aantal $m$ bij $y$ bij. Wanneer $x=0$, is $y=q$.
+
+We illustreren dit alles nog met een derde voorbeeld. Maria rijdt met haar Segway een constante snelheid van $300~\si{m}/\si{min}$. Ze vertrekt van bij haar thuis en volgt de hele tijd een rechte baan. We zoeken een formule die aangeeft hoeveel meter ze van huis is na een bepaald aantal minuten rijden.
+
+(illustratie)
+
+Ze rijdt op een rechte baan met een constante snelheid van $300~\si{m}/\si{min}$. Per extra minuut ($x$) die ze rijdt, komt er dus een **vaste** afstand van $300~\si{m}$ ($m$) bij de totale afstand tot haar huis ($y$) bij. Ze vertrekt van thuis, dus wanneer het aantal minuten gelijk is aan nul ($x = 0$), is ook de afstand tot haar huis gelijk aan nul ($y=0$, dus $q=0$) Er geldt dus dat
+
+<AnnotatedFx m={300} q={0} yName="aantal meter van huis" xName="aantal minuten" />
+
+(oefening: toepassing geven en vragen of het een eerdtegraadsfunctie is of niet)
+
+Wel bv. Prijs voor taxirit, Fabricagekost. Niet bv. telkens meer afstand afleggen per seconde.
