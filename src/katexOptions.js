@@ -56,6 +56,8 @@ module.exports = {
         "\\moveTo": "\\htmlClass{moveTo animLabel#2}{#1}",
         "\\morphFrom": "\\htmlClass{morphFrom animLabel#2}{#1}",
         "\\morphTo": "\\htmlClass{morphTo animLabel#2}{#1}",
+
+        "\\RR": "\\mathbb{R}",
     },
     colorIsTextColor: true,
     strict: "ignore",
