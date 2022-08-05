@@ -85,7 +85,7 @@ const getAngleFromAlign = (hAlign, vAlign) => {
 }
 
 
-const getNodeParents = node => (node.parentElement ? parents(node.parentElement) : []).concat([node]);
+const getNodeParents = node => (node.parentElement ? getNodeParents(node.parentElement) : []).concat([node]);
 
 
 const getElCoord = (el: Element, hAlign: string, vAlign: string) => {
