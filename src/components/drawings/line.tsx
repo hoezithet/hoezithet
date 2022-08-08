@@ -17,6 +17,7 @@ export const StyledPath = styled('path')({
 
 export const Line = ({
     xStart, yStart, xEnd, yEnd, color="blue", margin=0,
+    marginStart=null, marginEnd=null,
     anchorAngleEnd=null, anchorRadiusEnd=0,
     anchorAngleStart=null, anchorRadiusStart=0,
     lineWidth=3, dashed=false,
@@ -24,12 +25,14 @@ export const Line = ({
 }) => {
     anchorAngleStart = toRad(anchorAngleStart);
     anchorAngleEnd = toRad(anchorAngleEnd);
-    
+    marginStart = marginStart === null ? margin : marginStart;
+    marginEnd = marginEnd === null ? margin : marginEnd;
+
     let [xEndLine, yEndLine, xStartLine, yStartLine] = [
-        xEnd + margin * Math.cos(anchorAngleEnd),
-        yEnd + margin * Math.sin(anchorAngleEnd),
-        xStart + margin * Math.cos(anchorAngleStart),
-        yStart + margin * Math.sin(anchorAngleStart),
+        xEnd + marginEnd * Math.cos(anchorAngleEnd),
+        yEnd + marginEnd * Math.sin(anchorAngleEnd),
+        xStart + marginStart * Math.cos(anchorAngleStart),
+        yStart + marginStart * Math.sin(anchorAngleStart),
     ];
     let [xEndAnch, yEndAnch, xStartAnch, yStartAnch] = [
         xEndLine + anchorRadiusEnd * Math.cos(anchorAngleEnd),

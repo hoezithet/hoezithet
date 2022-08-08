@@ -153,6 +153,7 @@ const convertToCoord = (annotOrTarget: string|Coordinate, hAlign: string, vAlign
 export const AnnotArrow = ({
     annot, target,
     margin=5,
+    marginAnnot=null, marginTarget=null,
     anchorRadius=20,
     anchorRadiusTarget=null, anchorRadiusAnnot=null,
     annotAlign="top center",
@@ -167,6 +168,9 @@ export const AnnotArrow = ({
 
     const anchorAngleAnnot = getAngleFromAlign(hAlignAnnot, vAlignAnnot);
     const anchorAngleTarget = getAngleFromAlign(hAlignTarget, vAlignTarget);
+
+    marginAnnot = marginAnnot === null ? margin : marginAnnot;
+    marginTarget = marginTarget === null ? margin : marginTarget;
 
     annotCoord = convertToCoord(annot, hAlignAnnot, vAlignAnnot);
     const formattedTarget = Array.isArray(target) && target.length > 0 && typeof target[0] !== "number" ? target : [target];
@@ -186,7 +190,8 @@ export const AnnotArrow = ({
                 targetCoords.filter(t => t !== null).map((targetCoord, i) => (
                     <g key={i}>
                         <ArrowLine xStart={annotCoord.x} yStart={annotCoord.y} xEnd={targetCoord.x} yEnd={targetCoord.y}
-                            margin={margin}
+                            marginStart={marginAnnot}
+                            marginEnd={marginTarget}
                             anchorAngleStart={anchorAngleAnnot} anchorRadiusStart={anchorRadiusAnnot}
                             anchorAngleEnd={anchorAngleTarget} anchorRadiusEnd={anchorRadiusTarget}
                             color={color} lineWidth={lineWidth} dashed={dashed} showArrow={!hideHead}
