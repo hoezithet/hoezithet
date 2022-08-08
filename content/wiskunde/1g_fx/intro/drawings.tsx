@@ -9,41 +9,51 @@ import useId from 'hooks/useId';
 
 const [annFxWidth, annFxHeight] = [1920, 750];
 const AnnotatedFxChild = withDrawingScale(({
-  fontSize=100, m, q=null, xName, yName
+  annotFontSize, fxFontSize, m, q, xName, yName, mName, qName
 }) => {
     const yId = useId();
     const xId = useId();
+    const mId = useId();
+    const qId = useId();
     const yNameId = useId();
     const xNameId = useId();
-    const fx = String.raw`$\htmlId{${yId}}{\green{y}} = ${m} \htmlId{${xId}}{\orange{x}}` + (q !== null ? ` + ${q}$` : '');
-    const xAnnot = String.raw`$\htmlId{${xNameId}}{\orange{\text{${xName}}}}$`;
-    const yAnnot = String.raw`$\htmlId{${yNameId}}{\green{\text{${yName}}}}$`;
+    const mNameId = useId();
+    const qNameId = useId();
+    const fx = String.raw`$\htmlId{${yId}}{\orange{y}} = \htmlId{${mId}}{\blue{${m}}} \htmlId{${xId}}{\orange{x}}` + (q !== null ? String.raw` + \htmlId{${qId}}{\blue{${q}}}$` : '');
 
     const [arrows, setArrows] = React.useState([]);
 
-    const [xMargin, yMargin] = [200, 200];
+    const [xMargin, yMargin] = [50, 0];
 
-    const arrowStyleProps = {lineWidth: 10, anchorRadius: 75, margin: 50, targetAlign: "bottom center"};
+    const arrowStyleProps = {lineWidth: 10, anchorRadius: 75, marginTarget: 50};
 
     const [fxX, fxY] = [annFxWidth/2, annFxHeight/2];
 
     React.useEffect(() => {
         setArrows([
-            <AnnotArrow annot={`#${xNameId}`} target={`#${xId}`} {...arrowStyleProps} />,
-            <AnnotArrow annot={`#${yNameId}`} target={`#${yId}`} {...{...arrowStyleProps, targetAlign: "top center", annotAlign: "bottom center"}} />
+            <AnnotArrow annot={`#${xNameId}`} target={`#${xId}`} {...{...arrowStyleProps, targetAlign: "bottom center", annotAlign: "top center"}} color="orange" />,
+            <AnnotArrow annot={`#${yNameId}`} target={`#${yId}`} {...{...arrowStyleProps, targetAlign: "bottom center", annotAlign: "top center"}} color="orange" />,
+            qName !== null ? <AnnotArrow annot={`#${qNameId}`} target={`#${qId}`} {...{...arrowStyleProps, targetAlign: "top center", annotAlign: "bottom center"}} color="blue"/> : null,
+            mName !== null ? <AnnotArrow annot={`#${mNameId}`} target={`#${mId}`} {...{...arrowStyleProps, targetAlign: "top center", annotAlign: "bottom center"}} color="blue"/> : null,
         ]);
     }, []);
 
     return (
         <>
-            <Annot x={annFxWidth - xMargin} y={fxY + yMargin} fontSize={fontSize} align="top right" width={annFxWidth}>
-                { xAnnot }
-            </Annot>
-            <Annot x={xMargin} y={fxY - yMargin} fontSize={fontSize} align="bottom left">
-                { yAnnot }
-            </Annot>
-            <Annot x={fxX} y={fxY} fontSize={1.5*fontSize} align="center center">
+            { mName !== null ? <Annot x={fxX - xMargin} y={yMargin} fontSize={annotFontSize} align="top right" id={mNameId} color="blue">
+                { mName }
+            </Annot> : null }
+            { qName !== null ? <Annot x={fxX + xMargin} y={yMargin} fontSize={annotFontSize} align="top left" id={qNameId} color="blue">
+                { qName }
+                </Annot> : null }
+            <Annot x={fxX} y={fxY} fontSize={fxFontSize} align="center center">
                 { fx }
+            </Annot>
+            <Annot x={fxX - xMargin} y={annFxHeight - yMargin} fontSize={annotFontSize} align="bottom right" id={yNameId} color="orange">
+                { yName }
+            </Annot>
+            <Annot x={fxX + xMargin} y={annFxHeight - yMargin} fontSize={annotFontSize} align="bottom left" id={xNameId} color="orange">
+                { xName }
             </Annot>
             { arrows }
         </>
@@ -51,12 +61,13 @@ const AnnotatedFxChild = withDrawingScale(({
 }, annFxWidth, annFxHeight)
 
 export const AnnotatedFx = ({
-  m, q, xName, yName
+  m, q, xName, yName, mName=null, qName=null,
+  annotFontSize=75, fxFontSize=150
 }) => {
     return (
         <Drawing left={0} right={annFxWidth} bottom={annFxHeight} top={0} noWatermark>
             {/** <DrawingGrid major={100} minor={50}/> **/}
-            <AnnotatedFxChild m={m} q={q} xName={xName} yName={yName} />
+            <AnnotatedFxChild m={m} q={q} xName={xName} yName={yName} mName={mName} qName={qName} annotFontSize={annotFontSize} fxFontSize={fxFontSize}/>
         </Drawing>
-    );
-  };
+  );
+};

@@ -5,7 +5,9 @@ weight: 0
 
 De eerste keer wanneer je leert over functies, kan dat allemaal nogal abstract klinken. Op het eerste zicht is het niet zo duidelijk *waarom* zoiets bestaat en hoe iemand ooit op het idee is gekomen om dat te verzinnen... 🤨
 
-Dat gevoel is heel normaal en is zelfs vollédig terecht, want functies *zijn* abstract. En dat is *precies* waarom ze zo interessant en héél breed toepasbaar zijn! 🙌 Functies, en zo ook eerstegraadsfuncties, zijn een mooi voorbeeld van **het hele idee achter wiskunde**: we willen een **onderliggende werking** die bij vele toepassingen hetzelfde is blootleggen en bestuderen. Door de eigenschappen van die onderliggende werking te ontdekken, ontdekken we dan meteen ook eigenschappen van àl die toepassingen! 💃
+Dat gevoel is heel normaal en is zelfs vollédig terecht, want functies *zijn* abstract. En dat is *precies* waarom ze zo interessant en héél breed toepasbaar zijn! 🙌 Functies, en zo ook eerstegraadsfuncties, zijn een mooi voorbeeld van **het hele idee achter wiskunde**: we willen een **onderliggende werking** (die bij vele toepassingen hetzelfde is) blootleggen en bestuderen. Door de eigenschappen van die onderliggende werking te ontdekken, ontdekken we dan meteen ook eigenschappen van àl die toepassingen! 💃
+
+## Voorbeelden van eerstegraadsfuncties
 
 Laat ons dit even illustreren aan de hand van twee voorbeelden... 👨‍🎨
 
@@ -33,7 +35,7 @@ We kunnen wat schrijfwerk besparen door de formule als volgt te schrijven:
 
 import { AnnotatedFx } from "./drawings";
 
-<AnnotatedFx m={3} q={25} yName="budget" xName="aantal glazen melk" />
+<AnnotatedFx m={3} mName="€3 extra per glas" q={25} qName="€25 bij 0 glazen" yName="benodigd budget" xName="aantal glazen melk" />
 
 Hierbij is $y$ het budget en $x$ het aantal glazen melk. De eenheid van euro laten we even weg omdat die uit de context duidelijk is. Onthoud deze formule even, want ze komt straks nog terug.
 
@@ -68,9 +70,7 @@ Na bijvoorbeeld $\orange{5}$ dagen zullen er nog $(-4\cdot \orange{5}) + 64 = 44
 
 We kunnen weer wat schrijfwerk besparen door de formule als volgt te schrijven:
 
-<AnnotatedFx m={-4} q={64} yName="aantal pralines" xName="aantal dagen" />
-
-Hierbij is $y$ het aantal pralines dat nog in de doos zit en is $x$ het aantal dagen.
+<AnnotatedFx m={-4} mName="4 pralines minder per dag" q={64} qName="64 pralines op dag 0" yName="aantal pralines in doos" xName="aantal dagen ver" annotFontSize={75} />
 
 We kunnen ook een tabel maken met daarin het aantal pralines $(y)$ voor elk aantal gepasseerde dagen $(x)$.
 
@@ -135,11 +135,17 @@ We gebruiken de naam *eerstegraadsfunctie* omdat de hoogste macht van $x$ in $mx
 
 Hoe komt het dat het voorbeeld van Dirk die naar een festival gaat en van Maria die pralines eet allebei leiden tot een functie van de eerste graad? Wel, per extra glas melk ($x$) kwam er een **vast** bedrag van €3 bij het budget bij; en per extra dag (ook $x$) ging er een **vast** aantal pralines uit de doos. Elke situatie waar er **voor elke extra $x$ een vast aantal weggaat of bijkomt bij het beginaantal**, kunnen we wiskundig beschrijven met een eerstegraadsfunctie. Het vast aantal dat per $x$ weggaat of bijkomt, is $m$. Het beginaantal (wanneer $x = 0$), is $q$.
 
-Je ziet dat we met onze eerstegraadsfunctie inderdaad de **onderliggende werking** blootleggen, waar we het in het begin van de les over hadden.
+Je ziet dat we met onze eerstegraadsfunctie inderdaad de **onderliggende werking** (waar we het in het begin van de les over hadden) blootleggen.
 
 > 💡 Een functie van de eerste graad herkennen en omzetten naar $y = mx + q$
 >
-> Telkens wanneer er per ... een vast aantal ... bij een beginaantal ... komt (of ervan af gaat), kunnen we een eerstegraadsfunctie gebruiken om de situatie te beschrijven. Door de puntjes in te vullen, weet je wat de betekenis van $x$, $y$, $m$ en $q$ zijn. Per extra $x$ komt er een vast aantal $m$ bij $y$ bij. Wanneer $x=0$, is $y=q$.
+>  1. **Zoek de betekenis van $x$ en $y$**: Vraag je eerst af welke grootheden van elkaar afhangen. Is het een prijs die afhankelijk is van een aantal gekochte producten? Is het een afstand die afhangt van de tijd? Is het een omtrek die afhangt van de lengte van een gekozen zijde? ... Dit geeft de betekenis van $y$ en $x$: **$y$ hangt af van $x$**.
+> 2. **Bepaal $m$**: Vraag je dan af hoeveel er bij $y$ bijkomt (of van af gaat) wanneer $x$ één eenheid groter wordt. Dit is $m$.
+> 3. **Bepaal $q$**: Zoek waaraan $y$ gelijk is als $x$ gelijk is aan nul. Dit is $q$.
+
+
+(oefening: pas bovenstaande schema toe op de twee voorbeelden)
+
 
 We illustreren dit alles nog met een derde voorbeeld. Maria rijdt met haar Segway een constante snelheid van $300~\si{m}/\si{min}$. Ze vertrekt van bij haar thuis en volgt de hele tijd een rechte baan. We zoeken een formule die aangeeft hoeveel meter ze van huis is na een bepaald aantal minuten rijden.
 
@@ -147,8 +153,8 @@ We illustreren dit alles nog met een derde voorbeeld. Maria rijdt met haar Segwa
 
 Ze rijdt op een rechte baan met een constante snelheid van $300~\si{m}/\si{min}$. Per extra minuut ($x$) die ze rijdt, komt er dus een **vaste** afstand van $300~\si{m}$ ($m$) bij de totale afstand tot haar huis ($y$) bij. Ze vertrekt van thuis, dus wanneer het aantal minuten gelijk is aan nul ($x = 0$), is ook de afstand tot haar huis gelijk aan nul ($y=0$, dus $q=0$) Er geldt dus dat
 
-<AnnotatedFx m={300} q={0} yName="aantal meter van huis" xName="aantal minuten" />
+<AnnotatedFx m={300} mName="300 m meer per minuut" q={0} qName="0 meter ver op minuut 0" yName="aantal meter van huis" xName="aantal minuten" annotFontSize={75} />
 
-(oefening: toepassing geven en vragen of het een eerdtegraadsfunctie is of niet)
+(oefening: toepassing geven en vragen of het een eerstegraadsfunctie is of niet)
 
 Wel bv. Prijs voor taxirit, Fabricagekost. Niet bv. telkens meer afstand afleggen per seconde.
