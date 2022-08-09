@@ -58,6 +58,8 @@ module.exports = {
         "\\morphTo": "\\htmlClass{morphTo animLabel#2}{#1}",
 
         "\\RR": "\\mathbb{R}",
+
+        "\\euro": "\\text{€}",
     },
     colorIsTextColor: true,
     strict: "ignore",

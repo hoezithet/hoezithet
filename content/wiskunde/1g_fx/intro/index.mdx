@@ -26,10 +26,10 @@ Een toegangsticket voor het festival bedraagt €25 en voor een glas melk vraagt
 We weten dat Dirk al minstens €25 nodig zal hebben om het toegangsticket te kunnen betalen. Maar dan heeft hij nog geen enkel glas melk natuurlijk. Voor **elk glas melk** dat hij wil drinken, komt er €3 bovenop die €25. Het budget dat hij moet onderhandelen is dus €25 plus het aantal glazen melk dat hij wil drinken maal de prijs van een glas melk:
 
 $$
-\text{budget} = \left(€3~\text{per glas melk}\cdot \text{aantal glazen melk}\right) + €25
+\text{budget} = \left(\euro 3~\text{per glas melk}\cdot \text{aantal glazen melk}\right) + \euro 25
 $$
 
-Als Dirk bijvoorbeeld $\orange{5}$ glazen melk wil drinken, dan zal hij een budget van $(€3\cdot \orange{5}) + €25 = €40$ nodig hebben.
+Als Dirk bijvoorbeeld $\orange{5}$ glazen melk wil drinken, dan zal hij een budget van $(\euro 3\cdot \orange{5}) + \euro 25 = \euro 40$ nodig hebben.
 
 We kunnen wat schrijfwerk besparen door de formule als volgt te schrijven:
 
@@ -95,27 +95,29 @@ Er zijn talloze situaties waar we een $y$ kunnen uitrekenen met een $x$ via $y=m
 >
 > Hierbij zijn $m\in\RR_0$ en $q\in\RR$.
 
+In bovenstaande kader gebruiken we $f(x)$ in plaats van $y$. De notatie "$f(x)$" is iets algemener, maar we bedoelen er eigenlijk precies hetzelfde mee als de "$y$" uit de voorgaande voorbeelden.
+
 We gebruiken de naam *eerstegraadsfunctie* omdat de hoogste macht van $x$ in $mx + q$ gelijk is aan $1$. We noemen $mx + q$ ook wel een [veelterm](../../veeltermen/veelterm) van de *eerste graad* in $x$.
 
 > ⚠️ Opgelet: $m$ en $q$ zijn géén variabelen!
 >
 > Al die letters in $y = mx + q$ kunnen nogal verwarrend zijn. De letters $m$ en $q$ hebben echter een **heel andere rol** dan $x$ en $y$! De letters **$x$ en $y$ zijn variabelen** en hebben geen vaste waarde. In het eerste voorbeeld zochten we het verband tussen een aantal glazen melk ($x$) en een totaalbudget ($y$). We kunnen dat verband voor eender welk aantal glazen melk gebruiken. We kunnen veel verschillende waarden kiezen voor $x$, waar dan ook veel verschillende waarden voor $y$ uit zullen volgen. De prijs per glas melk ($m$) en de prijs voor een toegangsticket ($q$) liggen echter **vast**. Zij bepalen hoe de functie zich zal gedragen, bv. hoe snel het budget stijgt per extra glas melk. We noemen $m$ en $q$ ook wel de **parameters** van de eerstegraadsfunctie.
 
-> -Waarom mag $m\neq 0$?
+> -Waarom moet $m$ verschillend zijn van $0$?
 >
-> Als $m$ gelijk zou zijn aan nul, dan is ook $m\cdot x=0$ en dan wordt $y=0+q$ of korter $y=q$. De hoogste graad van $x$ is dan nul. Dit is dan een *nuldegraadsfunctie* of een *constante functie*.p
+> Als $m$ gelijk zou zijn aan nul, dan is ook $m\cdot x=0$ en dan wordt $f(x)=0+q$ of korter $f(x)=q$. We hebben dan geen $x$ meer in ons functievoorschrift. De hoogste graad van $x$ is dan niet meer één, maar nul. $f(x)$ is dus geen eerstegraadsfunctie meer, maar een *nuldegraadsfunctie* of een *constante functie*.
 
 (oefening: herken de eerstegraadsfunctie)
 
 ## Intuïtie achter functies van de eerste graad
 
-Hoe komt het dat het voorbeeld van Dirk die naar een festival gaat en van Maria die pralines eet allebei leiden tot een functie van de eerste graad? Wel, per extra glas melk ($x$) kwam er een **vast** bedrag van €3 bij het budget bij; en per extra dag (ook $x$) ging er een **vast** aantal pralines uit de doos. Elke situatie waar er **voor elke extra $x$ een vast aantal weggaat of bijkomt bij het beginaantal**, kunnen we wiskundig beschrijven met een eerstegraadsfunctie. Het vast aantal dat per $x$ weggaat of bijkomt, is $m$. Het beginaantal (wanneer $x = 0$), is $q$.
+Hoe komt het dat het voorbeeld van Dirk die naar een festival gaat en van Maria die pralines eet allebei leiden tot een functie van de eerste graad? Wel, per extra glas melk kwam er een **vast** bedrag van €3 bij het budget bij; en per extra dag ging er een **vast** aantal pralines uit de doos. Elke situatie waar er **voor elke extra $x$ een vast aantal weggaat of bijkomt bij het beginaantal**, kunnen we wiskundig beschrijven met een eerstegraadsfunctie. Het vast aantal dat per $x$ weggaat of bijkomt, is $m$. Het beginaantal (wanneer $x = 0$), is $q$.
 
 Je ziet dat we met onze eerstegraadsfunctie inderdaad de **onderliggende werking** (waar we het in het begin van de les over hadden) blootleggen.
 
 > 💡 Een functie van de eerste graad herkennen en omzetten naar $y = mx + q$
 >
->  1. **Zoek de betekenis van $x$ en $y$**: Vraag je eerst af welke grootheden van elkaar afhangen. Is het een prijs die afhankelijk is van een aantal gekochte producten? Is het een afstand die afhangt van de tijd? Is het een omtrek die afhangt van de lengte van een gekozen zijde? ... Dit geeft de betekenis van $y$ en $x$: **$y$ hangt af van $x$**.
+>  1. **Zoek de betekenis van $x$ en $y$**: Vraag je eerst af welke grootheden van elkaar afhangen. Is het een prijs die afhankelijk is van een aantal gekochte producten? Is het een afstand die afhangt van de tijd? Is het een omtrek die afhangt van de lengte van een gekozen zijde? ... Dit geeft de betekenis van $y$ en $x$: **$y$ is de grootheid die afhankelijk is van $x$**.
 > 2. **Bepaal $m$**: Vraag je dan af hoeveel er bij $y$ bijkomt (of van af gaat) wanneer $x$ één eenheid groter wordt. Dit is $m$.
 > 3. **Bepaal $q$**: Zoek waaraan $y$ gelijk is als $x$ gelijk is aan nul. Dit is $q$.
 
@@ -123,11 +125,13 @@ Je ziet dat we met onze eerstegraadsfunctie inderdaad de **onderliggende werking
 (oefening: pas bovenstaande schema toe op de twee voorbeelden)
 
 
-We illustreren dit alles nog met een derde voorbeeld. Maria rijdt met haar Segway een constante snelheid van $300~\si{m}/\si{min}$. Ze vertrekt van bij haar thuis en volgt de hele tijd een rechte baan. We zoeken een formule die aangeeft hoeveel meter ze van huis is na een bepaald aantal minuten rijden.
+We illustreren dit alles nog met een derde voorbeeld. Maria rijdt met haar Segway een constante snelheid van $300$ meter per minuut. Ze vertrekt van bij haar thuis en volgt de hele tijd een rechte baan. We zoeken een formule die aangeeft hoeveel meter ze van huis is na een bepaald aantal minuten rijden.
 
 (illustratie)
 
-Ze rijdt op een rechte baan met een constante snelheid van $300~\si{m}/\si{min}$. Per extra minuut ($x$) die ze rijdt, komt er dus een **vaste** afstand van $300~\si{m}$ ($m$) bij de totale afstand tot haar huis ($y$) bij. Ze vertrekt van thuis, dus wanneer het aantal minuten gelijk is aan nul ($x = 0$), is ook de afstand tot haar huis gelijk aan nul ($y=0$, dus $q=0$) Er geldt dus dat
+1. **Zoek de betekenis van $x$ en $y$**: het aantal meter dat Maria van huis is, hangt af van hoeveel minuten ze aan het rijden is. $y$ is dus "*het aantal meter van huis*" en $x$ is "*het aantal minuten dat Maria rijdt*".
+> 2. **Bepaal $m$**: wanneer Maria één minuut langer rijdt, zal ze $300$ meter verder van huis zijn. $m$ is dus $300$.
+> 3. **Bepaal $q$**: wanneer ze nul minuten heeft gereden ($x=0$), dan is ze thuis. Ze is dan met andere woorden nul meter van huis. $q$ is dus gelijk aan $0$.
 
 <AnnotatedFx m={300} mName="300 m meer per minuut" q={0} qName="0 meter ver op minuut 0" yName="aantal meter van huis" xName="aantal minuten" annotFontSize={75} />
 
