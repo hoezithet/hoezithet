@@ -26,13 +26,9 @@ const options = {
             htmlId: ['{\\cssId{#1}{#2}}', 2],
             "\\euro": "\\unicode{0x20AC}",
         },
-        packages: {'[+]': ['unicode']}
     },
     svg: {
         fontCache: 'none',
-    },
-    loader: {
-      load: ['[tex]/unicode']
     },
 };
 
