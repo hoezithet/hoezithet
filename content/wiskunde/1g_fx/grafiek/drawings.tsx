@@ -8,9 +8,61 @@ import { Annot } from "components/drawings/annot";
 import { AnnotArrow } from "components/drawings/annotArrow";
 import { Fx } from "components/drawings/fx";
 import { Plot } from "components/drawings/plot";
+import { getColor } from "colors";
 import withDrawingScale from "components/withDrawingScale";
 import useId from 'hooks/useId';
 import Markdown from "components/markdown";
+
+
+export const _OneDotGraph = ({
+  x, y, cr=0.3, fill="blue", hideAnnot=false
+}) => {
+    const {xScale, yScale} = React.useContext(DrawingContext);
+    const getAnnotXY = (x, y, margin=2) => {
+        if (x >= 0 && y >= 0) {
+            return [x + margin, y + margin, "bottom left", "top center"];
+        } else if (x < 0 && y >= 0) {
+            return [x - margin, y + margin, "bottom right", "top center"];
+        } else if (x < 0 && y < 0) {
+            return [x - margin, y - margin, "top right", "bottom center"];
+        } else if (x >= 0 && y < 0) {
+            return [x + margin, y - margin, "top left", "bottom center"];
+       }
+    }
+    const [annotX, annotY, annotAlign, targetAlign] = getAnnotXY(x, y);
+
+    return (
+        <>
+            <circle cx={xScale(x)} cy={yScale(y)} r={xScale.metric(cr)} fill={getColor(fill)}/>
+            { !hideAnnot ?
+              <>
+                <Annot x={xScale(annotX)} y={yScale(annotY)} align={annotAlign}>
+                    {String.raw`$(${x}, ${y})$`}
+                </Annot>
+                <AnnotArrow annot={[xScale(annotX), yScale(annotY)]} target={[xScale(x), yScale(y)]} annotAlign={annotAlign} targetAlign={targetAlign} margin={xScale.metric(cr*2)} anchorRadius={xScale.metric(.5)}/>
+              </>
+              : null }
+        </>
+    )
+};
+
+export const OneDotGraph = (props) => <Plot><_OneDotGraph {...props} /></Plot>;
+
+export const DotsGraph = ({
+  xys, cr=0.3, fill="blue", hideAnnot=false
+}) => {
+    return (
+        <Plot>
+           {
+             xys.map((xy, i) => (
+                 <React.Fragment key={i}>
+                     <_OneDotGraph x={xy[0]} y={xy[1]} cr={cr} fill={fill} hideAnnot={hideAnnot}/>
+                 </React.Fragment>
+             ))
+           }
+        </Plot>
+    );
+};
 
 
 export const _Graph1G = ({
