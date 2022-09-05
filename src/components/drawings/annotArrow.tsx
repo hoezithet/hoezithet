@@ -143,12 +143,8 @@ const convertToCoord = (annotOrTarget: string|Coordinate, hAlign: string, vAlign
         return null;
     }
     if (Array.isArray(annotOrTarget)) {
-        annotOrTarget = {
-            x: annotOrTarget[0],
-            y: annotOrTarget[1],
-        };
-    }
-    if (typeof annotOrTarget === "string") {
+        return new DOMPoint(annotOrTarget[0], annotOrTarget[1]);
+    } else if (typeof annotOrTarget === "string") {
         const el = document.querySelector(annotOrTarget);
         if (el !== null) {
             return getElCoord(el, hAlign, vAlign);
@@ -156,7 +152,7 @@ const convertToCoord = (annotOrTarget: string|Coordinate, hAlign: string, vAlign
             return null;
         }
     } else {
-        return annotOrTarget;
+        return new DOMPoint(annotOrTarget.x, annotOrTarget.y);
     }
 }
 
