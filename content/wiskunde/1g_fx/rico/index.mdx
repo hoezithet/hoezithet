@@ -1,15 +1,85 @@
 ---
 title: De richtingscoëfficiënt of rico
 weight: 2
+tags: [richtingscoëfficiënt, rico, rico berekenen, rico tangens]
+description: "Wat is de richtingscoëfficiënt of rico van een eerstegraadsfunctie en hoe kan je die rico berekenen?"
 ---
 
+Het voorschrift van een [eerstegraadsfunctie](../intro) ziet er als volgt uit:
+
+$$
+f(x) = mx + q
+$$
+
+We leerden in de vorige les al dat de waarde van $m$ [de richting bepaalt van de grafiek van $f$](../grafiek#invloed-van-m-op-de-grafiek):
+
+- Als $m\gt 0$, dan is de grafiek van $f$ **stijgend**;
+- Als $m\lt 0$, dan is de grafiek van $f$ **dalend**;
+- Als $m = 0$, is $f$ geen eerstegraadsfunctie, maar een constante functie en is de grafiek van $f$ **vlak**;
+- Hoe groter de absolute waarde van $m$, hoe steiler de grafiek van $f$.
+
+We noemen $m$ dan ook de **richtingscoëfficiënt** of **rico** van $f$: *richting-* omdat het de richting bepaalt van de grafiek van $f$ en *-coëfficiënt* omdat het een getal is dat vermenigvuldigd wordt met $x$ (en dus een [coëfficiënt](../../eentermen/eenterm/#coëfficiënt-en-lettergedeelte) is van $x$).
+
+In deze les leren we hoe je de rico kan vinden in de volgende situaties:
+
+- wanneer er twee punten zijn gegeven die op de grafiek van $f$ liggen;
+- wanneer de grafiek van $f$ is gegeven.
+
+Ten slotte leren we ook nog een verrassend verband tussen de rico en goniometrie! 🤯
 
 ## De rico van een rechte door twee punten berekenen
+
+Hieronder staat de grafiek van de functie
+
+$$
+f(x) = 0{,}5 x + 1
+$$
+
+We hebben twee willekeurige punten aangeduid die op de grafiek van $f$ liggen. De twee punten vormen een lijntstuk. Dit lijnstuk gebruiken we als schuine zijde van een rechthoekige driehoek, waarvan de rechthoekszijden evenwijdig zijn met de x- en y-as. Ten slotte duiden we de lengte aan van elke rechthoekszijde van de loodrechte driehoek.
+
+Met behulp van de sliders kan je zelf de x-waarde van de twee punten veranderen en zie je de rechthoekige driehoek en de lengten van de rechthoekszijden mee veranderen.
 
 import { InteractDiffQuotPoints } from "./drawings";
 
 <InteractDiffQuotPoints m={0.5} q={1} x1={-1} x2={4} p1Slider p2Slider />
 
+We berekenen nu telkens het quotiënt van de **lengte van de verticale rechthoekszijde** en de **lengte van de horizontale rechthoekszijde**. Je ziet dat **dit quotiënt altijd gelijk is aan de richtingscoëffiënt van $f$**! Het maakt niet uit welke twee punten je kiest op de grafiek, de verhouding van de lengten van de rechthoekszijden zal altijd gelijk zijn aan $0{,}5$: de rico.
+
+We kunnen de rico van een functie dus vinden door het quotiënt te berekenen van de lengten van die rechthoekszijden:
+
+$$
+m = \frac{\text{lengte vert. rechthoekszijde}}{\text{lengte horiz. rechthoekszijde}}
+$$
+
+Als onze twee punten de coördinaten $(x_1, y_1)$ en $(x_2, y_2)$ hebben, dan zal
+
+- de verticale rechthoekszijde een lengte hebben die gelijk is aan $y_2 - y_1$;
+- de horizontale rechthoekszijde een lengte hebben die gelijk is aan $x_2 - x_1$.
+
+We kunnen de lengtes in onze formule voor $m$ dus uitdrukken met de coördinaten van de twee punten:
+
+$$
+m = \frac{y_2 - y_1}{x_2 - x_1}
+$$
+
+Met deze formule kunnen we de rico van $f$ dus berekenen als we de coördinaten kennen van twee punten die op de grafiek van $f$ liggen.
+
+> 💡 De rico van een rechte door twee punten berekenen
+>
+> Gegeven de punten $(x_1, y_1)$ en $(x_2, y_2)$, dan is
+>
+> $$
+> m = \frac{y_2 - y_1}{x_2 - x_1}
+> $$
+>
+> de richtingscoëfficiënt van de eerstegraadsfunctie die door beide punten loopt.
+
+(oefening)
+
+
 ## De rico snel aflezen op een grafiek
 
 ## De rico als tangens
+
+
+## Samengevat
