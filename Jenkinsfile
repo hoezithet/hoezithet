@@ -10,7 +10,7 @@ pipeline {
         stage('requirement install') {
             steps {
                 sh 'npm install -g gatsby-cli'
-                sh 'npm install'
+                sh 'npm install --legacy-peer-deps'
                 sh 'npm config set //npm.greensock.com/:_authToken=$GSAP_TOKEN'
                 sh 'npm config set @gsap:registry=https://npm.greensock.com'
                 sh 'npm install gsap@npm:@gsap/shockingly'
