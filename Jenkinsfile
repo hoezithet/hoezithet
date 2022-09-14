@@ -12,7 +12,7 @@ pipeline {
                 sh 'npm install -g gatsby-cli'
                 sh 'npm config set //npm.greensock.com/:_authToken=$GSAP_TOKEN'
                 sh 'npm config set @gsap:registry=https://npm.greensock.com'
-                sh 'npm install gsap@npm:@gsap/shockingly'
+                sh 'npm install gsap@npm:@gsap/shockingly --legacy-peer-deps'
                 sh 'npm install --legacy-peer-deps'
                 sh 'bash scripts/install_quicksand.sh'
                 sh 'bash scripts/install_emoji_font.sh'
