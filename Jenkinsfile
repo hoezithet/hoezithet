@@ -18,8 +18,6 @@ pipeline {
                 sh 'npm config set @gsap:registry=https://npm.greensock.com'
                 sh 'npm install gsap@npm:@gsap/shockingly --legacy-peer-deps'
                 sh 'npm install --legacy-peer-deps'
-                sh 'bash scripts/install_quicksand.sh'
-                sh 'bash scripts/install_emoji_font.sh'
             }
         }
         stage('build gatsby site') {
