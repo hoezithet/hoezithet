@@ -13,7 +13,6 @@ pipeline {
 		sshagent(credentials: ['e32ad635-f8bb-44c1-80d4-9b6f87ec4d05']) {
 		    sh 'rsync $HZH_USER@hoezithet.nu:$HZH_DIR/.env.production $WORKSPACE'
 		}
-                sh 'npm install -g gatsby-cli'
                 sh 'npm config set //npm.greensock.com/:_authToken=$GSAP_TOKEN'
                 sh 'npm config set @gsap:registry=https://npm.greensock.com'
                 sh 'npm install gsap@npm:@gsap/shockingly --legacy-peer-deps'
