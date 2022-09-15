@@ -63,7 +63,7 @@ export const chapterQuery = graphql`
                     }
                     level
                 }
-                excerpt(pruneLength: 200, truncate: true)
+                excerpt
             }
         }
         chapter: mdx(fields: {slug: {eq: $slug}}) {
