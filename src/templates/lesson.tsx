@@ -74,7 +74,6 @@ export interface MdxNode {
         course_slug: string;
         all_courses_slug: string;
     };
-    excerpt: string;
 }
 
 export interface LessonData {
