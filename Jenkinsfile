@@ -28,6 +28,7 @@ pipeline {
             steps {
 		sshagent(credentials: ['e32ad635-f8bb-44c1-80d4-9b6f87ec4d05']) {
                     sh 'rsync -r --delete-after $WORKSPACE/public/ $HZH_USER@hoezithet.nu:$HZH_DIR/public_$BRANCH_NAME'
+		    sh 'node node_modules/puppeteer/install.js'
                     sh 'node scripts/create_lesson_pdfs_pngs.js --host=$(if [[ $BRANCH_NAME = "develop" ]]; then echo "dev.hoezithet.nu"; else echo "hoezithet.nu"; fi) --cwd=$WORKSPACE'
                     sh 'rsync -r --delete-after $WORKSPACE/public/ $HZH_USER@hoezithet.nu:$HZH_DIR/public_$BRANCH_NAME'
 		}
