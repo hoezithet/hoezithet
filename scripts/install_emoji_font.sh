@@ -9,10 +9,10 @@ echo "Downloading NotoColorEmoji..."
 wget https://github.com/googlefonts/noto-emoji/raw/main/fonts/NotoColorEmoji.ttf
 
 echo "Installing NotoColorEmoji..."
-mkdir -p $pkgdir
-find $srcdir -type f -name "*.ttf" -exec install -Dm644 {} $pkgdir \;
+sudo mkdir -p $pkgdir
+sudo find $srcdir -type f -name "*.ttf" -exec install -Dm644 {} $pkgdir \;
 
 echo "Updating font-cache..."
-fc-cache -f > /dev/null
+sudo fc-cache -f > /dev/null
 
 echo "Done!"
