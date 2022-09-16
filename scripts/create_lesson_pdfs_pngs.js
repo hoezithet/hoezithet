@@ -12,7 +12,7 @@ const {
 } = require('minimist')(process.argv.slice(2));
 
 (async () => {
-    const browser = await puppeteer.launch({timeout: 0});
+    const browser = await puppeteer.launch({timeout: 0, args: ['--no-sandbox']});
     const page = await browser.newPage();
     await page.setViewport({width: 800, height: 800, deviceScaleFactor: 2});
     page.setDefaultTimeout(0);
