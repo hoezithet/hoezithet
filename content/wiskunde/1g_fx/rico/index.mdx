@@ -15,17 +15,15 @@ We leerden in de vorige les al dat de waarde van $m$ [de richting bepaalt van de
 
 - Als $m\gt 0$, dan is de grafiek van $f$ **stijgend**;
 - Als $m\lt 0$, dan is de grafiek van $f$ **dalend**;
-- Als $m = 0$, is $f$ geen eerstegraadsfunctie, maar een constante functie en is de grafiek van $f$ **vlak**;
+- Als $m = 0$, is $f$ geen eerstegraadsfunctie maar een constante functie en is de grafiek van $f$ **vlak**;
 - Hoe groter de absolute waarde van $m$, hoe steiler de grafiek van $f$.
 
-We noemen $m$ dan ook de **richtingscoëfficiënt** of **rico** van $f$: *richting-* omdat het de richting bepaalt van de grafiek van $f$ en *-coëfficiënt* omdat het een getal is dat vermenigvuldigd wordt met $x$ (en dus een [coëfficiënt](../../eentermen/eenterm/#coëfficiënt-en-lettergedeelte) is van $x$).
+We noemen $m$ de **richtingscoëfficiënt** of **rico** van $f$: *richting-* omdat het de richting bepaalt van de grafiek van $f$ en *-coëfficiënt* omdat het een getal is dat vermenigvuldigd wordt met $x$ (en dus een [coëfficiënt](../../eentermen/eenterm/#coëfficiënt-en-lettergedeelte) is van $x$).
 
 In deze les leren we hoe je de rico kan vinden in de volgende situaties:
 
 - wanneer er twee punten zijn gegeven die op de grafiek van $f$ liggen;
 - wanneer de grafiek van $f$ is gegeven.
-
-Ten slotte leren we ook nog een verrassend verband tussen de rico en goniometrie! 🤯
 
 ## De rico van een rechte door twee punten berekenen
 
@@ -35,15 +33,15 @@ $$
 f(x) = 0{,}5 x + 1
 $$
 
-We hebben twee willekeurige punten aangeduid die op de grafiek van $f$ liggen. De twee punten vormen een lijntstuk. Dit lijnstuk gebruiken we als schuine zijde van een rechthoekige driehoek, waarvan de rechthoekszijden evenwijdig zijn met de x- en y-as. Ten slotte duiden we de lengte aan van elke rechthoekszijde van de loodrechte driehoek.
+We hebben twee willekeurige punten $A$ en $B$ aangeduid die op de grafiek van $f$ liggen. De twee punten vormen een lijnstuk. Dit lijnstuk gebruiken we als schuine zijde van een rechthoekige driehoek, waarvan de rechthoekszijden evenwijdig zijn met de x- en y-as. Ten slotte duiden we de lengte aan van elke rechthoekszijde van deze loodrechte driehoek.
 
-Met behulp van de sliders kan je zelf de x-waarde van de twee punten veranderen en zie je de rechthoekige driehoek en de lengten van de rechthoekszijden mee veranderen.
+Met behulp van de sliders kan je zelf de x-waarde van $A$ en $B$ veranderen en zie je de rechthoekige driehoek en de lengten van de rechthoekszijden mee veranderen.
 
 import { InteractDiffQuotPoints } from "./drawings";
 
 <InteractDiffQuotPoints m={0.5} q={1} x1={-1} x2={4} p1Slider p2Slider />
 
-We berekenen nu telkens het quotiënt van de **lengte van de verticale rechthoekszijde** en de **lengte van de horizontale rechthoekszijde**. Je ziet dat **dit quotiënt altijd gelijk is aan de richtingscoëffiënt van $f$**! Het maakt niet uit welke twee punten je kiest op de grafiek, de verhouding van de lengten van de rechthoekszijden zal altijd gelijk zijn aan $0{,}5$: de rico.
+We delen de **lengte van de verticale rechthoekszijde** door de **lengte van de horizontale rechthoekszijde**. Je ziet dat **deze deling altijd gelijk is aan de richtingscoëffiënt van $f$**! Het maakt niet uit welke twee punten je kiest op de grafiek, de verhouding van de lengten van de rechthoekszijden zal altijd gelijk zijn aan $0{,}5$: de rico.
 
 We kunnen de rico van een functie dus vinden door het quotiënt te berekenen van de lengten van die rechthoekszijden:
 
@@ -51,7 +49,7 @@ $$
 m = \frac{\text{lengte vert. rechthoekszijde}}{\text{lengte horiz. rechthoekszijde}}
 $$
 
-Als onze twee punten de coördinaten $(x_1, y_1)$ en $(x_2, y_2)$ hebben, dan zal
+Als $A$ en $B$ de coördinaten $(x_1, y_1)$ en $(x_2, y_2)$ hebben, dan zal
 
 - de verticale rechthoekszijde een lengte hebben die gelijk is aan $y_2 - y_1$;
 - de horizontale rechthoekszijde een lengte hebben die gelijk is aan $x_2 - x_1$.
@@ -74,12 +72,52 @@ Met deze formule kunnen we de rico van $f$ dus berekenen als we de coördinaten 
 >
 > de richtingscoëfficiënt van de eerstegraadsfunctie die door beide punten loopt.
 
+Merk op dat wanneer de functie daalt, $y_2 - y_1 \lt 0$ zodat ook $m\lt 0$:
+
+<InteractDiffQuotPoints m={-2} q={1} x1={-1} x2={4} p1Slider p2Slider />
+
 (oefening)
 
 
 ## De rico snel aflezen op een grafiek
 
-## De rico als tangens
+In de vorige paragraaf leerden we dat de rico van de eerstegraadsfunctie die door de punten $(x_1, y_1)$ en $(x_2, y_2)$ gaat, gelijk is aan
+
+$$
+m = \frac{y_2 - y_1}{x_2 - x_1}
+$$
+
+Stel dat de punten $A(2, 5)$ en $B(3, 8)$ op de grafiek van $f$ liggen. We gaan even enkel de noemer van de breuk invullen:
+
+$$
+\begin{aligned}
+m &= \frac{y_2 - y_1}{3 - 2}\\
+  &= \frac{y_2 - y_1}{\cancel{1}}\\
+  &= y_2 - y_1
+\end{aligned}
+$$
+
+Je ziet dat de noemer van de breuk gelijk is aan $1$ en mag geschrapt worden. Alleen de teller van de breuk blijft over. De rico is in dit geval gewoon gelijk aan $y_2 - y_1$!
+
+De x-coördinaat van $A$ is $2$ en die van $B$ is $3$. De punten liggen dus één x-eenheid van elkaar. Daardoor is de noemer van onze breuk ook $1$ en kunnen we de noemer schrappen. Je ziet ook op de grafiek dat wanneer twee punten één x-eenheid van elkaar liggen, de rico altijd gelijk is aan $y_2-y_1$:
+
+<InteractDiffQuotPoints m={3} q={1} x1={2} x2Func={x1 => x1 + 1} p1Slider mSlider />
+
+We kunnen de rico dus ook aflezen op een grafiek door twee punten te kiezen die één x-eenheid van elkaar liggen. Het verschil van hun y-coördinaten ($y_2 - y_1$) is dan gelijk aan de rico.
+
+> 💡 De rico aflezen op een grafiek
+>
+> 1. Kies een punt dat je duidelijk kan aflezen;
+> 2. Ga 1 x-eenheid naar rechts;
+> 3. Kijk hoeveel y-eenheden de functie daar gestegen of gedaald is; dit is $m$.
+
+(illustratie)
+
+(oefening)
 
 
 ## Samengevat
+
+
+## Extra oefeningen
+
