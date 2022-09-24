@@ -19,6 +19,9 @@ const getFx = (m, q) => x => m*x + q;
 const toComma = s => {
     if (typeof s === 'number' && !Number.isInteger(s)) {
         s = s.toFixed(2);
+        if (Math.floor(s) == s) {
+            s = Math.floor(s)
+        }
     }
     return `${s}`.replace('.', '{,}');
 };
@@ -65,9 +68,9 @@ const DiffQuotPoints = ({
     const fracAnnotPadding = xScale.metric(0.2);
     const fracAnnotMargin = xScale.metric(2);
     const fracAnnotX = Math.min(Math.max(x2Px + fracAnnotMargin, xScale(-10)), xScale(7));
-    const fracAnnotY = y1Px + fracAnnotMargin;
+    const fracAnnotY = Math.min(Math.max(y1Px + fracAnnotMargin * (m >= 0 ? 1 : -1), yScale(10)), yScale(-10));
 
-    const accolPadding = xScale.metric(2);
+    const accolPadding = xScale.metric(1);
     const coordFontSizePx = yScale.metric(0.5);
     const coordColor = pFill;
     const accolAnnotProps = {
@@ -81,34 +84,36 @@ const DiffQuotPoints = ({
             //<AnnotArrow annot={`#${ricoId}`} target={`#${fracRicoId}`} targetAlign="top right" annotAlign="bottom center" hideHead />
         ]);
     }, [x1Px, y1Px, x2Px, y2Px]);
+    
+    const xAccHeight = x2Px - x1Px;
 
     return (
         <>
             <path d={`M ${x1Px} ${y1Px} L ${x2Px} ${y2Px} L ${x2Px} ${y1Px} Z`} fill={getColor(fill, 0.5)} stroke={getColor(fill)}/>
-            <path d={`M ${x2Px - rAngSignMarginPx - rAngSignSizePx} ${y1Px - rAngSignMarginPx} h ${rAngSignSizePx} v ${-rAngSignSizePx}`} fill="none" stroke={getColor(fill)}/>
+            <path d={`M ${x2Px - rAngSignMarginPx - rAngSignSizePx} ${y1Px - rAngSignMarginPx * (m >= 0 ? 1 : -1)} h ${rAngSignSizePx} v ${-rAngSignSizePx * (m >= 0 ? 1 : -1)}`} fill="none" stroke={getColor(fill)}/>
             <Fx fx={fx} color={pFill} />
             <circle cx={x1Px} cy={y1Px} r={rPx} fill={pFill} />
             <circle cx={x2Px} cy={y2Px} r={rPx} fill={pFill} />
-            <Annot x={x1Px} y={y1Px} align="bottom right" textPadding={annotPadding} fontSize={coordFontSizePx} color={coordColor} showBackground>
-                {String.raw`$(${toComma(x1)}; ${toComma(y1)})$`}
+            <Annot x={x1Px} y={y1Px} align={annotAlign} textPadding={annotPadding} fontSize={coordFontSizePx} color={coordColor} showBackground>
+                {String.raw`$A~(${toComma(x1)}; ${toComma(y1)})$`}
             </Annot>
-            <Annot x={x2Px} y={y2Px} align="bottom right" textPadding={annotPadding} fontSize={coordFontSizePx} color={coordColor} showBackground>
-                {String.raw`$(${toComma(x2)}; ${toComma(y2)})$`}
+            <Annot x={x2Px} y={y2Px} align={annotAlign} textPadding={annotPadding} fontSize={coordFontSizePx} color={coordColor} showBackground>
+                {String.raw`$B~(${toComma(x2)}; ${toComma(y2)})$`}
             </Annot>
             <TextAccolade color={pFill} x1={x2Px + accolPadding} x2={x2Px}
                 y={y1Px} height={y1Px - y2Px} width={xScale.metric(1)}
                 strokeWidth={xScale.metric(0.1)} annotProps={accolAnnotProps}>
                 {String.raw`$\htmlId{${dYAccolId}}{${toComma(y2 - y1)}}$`}
             </TextAccolade>
-            <g transform={`translate(${x1Px},${y1Px}) rotate(90)`}>
+            <g transform={`translate(${x1Px + (m >= 0 ? 0 : xAccHeight)},${y1Px}) rotate(${m >= 0 ? 90 : -90})`}>
                 <TextAccolade color={pFill} x1={accolPadding} x2={0} y={0}
-                    height={x2Px - x1Px} width={xScale.metric(1)}
-                    strokeWidth={xScale.metric(0.1)} flipText annotProps={accolAnnotProps}>
+                    height={xAccHeight} width={xScale.metric(1)}
+                    strokeWidth={xScale.metric(0.1)} flipText={m >= 0} annotProps={accolAnnotProps}>
                     {String.raw`$\htmlId{${dXAccolId}}{${toComma(x2 - x1)}}$`}
                 </TextAccolade>
             </g>
-            <Annot x={fracAnnotX} y={fracAnnotY} align="top left" textPadding={fracAnnotPadding} showBackground>
-                {String.raw`$\frac{\htmlId{${tellerId}}{${toComma(y2 - y1)}}}{\htmlId{${noemerId}}{${toComma(x2 - x1)}}} = \htmlId{${fracRicoId}}{${toComma((y2 - y1)/(x2 - x1))}}$`}
+            <Annot x={fracAnnotX} y={fracAnnotY} align={m >= 0 ? "top left" : "bottom left"} textPadding={fracAnnotPadding} showBackground>
+                {String.raw`$\frac{\htmlId{${tellerId}}{${toComma(y2 - y1)}}}{\htmlId{${noemerId}}{${x2 - x1 === 1 ? "\\cancel{" + toComma(x2 - x1) + "}" : toComma(x2 - x1)}}} = \htmlId{${fracRicoId}}{${toComma((y2 - y1)/(x2 - x1))}}$`}
             </Annot>
            {/**<Annot x={xScale(annotX)} y={yScale(annotY)} align={annotAlign} textPadding={annotPadding} color={pFill}>
                 {String.raw`$y = \htmlId{${ricoId}}{${m !== 0 ? (
@@ -124,16 +129,21 @@ const DiffQuotPoints = ({
 
 
 export const InteractDiffQuotPoints = ({
-    m, q, x1, x2,
+    m, q, x1, x2 = null, x2Func = null,
     mSlider=false, qSlider=false,
     p1Slider=false, p2Slider=false
 }) => {
     let setM, setQ, setX1, setX2;
+    console.log(x2Func);
 
     [m, setM] = React.useState(m);
     [q, setQ] = React.useState(q);
     [x1, setX1] = React.useState(x1);
     [x2, setX2] = React.useState(x2);
+
+    if (x2Func !== null) {
+        x2 = x2Func(x1);
+    }
 
     const handleChangeM = (event, newValue) => {
         setM(newValue);
