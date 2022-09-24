@@ -56,6 +56,8 @@ const DiffQuotPoints = ({
 
     const [x1Px, y1Px] = [xScale(x1), yScale(y1)];
     const [x2Px, y2Px] = [xScale(x2), yScale(y2)];
+    const rAngSignSizePx = xScale.metric(0.3);
+    const rAngSignMarginPx = xScale.metric(0.2);
     const rPx = yScale.metric(r);
     pFill = getColor(pFill);
     const annotPadding = xScale.metric(0.2);
@@ -83,6 +85,7 @@ const DiffQuotPoints = ({
     return (
         <>
             <path d={`M ${x1Px} ${y1Px} L ${x2Px} ${y2Px} L ${x2Px} ${y1Px} Z`} fill={getColor(fill, 0.5)} stroke={getColor(fill)}/>
+            <path d={`M ${x2Px - rAngSignMarginPx - rAngSignSizePx} ${y1Px - rAngSignMarginPx} h ${rAngSignSizePx} v ${-rAngSignSizePx}`} fill="none" stroke={getColor(fill)}/>
             <Fx fx={fx} color={pFill} />
             <circle cx={x1Px} cy={y1Px} r={rPx} fill={pFill} />
             <circle cx={x2Px} cy={y2Px} r={rPx} fill={pFill} />
