@@ -59,6 +59,8 @@ const DiffQuotPoints = ({
 
     const [x1Px, y1Px] = [xScale(x1), yScale(y1)];
     const [x2Px, y2Px] = [xScale(x2), yScale(y2)];
+    const [x1PxAnnot, y1PxAnnot] = [x1Px, y1Px];
+    const [x2PxAnnot, y2PxAnnot] = [x2Px, y2Px];
     const rAngSignSizePx = xScale.metric(0.3);
     const rAngSignMarginPx = xScale.metric(0.2);
     const rPx = yScale.metric(r);
@@ -94,10 +96,10 @@ const DiffQuotPoints = ({
             <Fx fx={fx} color={pFill} />
             <circle cx={x1Px} cy={y1Px} r={rPx} fill={pFill} />
             <circle cx={x2Px} cy={y2Px} r={rPx} fill={pFill} />
-            <Annot x={x1Px} y={y1Px} align={annotAlign} textPadding={annotPadding} fontSize={coordFontSizePx} color={coordColor} showBackground>
+            <Annot x={x1PxAnnot} y={y1PxAnnot} align={annotAlign} textPadding={annotPadding} fontSize={coordFontSizePx} color={coordColor} showBackground>
                 {String.raw`$A~(${toComma(x1)}; ${toComma(y1)})$`}
             </Annot>
-            <Annot x={x2Px} y={y2Px} align={annotAlign} textPadding={annotPadding} fontSize={coordFontSizePx} color={coordColor} showBackground>
+            <Annot x={x2PxAnnot} y={y2PxAnnot} align={annotAlign} textPadding={annotPadding} fontSize={coordFontSizePx} color={coordColor} showBackground>
                 {String.raw`$B~(${toComma(x2)}; ${toComma(y2)})$`}
             </Annot>
             <TextAccolade color={pFill} x1={x2Px + accolPadding} x2={x2Px}
@@ -181,7 +183,7 @@ export const InteractDiffQuotPoints = ({
 
     return (
         <Stack alignItems="center">
-            <Plot>
+            <Plot gridProps={{major: 1, color: "light_gray", opacity: 0.5}}>
                 <DiffQuotPoints m={m} q={q} p1={[x1, y1]} p2={[x2, y2]} />
             </Plot>
             <Box sx={{ width: 400 }}>
