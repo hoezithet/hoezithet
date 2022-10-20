@@ -1,0 +1,69 @@
+---
+title: Het tekenschema van een eerstegraadsfunctie
+weight: 4
+---
+
+Het [tekenschema](../../functies/tekenschema) of tekenverloop van een functie vertelt ons **voor welke x-waarden de functie positief, negatief of nul is**. 
+
+We beginnen met een voorbeeld. Stel dat de volgende eerstegraadsfunctie gegeven is:
+
+$$
+f(x) = -3x + 12
+$$
+
+Voor deze functie zullen x-waarden kleiner dan $4$ een **positieve functiewaarde** geven (hoe we aan die $4$ komen, leggen we later uit):
+
+import { FxValueSlider } from "./drawings"
+
+<FxValueSlider x={3.99} m={-3} q={12} xMin={-10} xMax={3.99} xStep={0.01} markMin={-10} markMax={10} markStep={5} extraMarks={[4]} />
+
+Terwijl x-waarden groter dan $4$ een **negatieve functiewaarde** geven:
+
+<FxValueSlider x={4.01} m={-3} q={12} xMin={4.01} xMax={10} xStep={0.01} markMin={-10} markMax={10} markStep={5} extraMarks={[4]} />
+
+Wanneer $x = 4$, krijgen we dan weer een functiewaarde **gelijk aan nul**:
+
+$$
+\begin{aligned}
+f(4) &= -3\cdot 4 + 12\\
+&= 0
+\end{aligned}
+$$
+
+Samengevat:
+
+- Als $x < 4$, dan is $f(x) > 0$
+- Als $x = 4$, dan is $f(x) = 0$
+- Als $x > 4$, dan is $f(x) < 0$
+
+Dit zetten we als volgt in een tekenschema:
+
+| $x$ | $-\infty$ |  | $4$ | | $+\infty$ |
+|---|-----------|--|-----|-|-----------|
+| $f(x)$ |        | $+$ | $0$  | $-$ | |
+
+Het tekenschema toont dat wanneer $x$ tussen $-\infty$ en $4$ ligt (en dus kleiner is dan $4$), dat $f(x)$ dan positief is ($+$). Wanneer $x$ gelijk is aan $4$, zien we in het tekenschema dat $f(x)$ gelijk is aan $0$. Wanneer $x$ ten slotte tussen $4$ en $+\infty$ ligt, toont het tekenschema dat $f(x)$ negatief is ($-$).
+
+Maar waar komt die $4$ juist vandaan? En hoe kunnen we zo'n tekenschema gaan maken voor andere eerstegraadsfuncties? Dit leggen we uit in de volgende paragraaf.
+
+## Methode om tekenschema van eerstegraadsfunctie op te stellen
+
+We weten dat de grafiek van een eerstegraadsfunctie een rechte is. Die rechte snijdt de x-as exact één keer. Dit snijpunt is het nulpunt van de grafiek.
+
+(illustratie)
+
+Als onze functie *daalt*, dan zal de grafiek vòòr het nulpunt *boven* de x-as liggen en na het nulpunt *onder* de x-as.
+
+(illustratie)
+
+Voor het nulpunt hebben we dus *positieve* functiewaarden en na het nulpunt hebben we *negatieve* functiewaarden.
+
+(illustratie)
+
+
+1. Bereken de nulwaarde van de eerstegraadsfunctie: $\frac{-q}{m}$;
+2. Alle x-waarden **kleiner** dan de nulwaarde hebben **het tegengestelde teken van $m$**;
+3. Alle x-waarden **groter** dan de nulwaarde hebben **hetzelfde teken als $m$**.
+
+
+In de [les over het nulpunt van een eerstegraadsfunctie](../nulpunt).
