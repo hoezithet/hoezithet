@@ -15,17 +15,17 @@ Voor deze functie zullen x-waarden kleiner dan $4$ een **positieve functiewaarde
 
 import { FxValueSlider } from "./drawings"
 
-<FxValueSlider x={3.99} m={-3} q={12} xMin={-10} xMax={3.99} xStep={0.01} markMin={-10} markMax={10} markStep={5} extraMarks={[4]} />
+<FxValueSlider x={3.99} m={-3} q={12} xMin={-10} xMax={3.99} xStep={0.01} markMin={-10} markMax={10} markStep={5} />
 
 Terwijl x-waarden groter dan $4$ een **negatieve functiewaarde** geven:
 
-<FxValueSlider x={4.01} m={-3} q={12} xMin={4.01} xMax={10} xStep={0.01} markMin={-10} markMax={10} markStep={5} extraMarks={[4]} />
+<FxValueSlider x={4.01} m={-3} q={12} xMin={4.01} xMax={10} xStep={0.01} markMin={-10} markMax={10} markStep={5} />
 
-Wanneer $x = 4$, krijgen we dan weer een functiewaarde **gelijk aan nul**:
+Wanneer $x = {\orange{4}}$, krijgen we dan weer een functiewaarde **gelijk aan nul**:
 
 $$
 \begin{aligned}
-f(4) &= -3\cdot 4 + 12\\
+f(4) &= -3\cdot {\orange{4}} + 12\\
 &= 0
 \end{aligned}
 $$
@@ -46,24 +46,54 @@ Het tekenschema toont dat wanneer $x$ tussen $-\infty$ en $4$ ligt (en dus klein
 
 Maar waar komt die $4$ juist vandaan? En hoe kunnen we zo'n tekenschema gaan maken voor andere eerstegraadsfuncties? Dit leggen we uit in de volgende paragraaf.
 
-## Methode om tekenschema van eerstegraadsfunctie op te stellen
+## Stappenplan om tekenschema van eerstegraadsfunctie op te stellen
 
-We weten dat de grafiek van een eerstegraadsfunctie een rechte is. Die rechte snijdt de x-as exact één keer. Dit snijpunt is het nulpunt van de grafiek.
-
-(illustratie)
-
-Als onze functie *daalt*, dan zal de grafiek vòòr het nulpunt *boven* de x-as liggen en na het nulpunt *onder* de x-as.
+We weten dat [de grafiek van een eerstegraadsfunctie](../grafiek) een rechte is. Die rechte snijdt de x-as exact één keer. Dit snijpunt is het nulpunt van de grafiek.
 
 (illustratie)
 
-Voor het nulpunt hebben we dus *positieve* functiewaarden en na het nulpunt hebben we *negatieve* functiewaarden.
+Als **de [rico](../rico) ($m$) van een functie kleiner is dan nul**, dan zal de grafiek van de functie **dalen** en dan zal de grafiek **vòòr het nulpunt *boven* de x-as** liggen en **na het nulpunt *onder* de x-as**. Vòòr het nulpunt hebben we dus *positieve* functiewaarden en na het nulpunt hebben we *negatieve* functiewaarden.
 
-(illustratie)
+(illustratie met grafiek waarbij m en q kunnen aangepast worden en het nulpunt is aangeduid. Onder de grafiek staat het tekenschema. We duiden het nulpunt en de regio's voor en na het nulpunt zowel aan op de grafiek als in het tekenschema. We duiden ook op de grafiek aan waar de rechte onder en boven de x-as ligt en verbinden dit met de tekens in het tekenschema.)
+
+Wanneer **$m$ *groter* is dan nul**, dan zal de grafiek van de functie **stijgen** en dan zal de grafiek **vòòr het nulpunt *onder* de x-as** liggen en **na het nulpunt *boven* de x-as**. Vòòr het nulpunt hebben we dus *negatieve* functiewaarden en na het nulpunt hebben we *positieve* functiewaarden.
+
+(zelfde soort illustratie)
+
+Gegeven een eerstegraadsfunctie $f(x) = mx + q$ dan geldt dus: 
+
+- Als $x\lt\frac{-q}{m}$, dan heeft $f(x)$ *het tegengestelde teken* van $m$.
+- Als $x = \frac{-q}{m}$, dan is $f(x)=0$.
+- Als $x\gt\frac{-q}{m}$, dan heeft $f(x)$ *hetzelfde teken* als $m$.
+
+Deze vaststellingen kunnen we gebruiken om een stappenplan te maken voor het opstellen van het tekenschema van eender welke eerstegraadsfunctie:
+
+> 💡 Het tekenschema van een eerstegraadsfunctie opstellen
+>
+> Om het tekenschema van een eerstegraadsfunctie met voorschrift $f(x) = mx + q$ op te stellen, doen we het volgende:
+>
+> 1. Bereken de nulwaarde van de eerstegraadsfunctie: $\frac{-q}{m}$, en plaats ze in het tekenschema in de rij van de x-waarden. In de rij van $f(x)$ zet je daar een $0$.
+> 2. Tussen x-waarden $-\infty$ en $\frac{-q}{m}$ zet je in de rij van $f(x)$ het *tegengestelde teken van $m$*.
+> 3. Tussen x-waarden $\frac{-q}{m}$ en $+\infty$ zet je in de rij van $f(x)$ *hetzelfde teken als $m$*.
+>
+> | $x$ | $-\infty$ |  | $\frac{-q}{m}$ | | $+\infty$ |
+> |---|-----------|--|-----|-|-----------|
+> | $f(x)$ |        | Tegengesteld teken van $m$ | $0$  | Teken van $m$ | |
 
 
-1. Bereken de nulwaarde van de eerstegraadsfunctie: $\frac{-q}{m}$;
-2. Alle x-waarden **kleiner** dan de nulwaarde hebben **het tegengestelde teken van $m$**;
-3. Alle x-waarden **groter** dan de nulwaarde hebben **hetzelfde teken als $m$**.
+(oefening)
 
 
-In de [les over het nulpunt van een eerstegraadsfunctie](../nulpunt).
+## Samengevat
+
+> 💡 Het tekenschema van een eerstegraadsfunctie opstellen
+>
+> Om het tekenschema van een eerstegraadsfunctie met voorschrift $f(x) = mx + q$ op te stellen, doen we het volgende:
+>
+> 1. Bereken de nulwaarde van de eerstegraadsfunctie: $\frac{-q}{m}$, en plaats ze in het tekenschema in de rij van de x-waarden. In de rij van $f(x)$ zet je daar een $0$.
+> 2. Tussen x-waarden $-\infty$ en $\frac{-q}{m}$ zet je in de rij van $f(x)$ het *tegengestelde teken van $m$*.
+> 3. Tussen x-waarden $\frac{-q}{m}$ en $+\infty$ zet je in de rij van $f(x)$ *hetzelfde teken als $m$*.
+>
+> | $x$ | $-\infty$ |  | $\frac{-q}{m}$ | | $+\infty$ |
+> |---|-----------|--|-----|-|-----------|
+> | $f(x)$ |        | Tegengesteld teken van $m$ | $0$  | Teken van $m$ | |

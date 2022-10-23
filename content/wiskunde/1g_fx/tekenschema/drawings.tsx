@@ -40,7 +40,7 @@ export const FxValueSlider = ({
 
     const valToMark = x => ({
         value: x,
-        label: <Markdown>{`$${toComma(x)}$`}</Markdown>
+        label: `${toComma(x)}`
     });
 
     const marks = _range(markMin, markMax + markStep, markStep).map(valToMark)
@@ -54,10 +54,11 @@ export const FxValueSlider = ({
         getAriaValueText: x => `${toComma(x)}`,
     };
 
-    const xComma = toComma(x);
+    const xComma = String.raw`{\orange{${toComma(x)}}}`;
     const mComma = toComma(m);
     const qComma = toComma(q);
-    const yComma = toComma(m*x + q);
+    const y = m*x + q;
+    const yComma = toComma(y);
     const xBr = x < 0 ? `(${xComma})` : xComma;
 
     return (
@@ -66,11 +67,12 @@ export const FxValueSlider = ({
                 <Markdown>{ String.raw`$$
                   \begin{aligned}
                     f(${xComma}) &= ${mComma}\cdot ${xBr} ${q < 0 ? "" : "+"} ${qComma}\\
-                                 &= ${yComma}
+                                 &= ${yComma}\\
+                                 &${y > 0 ? "\\gt" : "\\lt"} 0
                   \end{aligned}
                  $$` }</Markdown>
             </Grid>
-            <Grid item xs={3} textAlign="center">
+            <Grid item xs={3} textAlign="left">
                 <Markdown>{ String.raw`$x = ${xComma}$` }</Markdown>
             </Grid>
             <Grid item xs={9}>

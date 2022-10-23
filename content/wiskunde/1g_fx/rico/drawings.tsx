@@ -91,9 +91,9 @@ const DiffQuotPoints = ({
 
     return (
         <>
+            <Fx fx={fx} color={pFill} />
             <path d={`M ${x1Px} ${y1Px} L ${x2Px} ${y2Px} L ${x2Px} ${y1Px} Z`} fill={getColor(fill, 0.5)} stroke={getColor(fill)}/>
             <path d={`M ${x2Px - rAngSignMarginPx - rAngSignSizePx} ${y1Px - rAngSignMarginPx * (m >= 0 ? 1 : -1)} h ${rAngSignSizePx} v ${-rAngSignSizePx * (m >= 0 ? 1 : -1)}`} fill="none" stroke={getColor(fill)}/>
-            <Fx fx={fx} color={pFill} />
             <circle cx={x1Px} cy={y1Px} r={rPx} fill={pFill} />
             <circle cx={x2Px} cy={y2Px} r={rPx} fill={pFill} />
             <Annot x={x1PxAnnot} y={y1PxAnnot} align={annotAlign} textPadding={annotPadding} fontSize={coordFontSizePx} color={coordColor} showBackground>
