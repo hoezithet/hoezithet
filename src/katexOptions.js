@@ -60,6 +60,8 @@ module.exports = {
         "\\RR": "\\mathbb{R}",
 
         "\\euro": "\\text{€}",
+
+        "\\Udarr": "\\Updownarrow",
     },
     colorIsTextColor: true,
     strict: "ignore",
