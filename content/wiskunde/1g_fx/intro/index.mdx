@@ -15,11 +15,11 @@ Laat ons dit even illustreren aan de hand van twee voorbeelden... 👨‍🎨
 
 Dirk gaat volgende week naar een muziekfestival en is in onderhandeling met Maria over hoeveel geld hij mag meenemen.
 
-(illustratie)
+(illustratie: Dirk en Maria aan de onderhandelingstafel)
 
 Dirk drinkt al graag eens een goed glas melk wanneer hij op een festivalweide staat. Hij wil dan ook liefst zoveel mogelijk glazen melk kunnen drinken.
 
-(illustratie)
+(illustratie: Dirk droomt over hoe hij glazen melk drinkt op het festival)
 
 Een toegangsticket voor het festival bedraagt €25 en voor een glas melk vraagt het festival €3. Dirk zou graag willen weten **welk budget** hij met Maria moet onderhandelen om een **bepaald aantal glazen melk** te kunnen drinken op het festival.
 
@@ -37,13 +37,11 @@ import { AnnotatedFx } from "./drawings";
 
 <AnnotatedFx m={3} mName="€3 extra per glas" q={25} qName="€25 bij 0 glazen" yName="benodigd budget" xName="aantal glazen melk" />
 
-(oefening die helpt om later onderliggend verband te zien)
-
 ### Voorbeeld 2: Maria eet pralines
 
 Maria eet al eens graag een praline. Ze toonde dan ook met plezier haar groot hart toen de lokale gymclub haar vorige week vroeg om hen te steunen door chocolade zeevruchten te kopen. 🤤 Ze kocht meteen een grote doos van $1~\si{kg}$. Zo'n doos bevat 64 pralines.
 
-(illustratie)
+(illustratie: Maria met een doos van 1 kg zeevruchten van de gymclub)
 
 Maria weet natuurlijk wel dat ze die hele doos best niet op één dag naar binnen speelt. Ze heeft dan ook besloten om elke dag slechts 4 pralines te eten. Na enkele dagen vraagt ze zich af hoeveel pralines er nog in de doos zitten. Hoe kan ze dit berekenen?
 
@@ -58,8 +56,6 @@ Na bijvoorbeeld $\orange{5}$ dagen zullen er nog $(-4\cdot \orange{5}) + 64 = 44
 We kunnen weer wat schrijfwerk besparen door de formule als volgt te schrijven:
 
 <AnnotatedFx m={-4} mName="4 pralines minder per dag" q={64} qName="64 pralines op dag 0" yName="aantal pralines in doos" xName="aantal dagen ver" annotFontSize={75} />
-
-(oefening)
 
 ### Algemene vorm van een eerstegraadsfunctie
 
@@ -85,6 +81,15 @@ $$
 
 Er zijn talloze situaties waar we een $y$ kunnen uitrekenen met een $x$ via $y=m x + q$. Dat komt zelfs zo vaak voor dat we er een speciale naam aan geven: **eerstegraadsfuncties**.
 
+Merk op dat we vaak in plaats van die $y$ ook wel $f(x)$ schrijven:
+
+$$
+f(x) = m x + q
+$$
+
+Met die $x$ tussen haakjes achter de $f$ bedoelen we dan dat de functie $f$ *afhangt van $x$* (en **niet** dat $f$ vermenigvuldigd wordt met $x$!). We noemen $f(x) = m x + q$ het [voorschrift](../../functies/voorschrift) van $f$. We definiëren een eerstegraadsfunctie dan als volgt:
+
+
 > 💡 Eerstegraadsfunctie
 >
 > Een functie $f(x)$ is een eerstegraadsfunctie als en slechts als haar functievoorschrift geschreven kan worden als
@@ -94,8 +99,6 @@ Er zijn talloze situaties waar we een $y$ kunnen uitrekenen met een $x$ via $y=m
 > $$
 >
 > Hierbij zijn $m\in\RR_0$ en $q\in\RR$.
-
-In bovenstaande kader gebruiken we $f(x)$ in plaats van $y$. De notatie "$f(x)$" is iets algemener, maar we bedoelen er eigenlijk precies hetzelfde mee als de "$y$" uit de voorgaande voorbeelden.
 
 We gebruiken de naam *eerstegraadsfunctie* omdat de hoogste macht van $x$ in $mx + q$ gelijk is aan $1$. We noemen $mx + q$ ook wel een [veelterm](../../veeltermen/veelterm) van de *eerste graad* in $x$.
 
@@ -107,13 +110,17 @@ We gebruiken de naam *eerstegraadsfunctie* omdat de hoogste macht van $x$ in $mx
 >
 > Als $m$ gelijk zou zijn aan nul, dan is ook $m\cdot x=0$ en dan wordt $f(x)=0+q$ of korter $f(x)=q$. We hebben dan geen $x$ meer in ons functievoorschrift. De hoogste graad van $x$ is dan niet meer één, maar nul. $f(x)$ is dus geen eerstegraadsfunctie meer, maar een *nuldegraadsfunctie* of een *constante functie*.
 
-(oefening: herken de eerstegraadsfunctie)
+(oefening: herken de eerstegraadsfunctie aan de hand van het voorschrift)
 
 ## Intuïtie achter functies van de eerste graad
 
-Hoe komt het dat het voorbeeld van Dirk die naar een festival gaat en van Maria die pralines eet allebei leiden tot een functie van de eerste graad? Wel, per extra glas melk kwam er een **vast** bedrag van €3 bij het budget bij; en per extra dag ging er een **vast** aantal pralines uit de doos. Elke situatie waar er **voor elke extra $x$ een vast aantal weggaat of bijkomt bij het beginaantal**, kunnen we wiskundig beschrijven met een eerstegraadsfunctie. Het vast aantal dat per $x$ weggaat of bijkomt, is $m$. Het beginaantal (wanneer $x = 0$), is $q$.
+Hoe komt het dat het voorbeeld van Dirk die naar een festival gaat en van Maria die pralines eet allebei leiden tot een functie van de eerste graad? Wel, per extra glas melk kwam er een **vast** bedrag van €3 bij het budget bij; en per extra dag ging er een **vast** aantal pralines uit de doos. Elke situatie waar er **voor elke extra $x$ een vast aantal weggaat of bijkomt bij een beginaantal**, kunnen we wiskundig beschrijven met een eerstegraadsfunctie. Het vast aantal dat per $x$ weggaat of bijkomt, is $m$. Het beginaantal (wanneer $x = 0$), is $q$.
 
 Je ziet dat we met onze eerstegraadsfunctie inderdaad de **onderliggende werking** (waar we het in het begin van de les over hadden) blootleggen.
+
+## Een functie van de eerste graad herkennen en omzetten naar $y = mx + q$
+
+Elke situatie waar er een vast aantal per $x$ weggaat of bijkomt bij een beginaantal (wanneer $x = 0$), gedraagt zich als een eerstegraadsfunctie. In de volgende kader vatten we samen hoe je in een **opgave kan herkennen dat het om een eerstegraadsfunctie gaat** en hoe je vervolgens het **voorschrift kan vinden** van die eerstegraadsfunctie. 
 
 > 💡 Een functie van de eerste graad herkennen en omzetten naar $y = mx + q$
 >
@@ -121,13 +128,13 @@ Je ziet dat we met onze eerstegraadsfunctie inderdaad de **onderliggende werking
 > 2. **Bepaal $m$**: Vraag je dan af hoeveel er bij $y$ bijkomt (of van af gaat) wanneer $x$ één eenheid groter wordt. Dit is $m$.
 > 3. **Bepaal $q$**: Zoek waaraan $y$ gelijk is als $x$ gelijk is aan nul. Dit is $q$.
 
+We hebben ook een aparte les over [hoe je het voorschrift van een eerstegraadsfunctie kan berekenen](../voorschrift_opstellen) waar we iets dieper hierop ingaan.
 
 (oefening: pas bovenstaande schema toe op de twee voorbeelden)
 
-
 We illustreren dit alles nog met een derde voorbeeld. Maria rijdt met haar Segway een constante snelheid van $300$ meter per minuut. Ze vertrekt van bij haar thuis en volgt de hele tijd een rechte baan. We zoeken een formule die aangeeft hoeveel meter ze van huis is na een bepaald aantal minuten rijden.
 
-(illustratie)
+(illustratie: infinite loop van Maria die op haar Segway rijdt)
 
 1. **Zoek de betekenis van $x$ en $y$**: het aantal meter dat Maria van huis is, hangt af van hoeveel minuten ze aan het rijden is. $y$ is dus "*het aantal meter van huis*" en $x$ is "*het aantal minuten dat Maria rijdt*".
 2. **Bepaal $m$**: wanneer Maria één minuut langer rijdt, zal ze $300$ meter verder van huis zijn. $m$ is dus $300$.
