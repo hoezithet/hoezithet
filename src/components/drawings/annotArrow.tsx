@@ -186,6 +186,11 @@ export const AnnotArrow = ({
     }
 
     const globalAnnotCoord = convertToCoord(annot, hAlignAnnot, vAlignAnnot);
+
+    if (globalAnnotCoord === null) {
+        return null;
+    }
+
     const formattedTarget = Array.isArray(target) && target.length > 0 && typeof target[0] !== "number" ? target : [target];
     const globalTargetCoords = formattedTarget.map(t => convertToCoord(t, hAlignTarget, vAlignTarget));
     const prevGAnnotRef = React.useRef<SVGPoint|null>(null);
@@ -196,8 +201,8 @@ export const AnnotArrow = ({
 
     const comparePoints = (p1: SVGPoint, p2: SVGPoint, precision=2) => {
         return (
-            p1.x.toFixed(precision) === p2.x.toFixed(precision)
-            && p1.y.toFixed(precision) === p2.y.toFixed(precision)
+            p1?.x.toFixed(precision) === p2?.x.toFixed(precision)
+            && p1?.y.toFixed(precision) === p2?.y.toFixed(precision)
         )
     };
 
