@@ -35,11 +35,9 @@ export const _NulpuntGraph1G = ({
     const mStr = toComma(m);
 
     React.useEffect(() => {
-        if (m !== null) {
-            setArrows([
-                <AnnotArrow annot={`#${idQm}`} target={`#${idZero}`} targetAlign="bottom center" annotAlign="bottom center" />,
-            ]);
-        }
+        setArrows([
+            <AnnotArrow annot={`#${idQm}`} target={`#${idZero}`} targetAlign="bottom center" annotAlign="bottom center" />,
+        ]);
     }, [m, q]);
 
     return (
