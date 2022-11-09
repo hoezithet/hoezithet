@@ -142,7 +142,7 @@ const convertToCoord = (annotOrTarget: string|Coordinate, hAlign: string, vAlign
     if (typeof document === "undefined") {
         return null;
     }
-    if (Array.isArray(annotOrTarget)) {
+    if (Array.isArray(annotOrTarget) && annotOrTarget.length === 2 && typeof annotOrTarget[0] === "number" && typeof  annotOrTarget[1] === "number") {
         return new DOMPoint(annotOrTarget[0], annotOrTarget[1]);
     } else if (typeof annotOrTarget === "string") {
         const el = document.querySelector(annotOrTarget);
@@ -151,8 +151,10 @@ const convertToCoord = (annotOrTarget: string|Coordinate, hAlign: string, vAlign
         } else {
             return null;
         }
-    } else {
+    } else if ('x' in annotOrTarget && 'y' in annotOrTarget && typeof annotOrTarget.x === "number" && typeof annotOrTarget.y === "number") {
         return new DOMPoint(annotOrTarget.x, annotOrTarget.y);
+    } else {
+        return null;
     }
 }
 
@@ -170,7 +172,6 @@ export const AnnotArrow = ({
 }: AnnotArrowProps) => {
     const [vAlignAnnot, hAlignAnnot] = annotAlign.split(" ");
     const [vAlignTarget, hAlignTarget] = targetAlign.split(" ");
-    const annotArrowRef = React.useRef<SVGGElement|null>(null);
 
     const anchorAngleAnnot = getAngleFromAlign(hAlignAnnot, vAlignAnnot);
     const anchorAngleTarget = getAngleFromAlign(hAlignTarget, vAlignTarget);
@@ -185,21 +186,22 @@ export const AnnotArrow = ({
         anchorRadiusAnnot = anchorRadius;
     }
 
+    target = Array.isArray(target) && target.length > 0 && typeof target[0] !== "number" ? target : [target];
+
+    const annotArrowsRef = React.useRef(target.map(t => null));
+
     const globalAnnotCoord = convertToCoord(annot, hAlignAnnot, vAlignAnnot);
-
-    if (globalAnnotCoord === null) {
-        return null;
-    }
-
-    const formattedTarget = Array.isArray(target) && target.length > 0 && typeof target[0] !== "number" ? target : [target];
-    const globalTargetCoords = formattedTarget.map(t => convertToCoord(t, hAlignTarget, vAlignTarget));
+    const globalTargetCoords = target.map(t => convertToCoord(t, hAlignTarget, vAlignTarget));
     const prevGAnnotRef = React.useRef<SVGPoint|null>(null);
-    const prevGTargetRef = React.useRef<SVGPoint[]|null>(null);
+    const prevGTargetRef = React.useRef<SVGPoint[]|null[]>(target.map(t => null));
 
     const [annotCoord, setAnnotCoord] = React.useState<SVGPoint>(globalAnnotCoord);
     const [targetCoords, setTargetCoords] = React.useState<SVGPoint[]>(globalTargetCoords);
 
-    const comparePoints = (p1: SVGPoint, p2: SVGPoint, precision=2) => {
+    const comparePoints = (p1: SVGPoint|null, p2: SVGPoint|null, precision=2) => {
+        if (p1 === p2) {
+            return true;
+        }
         return (
             p1?.x.toFixed(precision) === p2?.x.toFixed(precision)
             && p1?.y.toFixed(precision) === p2?.y.toFixed(precision)
@@ -210,49 +212,54 @@ export const AnnotArrow = ({
     // might have other coordinate system!
     React.useEffect(() => {
         if (
-            prevGAnnotRef.current !== null
-            && comparePoints(prevGAnnotRef.current, globalAnnotCoord)
-            && prevGTargetRef.current !== null
+            comparePoints(prevGAnnotRef.current, globalAnnotCoord)
+            && prevGTargetRef.current.length === globalTargetCoords.length
             && prevGTargetRef.current.every((p, i) => comparePoints(p, globalTargetCoords[i]))
         ) {
             return;
         }
-        const node = annotArrowRef.current;
-        if (node !== null) {
-            const tfmMatrix = getGlobalToLocalMatrix(node);
-            if (globalAnnotCoord !== null) {
-                const localAnnotCoord = globalAnnotCoord.matrixTransform(tfmMatrix);
-                setAnnotCoord(localAnnotCoord);
+        annotArrowsRef.current.forEach(node => {
+            if (node === null) {
+                return;
             }
-            const newTargetCoords: SVGPoint[] = [];
-            globalTargetCoords?.forEach((targetCoord, i) => {
-                if (targetCoord !== null) {
-                    const localTargetCoord = targetCoord.matrixTransform(tfmMatrix);
-                    newTargetCoords.push(localTargetCoord);
-                }
-            });
-            setTargetCoords(newTargetCoords);
-        }
-        prevGAnnotRef.current = globalAnnotCoord;
-        prevGTargetRef.current = globalTargetCoords;
+            const tfmMatrix = getGlobalToLocalMatrix(node);
+            const localAnnotCoord = (
+                globalAnnotCoord !== null ?
+                globalAnnotCoord.matrixTransform(tfmMatrix)
+                : null
+            );
+            const localTargetCoords = globalTargetCoords.map((targetCoord, i) => (
+                targetCoord !== null ?
+                targetCoord.matrixTransform(tfmMatrix)
+                : null
+            ));
+
+            setAnnotCoord(localAnnotCoord);
+            setTargetCoords(localTargetCoords);
+
+            prevGAnnotRef.current = globalAnnotCoord;
+            prevGTargetRef.current = globalTargetCoords;
+        });
     }, [globalAnnotCoord, globalTargetCoords]);
 
     return (
         <>
             {
-                annotCoord ?
-                targetCoords.filter(t => t !== null).map((targetCoord, i) => (
-                    <g key={i} ref={annotArrowRef}>
-                        <ArrowLine xStart={annotCoord?.x} yStart={annotCoord?.y} xEnd={targetCoord.x} yEnd={targetCoord.y}
-                            marginStart={marginAnnot}
-                            marginEnd={marginTarget}
-                            anchorAngleStart={anchorAngleAnnot} anchorRadiusStart={anchorRadiusAnnot}
-                            anchorAngleEnd={anchorAngleTarget} anchorRadiusEnd={anchorRadiusTarget}
-                            color={color} lineWidth={lineWidth} dashed={dashed} showArrow={!hideHead}
-                            opacity={opacity} />
+                target.map((t, i) => (
+                    <g key={i} ref={node => { annotArrowsRef.current[i] = node }}>
+                       {
+                          targetCoords[i] !== null && annotCoord !== null ?
+                            <ArrowLine xStart={annotCoord.x} yStart={annotCoord.y} xEnd={targetCoords[i].x} yEnd={targetCoords[i].y}
+                              marginStart={marginAnnot}
+                              marginEnd={marginTarget}
+                              anchorAngleStart={anchorAngleAnnot} anchorRadiusStart={anchorRadiusAnnot}
+                              anchorAngleEnd={anchorAngleTarget} anchorRadiusEnd={anchorRadiusTarget}
+                              color={color} lineWidth={lineWidth} dashed={dashed} showArrow={!hideHead}
+                              opacity={opacity} />
+                          : null
+                       }
                     </g>
                 ))
-                : null
             }
         </>
     );
