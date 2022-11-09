@@ -36,7 +36,7 @@ export const _NulpuntGraph1G = ({
 
     React.useEffect(() => {
         setArrows(
-            <AnnotArrow annot={`#${idQm}`} target={`#${idZero}`} targetAlign="bottom center" annotAlign="bottom center" />,
+            <AnnotArrow annot={`#${idQm}`} target={`#${idZero}`} anchorRadius={xScale.metric(3)} targetAlign="bottom center" annotAlign={m > 0 ? "bottom left" : "center right"}/>,
         );
     }, [m, q, idQm, idZero]);
 
