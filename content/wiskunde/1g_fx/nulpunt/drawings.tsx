@@ -35,16 +35,21 @@ export const _NulpuntGraph1G = ({
     const mStr = toComma(m);
 
     React.useEffect(() => {
-        setArrows([
+        setArrows(
             <AnnotArrow annot={`#${idQm}`} target={`#${idZero}`} targetAlign="bottom center" annotAlign="bottom center" />,
-        ]);
-    }, [m, q]);
+        );
+    }, [m, q, idQm, idZero]);
 
     return (
         <>
             <Fx fx={fx} />
             { m !== 0 ?
               <>
+              <Annot x={xScale(zero)} y={yScale(0)} align="top center" textPadding={xScale.metric(0.5)} showBackground backgroundOpacity={0.5}>
+                {String.raw`$\htmlId{${idZero}}{\orange{${toComma(zero)}}}$`}
+              </Annot>
+              <circle cx={xScale(zero)} cy={yScale(0)} r={xScale.metric(0.2)} fill={getColor("orange")} />
+              { arrows }
               <Annot x={xScale(annotX)} y={yScale(annotY)} align={annotAlign} textPadding={0}>
                 {String.raw`$$
                   \begin{aligned}
@@ -53,11 +58,6 @@ export const _NulpuntGraph1G = ({
                   \end{aligned}
                   $$`}
               </Annot>
-              <Annot x={xScale(zero)} y={yScale(0)} align="top center" textPadding={xScale.metric(0.5)} showBackground backgroundOpacity={0.5}>
-                {String.raw`$\htmlId{${idZero}}{\orange{${toComma(zero)}}}$`}
-              </Annot>
-              <circle cx={xScale(zero)} cy={yScale(0)} r={xScale.metric(0.3)} fill={getColor("orange")} />
-              { arrows }
              </>
              : null }
         </>
