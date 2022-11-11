@@ -6,58 +6,58 @@ weight: 3
 De [nulwaarden van een functie](../../functies/nulpunten) zijn de **x-waarden waar de functie gelijk is aan nul**. Stel dat de volgende [eerstegraadsfunctie](../intro) gegeven is:
 
 $$
-f(x) = -2x + 5
+f(x) = 2x + 6
 $$
 
-Dan is $\frac{5}{2}$ een nulwaarde van $f(x)$, aangezien
+Dan is $-3$ een nulwaarde van $f(x)$, aangezien
 
 $$
 \begin{aligned}
-f\left(\orange{\frac{5}{2}}\right) &= -2\cdot\orange{\frac{5}{2}} + 5\\
-&= -5 + 5\\
+f\left(\orange{-3}\right) &= 2\cdot(\orange{-3}) + 6\\
+&= -6 + 6\\
 &= 0
 \end{aligned}
 $$
 
-We noemen $\left(\frac{5}{2}, 0\right)$ een **nulpunt** van $f$. Maar hoe zijn we aan die $\frac{5}{2}$ gekomen? Is $\frac{5}{2}$ de enige nulwaarde van $f$ of zijn er nog andere?
+We noemen $\left(-3, 0\right)$ een **nulpunt** van $f$. Maar hoe zijn we aan die $-3$ gekomen? Is $-3$ de enige nulwaarde van $f$ of zijn er nog andere?
 
 ## Voorbeeld: Nulpunt bepalen van een eerstegraadsfunctie
 
-De nulwaarden van een functie zijn de x-waarden die als functiewaarde $0$ hebben. Stel dat $a$ een nulwaarde is van de functie $f(x) = -2x + 5$. We kunnen de functiewaarde van een getal altijd vinden door dat getal in te vullen in het [functievoorschrift](../../functies/voorschrift). Voor $a$ wordt dat:
+De nulwaarden van een functie zijn de x-waarden die als functiewaarde $0$ hebben. Stel dat $a$ een nulwaarde is van de functie $f(x) = 2x + 6$. We kunnen de functiewaarde van een getal altijd vinden door dat getal in te vullen in het [functievoorschrift](../../functies/voorschrift). Voor $a$ wordt dat:
 
 $$
-f(\orange{a}) = -2\orange{a} + 5
+f(\orange{a}) = 2\orange{a} + 6
 $$
 
 Als $a$ een nulwaarde is van $f(x)$, dan moet de functiewaarde van $a$ echter gelijk zijn aan $0$:
 
 $$
 \begin{aligned}
-\underbrace{f(\orange{a})}_{= 0} = -2\orange{a} + 5
+\underbrace{f(\orange{a})}_{= 0} = 2\orange{a} + 6
 \end{aligned}
 $$
 
 Hieruit volgt dat
 
 $$
--2a + 5 = 0
+2a + 6 = 0
 $$
 
 Dit is een [vergelijking van de eerste graad](../../1g_vgl/intro) in $a$. We kunnen dit oplossen naar $a$:
 
 $$
 \begin{aligned}
--2a + 5 &= 0\\
+2a + 6 &= 0\\
 &\Updownarrow\\
--2a &= -5\\
+2a &= -6\\
 &\Updownarrow\\
-a &= \frac{-5}{-2}\\
+a &= \frac{-6}{2}\\
 &\Updownarrow\\
-a &= \frac{5}{2}
+a &= -3
 \end{aligned}
 $$
 
-Hieruit volgt dat de functie $f(x) = -2x + 5$ juist één nulwaarde heeft, namelijk $\frac{5}{2}$. Het enige nulpunt van deze functie is dus $\left(\frac{5}{2}, 0\right)$.
+Hieruit volgt dat de functie $f(x) = 2x + 6$ juist één nulwaarde heeft, namelijk $-3$. Het enige nulpunt van deze functie is dus $\left(-3, 0\right)$.
 
 ## Algemene formule voor het nulpunt van een eerstegraadsfunctie
 
@@ -107,11 +107,13 @@ De nulwaarde van een eerstegraadsfunctie is dus altijd gelijk aan $\frac{-q}{m}$
 
 ## Het nulpunt van een eerstegraadsfunctie aflezen op een grafiek
 
-Het nulpunt van een eerstegraadsfunctie $f(x)$ kan je aflezen op de grafiek van $f$ door te zoeken naar **het punt waar de grafiek de x-as snijdt**.
+Het nulpunt van een eerstegraadsfunctie $f(x)$ kan je aflezen op de grafiek van $f$ door te zoeken naar **het punt waar de grafiek de x-as snijdt**. In de onderstaande figuur hebben we de grafiek van de eerstegraadsfunctie $f(x) = 2x+6$ getekend en hebben we het nulpunt van de functie aangeduid met een oranje stip.
 
 import { InteractiveNulpuntGraph1G } from "./drawings";
 
-<InteractiveNulpuntGraph1G mSlider qSlider />
+<InteractiveNulpuntGraph1G m={2} q={6} mSlider qSlider />
+
+Met de sliders kan je $m$ en $q$ aanpassen zodat je een nieuwe functie krijgt. Je ziet dat de nulwaarde van de functie altijd gelijk is aan $\frac{-q}{m}$.
 
 > 💡 Nulpunt van een eerstegraadsfunctie aflezen op een grafiek
 >
