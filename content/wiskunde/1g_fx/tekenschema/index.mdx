@@ -13,11 +13,13 @@ $$
 
 Voor deze functie zullen x-waarden kleiner dan $4$ een **positieve functiewaarde** geven (hoe we aan die $4$ komen, leggen we later uit):
 
-import { FxValueSlider } from "./drawings"
+import { FxValueSlider, InteractiveTekenschema } from "./drawings"
 
 <FxValueSlider x={3.99} m={-3} q={12} xMin={-10} xMax={3.99} xStep={0.01} markMin={-10} markMax={10} markStep={5} />
 
-Terwijl x-waarden groter dan $4$ een **negatieve functiewaarde** geven:
+Verschuif de bovenstaande slider naar links. Je ziet dat voor alle x-waarden kleiner dan $4$ de functiewaarde positief is.
+
+Wanneer we x-waarden groter dan $4$ invullen, krijgen we daarentegen **negatieve functiewaarden** (verschuif de onderstaande slider naar rechts):
 
 <FxValueSlider x={4.01} m={-3} q={12} xMin={4.01} xMax={10} xStep={0.01} markMin={-10} markMax={10} markStep={5} />
 
@@ -50,9 +52,13 @@ Maar waar komt die $4$ juist vandaan? En hoe kunnen we zo'n tekenschema gaan mak
 
 We weten dat [de grafiek van een eerstegraadsfunctie](../grafiek) een rechte is. Die rechte snijdt de x-as exact één keer. Dit snijpunt is het nulpunt van de grafiek.
 
-(illustratie: nulpunt van eerstegraadsfunctie aangeduid)
+import {NulpuntGraph1G} from "./drawings"
+
+<NulpuntGraph1G m={-3} q={12} />
 
 Als **de [rico](../rico) ($m$) van een functie kleiner is dan nul**, dan zal de grafiek van de functie **dalen** en dan zal de grafiek **vòòr het nulpunt *boven* de x-as** liggen en **na het nulpunt *onder* de x-as**. Vòòr het nulpunt hebben we dus *positieve* functiewaarden en na het nulpunt hebben we *negatieve* functiewaarden.
+
+<InteractiveTekenschema m={-3} q={12} mSlider qSlider checkM={m => true} />
 
 (illustratie: grafiek waarbij m en q kunnen aangepast worden en het nulpunt is aangeduid. Onder de grafiek staat het tekenschema. We duiden het nulpunt en de regio's voor en na het nulpunt zowel aan op de grafiek als in het tekenschema. We duiden ook op de grafiek aan waar de rechte onder en boven de x-as ligt en verbinden dit met de tekens in het tekenschema.)
 
