@@ -88,53 +88,24 @@ const getAngleFromAlign = (hAlign, vAlign) => {
 
 const getNodeParents = node => (node.parentElement ? getNodeParents(node.parentElement) : []).concat([node]);
 
-
-const getGlobalToLocalMatrix = (el: Element) => {
-    /**
-     * Transform a point defined in root SVG coordinates to a point in the
-     * local coordate system.
-     **/
-    const svgRoot = el.closest("svg.drawing");
-    let revParents = getNodeParents(el).reverse();
-
-    // Skip MathJax group transforms
-    const mjxIdx = revParents.findIndex(node => node.hasAttribute('jax'));
-    if (mjxIdx !== -1) {
-        revParents = revParents.slice(mjxIdx);
-    }
-
-    // Find matrix that undoes all transforms
-    const tfmMatrix = revParents.filter(node => node instanceof SVGGElement
-        && node.hasAttribute('transform')
-    ).reduce((prev, curr) =>
-        prev.multiply(curr.getCTM().inverse()),
-        svgRoot.createSVGMatrix()
-    );
-    return tfmMatrix;
-}
-
-
 const getElCoord = (el: Element, hAlign: string, vAlign: string) => {
-    const rect = el.getBoundingClientRect()
-    const svgRoot = el.closest("svg.drawing");
-    const originRect = svgRoot?.getBoundingClientRect();
+    const rect = el.getBoundingClientRect();
 
     const [tLeft, tTop, tRight, tBottom] = [
-        rect?.left - (originRect?.x || 0),
-        rect?.top - (originRect?.y || 0),
-        rect?.right - (originRect?.x || 0),
-        rect?.bottom - (originRect?.y || 0),
+        rect?.left,
+        rect?.top,
+        rect?.right,
+        rect?.bottom,
     ];
     const [tCenterX, tCenterY] = [
         tLeft + rect?.width/2,
         tTop + rect?.height/2,
     ];
 
-    const point = svgRoot.createSVGPoint();
-    point.x = hAlign === "left" ? tLeft : (hAlign === "right" ? tRight : tCenterX);
-    point.y = vAlign === "top" ? tTop : (vAlign === "bottom" ? tBottom : tCenterY);
+    const x = hAlign === "left" ? tLeft : (hAlign === "right" ? tRight : tCenterX);
+    const y = vAlign === "top" ? tTop : (vAlign === "bottom" ? tBottom : tCenterY);
 
-    return point;
+    return new DOMPoint(x, y);
 }
 
 
@@ -190,13 +161,10 @@ export const AnnotArrow = ({
 
     const annotArrowsRef = React.useRef(target.map(t => null));
 
-    const globalAnnotCoord = convertToCoord(annot, hAlignAnnot, vAlignAnnot);
-    const globalTargetCoords = target.map(t => convertToCoord(t, hAlignTarget, vAlignTarget));
+    const annotCoord = convertToCoord(annot, hAlignAnnot, vAlignAnnot);
+    const targetCoords = target.map(t => convertToCoord(t, hAlignTarget, vAlignTarget));
     const prevGAnnotRef = React.useRef<SVGPoint|null>(null);
     const prevGTargetRef = React.useRef<SVGPoint[]|null[]>(target.map(t => null));
-
-    const [annotCoord, setAnnotCoord] = React.useState<SVGPoint>(globalAnnotCoord);
-    const [targetCoords, setTargetCoords] = React.useState<SVGPoint[]>(globalTargetCoords);
 
     const comparePoints = (p1: SVGPoint|null, p2: SVGPoint|null, precision=2) => {
         if (p1 === p2) {
@@ -208,42 +176,8 @@ export const AnnotArrow = ({
         )
     };
 
-    // Returned coordinates are wrt root svg coordinate system, but ArrowLine
-    // might have other coordinate system!
-    React.useEffect(() => {
-        if (
-            comparePoints(prevGAnnotRef.current, globalAnnotCoord)
-            && prevGTargetRef.current.length === globalTargetCoords.length
-            && prevGTargetRef.current.every((p, i) => comparePoints(p, globalTargetCoords[i]))
-        ) {
-            return;
-        }
-        annotArrowsRef.current.forEach(node => {
-            if (node === null) {
-                return;
-            }
-            const tfmMatrix = getGlobalToLocalMatrix(node);
-            const localAnnotCoord = (
-                globalAnnotCoord !== null ?
-                globalAnnotCoord.matrixTransform(tfmMatrix)
-                : null
-            );
-            const localTargetCoords = globalTargetCoords.map((targetCoord, i) => (
-                targetCoord !== null ?
-                targetCoord.matrixTransform(tfmMatrix)
-                : null
-            ));
-
-            setAnnotCoord(localAnnotCoord);
-            setTargetCoords(localTargetCoords);
-
-            prevGAnnotRef.current = globalAnnotCoord;
-            prevGTargetRef.current = globalTargetCoords;
-        });
-    }, [globalAnnotCoord, globalTargetCoords]);
-
     return (
-        <>
+        <svg width="100%" height="100%" style={{position: "absolute", left: 0, top: 0}}>
             {
                 target.map((t, i) => (
                     <g key={i} ref={node => { annotArrowsRef.current[i] = node }}>
@@ -261,7 +195,7 @@ export const AnnotArrow = ({
                     </g>
                 ))
             }
-        </>
+        </svg>
     );
 };
 
