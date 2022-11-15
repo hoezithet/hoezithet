@@ -264,3 +264,15 @@ export const AnnotArrow = ({
         </>
     );
 };
+
+export const useAnnotArrow = (props: AnnotArrowProps) => {
+    const [arrow, setArrow] = React.useState(null);
+
+    React.useEffect(() => {
+        setArrow(
+            <AnnotArrow {...props} />
+        );
+    }, [...Object.values(props)]);
+
+    return arrow;
+};
