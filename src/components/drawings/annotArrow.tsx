@@ -238,14 +238,14 @@ export const AnnotArrow = ({
     );
 };
 
-export const useAnnotArrow = (props: AnnotArrowProps) => {
+export const useAnnotArrow = (props: AnnotArrowProps, extraDeps=[]) => {
     const [arrow, setArrow] = React.useState(null);
 
     React.useEffect(() => {
         setArrow(
             <AnnotArrow {...props} />
         );
-    }, [...Object.values(props)]);
+    }, [...Object.values(props), ...extraDeps]);
 
     return arrow;
 };
