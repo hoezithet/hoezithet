@@ -5,7 +5,7 @@ import Slider from '@mui/material/Slider';
 import { Drawing, DrawingContext } from "components/drawings/drawing";
 import DrawingGrid from "components/drawings/drawingGrid";
 import { Annot } from "components/drawings/annot";
-import { AnnotArrow } from "components/drawings/annotArrow";
+import { useAnnotArrow } from "components/drawings/annotArrow";
 import { Fx } from "components/drawings/fx";
 import { Plot } from "components/drawings/plot";
 import { getColor } from "colors";
@@ -55,8 +55,6 @@ const DiffQuotPoints = ({
     const ricoId = useId();
     const fracRicoId = useId();
 
-    const [arrows, setArrows] = React.useState([]);
-
     const [x1Px, y1Px] = [xScale(x1), yScale(y1)];
     const [x2Px, y2Px] = [xScale(x2), yScale(y2)];
     const [x1PxAnnot, y1PxAnnot] = [x1Px, y1Px];
@@ -78,15 +76,20 @@ const DiffQuotPoints = ({
     const accolAnnotProps = {
         showBackground: true
     };
+    const arrowDeps = [x1Px, y1Px, x2Px, y2Px];
+    const arrowTeller = useAnnotArrow({
+        annot: `#${dXAccolId}`,
+        target: `#${noemerId}`,
+        targetAlign: "bottom left",
+        annotAlign: "center right"
+    }, arrowDeps);
+    const arrowNoemer = useAnnotArrow({
+        annot: `#${dYAccolId}`,
+        target: `#${tellerId}`,
+        targetAlign: "top right",
+        annotAlign: "bottom center"
+    }, arrowDeps);
 
-    React.useEffect(() => {
-        setArrows([
-            <AnnotArrow annot={`#${dXAccolId}`} target={`#${noemerId}`} targetAlign="bottom left" annotAlign="center right" />,
-            <AnnotArrow annot={`#${dYAccolId}`} target={`#${tellerId}`} targetAlign="top right" annotAlign="bottom center" />,
-            //<AnnotArrow annot={`#${ricoId}`} target={`#${fracRicoId}`} targetAlign="top right" annotAlign="bottom center" hideHead />
-        ]);
-    }, [x1Px, y1Px, x2Px, y2Px]);
-    
     const xAccHeight = x2Px - x1Px;
 
     return (
@@ -117,14 +120,8 @@ const DiffQuotPoints = ({
             <Annot x={fracAnnotX} y={fracAnnotY} align={m >= 0 ? "top left" : "bottom left"} textPadding={fracAnnotPadding} showBackground>
                 {String.raw`$\frac{\htmlId{${tellerId}}{${toComma(y2 - y1)}}}{\htmlId{${noemerId}}{${x2 - x1 === 1 ? "\\cancel{" + toComma(x2 - x1) + "}" : toComma(x2 - x1)}}} = \htmlId{${fracRicoId}}{${toComma((y2 - y1)/(x2 - x1))}}$`}
             </Annot>
-           {/**<Annot x={xScale(annotX)} y={yScale(annotY)} align={annotAlign} textPadding={annotPadding} color={pFill}>
-                {String.raw`$y = \htmlId{${ricoId}}{${m !== 0 ? (
-                    m === 1 ? 'x' : (
-                        m === -1 ? '-x' : `${mStr}\\cdot x` 
-                    )
-                ): ""}}${qStr}$`}
-            </Annot>**/}
-            { arrows }
+            { arrowTeller }
+            { arrowNoemer }
         </>
     );
 };
