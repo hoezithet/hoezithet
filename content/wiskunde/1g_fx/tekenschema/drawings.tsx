@@ -1,9 +1,11 @@
 import React from "react";
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
 import { Drawing, DrawingContext } from "components/drawings/drawing";
 import DrawingGrid from "components/drawings/drawingGrid";
 import { Annot } from "components/drawings/annot";
@@ -27,20 +29,20 @@ const toComma = s => {
   return `${s}`.replace('.', '{,}');
 };
 
-const Voorschrift1G = ({m, q}) => {
+const Voorschrift1G = ({m, q, ...props}) => {
     const mStr = toComma(m);
     const qStr = toComma(`${q === 0 && m !== 0 ? "" : (
         q >= 0 && m !== 0 ? "+" + q : q
     )}`);
     return (
-      <Markdown>
+      <Annot {...props}>
         { String.raw`$f(x) = ${
           m !== 0 ?
           (m === 1 ? 'x'
             : (m === -1 ? '-x'
                : `${mStr}\\cdot x`))
           : ""}${qStr}$` }
-      </Markdown>
+      </Annot>
     );
 }
 
@@ -103,7 +105,7 @@ export const FxValueSlider = ({
 
 
 export const _NulpuntGraph1G = ({
-    m, q, nSignId, pSignId, zeroId
+    m, q, nSignId, pSignId, zeroId, showSigns=false, showFx=false
 }) => {
     const fx = x => m*x + q;
     const zero = -q/m;
@@ -139,59 +141,83 @@ export const _NulpuntGraph1G = ({
     const nx4 = m <= 0 ? width : 0;
 
     const signSize = yScale.metric(3);
-    const pSignX = xScale(zero)/3 + (m < 0 ? 0 : width*2/3);
-    const pSignY = yScale(0)*2/3 + Math.max(0, m < 0 ? sectLeftY : sectRightY)/3;
+    const pSignX = m === 0 ? xScale(0) : (xScale(zero)/3 + (m < 0 ? 0 : width*2/3));
+    const pSignY = m === 0 ? yScale(q/2) : (yScale(0)*2/3 + Math.max(0, m < 0 ? sectLeftY : sectRightY)/3);
 
-    const nSignX = xScale(zero)/3 + (m > 0 ? 0 : width*2/3);
-    const nSignY = yScale(0)*2/3 + Math.min(height, m > 0 ? sectLeftY : sectRightY)/3;
+    const nSignX = m === 0 ? xScale(0) : (xScale(zero)/3 + (m > 0 ? 0 : width*2/3));
+    const nSignY = m === 0 ? yScale(q/2) : (yScale(0)*2/3 + Math.min(height, m > 0 ? sectLeftY : sectRightY)/3);
+
+    const zeroX = xScale(zero);
+    const zeroY = yScale(0);
 
     return (
         <>
             {
-              (q > 0 || m !== 0) ?
+              (q > 0 || m !== 0) && showSigns ?
               <>
                 <path d={`M ${px1},${py1} H ${px2} L ${px3},${py3} H ${px4} Z`} fill={getColor("green")} fillOpacity={signRegionOpacity}/>
-                <Annot x={pSignX} y={pSignY} align="center center" color="green" fontSize={signSize}>
-                {`$\\htmlId{${pSignId}}{+}$`}
-                </Annot>
+                { pSignX > 0 && pSignX < width ?
+                    <Annot x={pSignX} y={pSignY} align="center center" color="green" fontSize={signSize}>
+                    {`$\\htmlId{${pSignId}}{+}$`}
+                    </Annot>
+                    : null }
               </>
               : null
             }
             {
-              (q < 0 || m !== 0) ?
+              (q < 0 || m !== 0) && showSigns ?
               <>
                 <path d={`M ${nx1},${ny1} H ${nx2} L ${nx3},${ny3} H ${nx4} Z`} fill={getColor("red")} fillOpacity={signRegionOpacity}/>
-                <Annot x={nSignX} y={nSignY} align="center center" color="red" fontSize={signSize}>
-                {`$\\htmlId{${nSignId}}{-}$`}
-                </Annot>
+                { nSignX > 0 && nSignX < width ?
+                    <Annot x={nSignX} y={nSignY} align="center center" color="red" fontSize={signSize}>
+                    {`$\\htmlId{${nSignId}}{-}$`}
+                    </Annot>
+                    : null }
               </>
               : null
             }
             <Fx fx={fx} />
-            { m !== 0 ?
+            { m !== 0 && (zeroX > 0 && zeroX < width) ?
               <>
-              <Annot x={xScale(zero)} y={yScale(0)} align="top center" textPadding={xScale.metric(0.5)} showBackground backgroundOpacity={0.5}>
-                {String.raw`Nulpunt $(\htmlId{${zeroId}}{${toComma(zero)}}; 0)$`}
+              <Annot x={zeroX} y={zeroY} align="top center" textPadding={xScale.metric(0.5)} showBackground backgroundOpacity={0.8}>
+                {String.raw`Nulpunt $(\htmlId{${zeroId}}{\orange{${toComma(zero)}}}; 0)$`}
               </Annot>
               <circle cx={xScale(zero)} cy={yScale(0)} r={xScale.metric(0.2)} fill={getColor("orange")} />
              </>
              : null }
+            { showFx ? <Voorschrift1G m={m} q={q} x={m > 0 ? width/20 : width*19/20} y={height/20} align={ m > 0 ? "top left" : "top right"} /> : null }
         </>
   );
 };
 
 export const NulpuntGraph1G = (props) => <Plot><_NulpuntGraph1G {...props} /></Plot>;
 
-export const Tekenschema1G = ({m, q, nSignId, pSignId, zeroId}) => {
+export const Tekenschema1G = ({m, q, nSignId=null, pSignId=null, zeroId=null, useColors=false}) => {
+    const plus = `$\\htmlId{${pSignId}}{` + (useColors ? `\\green{+}` : `+`) + `}$`;
+    const minus = `$\\htmlId{${nSignId}}{` + (useColors ? `\\red{-}` : `-`) + `}$`;
+    const zero = `$0$`;
+    const zeroStr = toComma(-q/m);
+    const zeroValue = `$\\htmlId{${zeroId}}{` + (useColors ? `\\orange{${zeroStr}}` : zeroStr) + `}$`;
+
+    const Table = styled('table')({
+        borderCollapse: "collapse",
+        "& th:first-child, td:first-child": {
+            borderRight: `1px solid ${getColor("dark_gray")}`,
+        },
+        "& tr:first-child": {
+            borderBottom: `1px solid ${getColor("dark_gray")}`,
+        }
+    });
+
     return (
-        <table>
+        <Table>
           <tr>
             <th><Markdown>{ `$x$` }</Markdown></th>
             <th><Markdown>{ `$-\\infty$` }</Markdown></th>
             { m !== 0 ?
                 <>
                   <th></th>
-                  <th><Markdown>{ `$\\htmlId{${zeroId}}{${toComma(-q/m)}}$` }</Markdown></th>
+                  <th><Markdown>{ zeroValue }</Markdown></th>
                   <th></th>
                 </>
                 : <th></th> }
@@ -202,17 +228,17 @@ export const Tekenschema1G = ({m, q, nSignId, pSignId, zeroId}) => {
             <td></td>
             { m !== 0 ?
               <>
-                <td><Markdown>{ m > 0 ? `$\\htmlId{${nSignId}}{-}$` : `$\\htmlId{${pSignId}}{+}$` }</Markdown></td>
-                <td><Markdown>{ `$0$` }</Markdown></td>
-                <td><Markdown>{ m < 0 ? `$\\htmlId{${nSignId}}{-}$` : `$\\htmlId{${pSignId}}{+}$` }</Markdown></td>
+                <td><Markdown>{ m > 0 ? minus : plus }</Markdown></td>
+                <td><Markdown>{ zero }</Markdown></td>
+                <td><Markdown>{ m < 0 ? minus : plus }</Markdown></td>
               </>
               :
               <>
-                <td><Markdown>{ q > 0 ? `$\\htmlId{${pSignId}}{+}$` : (q < 0 ? `$\\htmlId{${nSignId}}{-}$` : `$0$`) }</Markdown></td>
+                <td><Markdown>{ q > 0 ? plus : (q < 0 ? minus : zero) }</Markdown></td>
               </> }
             <td></td>
           </tr>
-        </table>
+        </Table>
     );
 }
 
@@ -228,8 +254,30 @@ export const InteractiveTekenschema = ({
     const pSignIdGraph = useId();
     const nSignIdTable = useId();
     const pSignIdTable = useId();
-    const nArrow = useAnnotArrow({annot: `#${nSignIdGraph}`, target: `#${nSignIdTable}`}, [m, q]);
-    const pArrow = useAnnotArrow({annot: `#${pSignIdGraph}`, target: `#${pSignIdTable}`}, [m, q]);
+    const zeroGraphId = useId();
+    const zeroTableId = useId();
+    const arrowProps = {
+        anchorRadius: 100,
+        annotAlign: "bottom center",
+        margin: 20,
+        color: "dark_gray"
+    };
+    const nArrow = useAnnotArrow({
+        annot: `#${nSignIdGraph}`, target: `#${nSignIdTable}`,
+        ...arrowProps,
+        color: "red",
+    }, [m, q]);
+    const pArrow = useAnnotArrow({
+        annot: `#${pSignIdGraph}`, target: `#${pSignIdTable}`,
+        ...arrowProps,
+        color: "green",
+    }, [m, q]);
+    const zeroArrow = useAnnotArrow({
+        annot: `#${zeroGraphId}`, target: `#${zeroTableId}`,
+        ...arrowProps,
+        margin: 10,
+        color: "orange",
+    }, [m, q]);
 
     const handleChangeM = (event, newValue) => {
         if (checkM(newValue)) {
@@ -247,10 +295,17 @@ export const InteractiveTekenschema = ({
     };
 
     return (
-        <Stack alignItems="center" spacing={2} style={{position: "relative"}}>
-            <Paper sx={{ width: 400, p: 2 }}>
-                <Markdown>{"Kies $m$ en $q$:"}</Markdown>
-                <Stack direction="column" spacing={2} alignItems="center">
+        <Grid container spacing={2} alignItems="center">
+            <Grid xs={12} sm={8} item overflow="hidden">
+                <Plot>
+                    <_NulpuntGraph1G m={m} q={q} nSignId={nSignIdGraph} pSignId={pSignIdGraph} zeroId={zeroGraphId} showSigns showFx />
+                </Plot>
+                <Tekenschema1G m={m} q={q} nSignId={nSignIdTable} pSignId={pSignIdTable} zeroId={zeroTableId} useColors/>
+                { nArrow }
+                { pArrow }
+                { zeroArrow }
+            </Grid>
+            <Grid xs={12} sm={4} item textAlign="center">
                 { mSlider ?
                     <>
                         <Markdown>{ `$m = ${toComma(m)}$` }</Markdown>
@@ -263,13 +318,7 @@ export const InteractiveTekenschema = ({
                         <Slider aria-label="snijpunt y-as" value={q} onChange={handleChangeQ} {...sliderProps} />
                     </>
                     : null }
-                </Stack>
-            </Paper>
-            <Voorschrift1G m={m} q={q} />
-            <NulpuntGraph1G m={m} q={q} nSignId={nSignIdGraph} pSignId={pSignIdGraph}/>
-            <Tekenschema1G m={m} q={q} nSignId={nSignIdTable} pSignId={pSignIdTable}/>
-            { nArrow }
-            { pArrow }
-        </Stack>
+            </Grid>
+        </Grid>
     );
 };
