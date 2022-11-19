@@ -216,7 +216,7 @@ export const AnnotArrow = ({
     ]);
 
     return (
-        <svg ref={svgRef} style={{overflow: "visible", position: "absolute"}}>
+        <svg ref={svgRef} style={{overflow: "visible", position: "absolute", pointerEvents: "none"}}>
             {
                 target.map((t, i) => (
                     <g key={i} ref={node => { annotArrowsRef.current[i] = node }}>
