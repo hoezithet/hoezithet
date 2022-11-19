@@ -96,12 +96,6 @@ const getGlobalToLocalMatrix = (el: Element): DOMMatrix => {
      **/
     let revParents = getNodeParents(el).reverse();
 
-    // Skip MathJax group transforms
-    const mjxIdx = revParents.findIndex(node => node.hasAttribute('jax'));
-    if (mjxIdx !== -1) {
-        revParents = revParents.slice(mjxIdx);
-    }
-
     // Find matrix that undoes all transforms
     const tfmMatrix = revParents.filter(node => node instanceof SVGGElement
         && node.hasAttribute('transform')
