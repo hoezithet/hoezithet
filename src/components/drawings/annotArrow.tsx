@@ -185,32 +185,19 @@ export const AnnotArrow = ({
     target = Array.isArray(target) && target.length > 0 && typeof target[0] !== "number" ? target : [target];
 
     const annotArrowsRef = React.useRef(target.map(t => null));
-    const svgRef = React.useRef<SVGSVGElement|null>(null);
+    const [svgNode, setSvgNode] = React.useState<SVGSVGElement|null>(null);
 
-    const [annotCoord, setAnnotCoord] = React.useState<SVGPoint|null>(null);
-    const [targetCoords, setTargetCoords] = React.useState<SVGPoint[]>([]);
-
-    let newAnnotCoord: DOMPoint|null = null;
-    let newTargetCoords: DOMPoint[] = target.map(t => null);
-    if (svgRef.current !== null) {
-        const svgNode = svgRef.current;
-        newAnnotCoord = convertToCoord(annot, svgNode, hAlignAnnot, vAlignAnnot);
-        newTargetCoords = target.map(t => 
+    let annotCoord: DOMPoint|null = null;
+    let targetCoords: DOMPoint[] = target.map(t => null);
+    if (svgNode !== null) {
+        annotCoord = convertToCoord(annot, svgNode, hAlignAnnot, vAlignAnnot);
+        targetCoords = target.map(t =>
             convertToCoord(t, svgNode, hAlignTarget, vAlignTarget)
         );
     }
 
-    React.useEffect(() => {
-        setAnnotCoord(newAnnotCoord);
-        setTargetCoords(newTargetCoords);
-    }, [
-        newAnnotCoord?.x, newAnnotCoord?.y,
-        ...newTargetCoords.map(t => t?.x),
-        ...newTargetCoords.map(t => t?.y),
-    ]);
-
     return (
-        <svg ref={svgRef} style={{overflow: "visible", position: "absolute", pointerEvents: "none"}}>
+        <svg ref={(node) => setSvgNode(node)} style={{overflow: "visible", position: "absolute", pointerEvents: "none"}}>
             {
                 target.map((t, i) => (
                     <g key={i} ref={node => { annotArrowsRef.current[i] = node }}>
