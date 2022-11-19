@@ -267,7 +267,7 @@ export const InteractiveTekenschema = ({
             </Paper>
             <Voorschrift1G m={m} q={q} />
             <NulpuntGraph1G m={m} q={q} nSignId={nSignIdGraph} pSignId={pSignIdGraph}/>
-            <Tekenschema1G m={m} q={q} nSignId={nSignIdGraph} pSignId={pSignIdGraph}/>
+            <Tekenschema1G m={m} q={q} nSignId={nSignIdTable} pSignId={pSignIdTable}/>
             { nArrow }
             { pArrow }
         </Stack>
