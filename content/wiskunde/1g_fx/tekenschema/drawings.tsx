@@ -228,8 +228,8 @@ export const InteractiveTekenschema = ({
     const pSignIdGraph = useId();
     const nSignIdTable = useId();
     const pSignIdTable = useId();
-    const nArrow = useAnnotArrow({annot: `#${nSignIdGraph}`, target: `#${nSignIdTable}`});
-    const pArrow = useAnnotArrow({annot: `#${pSignIdGraph}`, target: `#${pSignIdTable}`});
+    const nArrow = useAnnotArrow({annot: `#${nSignIdGraph}`, target: `#${nSignIdTable}`}, [m, q]);
+    const pArrow = useAnnotArrow({annot: `#${pSignIdGraph}`, target: `#${pSignIdTable}`}, [m, q]);
 
     const handleChangeM = (event, newValue) => {
         if (checkM(newValue)) {
