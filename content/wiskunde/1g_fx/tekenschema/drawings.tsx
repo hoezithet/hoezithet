@@ -46,6 +46,11 @@ const Voorschrift1G = ({m, q, ...props}) => {
     );
 }
 
+const valToMark = x => ({
+    value: x,
+    label: `${toComma(x)}`
+});
+
 export const FxValueSlider = ({
     x, m, q, xMin, xMax, xStep, markMin, markMax, markStep, extraMarks=[]
 }) => {
@@ -58,11 +63,6 @@ export const FxValueSlider = ({
         }
         setX(newValue);
     };
-
-    const valToMark = x => ({
-        value: x,
-        label: `${toComma(x)}`
-    });
 
     const marks = _range(markMin, markMax + markStep, markStep).map(valToMark)
     extraMarks.forEach(x => marks.push(valToMark(x)));
@@ -192,13 +192,7 @@ export const _NulpuntGraph1G = ({
 
 export const NulpuntGraph1G = (props) => <Plot><_NulpuntGraph1G {...props} /></Plot>;
 
-export const Tekenschema1G = ({m, q, nSignId=null, pSignId=null, zeroId=null, useColors=false}) => {
-    const plus = `$\\htmlId{${pSignId}}{` + (useColors ? `\\green{+}` : `+`) + `}$`;
-    const minus = `$\\htmlId{${nSignId}}{` + (useColors ? `\\red{-}` : `-`) + `}$`;
-    const zero = `$0$`;
-    const zeroStr = toComma(-q/m);
-    const zeroValue = `$\\htmlId{${zeroId}}{` + (useColors ? `\\orange{${zeroStr}}` : zeroStr) + `}$`;
-
+export const FxTable = ({xs, ys}) => {
     const Table = styled('table')({
         borderCollapse: "collapse",
         "& th:first-child, td:first-child": {
@@ -213,33 +207,59 @@ export const Tekenschema1G = ({m, q, nSignId=null, pSignId=null, zeroId=null, us
         <Table>
           <tr>
             <th><Markdown>{ `$x$` }</Markdown></th>
-            <th><Markdown>{ `$-\\infty$` }</Markdown></th>
-            { m !== 0 ?
-                <>
-                  <th></th>
-                  <th><Markdown>{ zeroValue }</Markdown></th>
-                  <th></th>
-                </>
-                : <th></th> }
-            <th><Markdown>{ `$+\\infty$` }</Markdown></th>
+            {
+                xs.map((x, i) => <th key={i}><Markdown>{ x }</Markdown></th>)
+            }
           </tr>
           <tr>
             <td><Markdown>{ `$f(x)$` }</Markdown></td>
-            <td></td>
-            { m !== 0 ?
-              <>
-                <td><Markdown>{ m > 0 ? minus : plus }</Markdown></td>
-                <td><Markdown>{ zero }</Markdown></td>
-                <td><Markdown>{ m < 0 ? minus : plus }</Markdown></td>
-              </>
-              :
-              <>
-                <td><Markdown>{ q > 0 ? plus : (q < 0 ? minus : zero) }</Markdown></td>
-              </> }
-            <td></td>
+            {
+                ys.map((y, i) => <td key={i}><Markdown>{ y }</Markdown></td>)
+            }
           </tr>
         </Table>
     );
+};
+
+export const Tekenschema1G = ({m, q, nSignId=null, pSignId=null, zeroId=null, useColors=false}) => {
+    const plus = `$\\htmlId{${pSignId}}{` + (useColors ? `\\green{+}` : `+`) + `}$`;
+    const minus = `$\\htmlId{${nSignId}}{` + (useColors ? `\\red{-}` : `-`) + `}$`;
+    const zero = `$0$`;
+    const zeroStr = toComma(-q/m);
+    const zeroValue = `$\\htmlId{${zeroId}}{` + (useColors ? `\\orange{${zeroStr}}` : zeroStr) + `}$`;
+
+    const xs = [
+        `$-\\infty$`,
+        ...(
+            m !== 0 ?
+            [
+                '',
+                zeroValue,
+                ''
+            ]
+            : [
+                ''
+            ]
+        ),
+        `$+\\infty$`
+    ];
+
+    const ys = [
+        '',
+        ...(
+            m !== 0 ?
+            [
+                m > 0 ? minus : plus,
+                zero,
+                m < 0 ? minus : plus
+            ]
+            : [
+                q > 0 ? plus : (q < 0 ? minus : zero)
+            ]
+        ),
+    ]
+
+    return <FxTable xs={xs} ys={ys}/>;
 }
 
 export const InteractiveTekenschema = ({
@@ -289,21 +309,25 @@ export const InteractiveTekenschema = ({
     };
 
     const sliderProps = {
-        step: 0.1,
-        min: -10,
-        max: 10
+        step: 0.01,
+        min: -15,
+        max: 15,
+        marks: _range(-15, 20, 5).map(valToMark),
+        getAriaValueText: x => `${toComma(x)}`,
     };
 
     return (
         <Grid container spacing={2} alignItems="center">
             <Grid xs={12} sm={8} item overflow="hidden">
-                <Plot>
-                    <_NulpuntGraph1G m={m} q={q} nSignId={nSignIdGraph} pSignId={pSignIdGraph} zeroId={zeroGraphId} showSigns showFx />
-                </Plot>
-                <Tekenschema1G m={m} q={q} nSignId={nSignIdTable} pSignId={pSignIdTable} zeroId={zeroTableId} useColors/>
-                { nArrow }
-                { pArrow }
-                { zeroArrow }
+                <Stack spacing={1}>
+                    <Plot>
+                        <_NulpuntGraph1G m={m} q={q} nSignId={nSignIdGraph} pSignId={pSignIdGraph} zeroId={zeroGraphId} showSigns showFx />
+                    </Plot>
+                    <Tekenschema1G m={m} q={q} nSignId={nSignIdTable} pSignId={pSignIdTable} zeroId={zeroTableId} useColors/>
+                    { nArrow }
+                    { pArrow }
+                    { zeroArrow }
+                </Stack>
             </Grid>
             <Grid xs={12} sm={4} item textAlign="center">
                 { mSlider ?
