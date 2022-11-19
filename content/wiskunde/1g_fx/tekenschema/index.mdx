@@ -13,7 +13,7 @@ $$
 
 Voor deze functie zullen x-waarden kleiner dan $4$ een **positieve functiewaarde** geven (hoe we aan die $4$ komen, leggen we later uit):
 
-import { FxValueSlider, InteractiveTekenschema } from "./drawings"
+import { FxValueSlider, InteractiveTekenschema, Tekenschema1G } from "./drawings"
 
 <FxValueSlider x={3.99} m={-3} q={12} xMin={-10} xMax={3.99} xStep={0.01} markMin={-10} markMax={10} markStep={5} />
 
@@ -34,37 +34,37 @@ $$
 
 Samengevat:
 
-- Als $x < 4$, dan is $f(x) > 0$
-- Als $x = 4$, dan is $f(x) = 0$
-- Als $x > 4$, dan is $f(x) < 0$
+- Als $x < \orange{4}$, dan is $f(x) \green{> 0}$
+- Als $x = \orange{4}$, dan is $f(x) = 0$
+- Als $x > \orange{4}$, dan is $f(x) \red{< 0}$
 
 Dit zetten we als volgt in een tekenschema:
 
-| $x$ | $-\infty$ |  | $4$ | | $+\infty$ |
-|---|-----------|--|-----|-|-----------|
-| $f(x)$ |        | $+$ | $0$  | $-$ | |
+<Tekenschema1G m={-3} q={12} useColors/>
 
-Het tekenschema toont dat wanneer $x$ tussen $-\infty$ en $4$ ligt (en dus kleiner is dan $4$), dat $f(x)$ dan positief is ($+$). Wanneer $x$ gelijk is aan $4$, zien we in het tekenschema dat $f(x)$ gelijk is aan $0$. Wanneer $x$ ten slotte tussen $4$ en $+\infty$ ligt, toont het tekenschema dat $f(x)$ negatief is ($-$).
+Het tekenschema toont dat wanneer $x$ tussen $-\infty$ en $4$ ligt (en dus kleiner is dan $4$), dat $f(x)$ dan positief is ($\green{+}$). Wanneer $x$ gelijk is aan $4$, zien we in het tekenschema dat $f(x)$ gelijk is aan $0$. Wanneer $x$ ten slotte tussen $4$ en $+\infty$ ligt, toont het tekenschema dat $f(x)$ negatief is ($\red{-}$).
 
 Maar waar komt die $4$ juist vandaan? En hoe kunnen we zo'n tekenschema gaan maken voor andere eerstegraadsfuncties? Dit leggen we uit in de volgende paragraaf.
 
 ## Stappenplan om tekenschema van eerstegraadsfunctie op te stellen
 
-We weten dat [de grafiek van een eerstegraadsfunctie](../grafiek) een rechte is. Die rechte snijdt de x-as exact één keer. Dit snijpunt is het nulpunt van de grafiek.
+We weten dat [de grafiek van een eerstegraadsfunctie](../grafiek) een rechte is. Die rechte snijdt de x-as exact één keer. Dit snijpunt is het nulpunt van de grafiek. Hieronder zie je bijvoorbeeld de grafiek van de functie $f(x) = -3x + 12$ met het nulpunt aangeduid.
 
 import {NulpuntGraph1G} from "./drawings"
 
 <NulpuntGraph1G m={-3} q={12} />
 
-Als **de [rico](../rico) ($m$) van een functie kleiner is dan nul**, dan zal de grafiek van de functie **dalen** en dan zal de grafiek **vòòr het nulpunt *boven* de x-as** liggen en **na het nulpunt *onder* de x-as**. Vòòr het nulpunt hebben we dus *positieve* functiewaarden en na het nulpunt hebben we *negatieve* functiewaarden.
+Omdat de [rico](../rico) ($m$) van de functie kleiner is dan nul, daalt de grafiek. We zien dat de grafiek **vòòr het nulpunt *boven* de x-as** liggen en **na het nulpunt *onder* de x-as**. Vòòr het nulpunt hebben we dus *positieve* functiewaarden en na het nulpunt hebben we *negatieve* functiewaarden.
 
-<InteractiveTekenschema m={-3} q={12} mSlider qSlider checkM={m => true} />
+In de onderstaande interactieve illustratie kan je zelf de waarde van $m$ veranderen naar andere negatieve waarden om zo de grafiek en het tekenschema van andere functies te verkrijgen. Je ziet dat voor eender welke negatieve waarde van $m$, de functie altijd *van positief naar negatief* gaat.
 
-(illustratie: grafiek waarbij m en q kunnen aangepast worden en het nulpunt is aangeduid. Onder de grafiek staat het tekenschema. We duiden het nulpunt en de regio's voor en na het nulpunt zowel aan op de grafiek als in het tekenschema. We duiden ook op de grafiek aan waar de rechte onder en boven de x-as ligt en verbinden dit met de tekens in het tekenschema.)
+<InteractiveTekenschema m={-3} q={12} mSlider qSlider checkM={m => m < 0} />
 
 Wanneer **$m$ *groter* is dan nul**, dan zal de grafiek van de functie **stijgen** en dan zal de grafiek **vòòr het nulpunt *onder* de x-as** liggen en **na het nulpunt *boven* de x-as**. Vòòr het nulpunt hebben we dus *negatieve* functiewaarden en na het nulpunt hebben we *positieve* functiewaarden.
 
-(zelfde soort illustratie)
+We zien in de onderstaande illustratie inderdaad dat voor eender welke positieve waarde van $m$, de functie altijd *van negatief naar positief* gaat.
+
+<InteractiveTekenschema m={1} q={1} mSlider qSlider checkM={m => m > 0} />
 
 In het algemeen zien we dus het volgende:
 
@@ -72,9 +72,13 @@ In het algemeen zien we dus het volgende:
 - Het nulpunt zelf heeft een y-coördinaat gelijk aan $0$.
 - De punten na het nulpunt hebben y-coördinaten met *hetzelfde teken* als $m$.
 
-(zelfde soort illustratie)
+In de volgende illustratie kan je zowel positieve als negatieve waarden voor $m$ kiezen. Verander de waarde van $m$ en ga op die manier zelf na dat de bovenstaande vaststellingen kloppen.
+
+<InteractiveTekenschema m={1} q={1} mSlider qSlider />
 
 Deze vaststellingen kunnen we gebruiken om een stappenplan te maken voor het opstellen van het tekenschema van eender welke eerstegraadsfunctie. Herinner je hierbij dat de x-coördinaat van [het nulpunt van een eerstegraadsfunctie](../nulpunt) altijd gelijk is aan $\frac{-q}{m}$. *Vòòr* en *na* het nulpunt is dus hetzelfde als vòòr en na x-waarde $\frac{-q}{m}$.
+
+import { FxTable } from "./drawings"
 
 > 💡 Het tekenschema van een eerstegraadsfunctie opstellen
 >
@@ -84,10 +88,7 @@ Deze vaststellingen kunnen we gebruiken om een stappenplan te maken voor het ops
 > 2. Tussen x-waarden $-\infty$ en $\frac{-q}{m}$ zet je in de rij van $f(x)$ het *tegengestelde teken van $m$*.
 > 3. Tussen x-waarden $\frac{-q}{m}$ en $+\infty$ zet je in de rij van $f(x)$ *hetzelfde teken als $m$*.
 >
-> | $x$ | $-\infty$ |  | $\frac{-q}{m}$ | | $+\infty$ |
-> |---|-----------|--|-----|-|-----------|
-> | $f(x)$ |        | Tegengesteld teken van $m$ | $0$  | Zelfde teken als $m$ | |
-
+> <FxTable xs={['$-\\infty$', '', '$\\frac{-q}{m}$', '', '$+\\infty$']} ys={['', 'Tegengesteld teken van $m$', '$0$', 'Zelfde teken als $m$', '']} />
 
 (oefening: stel het tekenschema op van een eerstegraadsfunctie)
 
@@ -102,6 +103,4 @@ Deze vaststellingen kunnen we gebruiken om een stappenplan te maken voor het ops
 > 2. Tussen x-waarden $-\infty$ en $\frac{-q}{m}$ zet je in de rij van $f(x)$ het *tegengestelde teken van $m$*.
 > 3. Tussen x-waarden $\frac{-q}{m}$ en $+\infty$ zet je in de rij van $f(x)$ *hetzelfde teken als $m$*.
 >
-> | $x$ | $-\infty$ |  | $\frac{-q}{m}$ | | $+\infty$ |
-> |---|-----------|--|-----|-|-----------|
-> | $f(x)$ |        | Tegengesteld teken van $m$ | $0$  | Zelfde teken als $m$ | |
+> <FxTable xs={['$-\\infty$', '', '$\\frac{-q}{m}$', '', '$+\\infty$']} ys={['', 'Tegengesteld teken van $m$', '$0$', 'Zelfde teken als $m$', '']} />
