@@ -17,6 +17,7 @@ import withDrawingScale from "components/withDrawingScale";
 import useId from 'hooks/useId';
 import Markdown from "components/markdown";
 import _range from "lodash/range";
+import { Katex } from 'components/katex';
 
 
 const toComma = s => {
@@ -26,7 +27,7 @@ const toComma = s => {
           s = Math.floor(s)
       }
   }
-  return `${s}`.replace('.', '{,}');
+  return `${s}`.replace('.', ',');
 };
 
 const Voorschrift1G = ({m, q, ...props}) => {
@@ -35,13 +36,13 @@ const Voorschrift1G = ({m, q, ...props}) => {
         q >= 0 && m !== 0 ? "+" + q : q
     )}`);
     return (
-      <Annot {...props}>
-        { String.raw`$f(x) = ${
+      <Annot {...props} Wrapper={Katex}>
+        { String.raw`f(x) = ${
           m !== 0 ?
           (m === 1 ? 'x'
             : (m === -1 ? '-x'
                : `${mStr}\\cdot x`))
-          : ""}${qStr}$` }
+          : ""}${qStr}` }
       </Annot>
     );
 }
@@ -85,16 +86,16 @@ export const FxValueSlider = ({
     return (
         <Grid container spacing={2} alignItems="center">
             <Grid item xs={12}>
-                <Markdown>{ String.raw`$$
+                <Katex display>{ String.raw`
                   \begin{aligned}
                     f(${xComma}) &= ${mComma}\cdot ${xBr} ${q < 0 ? "" : "+"} ${qComma}\\
                                  &= ${yComma}\\
                                  &${y > 0 ? "\\gt" : "\\lt"} 0
                   \end{aligned}
-                 $$` }</Markdown>
+                 ` }</Katex>
             </Grid>
             <Grid item xs={3} textAlign="left">
-                <Markdown>{ String.raw`$x = ${xComma}$` }</Markdown>
+                <Katex>{ String.raw`x = ${xComma}` }</Katex>
             </Grid>
             <Grid item xs={9}>
                  <Slider aria-label="x-waarde" value={x} onChange={handleChangeX} {...sliderProps} />
@@ -157,8 +158,8 @@ export const _NulpuntGraph1G = ({
               <>
                 <path d={`M ${px1},${py1} H ${px2} L ${px3},${py3} H ${px4} Z`} fill={getColor("green")} fillOpacity={signRegionOpacity}/>
                 { pSignX > 0 && pSignX < width ?
-                    <Annot x={pSignX} y={pSignY} align="center center" color="green" fontSize={signSize}>
-                    {`$\\htmlId{${pSignId}}{+}$`}
+                    <Annot x={pSignX} y={pSignY} align="center center" color="green" fontSize={signSize} Wrapper={Katex}>
+                    {`\\htmlId{${pSignId}}{+}`}
                     </Annot>
                     : null }
               </>
@@ -169,8 +170,8 @@ export const _NulpuntGraph1G = ({
               <>
                 <path d={`M ${nx1},${ny1} H ${nx2} L ${nx3},${ny3} H ${nx4} Z`} fill={getColor("red")} fillOpacity={signRegionOpacity}/>
                 { nSignX > 0 && nSignX < width ?
-                    <Annot x={nSignX} y={nSignY} align="center center" color="red" fontSize={signSize}>
-                    {`$\\htmlId{${nSignId}}{-}$`}
+                    <Annot x={nSignX} y={nSignY} align="center center" color="red" fontSize={signSize} Wrapper={Katex}>
+                    {`\\htmlId{${nSignId}}{-}`}
                     </Annot>
                     : null }
               </>
@@ -179,8 +180,8 @@ export const _NulpuntGraph1G = ({
             <Fx fx={fx} />
             { m !== 0 && (zeroX > 0 && zeroX < width) ?
               <>
-              <Annot x={zeroX} y={zeroY} align="top center" textPadding={xScale.metric(0.5)} showBackground backgroundOpacity={0.8}>
-                {String.raw`Nulpunt $(\htmlId{${zeroId}}{\orange{${toComma(zero)}}}; 0)$`}
+              <Annot x={zeroX} y={zeroY} align="top center" textPadding={xScale.metric(0.5)} showBackground backgroundOpacity={0.8} Wrapper={Katex}>
+                {String.raw`\text{Nulpunt }(\htmlId{${zeroId}}{\orange{${toComma(zero)}}}; 0)`}
               </Annot>
               <circle cx={xScale(zero)} cy={yScale(0)} r={xScale.metric(0.2)} fill={getColor("orange")} />
              </>
@@ -193,56 +194,71 @@ export const _NulpuntGraph1G = ({
 export const NulpuntGraph1G = (props) => <Plot><_NulpuntGraph1G {...props} /></Plot>;
 
 export const FxTable = ({xs, ys}) => {
+    const border = `1px solid ${getColor("dark_gray")}`;
     const Table = styled('table')({
         borderCollapse: "collapse",
-        "& th:first-child, td:first-child": {
-            borderRight: `1px solid ${getColor("dark_gray")}`,
-        },
-        "& tr:first-child": {
-            borderBottom: `1px solid ${getColor("dark_gray")}`,
-        }
+        backgroundColor: null,
+    });
+    const Tbody = styled('tbody')({
+        backgroundColor: null,
+    });
+    const Tr = styled('tr')({
+        backgroundColor: null,
+    });
+    const Td = styled('td')({
+        backgroundColor: null,
+        border: null,
+    });
+    const FirstTd = styled(Td)({
+        borderRight: border,
     });
 
     return (
         <Table>
-          <tr>
-            <th><Markdown>{ `$x$` }</Markdown></th>
-            {
-                xs.map((x, i) => <th key={i}><Markdown>{ x }</Markdown></th>)
-            }
-          </tr>
-          <tr>
-            <td><Markdown>{ `$f(x)$` }</Markdown></td>
-            {
-                ys.map((y, i) => <td key={i}><Markdown>{ y }</Markdown></td>)
-            }
-          </tr>
+          <Tbody>
+            <tr style={{backgroundColor: "#0000", borderBottom: border}}>
+                <FirstTd>
+                    <Katex>x</Katex>
+                </FirstTd>
+              {
+                  xs.map((x, i) => <Td key={i}>{ x }</Td>)
+              }
+            </tr>
+            <tr style={{backgroundColor: "#0000"}}>
+                <FirstTd>
+                  <Katex>f(x)</Katex>
+                </FirstTd>
+              {
+                  ys.map((y, i) => <Td key={i}>{ y }</Td>)
+              }
+            </tr>
+          </Tbody>
         </Table>
     );
 };
 
 export const Tekenschema1G = ({m, q, nSignId=null, pSignId=null, zeroId=null, useColors=false}) => {
-    const plus = `$\\htmlId{${pSignId}}{` + (useColors ? `\\green{+}` : `+`) + `}$`;
-    const minus = `$\\htmlId{${nSignId}}{` + (useColors ? `\\red{-}` : `-`) + `}$`;
-    const zero = `$0$`;
+    const plus = `\\htmlId{${pSignId}}{` + (useColors ? `\\green{+}` : `+`) + `}`;
+    const minus = `\\htmlId{${nSignId}}{` + (useColors ? `\\red{-}` : `-`) + `}`;
+    const zero = `0`;
     const zeroStr = toComma(-q/m);
-    const zeroValue = `$\\htmlId{${zeroId}}{` + (useColors ? `\\orange{${zeroStr}}` : zeroStr) + `}$`;
+    const zeroValue = `\\htmlId{${zeroId}}{` + (useColors ? `\\orange{${zeroStr}}` : zeroStr) + `}`;
 
     const xs = [
-        `$-\\infty$`,
+        `-\\infty`,
         ...(
             m !== 0 ?
             [
-                '',
+                null,
                 zeroValue,
-                ''
+                null
             ]
             : [
-                ''
+                null
             ]
         ),
-        `$+\\infty$`
-    ];
+        `+\\infty`
+    ].map(x => x !== null ? <Katex>{x}</Katex> : null);
 
     const ys = [
         '',
@@ -257,7 +273,7 @@ export const Tekenschema1G = ({m, q, nSignId=null, pSignId=null, zeroId=null, us
                 q > 0 ? plus : (q < 0 ? minus : zero)
             ]
         ),
-    ]
+    ].map(x => <Katex>{x}</Katex>);
 
     return <FxTable xs={xs} ys={ys}/>;
 }
@@ -320,7 +336,7 @@ export const InteractiveTekenschema = ({
         <Grid container spacing={2} alignItems="center">
             <Grid xs={12} sm={8} item overflow="hidden">
                 <Stack spacing={1}>
-                    <Plot>
+                   <Plot>
                         <_NulpuntGraph1G m={m} q={q} nSignId={nSignIdGraph} pSignId={pSignIdGraph} zeroId={zeroGraphId} showSigns showFx />
                     </Plot>
                     <Tekenschema1G m={m} q={q} nSignId={nSignIdTable} pSignId={pSignIdTable} zeroId={zeroTableId} useColors/>
@@ -329,16 +345,16 @@ export const InteractiveTekenschema = ({
                     { zeroArrow }
                 </Stack>
             </Grid>
-            <Grid xs={12} sm={4} item textAlign="center">
+            <Grid item xs={12} sm={4} textAlign="center">
                 { mSlider ?
                     <>
-                        <Markdown>{ `$m = ${toComma(m)}$` }</Markdown>
+                        <Katex>{ `m = ${toComma(m)}` }</Katex>
                         <Slider aria-label="richtingscoëfficiënt" value={m} onChange={handleChangeM} {...sliderProps} />
                     </>
                     : null }
                 { qSlider ?
                     <>
-                        <Markdown>{ `$q = ${toComma(q)}$` }</Markdown>
+                        <Katex>{ `q = ${toComma(q)}` }</Katex>
                         <Slider aria-label="snijpunt y-as" value={q} onChange={handleChangeQ} {...sliderProps} />
                     </>
                     : null }

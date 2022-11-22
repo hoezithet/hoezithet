@@ -78,7 +78,8 @@ In de volgende illustratie kan je zowel positieve als negatieve waarden voor $m$
 
 Deze vaststellingen kunnen we gebruiken om een stappenplan te maken voor het opstellen van het tekenschema van eender welke eerstegraadsfunctie. Herinner je hierbij dat de x-coördinaat van [het nulpunt van een eerstegraadsfunctie](../nulpunt) altijd gelijk is aan $\frac{-q}{m}$. *Vòòr* en *na* het nulpunt is dus hetzelfde als vòòr en na x-waarde $\frac{-q}{m}$.
 
-import { FxTable } from "./drawings"
+import { FxTable } from "./drawings";
+import { Katex } from 'components/katex';
 
 > 💡 Het tekenschema van een eerstegraadsfunctie opstellen
 >
@@ -88,7 +89,7 @@ import { FxTable } from "./drawings"
 > 2. Tussen x-waarden $-\infty$ en $\frac{-q}{m}$ zet je in de rij van $f(x)$ het *tegengestelde teken van $m$*.
 > 3. Tussen x-waarden $\frac{-q}{m}$ en $+\infty$ zet je in de rij van $f(x)$ *hetzelfde teken als $m$*.
 >
-> <FxTable xs={['$-\\infty$', '', '$\\frac{-q}{m}$', '', '$+\\infty$']} ys={['', 'Tegengesteld teken van $m$', '$0$', 'Zelfde teken als $m$', '']} />
+> <FxTable xs={['-\\infty', '', '\\frac{-q}{m}', '', '+\\infty'].map(x => <Katex children={x}/>)} ys={['', '\\text{Tegengesteld teken van }m', '0', '\\text{Zelfde teken als }m', ''].map(x => <Katex children={x}/>)} />
 
 (oefening: stel het tekenschema op van een eerstegraadsfunctie)
 
@@ -103,4 +104,4 @@ import { FxTable } from "./drawings"
 > 2. Tussen x-waarden $-\infty$ en $\frac{-q}{m}$ zet je in de rij van $f(x)$ het *tegengestelde teken van $m$*.
 > 3. Tussen x-waarden $\frac{-q}{m}$ en $+\infty$ zet je in de rij van $f(x)$ *hetzelfde teken als $m$*.
 >
-> <FxTable xs={['$-\\infty$', '', '$\\frac{-q}{m}$', '', '$+\\infty$']} ys={['', 'Tegengesteld teken van $m$', '$0$', 'Zelfde teken als $m$', '']} />
+> <FxTable xs={['-\\infty', '', '\\frac{-q}{m}', '', '+\\infty'].map(x => <Katex children={x}/>)} ys={['', '\\text{Tegengesteld teken van }m', '0', '\\text{Zelfde teken als }m', ''].map(x => <Katex children={x}/>)} />
