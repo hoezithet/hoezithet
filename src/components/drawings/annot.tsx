@@ -68,6 +68,7 @@ export const Annot = ({
     textPadding=null, borderRadius=null,
     parentPadding=null,
     id=null,
+    Wrapper=Markdown,
     children
 }: AnnotProps) => {
     [textPadding, borderRadius, parentPadding] = (
@@ -140,7 +141,7 @@ export const Annot = ({
                     fontSize={fontSize}
                 >
                    <div id={id} style={{display: 'table'}}>
-                     <Markdown>{ children }</Markdown>
+                     <Wrapper>{ children }</Wrapper>
                    </div>
                 </AnnotChild>
             </div>
