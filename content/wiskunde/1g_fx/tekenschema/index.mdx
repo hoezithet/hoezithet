@@ -89,7 +89,7 @@ import { Katex } from 'components/katex';
 > 2. Tussen x-waarden $-\infty$ en $\frac{-q}{m}$ zet je in de rij van $f(x)$ het *tegengestelde teken van $m$*.
 > 3. Tussen x-waarden $\frac{-q}{m}$ en $+\infty$ zet je in de rij van $f(x)$ *hetzelfde teken als $m$*.
 >
-> <FxTable xs={['-\\infty', '', '\\frac{-q}{m}', '', '+\\infty'].map(x => <Katex children={x}/>)} ys={['', '\\text{Tegengesteld teken van }m', '0', '\\text{Zelfde teken als }m', ''].map(x => <Katex children={x}/>)} />
+> <FxTable xs={['-\\infty', '', '\\frac{-q}{m}', '', '+\\infty'].map(x => <Katex children={x}/>)} ys={['', String.raw`\text{Tegengesteld}\\\text{teken van }m`, '0', String.raw`\text{Zelfde teken}\\\text{als }m`, ''].map(x => <Katex children={x} display/>)} />
 
 (oefening: stel het tekenschema op van een eerstegraadsfunctie)
 
@@ -104,4 +104,4 @@ import { Katex } from 'components/katex';
 > 2. Tussen x-waarden $-\infty$ en $\frac{-q}{m}$ zet je in de rij van $f(x)$ het *tegengestelde teken van $m$*.
 > 3. Tussen x-waarden $\frac{-q}{m}$ en $+\infty$ zet je in de rij van $f(x)$ *hetzelfde teken als $m$*.
 >
-> <FxTable xs={['-\\infty', '', '\\frac{-q}{m}', '', '+\\infty'].map(x => <Katex children={x}/>)} ys={['', '\\text{Tegengesteld teken van }m', '0', '\\text{Zelfde teken als }m', ''].map(x => <Katex children={x}/>)} />
+> <FxTable xs={['-\\infty', '', '\\frac{-q}{m}', '', '+\\infty'].map(x => <Katex children={x}/>)} ys={['', String.raw`\text{Tegengesteld}\\\text{teken van }m`, '0', String.raw`\text{Zelfde teken}\\\text{als }m`, ''].map(x => <Katex children={x} display/>)} />
