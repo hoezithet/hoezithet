@@ -12,6 +12,8 @@ import { getColor } from "colors";
 import withDrawingScale from "components/withDrawingScale";
 import useId from 'hooks/useId';
 import Markdown from "components/markdown";
+import { Katex } from 'components/katex';
+import { MathJax } from "components/mathjax";
 
 
 const getFx = (m, q) => x => m*x + q;
@@ -74,7 +76,8 @@ const DiffQuotPoints = ({
     const coordFontSizePx = yScale.metric(0.5);
     const coordColor = pFill;
     const accolAnnotProps = {
-        showBackground: true
+        showBackground: true,
+        Wrapper: MathJax,
     };
     const arrowDeps = [x1Px, y1Px, x2Px, y2Px];
     const arrowTeller = useAnnotArrow({
@@ -99,26 +102,26 @@ const DiffQuotPoints = ({
             <path d={`M ${x2Px - rAngSignMarginPx - rAngSignSizePx} ${y1Px - rAngSignMarginPx * (m >= 0 ? 1 : -1)} h ${rAngSignSizePx} v ${-rAngSignSizePx * (m >= 0 ? 1 : -1)}`} fill="none" stroke={getColor(fill)}/>
             <circle cx={x1Px} cy={y1Px} r={rPx} fill={pFill} />
             <circle cx={x2Px} cy={y2Px} r={rPx} fill={pFill} />
-            <Annot x={x1PxAnnot} y={y1PxAnnot} align={annotAlign} textPadding={annotPadding} fontSize={coordFontSizePx} color={coordColor} showBackground>
-                {String.raw`$A~(${toComma(x1)}; ${toComma(y1)})$`}
+            <Annot x={x1PxAnnot} y={y1PxAnnot} align={annotAlign} textPadding={annotPadding} fontSize={coordFontSizePx} color={coordColor} showBackground Wrapper={Katex}>
+                {String.raw`A~(${toComma(x1)}; ${toComma(y1)})`}
             </Annot>
-            <Annot x={x2PxAnnot} y={y2PxAnnot} align={annotAlign} textPadding={annotPadding} fontSize={coordFontSizePx} color={coordColor} showBackground>
-                {String.raw`$B~(${toComma(x2)}; ${toComma(y2)})$`}
+            <Annot x={x2PxAnnot} y={y2PxAnnot} align={annotAlign} textPadding={annotPadding} fontSize={coordFontSizePx} color={coordColor} showBackground Wrapper={Katex}>
+                {String.raw`B~(${toComma(x2)}; ${toComma(y2)})`}
             </Annot>
             <TextAccolade color={pFill} x1={x2Px + accolPadding} x2={x2Px}
                 y={y1Px} height={y1Px - y2Px} width={xScale.metric(1)}
                 strokeWidth={xScale.metric(0.1)} annotProps={accolAnnotProps}>
-                {String.raw`$\htmlId{${dYAccolId}}{${toComma(y2 - y1)}}$`}
+                {String.raw`\htmlId{${dYAccolId}}{${toComma(y2 - y1)}}`}
             </TextAccolade>
             <g transform={`translate(${x1Px + (m >= 0 ? 0 : xAccHeight)},${y1Px}) rotate(${m >= 0 ? 90 : -90})`}>
                 <TextAccolade color={pFill} x1={accolPadding} x2={0} y={0}
                     height={xAccHeight} width={xScale.metric(1)}
                     strokeWidth={xScale.metric(0.1)} flipText={m >= 0} annotProps={accolAnnotProps}>
-                    {String.raw`$\htmlId{${dXAccolId}}{${toComma(x2 - x1)}}$`}
+                    {String.raw`\htmlId{${dXAccolId}}{${toComma(x2 - x1)}}`}
                 </TextAccolade>
             </g>
-            <Annot x={fracAnnotX} y={fracAnnotY} align={m >= 0 ? "top left" : "bottom left"} textPadding={fracAnnotPadding} showBackground>
-                {String.raw`$\frac{\htmlId{${tellerId}}{${toComma(y2 - y1)}}}{\htmlId{${noemerId}}{${x2 - x1 === 1 ? "\\cancel{" + toComma(x2 - x1) + "}" : toComma(x2 - x1)}}} = \htmlId{${fracRicoId}}{${toComma((y2 - y1)/(x2 - x1))}}$`}
+            <Annot x={fracAnnotX} y={fracAnnotY} align={m >= 0 ? "top left" : "bottom left"} textPadding={fracAnnotPadding} showBackground Wrapper={Katex}>
+                {String.raw`\frac{\htmlId{${tellerId}}{${toComma(y2 - y1)}}}{\htmlId{${noemerId}}{${x2 - x1 === 1 ? "\\cancel{" + toComma(x2 - x1) + "}" : toComma(x2 - x1)}}} = \htmlId{${fracRicoId}}{${toComma((y2 - y1)/(x2 - x1))}}`}
             </Annot>
             { arrowTeller }
             { arrowNoemer }
@@ -133,7 +136,6 @@ export const InteractDiffQuotPoints = ({
     p1Slider=false, p2Slider=false
 }) => {
     let setM, setQ, setX1, setX2;
-    console.log(x2Func);
 
     [m, setM] = React.useState(m);
     [q, setQ] = React.useState(q);
@@ -187,25 +189,25 @@ export const InteractDiffQuotPoints = ({
                 <Stack direction="column" spacing={2} alignItems="center">
                 { p1Slider ?
                     <>
-                        <Markdown>{ `$x_1 = ${toComma(x1)}$` }</Markdown>
+                        <Katex>{ `x_1 = ${toComma(x1)}` }</Katex>
                         <Slider aria-label="x1" value={x1} onChange={handleChangeX1} {...sliderProps} />
                     </>
                     : null }
                 { p2Slider ?
                     <>
-                        <Markdown>{ `$x_2 = ${toComma(x2)}$` }</Markdown>
+                        <Katex>{ `x_2 = ${toComma(x2)}` }</Katex>
                         <Slider aria-label="x2" value={x2} onChange={handleChangeX2} {...sliderProps} />
                     </>
                     : null }
                 { mSlider ?
                     <>
-                        <Markdown>{ `$m = ${toComma(m)}$` }</Markdown>
+                        <Katex>{ `m = ${toComma(m)}` }</Katex>
                         <Slider aria-label="richtingscoëfficiënt" value={m} onChange={handleChangeM} {...sliderProps} />
                     </>
                     : null }
                 { qSlider ?
                     <>
-                        <Markdown>{ `$q = ${toComma(q)}$` }</Markdown>
+                        <Katex>{ `q = ${toComma(q)}` }</Katex>
                         <Slider aria-label="snijpunt y-as" value={q} onChange={handleChangeQ} {...sliderProps} />
                     </>
                     : null }
