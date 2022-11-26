@@ -12,6 +12,7 @@ import { getColor } from "colors";
 import withDrawingScale from "components/withDrawingScale";
 import useId from 'hooks/useId';
 import Markdown from "components/markdown";
+import { Katex } from 'components/katex';
 
 
 export const _OneDotGraph = ({
@@ -36,8 +37,8 @@ export const _OneDotGraph = ({
             <circle cx={xScale(x)} cy={yScale(y)} r={xScale.metric(cr)} fill={getColor(fill)}/>
             { !hideAnnot ?
               <>
-                <Annot x={xScale(annotX)} y={yScale(annotY)} align={annotAlign}>
-                    {String.raw`$(${x}, ${y})$`}
+                <Annot x={xScale(annotX)} y={yScale(annotY)} align={annotAlign} Wrapper={Katex}>
+                    {String.raw`(${x}, ${y})`}
                 </Annot>
                 <AnnotArrow annot={[xScale(annotX), yScale(annotY)]} target={[xScale(x), yScale(y)]} annotAlign={annotAlign} targetAlign={targetAlign} margin={xScale.metric(cr*2)} anchorRadius={xScale.metric(.5)}/>
               </>
@@ -88,12 +89,12 @@ export const _Graph1G = ({
     return (
         <>
             <Fx fx={fx} />
-            <Annot x={xScale(annotX)} y={yScale(annotY)} align={annotAlign} textPadding={annotPadding} showBackground backgroundOpacity={0.5}>
-                {String.raw`$y = ${m !== 0 ? (
+            <Annot x={xScale(annotX)} y={yScale(annotY)} align={annotAlign} textPadding={annotPadding} showBackground backgroundOpacity={0.5} Wrapper={Katex}>
+                {String.raw`f(x) = ${m !== 0 ? (
                     m === 1 ? 'x' : (
                         m === -1 ? '-x' : `${mStr}\\cdot x` 
                     )
-                ): ""}${qStr}$`}
+                ): ""}${qStr}`}
             </Annot>
         </>
   );
@@ -131,13 +132,13 @@ export const InteractGraph1G = ({
                 <Stack direction="column" spacing={2} alignItems="center">
                 { mSlider ?
                     <>
-                        <Markdown>{ `$m = ${toComma(m)}$` }</Markdown>
+                        <Katex>{ `m = ${toComma(m)}` }</Katex>
                         <Slider aria-label="richtingscoëfficiënt" value={m} onChange={handleChangeM} {...sliderProps} />
                     </>
                     : null }
                 { qSlider ?
                     <>
-                        <Markdown>{ `$q = ${toComma(q)}$` }</Markdown>
+                        <Katex>{ `q = ${toComma(q)}` }</Katex>
                         <Slider aria-label="snijpunt y-as" value={q} onChange={handleChangeQ} {...sliderProps} />
                     </>
                     : null }
