@@ -3,26 +3,31 @@ title: De grafiek van een eerstegraadsfunctie
 weight: 1
 ---
 
+import { AnnotArrow } from "components/drawings/annotArrow";
+
+
 Stel dat de volgende [eerstegraadsfunctie](../intro) gegeven is:
 
 $$
 f(x) = 0{,}5x - 2
 $$
 
-Door enkele x-waarden in te vullen in dit functievoorschrift, kunnen we de bijhorende functiewaarden berekenen. Als we bijvoorbeeld $\orange{2}$ invullen, dan vinden we
-
+Door enkele x-waarden in te vullen in dit functievoorschrift, kunnen we de bijhorende functiewaarden berekenen. Als we bijvoorbeeld $\htmlClass{annot2}{\orange{2}}$ invullen, dan vinden we
 
 $$
-f(\orange{2}) = 0{,}5\cdot \orange{2} - 2 = -1
+\begin{aligned}
+f(\htmlClass{tgt2}{\orange{2}}) &= 0{,}5\cdot \orange{2} - 2\\
+&= \htmlClass{annot}{-1}
+\end{aligned}
 $$
 
-Bij de x-waarde $\orange{2}$ hoort dus een functiewaarde van $-1$. Het punt met coördinaten $(2, -1)$ ligt daarom op de grafiek van de functie $f(x) = 0{,}5x - 2$:
+Bij de x-waarde $\orange{2}$ hoort dus een functiewaarde van $\htmlClass{target}{-1}$. Het punt met coördinaten $(2, -1)$ ligt daarom op de grafiek van de functie $f(x) = 0{,}5x - 2$:
 
 import { OneDotGraph, DotsGraph, Graph1G } from "./drawings";
 
 <OneDotGraph x={2} y={-1} />
 
-We kunnen dit nog voor andere x-waarden doen. Onze resultaten zetten we in een [waardentabel](../../functies/waardentabel):
+We kunnen andere willekeurige x-waarden invullen in de gegeven functie $f(x) = 0{,}5x - 2$. Onze resultaten zetten we in een [waardentabel](../../functies/waardentabel):
 
 | x-waarde | functiewaarde |
 |----------|---------------|
