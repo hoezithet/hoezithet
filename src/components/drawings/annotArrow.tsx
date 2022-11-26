@@ -134,29 +134,37 @@ const getElCoord = (el: Element, svgRoot: SVGElement, hAlign: string, vAlign: st
 }
 
 
-const convertToCoord = (annotOrTarget: string|Coordinate, svgRoot: SVGElement, hAlign: string, vAlign: string) => {
-    if (typeof document === "undefined") {
-        return null;
-    }
-    if (Array.isArray(annotOrTarget) && annotOrTarget.length === 2 && typeof annotOrTarget[0] === "number" && typeof  annotOrTarget[1] === "number") {
+const convertToCoord = (annotOrTarget: string|Coordinate|Element, svgRoot: SVGElement, hAlign: string, vAlign: string) => {
+    if (annotOrTarget instanceof Element) {
+        return getElCoord(annotOrTarget, svgRoot, hAlign, vAlign);
+    } else if (Array.isArray(annotOrTarget) && annotOrTarget.length === 2 && typeof annotOrTarget[0] === "number" && typeof  annotOrTarget[1] === "number") {
         return new DOMPoint(annotOrTarget[0], annotOrTarget[1]);
-    } else if (typeof annotOrTarget === "string") {
-        const el = document.querySelector(annotOrTarget);
-        if (el !== null) {
-            return getElCoord(el, svgRoot, hAlign, vAlign);
-        } else {
-            return null;
-        }
-    } else if ('x' in annotOrTarget && 'y' in annotOrTarget && typeof annotOrTarget.x === "number" && typeof annotOrTarget.y === "number") {
+    } else if (typeof annotOrTarget === 'object' && annotOrTarget !== null && 'x' in annotOrTarget && 'y' in annotOrTarget && typeof annotOrTarget.x === "number" && typeof annotOrTarget.y === "number") {
         return new DOMPoint(annotOrTarget.x, annotOrTarget.y);
+    } else if (typeof annotOrTarget === "string") {
+        const el = selectNearest(svgRoot, annotOrTarget);
+        return convertToCoord(el, svgRoot, hAlign, vAlign);
     } else {
         return null;
     }
 }
 
 
+const selectNearest = (el: Element, selector: string) => {
+    if (selector.startsWith('#')) {
+        if (typeof document !== "undefined") {
+            return document.querySelector(selector);
+        } else {
+            return null;
+        }
+    } else {
+        return el.closest(`:has(${selector})`)?.querySelector(selector);
+    }
+}
+
+
 export const AnnotArrow = ({
-    annot, target,
+    annot=null, target=null,
     margin=5,
     marginAnnot=null, marginTarget=null,
     anchorRadius=20,
@@ -186,10 +194,21 @@ export const AnnotArrow = ({
 
     const annotArrowsRef = React.useRef(target.map(t => null));
     const [svgNode, setSvgNode] = React.useState<SVGSVGElement|null>(null);
+    const svgNodeRef = React.useRef(null);
+
+    React.useEffect(() => {
+        setSvgNode(svgNodeRef.current);
+    }, []);
 
     let annotCoord: DOMPoint|null = null;
     let targetCoords: DOMPoint[] = target.map(t => null);
     if (svgNode !== null) {
+        if (annot === null) {
+            annot = selectNearest(svgNode, ".annot");
+        }
+        target = target.map(t =>
+            t === null ? selectNearest(svgNode, ".target") : t
+        );
         annotCoord = convertToCoord(annot, svgNode, hAlignAnnot, vAlignAnnot);
         targetCoords = target.map(t =>
             convertToCoord(t, svgNode, hAlignTarget, vAlignTarget)
@@ -197,7 +216,7 @@ export const AnnotArrow = ({
     }
 
     return (
-        <svg ref={(node) => setSvgNode(node)} style={{overflow: "visible", position: "absolute", pointerEvents: "none"}}>
+        <svg ref={svgNodeRef} style={{overflow: "visible", position: "absolute", pointerEvents: "none"}}>
             {
                 target.map((t, i) => (
                     <g key={i} ref={node => { annotArrowsRef.current[i] = node }}>
