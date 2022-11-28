@@ -7,7 +7,7 @@ import Md from "components/markdown";
 
 
 const MultipleChoiceStepper = ({
-    texts, choices, explanations=null, solutions=null
+    texts, choices, explanations=null, solutions=null, Wrapper=Md
 }) => {
     return (
         <ExerciseStepper>
@@ -15,7 +15,7 @@ const MultipleChoiceStepper = ({
                 texts.map((text, i) => (
                     <React.Fragment key={i}>
                         <Exercise>
-                            <Md>{ text }</Md>
+                            <Wrapper>{ text }</Wrapper>
                             <MultipleChoice choices={choices[i]} solution={solutions !== null ? solutions[i] : 0}>
                                 { explanations !== null ? explanations[i] : null }
                             </MultipleChoice>
