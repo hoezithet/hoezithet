@@ -30,19 +30,24 @@ const toComma = s => {
   return `${s}`.replace('.', ',');
 };
 
-const Voorschrift1G = ({m, q, ...props}) => {
+export const getVoorschrift1GStr = (m, q, useY=false) => {
     const mStr = toComma(m);
     const qStr = toComma(`${q === 0 && m !== 0 ? "" : (
         q >= 0 && m !== 0 ? "+" + q : q
-    )}`);
-    return (
-      <Annot {...props} Wrapper={Katex}>
-        { String.raw`f(x) = ${
+        )}`);
+    return String.raw`${useY ? "y" : "f(x)"} = ${
           m !== 0 ?
           (m === 1 ? 'x'
             : (m === -1 ? '-x'
                : `${mStr}\\cdot x`))
-          : ""}${qStr}` }
+               : ""}${qStr}`;
+};
+
+export const Voorschrift1G = ({m, q, useY=false, ...props}) => {
+  
+    return (
+      <Annot {...props} Wrapper={Katex}>
+          { getVoorschrift1GStr(m, q, useY) }
       </Annot>
     );
 }
@@ -194,45 +199,38 @@ export const _NulpuntGraph1G = ({
 export const NulpuntGraph1G = (props) => <Plot><_NulpuntGraph1G {...props} /></Plot>;
 
 export const FxTable = ({xs, ys}) => {
-    const border = `1px solid ${getColor("dark_gray")}`;
     const Table = styled('table')({
         borderCollapse: "collapse",
-        backgroundColor: null,
-    });
-    const Tbody = styled('tbody')({
-        backgroundColor: null,
-    });
-    const Tr = styled('tr')({
-        backgroundColor: null,
-    });
-    const Td = styled('td')({
-        backgroundColor: null,
-        border: null,
-    });
-    const FirstTd = styled(Td)({
-        borderRight: border,
+        "& thead tr th:first-child, td:first-child": {
+            borderRight: `1px solid ${getColor("dark_gray")}`,
+        },
+        "& tbody tr:first-child": {
+            borderBottom: `1px solid ${getColor("dark_gray")}`,
+        }
     });
 
     return (
         <Table>
-          <Tbody>
-            <tr style={{backgroundColor: "#0000", borderBottom: border}}>
-                <FirstTd>
+          <thead>
+            <tr>
+                <th>
                     <Katex>x</Katex>
-                </FirstTd>
+                </th>
               {
-                  xs.map((x, i) => <Td key={i}>{ x }</Td>)
+                  xs.map((x, i) => <th key={i}>{ x }</th>)
               }
             </tr>
-            <tr style={{backgroundColor: "#0000"}}>
-                <FirstTd>
+          </thead>
+          <tbody>
+            <tr>
+                <td>
                   <Katex>f(x)</Katex>
-                </FirstTd>
+                </td>
               {
-                  ys.map((y, i) => <Td key={i}>{ y }</Td>)
+                  ys.map((y, i) => <td key={i}>{ y }</td>)
               }
             </tr>
-          </Tbody>
+          </tbody>
         </Table>
     );
 };
