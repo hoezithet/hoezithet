@@ -15,11 +15,16 @@ Laat ons dit even illustreren aan de hand van twee voorbeelden... 👨‍🎨
 
 Dirk gaat volgende week naar een muziekfestival en is in onderhandeling met Maria over hoeveel geld hij mag meenemen.
 
-(illustratie: Dirk en Maria aan de onderhandelingstafel)
+import { AnnotatedFx } from "./drawings";
+import Onderhandeling from "./onderhandeling";
+
+<Onderhandeling />
 
 Dirk drinkt al graag eens een goed glas melk wanneer hij op een festivalweide staat. Hij wil dan ook liefst zoveel mogelijk glazen melk kunnen drinken.
 
-(illustratie: Dirk droomt over hoe hij glazen melk drinkt op het festival)
+import DirkFestival from "./dirk_festival";
+
+<DirkFestival />
 
 Een toegangsticket voor het festival bedraagt €25 en voor een glas melk vraagt het festival €3. Dirk zou graag willen weten **welk budget** hij met Maria moet onderhandelen om een **bepaald aantal glazen melk** te kunnen drinken op het festival.
 
@@ -33,15 +38,15 @@ Als Dirk bijvoorbeeld $\orange{5}$ glazen melk wil drinken, dan zal hij een budg
 
 We kunnen wat schrijfwerk besparen door de formule als volgt te schrijven:
 
-import { AnnotatedFx } from "./drawings";
-
 <AnnotatedFx m={3} mName="€3 extra per glas" q={25} qName="€25 bij 0 glazen" yName="benodigd budget" xName="aantal glazen melk" />
 
 ### Voorbeeld 2: Maria eet pralines
 
 Maria eet al eens graag een praline. Ze toonde dan ook met plezier haar groot hart toen de lokale gymclub haar vorige week vroeg om hen te steunen door chocolade zeevruchten te kopen. 🤤 Ze kocht meteen een grote doos van $1~\si{kg}$. Zo'n doos bevat 64 pralines.
 
-(illustratie: Maria met een doos van 1 kg zeevruchten van de gymclub)
+import MariaPralines from "./maria_pralines";
+
+<MariaPralines />
 
 Maria weet natuurlijk wel dat ze die hele doos best niet op één dag naar binnen speelt. Ze heeft dan ook besloten om elke dag slechts 4 pralines te eten. Na enkele dagen vraagt ze zich af hoeveel pralines er nog in de doos zitten. Hoe kan ze dit berekenen?
 
@@ -108,7 +113,7 @@ We gebruiken de naam *eerstegraadsfunctie* omdat de hoogste macht van $x$ in $mx
 >
 > Al die letters in $y = mx + q$ kunnen nogal verwarrend zijn. De letters $m$ en $q$ hebben echter een **heel andere rol** dan $x$ en $y$! De letters **$x$ en $y$ zijn variabelen** en hebben geen vaste waarde voor een bepaalde functie. In het eerste voorbeeld zochten we het verband tussen een aantal glazen melk ($x$) en een totaalbudget ($y$). We kunnen dat verband voor eender welk aantal glazen melk gebruiken. We kunnen veel verschillende waarden kiezen voor $x$, waar dan ook veel verschillende waarden voor $y$ uit zullen volgen. De prijs per glas melk ($m$) en de prijs voor een toegangsticket ($q$) liggen echter **vast**. Zij bepalen hoe de functie zich zal gedragen, bv. hoe snel het budget stijgt per extra glas melk. We noemen $m$ en $q$ ook wel de **parameters** van de eerstegraadsfunctie.
 
-> -Waarom moet $m$ verschillend zijn van $0$?
+> -Uitbreiding: Waarom moet $m$ verschillend zijn van $0$?
 >
 > Als $m$ gelijk zou zijn aan nul, dan is ook $m\cdot x=0$ en dan wordt $f(x)=0+q$ of korter $f(x)=q$. We hebben dan geen $x$ meer in ons functievoorschrift. De hoogste graad van $x$ is dan niet meer één, maar nul. $f(x)$ is dus geen eerstegraadsfunctie meer, maar een *nuldegraadsfunctie* of een *constante functie*.
 
@@ -130,19 +135,23 @@ Elke situatie waar er een vast aantal per $x$ weggaat of bijkomt bij een beginaa
 > 2. **Bepaal $m$**: Vraag je dan af hoeveel er bij $y$ bijkomt (of van af gaat) wanneer $x$ één eenheid groter wordt. Dit is $m$.
 > 3. **Bepaal $q$**: Zoek waaraan $y$ gelijk is als $x$ gelijk is aan nul. Dit is $q$.
 
-We hebben ook een aparte les over [hoe je het voorschrift van een eerstegraadsfunctie kan berekenen](../voorschrift_opstellen) waar we iets dieper hierop ingaan.
+> We hebben ook een aparte les over [hoe je het voorschrift van een eerstegraadsfunctie kan berekenen](../voorschrift_opstellen) waar we iets dieper hierop ingaan.
 
-(oefening: pas bovenstaande schema toe op de voorbeelden van Dirk en Maria)
+Probeer het voorgande nu zelf toe te passen op de volgende oefening.
 
-We illustreren dit alles nog met een derde voorbeeld. Maria rijdt met haar Segway een constante snelheid van $300$ meter per minuut. Ze vertrekt van bij haar thuis en volgt de hele tijd een rechte baan. We zoeken een formule die aangeeft hoeveel meter ze van huis is na een bepaald aantal minuten rijden.
+Maria rijdt met haar Segway een constante snelheid van $300$ meter per minuut. Ze vertrekt van bij haar thuis en volgt de hele tijd een rechte baan. Bepaal een formule die aangeeft hoeveel meter ze van huis is na een bepaald aantal minuten rijden. Is dit een eerstegraadsfunctie?
 
-(illustratie: infinite loop van Maria die op haar Segway rijdt)
+import MariaSegway from "./maria_segway";
 
-1. **Zoek de betekenis van $x$ en $y$**: het aantal meter dat Maria van huis is, hangt af van hoeveel minuten ze aan het rijden is. $y$ is dus "*het aantal meter van huis*" en $x$ is "*het aantal minuten dat Maria rijdt*".
-2. **Bepaal $m$**: wanneer Maria één minuut langer rijdt, zal ze $300$ meter verder van huis zijn. $m$ is dus $300$.
-3. **Bepaal $q$**: wanneer ze nul minuten heeft gereden ($x=0$), dan is ze thuis. Ze is dan met andere woorden nul meter van huis. $q$ is dus gelijk aan $0$.
+<MariaSegway />
 
-<AnnotatedFx m={300} mName="300 m meer per minuut" q={0} qName="0 meter ver op minuut 0" yName="aantal meter van huis" xName="aantal minuten" annotFontSize={75} />
+> -Oplossing
+>
+> 1. **Zoek de betekenis van $x$ en $y$**: het aantal meter dat Maria van huis is, hangt af van hoeveel minuten ze aan het rijden is. $y$ is dus "*het aantal meter van huis*" en $x$ is "*het aantal minuten dat Maria rijdt*".
+> 2. **Bepaal $m$**: wanneer Maria één minuut langer rijdt, zal ze $300$ meter verder van huis zijn. $m$ is dus $300$.
+> 3. **Bepaal $q$**: wanneer ze nul minuten heeft gereden ($x=0$), dan is ze thuis. Ze is dan met andere woorden nul meter van huis. $q$ is dus gelijk aan $0$.
+>
+> <AnnotatedFx m={300} mName="300 m meer per minuut" q={0} qName="0 meter ver op minuut 0" yName="aantal meter van huis" xName="aantal minuten" annotFontSize={75} />
 
 (oefening: toepassing geven en vragen of het een eerstegraadsfunctie is of niet)
 
