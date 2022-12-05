@@ -3,6 +3,7 @@ import React from "react";
 import MultipleChoiceStepper from 'components/exercises/multipleChoiceStepper';
 import { getVoorschrift1GStr } from '../tekenschema/drawings';
 import { Katex as KX } from 'components/katex';
+import { FillString } from 'components/exercises/fillAnswer';
 import _random from "lodash/random";
 
 
@@ -100,5 +101,62 @@ export const Herken1GFx = () => {
 
 
 export const Herken1GFxTexts = () => {
-    
+    const texts = [
+        <React.Fragment>
+          Het totaalbedrag <KX>y</KX> dat je moet betalen na een taxirit van <KX>x</KX> minuten. Iedere minuut komt er 30 eurocent bij het starttarief van 3 euro bij.
+        </React.Fragment>,
+        <React.Fragment>
+          De oppervlakte <KX>y</KX> van een vierkant met zijde <KX>x</KX>.
+        </React.Fragment>,
+        <React.Fragment>
+          De hoek <KX>y</KX> die de grote wijzer van een horloge heeft afgelegd na <KX>x</KX> kwartieren. Per kwartier vergroot de hoek met <KX>{`90\\deg`}</KX>.
+        </React.Fragment>,
+        <React.Fragment>
+          De winst <KX>y</KX> die je maakt bij een cakeverkoop nadat je <KX>x</KX> sneden cake hebt verkocht. Je kocht in de winkel zelf voor €25 aan cakes en vraagt 50 eurocent voor iedere snede cake.
+          </React.Fragment>,
+        <React.Fragment>
+          De omtrek <KX>y</KX> van een cirkel met straal <KX>x</KX>.
+        </React.Fragment>,
+        <React.Fragment>
+          De afstand <KX>y</KX> die een voorwerp in vrije val heeft afgelegd na <KX>x</KX> seconden. De snelheid van het voorwerp begint bij <KX>{`0~\\si{m/s}`}</KX> en verhoogt iedere seconde met <KX>{`9{,}81~\\si{m/s}`}</KX>.
+        </React.Fragment>,
+    ].map(t => (
+        <React.Fragment>
+            Is <KX>y</KX> een eerstegraadsfunctie van <KX>x</KX>?<br/><br/>
+            { t }
+        </React.Fragment>
+    ));
+    const choices = texts.map(() => [
+        <><KX>y</KX> is <strong>geen</strong> eerstegraadsfunctie van <KX>x</KX>.</>,
+        <><KX>y</KX> is <strong>wel</strong> een eerstegraadsfunctie van <KX>x</KX>.</>,
+    ]);
+    const solutions = [1, 0, 1, 1, 1, 0];
+    const explanations = [
+        <React.Fragment>
+          Per minuut komt er een vast bedrag van 30 eurocent bij het starttarief van 3 euro bij. Het totaalbedrag <KX>y</KX> is dus een eerstegraadsfunctie van <KX>x</KX>.<br/><br/>
+          Het functievoorschrift is <KX>{`y = 0{,}30x+3`}</KX>.
+        </React.Fragment>,
+        <React.Fragment>
+          De oppervlakte van een vierkant is gelijk aan het kwadraat van haar zijde. Als <KX>y</KX> de oppervlakte is en <KX>x</KX> de lengte van de zijde dan geldt dus dat <KX>y=x^2</KX>. We zien dat <KX>y</KX> <strong>geen</strong> eerstegraadsfunctie is van <KX>x</KX> (maar een tweedegraadsfunctie).
+        </React.Fragment>,
+        <React.Fragment>
+          Per kwartier komt er een vaste hoek van <KX>{`90\\deg`}</KX> bij bij de afgelegde hoek. De afgelegde hoek <KX>y</KX> is dus een eerstegraadsfunctie van het aantal kwartieren <KX>x</KX>.<br/><br/>
+          Het functievoorschrift is <KX>{`y = 90x`}</KX>.
+        </React.Fragment>,
+        <React.Fragment>
+          Per verkochte snede cake verhoogt de winst met 50 eurocent. De winst <KX>y</KX> die je maakt is dus een eerstegraadsfunctie van het aantal verkochte sneden <KX>x</KX>.<br/><br/>
+          Omdat je €25 aan cakes hebt aangekocht, is het functievoorschrift <KX>{`y = 0{,}50x-25`}</KX>.
+        </React.Fragment>,
+        <React.Fragment>
+          De omtrek van een cirkel kan je berekenen door de straal van de cirkel te vermenigvuldigen met <KX>{`2\\pi`}</KX>. Als <KX>y</KX> de omtrek is en <KX>x</KX> de straal, dan geldt er dus dat <KX>{`y=2\\pi x`}</KX>. We zien dat <KX>y</KX> een eerstegraadsfunctie is van <KX>x</KX> met <KX>{`m=2\\pi`}</KX> en <KX>{`q=0`}</KX>.
+        </React.Fragment>,
+        <React.Fragment>
+          Per seconde verhoogt de snelheid van het vallende voorwerp met <KX>{`9{,}81~\\si{m/s}`}</KX>. De <em>snelheid</em> is dus een eerstegraadsfunctie van het aantal seconden dat het voorwerp al aan het vallen is. In de opgave wordt echter gevraagd of de <em>afgelegde afstand</em> een eerstegraadsfunctie is van het aantal seconden. Als de <em>snelheid</em> voortdurend verhoogt, zullen we echter in een seconde telkens <em>een grotere afstand</em> afleggen. De afgelegde afstand <KX>y</KX> is dus <em>geen</em> eerstegraadsfunctie van het aantal seconden <KX>x</KX>.<br/><br/>
+          Voor de geïnteresseerde lezer: het functievoorschrift is hier <KX>{`y = \\frac{9{,}81}{2}x^2`}</KX>. Waar dit precies vandaan komt, ligt helaas buiten het bestek van deze les.
+        </React.Fragment>,
+    ];
+
+    return (
+        <MultipleChoiceStepper texts={texts} choices={choices} solutions={solutions} explanations={explanations} Wrapper={props => <div {...props}/>}/>
+    );
 };

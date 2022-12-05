@@ -44,7 +44,7 @@ We kunnen wat schrijfwerk besparen door de formule als volgt te schrijven:
 
 Maria eet al eens graag een praline. Ze toonde dan ook met plezier haar groot hart toen de lokale gymclub haar vorige week vroeg om hen te steunen door chocolade zeevruchten te kopen. 🤤 Ze kocht meteen een grote doos van $1~\si{kg}$. Zo'n doos bevat 64 pralines.
 
-import MariaPralines from "./maria_pralines";
+import MariaPralines from './maria_pralines';
 
 <MariaPralines />
 
@@ -117,6 +117,8 @@ We gebruiken de naam *eerstegraadsfunctie* omdat de hoogste macht van $x$ in $mx
 >
 > Als $m$ gelijk zou zijn aan nul, dan is ook $m\cdot x=0$ en dan wordt $f(x)=0+q$ of korter $f(x)=q$. We hebben dan geen $x$ meer in ons functievoorschrift. De hoogste graad van $x$ is dan niet meer één, maar nul. $f(x)$ is dus geen eerstegraadsfunctie meer, maar een *nuldegraadsfunctie* of een *constante functie*.
 
+import { Herken1GFxTexts } from "./exercises";
+
 <Herken1GFx />
 
 ## Intuïtie achter functies van de eerste graad
@@ -127,32 +129,53 @@ Je ziet dat we met onze eerstegraadsfunctie inderdaad de **onderliggende werking
 
 ## Een functie van de eerste graad herkennen en omzetten naar $y = mx + q$
 
-Elke situatie waar er een vast aantal per $x$ weggaat of bijkomt bij een beginaantal (wanneer $x = 0$), gedraagt zich als een eerstegraadsfunctie. In de volgende kader vatten we samen hoe je in een **opgave kan herkennen dat het om een eerstegraadsfunctie gaat** en hoe je vervolgens het **voorschrift kan vinden** van die eerstegraadsfunctie. 
+Elke situatie waar er een vast aantal per $x$ weggaat of bijkomt bij een beginaantal (wanneer $x = 0$), gedraagt zich als een eerstegraadsfunctie. In het volgende kader vatten we samen hoe je in een **opgave kan herkennen dat het om een eerstegraadsfunctie gaat** en hoe je vervolgens het **voorschrift kan vinden** van die eerstegraadsfunctie. 
 
 > 💡 Een functie van de eerste graad herkennen en omzetten naar $y = mx + q$
 >
 > 1. **Zoek de betekenis van $x$ en $y$**: Vraag je eerst af welke grootheden van elkaar afhangen. Is het een prijs die afhankelijk is van een aantal gekochte producten? Is het een afstand die afhangt van de tijd? Is het een omtrek die afhangt van de lengte van een gekozen zijde? ... Dit geeft de betekenis van $y$ en $x$: **$y$ is de grootheid die afhankelijk is van $x$**.
-> 2. **Bepaal $m$**: Vraag je dan af hoeveel er bij $y$ bijkomt (of van af gaat) wanneer $x$ één eenheid groter wordt. Dit is $m$.
-> 3. **Bepaal $q$**: Zoek waaraan $y$ gelijk is als $x$ gelijk is aan nul. Dit is $q$.
+> 2. **Bepaal of $y$ een eerstegraadsfunctie is van $x$**: Ga na of er per $x$ een **vaste hoeveelheid** bijkomt bij (of weggaat van) $y$. Is dit zo, dan is $y$ een eerstegraadsfunctie van $x$, anders niet. 
+> 3. **Bepaal $m$**: Als $y$ een eerstegraadsfunctie is van $x$, bepaal dan hoeveel er bij $y$ bijkomt (of van afgaat) wanneer $x$ één eenheid groter wordt. Dit is $m$.
+> 4. **Bepaal $q$**: Zoek waaraan $y$ gelijk is als $x$ gelijk is aan nul. Dit is $q$.
 
 > We hebben ook een aparte les over [hoe je het voorschrift van een eerstegraadsfunctie kan berekenen](../voorschrift_opstellen) waar we iets dieper hierop ingaan.
 
-Probeer het voorgande nu zelf toe te passen op de volgende oefening.
+Probeer het voorgande nu zelf toe te passen op de volgende oefeningen.
+
+### Oefeningen
 
 Maria rijdt met haar Segway een constante snelheid van $300$ meter per minuut. Ze vertrekt van bij haar thuis en volgt de hele tijd een rechte baan. Bepaal een formule die aangeeft hoeveel meter ze van huis is na een bepaald aantal minuten rijden. Is dit een eerstegraadsfunctie?
 
-import MariaSegway from "./maria_segway";
+import MariaSegway from './maria_segway';
 
 <MariaSegway />
 
 > -Oplossing
 >
 > 1. **Zoek de betekenis van $x$ en $y$**: het aantal meter dat Maria van huis is, hangt af van hoeveel minuten ze aan het rijden is. $y$ is dus "*het aantal meter van huis*" en $x$ is "*het aantal minuten dat Maria rijdt*".
-> 2. **Bepaal $m$**: wanneer Maria één minuut langer rijdt, zal ze $300$ meter verder van huis zijn. $m$ is dus $300$.
-> 3. **Bepaal $q$**: wanneer ze nul minuten heeft gereden ($x=0$), dan is ze thuis. Ze is dan met andere woorden nul meter van huis. $q$ is dus gelijk aan $0$.
+> 2. **Bepaal of $y$ een eerstegraadsfunctie is van $x$**: Per minuut ($x$) komt er een vaste afstand bij $y$ bij. $y$ is dus een eerstegraadsfunctie van $x$.
+> 3. **Bepaal $m$**: wanneer Maria één minuut langer rijdt, zal ze $300$ meter verder van huis zijn. $m$ is dus $300$.
+> 4. **Bepaal $q$**: wanneer ze nul minuten heeft gereden ($x=0$), dan is ze thuis. Ze is dan met andere woorden nul meter van huis. $q$ is dus gelijk aan $0$.
 >
 > <AnnotatedFx m={300} mName="300 m meer per minuut" q={0} qName="0 meter ver op minuut 0" yName="aantal meter van huis" xName="aantal minuten" annotFontSize={75} />
 
-(oefening: toepassing geven en vragen of het een eerstegraadsfunctie is of niet)
+<Herken1GFxTexts />
 
-Wel bv. Prijs voor taxirit, Fabricagekost. Niet bv. telkens meer afstand afleggen per seconde.
+## Samengevat
+
+> 💡 Eerstegraadsfunctie in $x$
+>
+> Een functie $f(x)$ is een eerstegraadsfunctie in $x$ als en slechts als haar functievoorschrift geschreven kan worden als
+>
+> $$
+> f(x) = mx + q
+> $$
+>
+> Hierbij zijn $m\in\RR_0$ en $q\in\RR$.
+
+> 💡 Een functie van de eerste graad herkennen en omzetten naar $y = mx + q$
+>
+> 1. **Zoek de betekenis van $x$ en $y$**: Vraag je eerst af welke grootheden van elkaar afhangen. Is het een prijs die afhankelijk is van een aantal gekochte producten? Is het een afstand die afhangt van de tijd? Is het een omtrek die afhangt van de lengte van een gekozen zijde? ... Dit geeft de betekenis van $y$ en $x$: **$y$ is de grootheid die afhankelijk is van $x$**.
+> 2. **Bepaal of $y$ een eerstegraadsfunctie is van $x$**: Ga na of er per $x$ een **vaste hoeveelheid** bijkomt bij (of weggaat van) $y$. Is dit zo, dan is $y$ een eerstegraadsfunctie van $x$, anders niet. 
+> 3. **Bepaal $m$**: Als $y$ een eerstegraadsfunctie is van $x$, bepaal dan hoeveel er bij $y$ bijkomt (of van afgaat) wanneer $x$ één eenheid groter wordt. Dit is $m$.
+> 4. **Bepaal $q$**: Zoek waaraan $y$ gelijk is als $x$ gelijk is aan nul. Dit is $q$.
