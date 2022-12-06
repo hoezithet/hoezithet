@@ -200,13 +200,15 @@ def get_component_file_contents(group: Group, comp_name: str,
         f'const {repl} = useId();'
         for repl in id_dict.values()
     ), 8*" ");
+    if len(id_defs) > 0:
+      id_defs = f'\n{id_defs}\n'
 
     file_text = dedent(f'''
     import React from "react";
     import withSizePositionAngle from "components/withSizePositionAngle";
     {"import useId from 'hooks/useId';" if len(id_defs) > 0 else ""}
     
-    const _{comp_name} = () => {{\n{id_defs}
+    const _{comp_name} = () => {{{id_defs}
         return (
             <g transform="translate({-bbox.left:.6f} {-bbox.top:.6f})">\n{child}
             </g>
