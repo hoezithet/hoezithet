@@ -11,6 +11,9 @@ sys.path.append('/usr/share/inkscape/extensions')
 
 from inkex.elements import load_svg, Group, SvgDocumentElement  # noqa
 from inkex import BoundingBox  # noqa
+from inkex.base import SvgOutputMixin
+from lxml import etree
+
 
 overwrite_all = False
 
@@ -129,6 +132,15 @@ def get_component_name(group):
     return group.get_id().title().replace('_', '').replace('-', '')
 
 
+def pretty_tostring(el):
+    svg = SvgOutputMixin.get_template(width=0, height=0).getroot()
+    svg.append(el.copy())
+    etree.indent(svg)
+    out = etree.tostring(svg, pretty_print=True)
+    out = out.split(b">\n", 1)[-1][:-8]
+    return out
+
+
 def get_component_file_contents(group: Group, comp_name: str,
                                 bbox: BoundingBox):
     norm_width = bbox.width
@@ -153,7 +165,7 @@ def get_component_file_contents(group: Group, comp_name: str,
     group = group.copy()
     drop_ids(group, root)
 
-    group_str = group.tostring().decode('utf-8')
+    group_str = pretty_tostring(group).decode('utf-8')
     group_str = dedent(4*" " + group_str.strip())
 
     def_strs = []
@@ -162,7 +174,7 @@ def get_component_file_contents(group: Group, comp_name: str,
         d_id = d.get_id()
         d = d.copy()
         drop_ids(d, root)
-        d_str = d.tostring().decode('utf-8')
+        d_str = pretty_tostring(d).decode('utf-8')
         m = re.match(r'<([^>]+)id="[^"]+"([^>]+)>', d_str.split('\n')[0])
         if m is None:
             d_str = re.sub(
@@ -174,7 +186,7 @@ def get_component_file_contents(group: Group, comp_name: str,
 
     defs_str = '\n'.join(def_strs)
     defs_str = (
-        f'<defs>\n{indent(dedent(4*" " + defs_str.strip()), 2*" ")}\n</defs>\n'
+        f'<defs>\n{indent(dedent(2*" " + defs_str.strip()), 2*" ")}\n</defs>\n'
     ) if len(defs) > 0 else ""
 
     child = indent(defs_str + group_str.strip(), 14*" ")
