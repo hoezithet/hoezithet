@@ -5,7 +5,7 @@ import Slider from '@mui/material/Slider';
 import { Drawing, DrawingContext } from "components/drawings/drawing";
 import DrawingGrid from "components/drawings/drawingGrid";
 import { Annot } from "components/drawings/annot";
-import { useAnnotArrow } from "components/drawings/annotArrow";
+import { AnnotArrow, useAnnotArrow } from "components/drawings/annotArrow";
 import { Fx } from "components/drawings/fx";
 import { Plot } from "components/drawings/plot";
 import { getColor } from "colors";
@@ -57,6 +57,8 @@ const DiffQuotPoints = ({
     const ricoId = useId();
     const fracRicoId = useId();
 
+    const [arrows, setArrows] = React.useState([]);
+
     const [x1Px, y1Px] = [xScale(x1), yScale(y1)];
     const [x2Px, y2Px] = [xScale(x2), yScale(y2)];
     const [x1PxAnnot, y1PxAnnot] = [x1Px, y1Px];
@@ -79,19 +81,22 @@ const DiffQuotPoints = ({
         showBackground: true,
         Wrapper: MathJax,
     };
-    const arrowDeps = [x1Px, y1Px, x2Px, y2Px];
-    const arrowTeller = useAnnotArrow({
+
+    const annotArrowDeps = [x1Px, y1Px, x2Px, y2Px];
+
+    const noemerArrow = useAnnotArrow({
         annot: `#${dXAccolId}`,
         target: `#${noemerId}`,
         targetAlign: "bottom left",
-        annotAlign: "center right"
-    }, arrowDeps);
-    const arrowNoemer = useAnnotArrow({
+        annotAlign: "center right",
+    }, annotArrowDeps);
+    const tellerArrow = useAnnotArrow({
         annot: `#${dYAccolId}`,
         target: `#${tellerId}`,
-        targetAlign: "top right",
-        annotAlign: "bottom center"
-    }, arrowDeps);
+        targetAlign: m > 0 ? "top right" : "bottom right",
+        annotAlign: m > 0 ? "bottom center" : "top center",
+        marginTarget: m > 0 ? null : 2,
+    }, annotArrowDeps);
 
     const xAccHeight = x2Px - x1Px;
 
@@ -102,10 +107,10 @@ const DiffQuotPoints = ({
             <path d={`M ${x2Px - rAngSignMarginPx - rAngSignSizePx} ${y1Px - rAngSignMarginPx * (m >= 0 ? 1 : -1)} h ${rAngSignSizePx} v ${-rAngSignSizePx * (m >= 0 ? 1 : -1)}`} fill="none" stroke={getColor(fill)}/>
             <circle cx={x1Px} cy={y1Px} r={rPx} fill={pFill} />
             <circle cx={x2Px} cy={y2Px} r={rPx} fill={pFill} />
-            <Annot x={x1PxAnnot} y={y1PxAnnot} align={annotAlign} textPadding={annotPadding} fontSize={coordFontSizePx} color={coordColor} showBackground Wrapper={Katex}>
+            <Annot x={x1PxAnnot} y={y1PxAnnot} align={annotAlign} textPadding={annotPadding} fontSize={coordFontSizePx} color={coordColor} showBackground Wrapper={MathJax}>
                 {String.raw`A~(${toComma(x1)}; ${toComma(y1)})`}
             </Annot>
-            <Annot x={x2PxAnnot} y={y2PxAnnot} align={annotAlign} textPadding={annotPadding} fontSize={coordFontSizePx} color={coordColor} showBackground Wrapper={Katex}>
+            <Annot x={x2PxAnnot} y={y2PxAnnot} align={annotAlign} textPadding={annotPadding} fontSize={coordFontSizePx} color={coordColor} showBackground Wrapper={MathJax}>
                 {String.raw`B~(${toComma(x2)}; ${toComma(y2)})`}
             </Annot>
             <TextAccolade color={pFill} x1={x2Px + accolPadding} x2={x2Px}
@@ -120,11 +125,11 @@ const DiffQuotPoints = ({
                     {String.raw`\htmlId{${dXAccolId}}{${toComma(x2 - x1)}}`}
                 </TextAccolade>
             </g>
-            <Annot x={fracAnnotX} y={fracAnnotY} align={m >= 0 ? "top left" : "bottom left"} textPadding={fracAnnotPadding} showBackground Wrapper={Katex}>
+            <Annot x={fracAnnotX} y={fracAnnotY} align={m >= 0 ? "top left" : "bottom left"} textPadding={fracAnnotPadding} showBackground Wrapper={MathJax}>
                 {String.raw`\frac{\htmlId{${tellerId}}{${toComma(y2 - y1)}}}{\htmlId{${noemerId}}{${x2 - x1 === 1 ? "\\cancel{" + toComma(x2 - x1) + "}" : toComma(x2 - x1)}}} = \htmlId{${fracRicoId}}{${toComma((y2 - y1)/(x2 - x1))}}`}
             </Annot>
-            { arrowTeller }
-            { arrowNoemer }
+            { tellerArrow }
+            { noemerArrow }
         </>
     );
 };
@@ -136,6 +141,7 @@ export const InteractDiffQuotPoints = ({
     p1Slider=false, p2Slider=false
 }) => {
     let setM, setQ, setX1, setX2;
+    console.log(x2Func);
 
     [m, setM] = React.useState(m);
     [q, setQ] = React.useState(q);

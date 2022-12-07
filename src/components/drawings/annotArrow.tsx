@@ -217,6 +217,8 @@ export const AnnotArrow = ({
 
     return (
         <svg ref={svgNodeRef} style={{overflow: "visible", position: "absolute", pointerEvents: "none"}}>
+            {/**The invisible rect fixes the SVG's coordinates.**/}
+            <rect width="1" height="1" opacity="0"/>
             {
                 target.map((t, i) => (
                     <g key={i} ref={node => { annotArrowsRef.current[i] = node }}>
