@@ -99,6 +99,18 @@ def xml_attr_to_react(file_text: str):
     return new_file_text
 
 
+def kebab_props_to_camel(file_text: str):
+    new_file_text = file_text
+
+    for m in re.finditer(r'(\w+-\w+)="([^"]+)"', file_text):
+        new_file_text = new_file_text.replace(
+            m.group(0),
+            f'{kebab_to_camel(m.group(1))}="{m.group(2)}"'
+        )
+
+    return new_file_text
+
+
 def drop_inkscape_attrs(file_text: str):
     new_file_text = file_text
 
@@ -123,7 +135,7 @@ def drop_inkscape_attrs(file_text: str):
 def replace_with_react_props(file_text: str):
     file_text = style_to_react(file_text)
     file_text = xml_attr_to_react(file_text)
-    file_text = file_text.replace('clip-path=', 'clipPath=')
+    file_text = kebab_props_to_camel(file_text)
     file_text = drop_inkscape_attrs(file_text)
     return file_text
 
