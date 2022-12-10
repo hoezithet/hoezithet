@@ -53,7 +53,7 @@ export const withFeedback = <P extends object, T>(Component: React.ComponentType
                     <AnswerFeedback
                         solution={answer?.solution}
                         explanation={answer?.explanation}
-                        correct={answer?.correct || false}
+                        correct={answer?.correct}
                     />
                 ) : null}
             </ExerciseContext.Provider>

@@ -44,11 +44,11 @@ const PositiveFeedback = ({}: PositiveFeedbackProps) => {
     );
 };
 
-type NegativeFeedbackProps = {
+type NeutralFeedbackProps = {
     solution: React.ReactNode|React.ReactNode[],
 };
 
-const NegativeFeedback = ({ solution }: NegativeFeedbackProps) => {
+const NegativeFeedback = ({ solution }: NeutralFeedbackProps) => {
     const incorrectMessages = [
         "Niet juist...",
         "Dat klopt niet helaas...",
@@ -63,22 +63,29 @@ const NegativeFeedback = ({ solution }: NegativeFeedbackProps) => {
     const [msg] = useState(getRandomArrElement(incorrectMessages));
     const [emoji] = useState(getRandomArrElement(incorrectEmojis));
 
+    return (
+        <span>
+            { `${msg} ${emoji} ` }
+            <NeutralFeedback solution={solution} />
+        </span>
+    );
+};
+
+
+const NeutralFeedback = ({ solution }: NeutralFeedbackProps) => {
     const singleCorrectAnswerText = "Het juiste antwoord was ";
     const multCorrectAnswersText = "De juiste antwoorden waren "; 
     
     return (
         <span>
-            { `${msg} ${emoji} ` }
-            <span>
-                { Array.isArray(solution) ? (
-                      solution.length > 1 ?
-                      multCorrectAnswersText
-                      : singleCorrectAnswerText
-                  )
-                  : singleCorrectAnswerText }
-                <ReadableAnswerSolution solution={ solution } />
-                { "." }
-            </span>
+            { Array.isArray(solution) ? (
+                  solution.length > 1 ?
+                  multCorrectAnswersText
+                  : singleCorrectAnswerText
+              )
+              : singleCorrectAnswerText }
+            <ReadableAnswerSolution solution={ solution } />
+            { "." }
         </span>
     );
 };
@@ -86,7 +93,7 @@ const NegativeFeedback = ({ solution }: NegativeFeedbackProps) => {
 type AnsFeedbackProps = {
     solution: React.ReactNode|React.ReactNode[],
     explanation?: React.ReactNode,
-    correct: boolean,
+    correct?: boolean|null,
 };
 
 export const AnswerFeedback = ({ solution, explanation, correct }: AnsFeedbackProps) => {
@@ -96,14 +103,17 @@ export const AnswerFeedback = ({ solution, explanation, correct }: AnsFeedbackPr
     const [SHOW_TEXT, HIDE_TEXT] = ["Toon uitleg", "Verberg uitleg"];
     const [buttonText, setButtonText] = React.useState(SHOW_TEXT);
 
-    
     return (
         <FeedbackPaper elevation={0} variant="outlined">
             <b>
                 {
-                    correct ?
-                    <PositiveFeedback/>
-                    : <NegativeFeedback solution={ solution } />
+                    correct === null ?
+                    <NeutralFeedback solution={ solution } />
+                    : (
+                        correct ?
+                        <PositiveFeedback/>
+                        : <NegativeFeedback solution={ solution } />
+                    )
                 }
             </b>
             {

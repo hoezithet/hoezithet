@@ -56,7 +56,7 @@ export const makeSelectAnswerFromId = () => {
 };
 
 export function useAnswerValue<T> (
-    evaluateAnswerValue: (v: T|null) => boolean,
+    evaluateAnswerValue: (v: T|null) => boolean|null,
     solution: string|string[],
     explanation: string,
 ): {answerValue: T|null, setAnswerValue: (newValue: T|null) => void, showingSolution: boolean} {
@@ -73,7 +73,7 @@ export function useAnswerValue<T> (
             answerAdded({
                 id: id,
                 value: null,
-                correct: false,
+                correct: null,
                 answered: false,
                 solution: solution,
                 explanation: explanation,
@@ -94,12 +94,16 @@ export function useAnswerValue<T> (
     }, []);
 
     const setAnswerValue = (newValue: T|null) => {
+        const correct = evaluateAnswerValue(newValue);
+        const answered = correct === null || newValue !== null;
+        // If correct is null, the answer has no user input,
+        // so there's nothing to evaluate.
         dispatch(
             answerChanged({
                 ...answer,
                 value: newValue,
-                correct: evaluateAnswerValue(newValue),
-                answered: newValue !== null,
+                correct: correct,
+                answered: answered,
             })
         )
     };

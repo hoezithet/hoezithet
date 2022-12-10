@@ -297,7 +297,16 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
     };
     
     const getScore = () => {
-        return answers?.reduce((acc, _exAnswers, idx) => stepCorrect(idx) ? acc + 1 : acc, 0) || 0;
+        return answers?.reduce((acc, _exAnswers, idx) => {
+            const correct = stepCorrect(idx);
+            if (acc === null || correct === null) {
+                // Stepper contains exercise without user input,
+                // so there's nothing to evaluate.
+                return null;
+            } else {
+                return correct ? acc + 1 : acc;
+            }
+        }, 0);
     };
 
     const views = (

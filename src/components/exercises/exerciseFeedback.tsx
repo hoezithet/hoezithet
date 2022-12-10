@@ -8,7 +8,7 @@ import useExpandable from "hooks/useExpandable";
 import giphyLogo from "../../../images/GiphyLogo_vert.png";
 
 interface ExercisesFeedbackProps {
-    nCorrect: number;
+    nCorrect: number|null;
     nTotal: number;
 };
 
@@ -24,14 +24,20 @@ export const ExercisesFeedback = ({ nCorrect, nTotal }: ExercisesFeedbackProps) 
     const [query, setQuery] = useState<string|null>(null);
     const [message, setMessage] = useState<string|null>(null);
 
+    const pct = nCorrect !== null && nTotal !== 0 ? nCorrect / nTotal : null;  // If null: user couldn't give input, so we can't evaluate
+
     React.useEffect(() => {
         let query, message;
-        const pct = nCorrect / nTotal;
-        if (pct === 1.0) {
+        if (pct === 1.0 || pct === null) {
             query = getRandomArrElement(["party", "excited", "dance", "hooray", "proud"]);
-            message = getRandomArrElement(["Proficiat!", "Mooi zo!", "Perfect!", "Hoera! Alles juist!", "Super goed!"]);
+            const messages = pct !== null ? [
+                "Proficiat!", "Mooi zo!", "Perfect!", "Hoera! Alles juist!", "Super goed!"
+            ]: [
+                "Helemaal klaar!", "Klaar!", "Gedaan!", "Dat was het!"
+            ];
+            message = getRandomArrElement(messages);
             const partyEmojis = [
-                "🎉", "🎈", "🎊", "🥳", "👏", "🕺", "💃"
+                "🎉", "🎈", "🎊", "🥳", "👏", "🕺", "💃", "💪"
             ];
             const emoji1 = getRandomArrElement(partyEmojis);
             const emoji2 = getRandomArrElement(partyEmojis.filter(e => e !== emoji1));
@@ -74,9 +80,12 @@ export const ExercisesFeedback = ({ nCorrect, nTotal }: ExercisesFeedbackProps) 
 
     return (
         <>
-            <p>Je behaalde:</p>
-            <h3>{`${nCorrect}/${nTotal}`}</h3>
-            <p>{message}</p>
+            { pct !== null ?
+              <>
+                <p>Je behaalde:</p>
+                <h3>{`${nCorrect}/${nTotal}`}</h3>
+                <p>{message}</p>
+              </> : <h3>{message}</h3> }
             <div ref={wrapperRef} style={{overflow: "hidden"}}>
                 <div ref={bodyRef}>
                     <Grid container spacing={3}>

@@ -55,17 +55,16 @@ export const makeSelectExerciseById = () => {
 };
 
 export const makeSelectExerciseAnswers = () => {
-    const selectExerciseById = makeSelectExerciseStepperFromId();
+    const selectExerciseById = makeSelectExerciseById();
     const selectExerciseAnswers = createSelector(
         [
           (state: RootState, exId: string) => selectExerciseById(state, exId),
           (state: RootState) => selectAnswers(state),
-          (state: RootState, exId: string, ansId: string) => ansId, 
         ],
-        (exercise: ExerciseType, answers: AnswerType[], ansId: string) => {
-            return exercise?.answerIds.map(ansId =>
-                answers?.find(ans => ans.id === ansId)
-            );
+        (exercise: ExerciseType, answers: AnswerType[]) => {
+            return exercise?.answerIds.map(ansId => {
+                return answers?.find(ans => ans.id === ansId);
+            });
         }
     );
     return selectExerciseAnswers;
@@ -90,22 +89,7 @@ export const makeSelectExerciseRankInStepper = () => {
  *
  * The interactive parts of an exercise are provided by answering components like `MultipleChoice`,
  * `MultipleAnswer` and `FillString`. The user enters their response via the answering component and
- * can get feedback on their given answers. A simple exercise might look like this:
- *
- * ```jsx
- * <Exercise>
- *   2 + 5 is equal to
- *   <MultipleChoice shuffle={false} solution={1}>
- *
- *       - 4
- *       - 7
- *       - -5
- *
- *     <Explanation>
- *       If you'd be standing at number 2 on a number line and would take 5 steps to the right, you'll end up standing at number 7.
- *     </Explanation>
- *   </MultipleChoice>
- * </Exercise>
+ * can get feedback on their given answers.
  * ```
  *
  * @prop {React.ReactNode} children The children of the exercise. Should contain some question text and one or more answer components.
@@ -140,7 +124,7 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
                 id: id,
             })
         )
-        if (addExerciseIdToStepper !== null) {
+        if (addExerciseIdToStepper !== undefined) {
             addExerciseIdToStepper(id)
         }
         return () =>  {
@@ -169,7 +153,7 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
     }
 
     const allAnswered = (
-        Array.isArray(answers) && answers.length > 0 && answers.every(ans => ans?.answered)
+        Array.isArray(answers) && answers.length > 0 && answers.every(ans => ans?.answered || ans?.correct === null)
     );
 
     const allShowingSolutions = (
@@ -196,9 +180,9 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
         });
     };
 
-    const insideStepper = addExerciseIdToStepper !== null;
+    const insideStepper = addExerciseIdToStepper !== undefined;
     const insideBare = React.useContext(BareLessonContext) !== null;
-	const title = (showTitle || insideBare) && name !== "" ? <h3>{ name }</h3> : null;
+	  const title = (showTitle || insideBare) && name !== "" ? <h3>{ name }</h3> : null;
 
     const ctxValRef = useRef<ExerciseContextValueType>({
         addAnswer: addAnswerId,
@@ -229,7 +213,7 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
                         color="primary"
                         disabled={!allAnswered}
                         onClick={showSolutions} >
-                        {"Toon feedback"}
+                        {"Toon oplossing"}
                     </Button>
                     : null
                     }
@@ -248,7 +232,8 @@ type ExerciseTitleProps = {
 const getExerciseName = ({ rank, stepperRank }: ExerciseTitleProps) => {
     rank = rank || 0;
     let name = '';
-    if (stepperRank === null) {
+    
+    if (stepperRank === undefined) {
         name += (rank + 1);
     } else {
         const alphabet = "abcdefghijklmnopqrstuvwxyz";
