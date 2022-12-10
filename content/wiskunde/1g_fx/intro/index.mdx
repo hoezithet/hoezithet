@@ -18,13 +18,13 @@ Dirk gaat volgende week naar een muziekfestival en is in onderhandeling met Mari
 import { AnnotatedFx } from "./drawings";
 import Onderhandeling from "./onderhandeling";
 
-<Onderhandeling />
+<Onderhandeling/>
 
 Dirk drinkt al graag eens een goed glas melk wanneer hij op een festivalweide staat. Hij wil dan ook liefst zoveel mogelijk glazen melk kunnen drinken.
 
 import DirkFestival from "./dirk_festival";
 
-<DirkFestival />
+<DirkFestival/>
 
 Een toegangsticket voor het festival bedraagt €25 en voor een glas melk vraagt het festival €3. Dirk zou graag willen weten **welk budget** hij met Maria moet onderhandelen om een **bepaald aantal glazen melk** te kunnen drinken op het festival.
 
@@ -46,7 +46,7 @@ Maria eet al eens graag een praline. Ze toonde dan ook met plezier haar groot ha
 
 import MariaPralines from './maria_pralines';
 
-<MariaPralines />
+<MariaPralines/>
 
 Maria weet natuurlijk wel dat ze die hele doos best niet op één dag naar binnen speelt. Ze heeft dan ook besloten om elke dag slechts 4 pralines te eten. Na enkele dagen vraagt ze zich af hoeveel pralines er nog in de doos zitten. Hoe kan ze dit berekenen?
 
@@ -84,7 +84,7 @@ $$
 
 import { WatIsMEnQ, Herken1GFx } from "./exercises";
 
-<WatIsMEnQ />
+<WatIsMEnQ/>
 
 Er zijn talloze situaties waar we een $y$ kunnen uitrekenen met een $x$ via $y=m x + q$. Dat komt zelfs zo vaak voor dat we er een speciale naam aan geven: **eerstegraadsfuncties**.
 
@@ -117,9 +117,9 @@ We gebruiken de naam *eerstegraadsfunctie* omdat de hoogste macht van $x$ in $mx
 >
 > Als $m$ gelijk zou zijn aan nul, dan is ook $m\cdot x=0$ en dan wordt $f(x)=0+q$ of korter $f(x)=q$. We hebben dan geen $x$ meer in ons functievoorschrift. De hoogste graad van $x$ is dan niet meer één, maar nul. $f(x)$ is dus geen eerstegraadsfunctie meer, maar een *nuldegraadsfunctie* of een *constante functie*.
 
-import { Herken1GFxTexts } from "./exercises";
+import { Herken1GFxTexts, MariaSegway } from "./exercises";
 
-<Herken1GFx />
+<Herken1GFx/>
 
 ## Intuïtie achter functies van de eerste graad
 
@@ -142,24 +142,9 @@ Elke situatie waar er een vast aantal per $x$ weggaat of bijkomt bij een beginaa
 
 Probeer het voorgande nu zelf toe te passen op de volgende oefeningen.
 
-### Oefeningen
-
-Maria rijdt met haar Segway een constante snelheid van $300$ meter per minuut. Ze vertrekt van bij haar thuis en volgt de hele tijd een rechte baan. Bepaal een formule die aangeeft hoeveel meter ze van huis is na een bepaald aantal minuten rijden. Is dit een eerstegraadsfunctie?
-
-import MariaSegway from './maria_segway';
-
 <MariaSegway />
 
-> -Oplossing
->
-> 1. **Zoek de betekenis van $x$ en $y$**: het aantal meter dat Maria van huis is, hangt af van hoeveel minuten ze aan het rijden is. $y$ is dus "*het aantal meter van huis*" en $x$ is "*het aantal minuten dat Maria rijdt*".
-> 2. **Bepaal of $y$ een eerstegraadsfunctie is van $x$**: Per minuut ($x$) komt er een vaste afstand bij $y$ bij. $y$ is dus een eerstegraadsfunctie van $x$.
-> 3. **Bepaal $m$**: wanneer Maria één minuut langer rijdt, zal ze $300$ meter verder van huis zijn. $m$ is dus $300$.
-> 4. **Bepaal $q$**: wanneer ze nul minuten heeft gereden ($x=0$), dan is ze thuis. Ze is dan met andere woorden nul meter van huis. $q$ is dus gelijk aan $0$.
->
-> <AnnotatedFx m={300} mName="300 m meer per minuut" q={0} qName="0 meter ver op minuut 0" yName="aantal meter van huis" xName="aantal minuten" annotFontSize={75} />
-
-<Herken1GFxTexts />
+<Herken1GFxTexts/>
 
 ## Samengevat
 

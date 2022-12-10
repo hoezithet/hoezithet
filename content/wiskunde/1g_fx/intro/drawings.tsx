@@ -55,7 +55,7 @@ const AnnotatedFxChild = withDrawingScale(({
             <Annot x={fxX + xMargin} y={annFxHeight - yMargin} fontSize={annotFontSize} align="bottom left" id={xNameId} color="orange">
                 { xName }
             </Annot>
-            { arrows }
+            { arrows.map((a, i) => <React.Fragment key={i}>{a}</React.Fragment>) }
         </>
     )
 }, annFxWidth, annFxHeight)

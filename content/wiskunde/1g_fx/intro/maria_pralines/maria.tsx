@@ -6,13 +6,13 @@ const _Maria = () => {
     return (
         <g transform="translate(-794.411990 183.832952)">
           <g>
-            <path d="m 844.88746,90.397563 c 63.16257,-39.776708 179.95014,-39.776708 243.11264,0" stroke="#000000" fill-opacity="0" stroke-width="71.0938" stroke-linecap="round"/>
-            <path d="m 904.98079,311.08278 c 0,123.42561 0,370.27685 0,493.70251" stroke="rgba(0,0,0,0)" fill-opacity="0" stroke-width="107.997" stroke-linecap="round"/>
-            <path d="M 904.98079,311.08278 V 740.69335" stroke="#000000" fill-opacity="0" stroke-width="97.712" stroke-linecap="round" />
-            <path d="m 1012.9783,311.08278 c 0,123.42561 0,370.27685 0,493.70251" stroke="rgba(0,0,0,0)" fill-opacity="0" stroke-width="107.997" stroke-linecap="round"/>
-            <path d="M 1012.9783,311.08278 V 740.69335" stroke="#000000" fill-opacity="0" stroke-width="97.712" stroke-linecap="round" />
-            <path d="m 1088.0001,90.397563 c 69.0826,67.175517 71.4401,136.468907 -26.2155,161.956517" stroke="#000000" fill-opacity="0" stroke-width="71.9984" stroke-linecap="round" />
-            <path d="M 844.88746,90.397563 C 775.80486,157.57308 777.08349,226.86647 874.73909,252.35408" stroke="#000000" fill-opacity="0" stroke-width="71.9984" stroke-linecap="round" />
+            <path d="m 844.88746,90.397563 c 63.16257,-39.776708 179.95014,-39.776708 243.11264,0" stroke="#000000" fillOpacity="0" strokeWidth="71.0938" strokeLinecap="round"/>
+            <path d="m 904.98079,311.08278 c 0,123.42561 0,370.27685 0,493.70251" stroke="rgba(0,0,0,0)" fillOpacity="0" strokeWidth="107.997" strokeLinecap="round"/>
+            <path d="M 904.98079,311.08278 V 740.69335" stroke="#000000" fillOpacity="0" strokeWidth="97.712" strokeLinecap="round" />
+            <path d="m 1012.9783,311.08278 c 0,123.42561 0,370.27685 0,493.70251" stroke="rgba(0,0,0,0)" fillOpacity="0" strokeWidth="107.997" strokeLinecap="round"/>
+            <path d="M 1012.9783,311.08278 V 740.69335" stroke="#000000" fillOpacity="0" strokeWidth="97.712" strokeLinecap="round" />
+            <path d="m 1088.0001,90.397563 c 69.0826,67.175517 71.4401,136.468907 -26.2155,161.956517" stroke="#000000" fillOpacity="0" strokeWidth="71.9984" strokeLinecap="round" />
+            <path d="M 844.88746,90.397563 C 775.80486,157.57308 777.08349,226.86647 874.73909,252.35408" stroke="#000000" fillOpacity="0" strokeWidth="71.9984" strokeLinecap="round" />
             <g>
               <path d="m 1084.9536,48.760754 c 0,0 -23.0871,35.431921 -4.2461,90.349146 -17.0558,72.86338 -10.0335,160.53907 10.1016,234.0964 16.9017,61.74515 27.0996,158.52441 23.0614,218.03592 -80.3515,22.99195 -247.75151,9.09129 -319.45851,9.09129 3.22024,-80.63747 2.75856,-160.47272 29.5332,-233.63254 27.76814,-75.87448 38.02612,-131.81032 25.34817,-225.82986 4.23881,-24.1085 -14.41069,-60.229945 -27.77608,-79.193953 18.42932,-10.085041 50.06724,-33.082282 86.73366,-35.061383 68.1414,52.83065 93.30576,6.232317 113.75766,1.856427 7.7128,-3.454071 49.6282,12.782645 62.945,20.288553 z" fill="#357edd" fillOpacity="1" stroke="none" strokeWidth="11.4403" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="4" strokeDasharray="none" strokeDashoffset="0" strokeOpacity="1"/>
               <g transform="matrix(3.22294 0 0 3.22294 624.009 25.8117)">
@@ -94,8 +94,8 @@ const _Maria = () => {
                 <circle r="3.4184093" cy="16.179581" cx="106.52979" opacity="1" fill="#000000" fillOpacity="1" stroke="none" strokeWidth="0.379823" strokeLinecap="butt" strokeLinejoin="bevel" strokeMiterlimit="4" strokeDasharray="none" strokeDashoffset="0" strokeOpacity="1" paintOrder="markers stroke fill"/>
               </g>
             </g>
-            <path d="m 1137.4192,187.00879 c -2.9823,28.90624 -26.8068,52.60148 -75.6346,65.34529" stroke="#000000" fill-opacity="0" stroke-width="71.9984" stroke-linecap="round" />
-            <path d="m 797.28645,187.00879 c 3.89128,28.90624 28.62484,52.60148 77.45264,65.34529" stroke="#000000" fill-opacity="0" stroke-width="71.9984" stroke-linecap="round" />
+            <path d="m 1137.4192,187.00879 c -2.9823,28.90624 -26.8068,52.60148 -75.6346,65.34529" stroke="#000000" fillOpacity="0" strokeWidth="71.9984" strokeLinecap="round" />
+            <path d="m 797.28645,187.00879 c 3.89128,28.90624 28.62484,52.60148 77.45264,65.34529" stroke="#000000" fillOpacity="0" strokeWidth="71.9984" strokeLinecap="round" />
           </g>
         </g>
     );

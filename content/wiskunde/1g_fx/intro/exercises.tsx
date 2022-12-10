@@ -4,7 +4,13 @@ import MultipleChoiceStepper from 'components/exercises/multipleChoiceStepper';
 import { getVoorschrift1GStr } from '../tekenschema/drawings';
 import { Katex as KX } from 'components/katex';
 import { FillString } from 'components/exercises/fillAnswer';
+import { NoAnswer } from 'components/exercises/noAnswer';
+import { Exercise } from 'components/exercises/exercise';
 import _random from "lodash/random";
+
+import { AnnotatedFx } from "./drawings";
+import MariaSegwaySvg from './maria_segway';
+
 
 
 export const WatIsMEnQ = () => {
@@ -158,5 +164,28 @@ export const Herken1GFxTexts = () => {
 
     return (
         <MultipleChoiceStepper texts={texts} choices={choices} solutions={solutions} explanations={explanations} Wrapper={props => <div {...props}/>}/>
+    );
+};
+
+
+export const MariaSegway = () => {
+    return (
+        <Exercise>
+            <p>
+            Maria rijdt met haar Segway een constante snelheid van <KX>300</KX> meter per minuut. Ze vertrekt van bij haar thuis en volgt de hele tijd een rechte baan. Bepaal een formule die aangeeft hoeveel meter ze van huis is na een bepaald aantal minuten rijden. Is dit een eerstegraadsfunctie?
+            </p>
+            <MariaSegwaySvg />
+            <NoAnswer solution={<KX>f(x)=300x</KX>}>
+              <>
+                <ol>
+                  <li><strong>Zoek de betekenis van <KX>x</KX> en <KX>y</KX></strong>: het aantal meter dat Maria van huis is, hangt af van hoeveel minuten ze aan het rijden is. <KX>y</KX> is dus "<em>het aantal meter van huis</em>" en <KX>x</KX> is "<em>het aantal minuten dat Maria rijdt</em>".</li>
+                  <li><strong>Bepaal of <KX>y</KX> een eerstegraadsfunctie is van <KX>x</KX></strong>: Per minuut (<KX>x</KX>) komt er een vaste afstand bij <KX>y</KX> bij. <KX>y</KX> is dus een eerstegraadsfunctie van <KX>x</KX>.</li>
+                  <li><strong>Bepaal <KX>m</KX></strong>: wanneer Maria één minuut langer rijdt, zal ze <KX>300</KX> meter verder van huis zijn. <KX>m</KX> is dus <KX>300</KX>.</li>
+                  <li><strong>Bepaal <KX>q</KX></strong>: wanneer ze nul minuten heeft gereden (<KX>x=0</KX>), dan is ze thuis. Ze is dan met andere woorden nul meter van huis. <KX>q</KX> is dus gelijk aan <KX>0</KX>.</li>
+                </ol>
+                <AnnotatedFx m={300} mName="300 m meer per minuut" q={0} qName="0 meter ver op minuut 0" yName="aantal meter van huis" xName="aantal minuten" annotFontSize={75} />
+               </>
+            </NoAnswer>
+        </Exercise>
     );
 };
