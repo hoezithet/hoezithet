@@ -12,6 +12,7 @@ import Paper from '../paper';
 import { RootState } from '../../state/store'
 import { exerciseAdded, exerciseAnswerAdded, removeExercise, exerciseNameChanged } from '../../state/exercisesSlice';
 import { answerChanged, showAnswerSolution, resetAnswer } from '../../state/answersSlice';
+import { exerciseStepperAdded, exerciseStepAdded, removeExerciseStepper } from '../../state/exerciseSteppersSlice';
 import BareLessonContext from "contexts/bareLessonContext";
 
 import useId from 'hooks/useId';
@@ -97,7 +98,18 @@ export const makeSelectExerciseRankInStepper = () => {
  * ```
  */
 export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
+    const stepperContext = useContext(ExerciseStepperContext);
+    const insideStepper = stepperContext !== null;
+
     const id = useId();
+    let stepperId = useId();
+
+    if (insideStepper) {
+        stepperId = stepperContext?.id;
+    }
+
+    const selectExerciseStepperFromId = React.useMemo(makeSelectExerciseStepperFromId, []);
+    const exerciseStepper = useSelector(state => selectExerciseStepperFromId(state, stepperId));
 
     const selectExerciseFromId = React.useMemo(makeSelectExerciseById, []);
     const exercise = useSelector(state => selectExerciseFromId(state, id));
@@ -107,16 +119,13 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
 
     const nodeRef = useRef<HTMLDivElement>(null);
 
-    const stepperContext = useContext(ExerciseStepperContext);
-    const addExerciseIdToStepper = stepperContext?.addExercise;
-    const stepperRank = stepperContext?.rank;
-    const stepperId = stepperContext?.id;
+    let stepperRank = exerciseStepper?.rank;
+
     const dispatch = useDispatch();
 
     const selectExerciseRankInStepperFromId = React.useMemo(makeSelectExerciseRankInStepper, []);
-    let rank = useSelector(state => selectExerciseRankInStepperFromId(state, stepperId, id));
-    rank = rank !== -1 ? rank : exercise?.rank;
-    const name = rank !== undefined ? getExerciseName({rank: rank, stepperRank: stepperRank}) : "";
+    const rank = useSelector(state => selectExerciseRankInStepperFromId(state, stepperId, id));
+    const name = getExerciseName({rank: rank, stepperRank: stepperRank, insideStepper: insideStepper});
 
     useEffect(() => {
         dispatch(
@@ -124,14 +133,36 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
                 id: id,
             })
         )
-        if (addExerciseIdToStepper !== undefined) {
-            addExerciseIdToStepper(id)
-        }
         return () =>  {
             dispatch(
                 removeExercise({ id: id })
             );
         };
+    }, []);
+
+    useEffect(() => {
+        if (insideStepper) {
+            return;
+        }
+        dispatch(
+            exerciseStepperAdded({
+                id: stepperId,
+            })
+        )
+        return () => {
+            dispatch(
+                removeExerciseStepper({ id: stepperId })
+            );
+        };
+    }, []);
+
+    useEffect(() => {
+        dispatch(
+            exerciseStepAdded({
+                exerciseStepperId: stepperId,
+                exerciseId: id,
+            })
+        )
     }, []);
 
     useEffect(() => {
@@ -180,7 +211,6 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
         });
     };
 
-    const insideStepper = addExerciseIdToStepper !== undefined;
     const insideBare = React.useContext(BareLessonContext) !== null;
 	  const title = (showTitle || insideBare) && name !== "" ? <h3>{ name }</h3> : null;
 
@@ -208,7 +238,7 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
                     : null
                     }
                     {
-                    !allShowingSolutions ?
+                    !allShowingSolutions && !insideBare ?
                     <Button variant="contained"
                         color="primary"
                         disabled={!allAnswered}
@@ -227,14 +257,15 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
 type ExerciseTitleProps = {
     rank: number,
     stepperRank: number|null,
+    insideStepper: boolean,
 }
 
-const getExerciseName = ({ rank, stepperRank }: ExerciseTitleProps) => {
+const getExerciseName = ({ rank, stepperRank, insideStepper }: ExerciseTitleProps) => {
     rank = rank || 0;
     let name = '';
     
-    if (stepperRank === undefined) {
-        name += (rank + 1);
+    if (!insideStepper) {
+        name += (stepperRank + 1);
     } else {
         const alphabet = "abcdefghijklmnopqrstuvwxyz";
         name += (stepperRank + 1) + alphabet.charAt(rank % 26);
