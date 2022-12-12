@@ -1,62 +1,93 @@
 import React from "react";
 
-import MultipleChoiceStepper from 'components/exercises/multipleChoiceStepper';
+import { Exercise } from 'components/exercises/exercise';
+import { ExerciseStepper } from 'components/exercises/exerciseStepper';
+import { MultipleChoice } from 'components/exercises/multipleChoice';
+import { Katex as K } from 'components/katex';
+import { useAnnotArrow } from 'components/drawings/annotArrow';
+import _random from "lodash/random";
+import _range from "lodash/range";
+import { shuffle } from "utils/array";
+import useId from 'hooks/useId';
 
 
-
-export const InvloedM = () => {
-    const texts = [
-        "Wanneer $m$ **groter dan nul** is...",
-        "Wanneer $m$ **kleiner dan nul** is...",
-        "Wanneer $m$ **gelijk aan nul** is...",
-        "Wanneer de **absolute waarde van $m$ groter** wordt...",
-        "Wanneer de **absolute waarde van $m$ kleiner** wordt..."
-    ];
-    const signMChoices = [
-        "dan is de grafiek van de functie **stijgend**.",
-        "dan is de grafiek van de functie **dalend**.",
-        "dan is de grafiek van de functie **vlak**.",
-    ];
-    const absMChoices = [
-        "dan wordt de grafiek van de functie **steiler**.",
-        "dan wordt de grafiek van de functie **vlakker**.",
-    ];
-    const choices = [
-        signMChoices,
-        signMChoices,
-        signMChoices,
-        absMChoices,
-        absMChoices,
-    ];
-    const solutions = [
-        0, 1, 2, 0, 1
-    ];
-    return (
-        <MultipleChoiceStepper texts={texts} choices={choices} solutions={solutions}/>
-    );
+const simplify = (numerator, denominator) => {
+    const getGCD = (a, b) => {
+        return b ? getGCD(b, a%b) : a;
+    };
+    const gcd = getGCD(numerator, denominator);
+    return [numerator/gcd, denominator/gcd];
 };
 
 
-export const InvloedQ = () => {
-    const texts = [
-        "Wanneer $q$ **gelijk is aan nul**...",
-        "Wanneer $q$ **groter is dan nul**...",
-        "Wanneer $q$ **kleiner is dan nul**...",
-    ];
-    const signQChoices = [
-        "dan ligt het snijpunt van de grafiek en de y-as **boven de x-as**.",
-        "dan ligt het snijpunt van de grafiek en de y-as **onder de x-as**.",
-        "dan ligt het snijpunt van de grafiek en de y-as **in de oorsprong**.",
-    ];
-    const choices = [
-        signQChoices,
-        signQChoices,
-        signQChoices,
-    ];
-    const solutions = [
-        2, 0, 1
-    ];
+const isSimplestFrac = (numer, denom) => {
+    const [sn, sd] = simplify(numer, denom);
+    return sn === numer && sd === denom;
+};
+
+
+const simplestFracTex = (numerator, denominator) => {
+    [numerator, denominator] = simplify(numerator, denominator);
+    if (denominator < 0 && numerator > 0) {
+        numerator *= -1;
+        denominator *= -1;
+    }
+    if (denominator === 1) {
+        return `${numerator}`;
+    } else {
+        return String.raw`\frac{${numerator}}{${denominator}}`;
+    }
+}
+
+
+export const RicoTweePunten = () => {
+    const x1s = shuffle(_range(-10, 9)).slice(0, 5);
+    const x2s = x1s.map(x1 => _random(x1 + 1, 10));
+    const y1s = shuffle(_range(-10, 9)).slice(0, x1s.length);
+    const y2s = y1s.map(y1 => _random(y1 + 1, 10));
+
     return (
-        <MultipleChoiceStepper texts={texts} choices={choices} solutions={solutions}/>
+        <ExerciseStepper>
+        {
+          x1s.map((x1, i) =>
+            <React.Fragment key={i}>
+              <RicoTweePuntenSingle x1={x1} x2={x2s[i]} y1={y1s[i]} y2={y2s[i]}/>
+            </React.Fragment>
+          )
+        }
+        </ExerciseStepper>
     );
-  };
+}
+
+export const RicoTweePuntenSingle = ({x1, x2, y1, y2}) => {
+    const choices = [
+        `m = ${simplestFracTex(y2 - y1, x2 - x1)}`,
+        `m = ${simplestFracTex(y2 - y1, x1 - x2)}`,
+        `m = ${simplestFracTex(x2 - x1, y2 - y1)}`,
+        `m = ${simplestFracTex(y2 - x2, y1 - x1)}`,
+    ].map(c => <K>{c}</K>);
+
+    return (
+        <Exercise>
+          Wat is de richtingscoëfficiënt van de eerstegraadsfunctie die gaat  door de punten <K>{`(${x1}, ${y1})`}</K> en <K>{`(${x2}, ${y2})`}</K>?
+          <MultipleChoice choices={choices} solution={0}>
+          <div>
+            Om de richtingscoëfficiënt <K>m</K> van een eerstegraadsfunctie te berekenen die gaat door twee gegeven punten <K>(x_1, y_1)</K> en <K>(x_2, y_2)</K>, kunnen we de volgende formule gebruiken:
+            <K display>
+            {String.raw`m = \frac{y_2 - y_1}{x_2 - x_1}`}
+            </K>
+            Er is gegeven dat de functie door de punten <K>{`(${x1}, ${y1})`}</K> en <K>{`(${x2}, ${y2})`}</K> gaat. Invullen geeft dan:
+            <K display>
+            {String.raw`
+              \begin{aligned}
+              m &= \frac{${y2} - ${y1 < 0 ? `(${y1})` : y1}}{${x2} - ${x1 < 0 ? `(${x1})` : x1}}\\
+              &= \frac{${y2 - y1}}{${x2 - x1}}\\
+              ${isSimplestFrac(y2 - y1, x2 - x1) ? '' : `&= ${simplestFracTex(y2 - y1, x2 - x1)}`}
+              \end{aligned}
+            `}
+            </K>
+          </div>
+          </MultipleChoice>
+        </Exercise>
+    );
+};
