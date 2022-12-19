@@ -71,7 +71,7 @@ const DrawingGrid = ({color="light_gray", major=null, minor=null, opacity=1.0, l
     minorX = minorX === null ? minor : minorX;
     minorY = minorY === null ? minor : minorY;
     minorOpacity = minorOpacity === null ? opacity : minorOpacity;
-    minorLinewidth = minorLinewidth === null ? linewidth : minorLinewidth;
+    minorLinewidth = minorLinewidth === null ? linewidth/2 : minorLinewidth;
 
     const {xScale, yScale, width, height} = useContext(DrawingContext);
     color = getColor(color);

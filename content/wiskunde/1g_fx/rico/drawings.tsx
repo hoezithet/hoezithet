@@ -18,7 +18,7 @@ import { MathJax } from "components/mathjax";
 
 const getFx = (m, q) => x => m*x + q;
 
-const toComma = s => {
+export const toComma = s => {
     if (typeof s === 'number' && !Number.isInteger(s)) {
         s = s.toFixed(2);
         if (Math.floor(s) == s) {
@@ -28,9 +28,9 @@ const toComma = s => {
     return `${s}`.replace('.', '{,}');
 };
 
-const DiffQuotPoints = ({
+export const DiffQuotPoints = ({
     m, q,
-    p1, p2, r=0.2, fill="orange", pFill="blue"
+    p1, p2, r=0.2, fill="orange", pFill="blue", hideCoords=false
 }) => {
     const fx = getFx(m, q);
 
@@ -107,12 +107,18 @@ const DiffQuotPoints = ({
             <path d={`M ${x2Px - rAngSignMarginPx - rAngSignSizePx} ${y1Px - rAngSignMarginPx * (m >= 0 ? 1 : -1)} h ${rAngSignSizePx} v ${-rAngSignSizePx * (m >= 0 ? 1 : -1)}`} fill="none" stroke={getColor(fill)}/>
             <circle cx={x1Px} cy={y1Px} r={rPx} fill={pFill} />
             <circle cx={x2Px} cy={y2Px} r={rPx} fill={pFill} />
-            <Annot x={x1PxAnnot} y={y1PxAnnot} align={annotAlign} textPadding={annotPadding} fontSize={coordFontSizePx} color={coordColor} showBackground Wrapper={MathJax}>
-                {String.raw`A~(${toComma(x1)}; ${toComma(y1)})`}
-            </Annot>
-            <Annot x={x2PxAnnot} y={y2PxAnnot} align={annotAlign} textPadding={annotPadding} fontSize={coordFontSizePx} color={coordColor} showBackground Wrapper={MathJax}>
-                {String.raw`B~(${toComma(x2)}; ${toComma(y2)})`}
-            </Annot>
+            {
+              hideCoords ? null
+              :
+              <>
+                <Annot x={x1PxAnnot} y={y1PxAnnot} align={annotAlign} textPadding={annotPadding} fontSize={coordFontSizePx} color={coordColor} showBackground Wrapper={MathJax}>
+                  {String.raw`A~(${toComma(x1)}; ${toComma(y1)})`}
+                </Annot>
+                <Annot x={x2PxAnnot} y={y2PxAnnot} align={annotAlign} textPadding={annotPadding} fontSize={coordFontSizePx} color={coordColor} showBackground Wrapper={MathJax}>
+                    {String.raw`B~(${toComma(x2)}; ${toComma(y2)})`}
+                </Annot>
+              </>
+            }
             <TextAccolade color={pFill} x1={x2Px + accolPadding} x2={x2Px}
                 y={y1Px} height={y1Px - y2Px} width={xScale.metric(1)}
                 strokeWidth={xScale.metric(0.1)} annotProps={accolAnnotProps}>
@@ -138,7 +144,7 @@ const DiffQuotPoints = ({
 export const InteractDiffQuotPoints = ({
     m, q, x1, x2 = null, x2Func = null,
     mSlider=false, qSlider=false,
-    p1Slider=false, p2Slider=false
+    p1Slider=false, p2Slider=false, ...props
 }) => {
     let setM, setQ, setX1, setX2;
     console.log(x2Func);
@@ -188,7 +194,7 @@ export const InteractDiffQuotPoints = ({
 
     return (
         <Stack alignItems="center">
-            <Plot gridProps={{major: 1, color: "light_gray", opacity: 0.5}}>
+            <Plot gridProps={{major: 1, color: "light_gray", opacity: 0.5}} {...props}>
                 <DiffQuotPoints m={m} q={q} p1={[x1, y1]} p2={[x2, y2]} />
             </Plot>
             <Box sx={{ width: 400 }}>

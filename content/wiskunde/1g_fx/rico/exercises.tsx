@@ -9,6 +9,9 @@ import _random from "lodash/random";
 import _range from "lodash/range";
 import { shuffle } from "utils/array";
 import useId from 'hooks/useId';
+import { Fx } from "components/drawings/fx";
+import { Plot } from "components/drawings/plot";
+import { DiffQuotPoints, toComma } from "./drawings";
 
 
 const simplify = (numerator, denominator) => {
@@ -59,13 +62,23 @@ export const RicoTweePunten = () => {
     );
 }
 
+const getChoices = (x1, y1, x2, y2, toFrac=true) => {
+    let choices = [
+        [y2 - y1, x2 - x1],
+        [y2 - y1, x1 - x2],
+    ];
+
+    if (x2 - x1 !== y2 - y1) {
+        choices.push([x2 - x1, y2 - y1]);
+    } else {
+        choices.push([x2 - x1, y1 - y2]);
+    }
+
+    return choices.map(c => <K>{`m = ${toFrac ? simplestFracTex(c[0], c[1]) : toComma(c[0]/c[1])}`}</K>);
+}
+
 export const RicoTweePuntenSingle = ({x1, x2, y1, y2}) => {
-    const choices = [
-        `m = ${simplestFracTex(y2 - y1, x2 - x1)}`,
-        `m = ${simplestFracTex(y2 - y1, x1 - x2)}`,
-        `m = ${simplestFracTex(x2 - x1, y2 - y1)}`,
-        `m = ${simplestFracTex(y2 - x2, y1 - x1)}`,
-    ].map(c => <K>{c}</K>);
+    const choices = getChoices(x1, y1, x2, y2);
 
     return (
         <Exercise>
@@ -91,3 +104,55 @@ export const RicoTweePuntenSingle = ({x1, x2, y1, y2}) => {
         </Exercise>
     );
 };
+
+
+export const RicoGrafiek = () => {
+    const ms = [-2,  0.5, 3.5, -1.5];
+    const qs = [ 3, -2, 1,  0];
+    const x1s = [0, -1, -1,  -1];
+
+    return (
+        <ExerciseStepper>
+        {
+          x1s.map((x1, i) =>
+            <React.Fragment key={i}>
+              <RicoGrafiekSingle x1={x1} m={ms[i]} q={qs[i]}/>
+            </React.Fragment>
+          )
+        }
+        </ExerciseStepper>
+    );
+}
+
+
+export const RicoGrafiekSingle = ({m, q, x1}) => {
+    const fx = x => m*x + q;
+    const y1 = fx(x1);
+    const x2 = x1 + 1;
+    const y2 = fx(x2);
+    const choices = getChoices(x1, y1, x2, y2, false);
+
+    const isStijgend = m > 0;
+    const dyAbs = Math.abs(y2 - y1);
+    const plotProps = {
+        xMin: -5, xMax: 5, yMin: -5, yMax: 5,
+        gridProps: {major: 1, minor: 0.5, color: "light_gray", opacity: 0.5},
+    };
+
+    return (
+        <Exercise>
+          Wat is de richtingscoëfficiënt van de eerstegraadsfunctie die hieronder geplot is?
+          <Plot {...plotProps}>
+              <Fx fx={fx} />
+          </Plot>
+          <MultipleChoice choices={choices} solution={0}>
+          <div>
+            We kunnen de rico aflezen op de grafiek van een eerstegraadsfunctie door te kijken hoeveel eenheden de grafiek stijgt of daalt wanneer we vanaf de grafiek één eenheid opschuiven naar rechts. We vertrekken bijvoorbeeld vanaf het punt <K>{`(${toComma(x1)}; ${toComma(y1)})`}</K>. Als we één eenheid opschuiven naar rechts, zien we dat de grafiek <K>{`${toComma(dyAbs)}`}</K> {dyAbs === 1 ? "eenheid" : "eenheden"} {isStijgend ? "stijgt" : "daalt"}. {isStijgend ? "" : "Omdat de functie daalt, moeten we hier een minteken voor zetten om de rico te krijgen. "}De rico is dus gelijk aan <K>{`${toComma(m)}`}</K>.
+            <Plot {...plotProps}>
+              <DiffQuotPoints m={m} q={q} p1={[x1, y1]} p2={[x2, y2]} hideCoords />
+            </Plot>
+          </div>
+          </MultipleChoice>
+        </Exercise>
+    );
+  };
