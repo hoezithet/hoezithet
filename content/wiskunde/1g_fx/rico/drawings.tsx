@@ -20,7 +20,7 @@ const getFx = (m, q) => x => m*x + q;
 
 export const toComma = s => {
     if (typeof s === 'number' && !Number.isInteger(s)) {
-        s = s.toFixed(2);
+        s = parseFloat(s.toFixed(6));
         if (Math.floor(s) == s) {
             s = Math.floor(s)
         }

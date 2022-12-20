@@ -29,7 +29,7 @@ const isSimplestFrac = (numer, denom) => {
 };
 
 
-const simplestFracTex = (numerator, denominator) => {
+export const toFrac = (numerator, denominator) => {
     [numerator, denominator] = simplify(numerator, denominator);
     if (denominator < 0 && numerator > 0) {
         numerator *= -1;
@@ -62,7 +62,7 @@ export const RicoTweePunten = () => {
     );
 }
 
-const getChoices = (x1, y1, x2, y2, toFrac=true) => {
+const getChoices = (x1, y1, x2, y2, asFrac=true) => {
     let choices = [
         [y2 - y1, x2 - x1],
         [y2 - y1, x1 - x2],
@@ -74,7 +74,7 @@ const getChoices = (x1, y1, x2, y2, toFrac=true) => {
         choices.push([x2 - x1, y1 - y2]);
     }
 
-    return choices.map(c => <K>{`m = ${toFrac ? simplestFracTex(c[0], c[1]) : toComma(c[0]/c[1])}`}</K>);
+    return choices.map(c => <K>{`m = ${asFrac ? toFrac(c[0], c[1]) : toComma(c[0]/c[1])}`}</K>);
 }
 
 export const RicoTweePuntenSingle = ({x1, x2, y1, y2}) => {
@@ -95,7 +95,7 @@ export const RicoTweePuntenSingle = ({x1, x2, y1, y2}) => {
               \begin{aligned}
               m &= \frac{${y2} - ${y1 < 0 ? `(${y1})` : y1}}{${x2} - ${x1 < 0 ? `(${x1})` : x1}}\\
               &= \frac{${y2 - y1}}{${x2 - x1}}\\
-              ${isSimplestFrac(y2 - y1, x2 - x1) ? '' : `&= ${simplestFracTex(y2 - y1, x2 - x1)}`}
+              ${isSimplestFrac(y2 - y1, x2 - x1) ? '' : `&= ${toFrac(y2 - y1, x2 - x1)}`}
               \end{aligned}
             `}
             </K>

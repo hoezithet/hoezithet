@@ -11,7 +11,9 @@ import { Plot } from "components/drawings/plot";
 import { getColor } from "colors";
 import withDrawingScale from "components/withDrawingScale";
 import useId from 'hooks/useId';
-import Markdown from "components/markdown";
+import { Katex } from 'components/katex';
+import { MathJax } from "components/mathjax";
+import { toComma } from "../rico/drawings";
 
 
 export const _NulpuntGraph1G = ({
@@ -45,18 +47,18 @@ export const _NulpuntGraph1G = ({
             <Fx fx={fx} />
             { m !== 0 ?
               <>
-              <Annot x={xScale(zero)} y={yScale(0)} align="top center" textPadding={xScale.metric(0.5)} showBackground backgroundOpacity={0.5}>
-                {String.raw`$\htmlId{${idZero}}{\orange{${toComma(zero)}}}$`}
+              <Annot x={xScale(zero)} y={yScale(0)} align="top center" textPadding={xScale.metric(0.5)} showBackground backgroundOpacity={0.5} Wrapper={MathJax}>
+                {String.raw`\htmlId{${idZero}}{\orange{${toComma(zero)}}}`}
               </Annot>
               <circle cx={xScale(zero)} cy={yScale(0)} r={xScale.metric(0.2)} fill={getColor("orange")} />
               { arrows }
-              <Annot x={xScale(annotX)} y={yScale(annotY)} align={annotAlign} textPadding={0}>
-                {String.raw`$$
+              <Annot x={xScale(annotX)} y={yScale(annotY)} align={annotAlign} textPadding={0} Wrapper={MathJax}>
+                {String.raw`
                   \begin{aligned}
                   \frac{-q}{m} &= \frac{${toComma(-q)}}{${mStr}}\\
                                &= \htmlId{${idQm}}{\orange{${toComma(zero)}}}
                   \end{aligned}
-                  $$`}
+                  `}
               </Annot>
              </>
              : null }
@@ -64,17 +66,7 @@ export const _NulpuntGraph1G = ({
   );
 };
 
-const toComma = s => {
-  if (typeof s === 'number' && !Number.isInteger(s)) {
-      s = s.toFixed(2);
-      if (Math.floor(s) == s) {
-          s = Math.floor(s)
-      }
-  }
-  return `${s}`.replace('.', '{,}');
-};
-
-export const NulpuntGraph1G = (props) => <Plot><_NulpuntGraph1G {...props} /></Plot>;
+export const NulpuntGraph1G = (props) => <Plot gridProps={{major: 1, color: "light_gray", opacity: 0.5}}><_NulpuntGraph1G {...props} /></Plot>;
 
 export const InteractiveNulpuntGraph1G = ({
     m=1, q=0, mSlider=false, qSlider=false,
@@ -104,13 +96,13 @@ export const InteractiveNulpuntGraph1G = ({
                 <Stack direction="column" spacing={2} alignItems="center">
                 { mSlider ?
                     <>
-                        <Markdown>{ `$m = ${toComma(m)}$` }</Markdown>
+                        <Katex>{ `m = ${toComma(m)}` }</Katex>
                         <Slider aria-label="richtingscoëfficiënt" value={m} onChange={handleChangeM} {...sliderProps} />
                     </>
                     : null }
                 { qSlider ?
                     <>
-                        <Markdown>{ `$q = ${toComma(q)}$` }</Markdown>
+                        <Katex>{ `q = ${toComma(q)}` }</Katex>
                         <Slider aria-label="snijpunt y-as" value={q} onChange={handleChangeQ} {...sliderProps} />
                     </>
                     : null }

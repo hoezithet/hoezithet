@@ -18,17 +18,8 @@ import useId from 'hooks/useId';
 import Markdown from "components/markdown";
 import _range from "lodash/range";
 import { Katex } from 'components/katex';
+import { toComma } from "../rico/drawings";
 
-
-const toComma = s => {
-  if (typeof s === 'number' && !Number.isInteger(s)) {
-      s = s.toFixed(2);
-      if (Math.floor(s) == s) {
-          s = Math.floor(s)
-      }
-  }
-  return `${s}`.replace('.', ',');
-};
 
 export const getVoorschrift1GStr = (m, q, useY=false) => {
     const mStr = toComma(m);
