@@ -189,6 +189,7 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
     const dispatch = useDispatch();
 
     const [activeStep, setActiveStep] = useState(0);
+    const seenExercisesRef = useRef<number[]>([]);
 
     useEffect(() => {
         dispatch(
@@ -237,7 +238,11 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
     const handleBack = () => {
         handleStepChange(activeStep - 1);
     };
-    
+
+    if (!seenExercisesRef.current.includes(activeStep)) {
+        seenExercisesRef.current.push(activeStep);
+    }
+
     const showSolutions = () => {
         flatAnswers?.forEach(ans => {
             dispatch(
@@ -271,6 +276,7 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
             )
         });
         setActiveStep(0);
+        seenExercisesRef.current = [];
     };
 
     const isShowingSolutions = () => {
@@ -284,7 +290,7 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
     
     const stepCompleted = (step: number) => {
         const stepAnswers = getStepAnswers(step);
-        return stepAnswers?.every(a => a?.answered) || false;
+        return stepAnswers?.every(a => a?.answered) && seenExercisesRef.current.includes(step) || false;
     };
 
     const allStepsCompleted = () => {
