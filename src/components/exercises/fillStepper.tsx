@@ -7,7 +7,7 @@ import { FillString } from "components/exercises/fillAnswer";
 import Md from "components/markdown";
 
 const FillStepper = ({
-    texts, solutions, explanations
+    texts, solutions, explanations, Wrapper=Md
 }) => {
     return (
         <ExerciseStepper>
@@ -17,7 +17,7 @@ const FillStepper = ({
                         <Exercise>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
-                                    <Md>{ text }</Md>
+                                    <Wrapper>{ text }</Wrapper>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <FillString solution={solutions[i]}>

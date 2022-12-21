@@ -4,12 +4,15 @@ import { Exercise } from "components/exercises/exercise";
 import { ExerciseStepper } from "components/exercises/exerciseStepper";
 import { MultipleChoice } from "components/exercises/multipleChoice";
 import Md from "components/markdown";
+import { Katex as K } from "components/katex";
 
 const ex1 = String.raw`Vul aan: $1~\si{min}$ is gelijk aan`;
-const ex1Choices = String.raw`$\frac{1}{60}~\si{h}$
-$60~\si{h}$
-$\frac{1}{3600}~\si{h}$ 
-$3600~\si{h}$`.split('\n');
+const ex1Choices = [
+    <K>{String.raw`\frac{1}{60}~\si{h}   `}</K>,
+    <K>{String.raw`60~\si{h}             `}</K>,
+    <K>{String.raw`\frac{1}{3600}~\si{h}`}</K>,
+    <K>{String.raw`3600~\si{h}           `}</K>,
+];
 const ex1Expl = String.raw`
 We weten dat
 
@@ -27,10 +30,12 @@ $$
 const ex2 = String.raw`
 Hoeveel uur zijn $93{,}72~\si{min}$ dan?
 `;
-const ex2Choices = String.raw`$1{,}562~\si{h}$
-$5623~\si{h}$
-$0{,}02603~\si{h}$
-$337~392~\si{h}$`.split('\n');
+const ex2Choices = [
+    <K>{String.raw`1{,}562~\si{h}  `}</K>,
+    <K>{String.raw`5623~\si{h}     `}</K>,
+    <K>{String.raw`0{,}02603~\si{h}`}</K>,
+    <K>{String.raw`337~392~\si{h}  `}</K>,
+];
 const ex2Expl = String.raw`
 Uit de vorige vraag leerden we dat $1~\si{min} = \frac{1}{60}~\si{h}$. We kunnen de $\si{min}$ in $93{,}72~\si{min}$ dus vervangen door $\frac{1}{60}~\si{h}$:
 

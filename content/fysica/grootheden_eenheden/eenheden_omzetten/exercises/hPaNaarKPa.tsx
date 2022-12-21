@@ -4,31 +4,31 @@ import { Exercise } from "components/exercises/exercise";
 import { ExerciseStepper } from "components/exercises/exerciseStepper";
 import { MultipleChoice } from "components/exercises/multipleChoice";
 import Md from "components/markdown";
+import { Katex as K } from 'components/katex';
 
 const ex1 = String.raw`Welke macht van $10$ komt overeen met $\si{h}$ (*hecto-*)?`;
 
-const ex1Choices = String.raw`
-$10^{2}$
-$10^{-1}$
-$10^{1}$
-$10^{-2}$
-`.split('\n').slice(1, -1);
+const ex1Choices = [
+    <K>{String.raw`10^{2}`}</K>,
+    <K>{String.raw`10^{-1}`}</K>,
+    <K>{String.raw`10^{1}`}</K>,
+    <K>{String.raw`10^{-2}`}</K>,
+];
 
 const ex1Expl = String.raw`
 Zoals je in de tabel met voorvoegsels kan zien, komt *hecto-* overeen met $10^2$. Een trucje om dit te onthouden: "**Hecto**r is een oude man van **100** jaar" ($100 = 10^2$).
 `;
 
-
 const ex2 = String.raw`
 Welke macht van $10$ komt overeen met $\si{k}$ (*kilo-*)?
 `;
 
-const ex2Choices = String.raw`
-$10^{3}$
-$10^{-3}$
-$10^{6}$
-$10^{-6}$
-`.split('\n').slice(1, -1);
+const ex2Choices = [
+    <K>{String.raw`10^{3}`}</K>,
+    <K>{String.raw`10^{-3}`}</K>,
+    <K>{String.raw`10^{6}`}</K>,
+    <K>{String.raw`10^{-6}`}</K>,
+]
 
 const ex2Expl = String.raw`
 Zoals je in de tabel met voorvoegsels kan zien, komt *kilo-* overeen met $10^3$.
@@ -40,12 +40,12 @@ De eenheid van druk is de **pascal** met als symbool $\si{Pa}$. De luchtdruk, bi
 **Hoeveel $\si{kPa}$ is $1013~\si{hPa}$?**
 `;
 
-const ex3Choices = String.raw`
-$1013~\si{hPa} = 101{,}3~\si{kPa}$
-$1013~\si{hPa} = 1013\cdot 10^{1}~\si{kPa}$
-$1013~\si{hPa} = 1013\cdot 10^{3}~\si{kPa}$
-$1013~\si{hPa} = 1{,}013~\si{kPa}$
-`.split('\n').slice(1, -1);
+const ex3Choices = [
+    <K>{String.raw`1013~\si{hPa} = 101{,}3~\si{kPa}         `}</K>,
+    <K>{String.raw`1013~\si{hPa} = 1013\cdot 10^{1}~\si{kPa}`}</K>,
+    <K>{String.raw`1013~\si{hPa} = 1013\cdot 10^{3}~\si{kPa}`}</K>,
+    <K>{String.raw`1013~\si{hPa} = 1{,}013~\si{kPa}         `}</K>,
+]
 
 const ex3Expl = String.raw`
 Om $1013~\si{hPa}$ om te kunnen zetten naar $\si{kPa}$, moeten we eerst weten waaraan $1~\si{hPa}$ gelijk is:

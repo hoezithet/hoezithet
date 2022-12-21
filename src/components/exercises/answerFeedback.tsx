@@ -96,7 +96,7 @@ type AnsFeedbackProps = {
     correct?: boolean|null,
 };
 
-export const AnswerFeedback = ({ solution, explanation, correct }: AnsFeedbackProps) => {
+export const AnswerFeedback = ({ solution, explanation, correct, ExplWrapper=Markdown }: AnsFeedbackProps) => {
     const [bodyRef, wrapperRef, isExpanded, setIsExpanded] = useExpandable(false, (isExpanded) => {
         isExpanded ? setButtonText(HIDE_TEXT) : setButtonText(SHOW_TEXT);
     });
@@ -121,7 +121,7 @@ export const AnswerFeedback = ({ solution, explanation, correct }: AnsFeedbackPr
                 <>
                     <div ref={wrapperRef} style={{overflow: "scroll"}}>
                         <div ref={bodyRef}>
-                            <Markdown>{ explanation }</Markdown>
+                            <ExplWrapper>{ explanation }</ExplWrapper>
                         </div>
                     </div>
                     <Button onClick={() => setIsExpanded(prev => !prev)}>

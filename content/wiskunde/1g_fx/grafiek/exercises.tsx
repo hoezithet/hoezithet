@@ -13,13 +13,13 @@ export const InvloedM = () => {
         "Wanneer de **absolute waarde van $m$ kleiner** wordt..."
     ];
     const signMChoices = [
-        "dan is de grafiek van de functie **stijgend**.",
-        "dan is de grafiek van de functie **dalend**.",
-        "dan is de grafiek van de functie **vlak**.",
+        <span>dan is de grafiek van de functie <strong>stijgend</strong>.</span>,
+        <span>dan is de grafiek van de functie <strong>dalend</strong>.</span>,
+        <span>dan is de grafiek van de functie <strong>vlak</strong>.</span>,
     ];
     const absMChoices = [
-        "dan wordt de grafiek van de functie **steiler**.",
-        "dan wordt de grafiek van de functie **vlakker**.",
+        <span>dan wordt de grafiek van de functie <strong>steiler</strong>.</span>,
+        <span>dan wordt de grafiek van de functie <strong>vlakker</strong>.</span>,
     ];
     const choices = [
         signMChoices,
@@ -44,9 +44,9 @@ export const InvloedQ = () => {
         "Wanneer $q$ **kleiner is dan nul**...",
     ];
     const signQChoices = [
-        "dan ligt het snijpunt van de grafiek en de y-as **boven de x-as**.",
-        "dan ligt het snijpunt van de grafiek en de y-as **onder de x-as**.",
-        "dan ligt het snijpunt van de grafiek en de y-as **in de oorsprong**.",
+        <span>dan ligt het snijpunt van de grafiek en de y-as <strong>boven de x-as</strong>.</span>,
+        <span>dan ligt het snijpunt van de grafiek en de y-as <strong>onder de x-as</strong>.</span>,
+        <span>dan ligt het snijpunt van de grafiek en de y-as <strong>in de oorsprong</strong>.</span>,
     ];
     const choices = [
         signQChoices,

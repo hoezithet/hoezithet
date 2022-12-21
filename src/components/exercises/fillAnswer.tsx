@@ -6,14 +6,9 @@ import { useAnswerValue } from "./answer";
 import { withFeedback } from "./withFeedback";
 
 
-type FillStringProps = {
-    children: React.ReactNode,
-    solution: string,
-};
-
-const _FillString = ({ children, solution }: FillStringAnswerProps) => {
+const _FillString = ({ solution, ...props }) => {
     const evaluateAnswerValue = (v: string|null) => v !== null && String(v) === String(solution);
-    return <_FillAny evaluate={evaluateAnswerValue}>{ children }</_FillAny>
+    return <_FillAny evaluate={evaluateAnswerValue} solution={solution} {...props} />
 };
 
 
