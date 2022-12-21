@@ -193,12 +193,16 @@ export const NulpuntGraph1G = (props) => <Plot><_NulpuntGraph1G {...props} /></P
 export const FxTable = ({xs, ys}) => {
     const Table = styled('table')({
         borderCollapse: "collapse",
+        "& thead": {
+            backgroundColor: "#0000",
+        },
         "& thead tr th:first-child, td:first-child": {
             borderRight: `1px solid ${getColor("dark_gray")}`,
         },
         "& tbody tr:first-child": {
-            borderBottom: `1px solid ${getColor("dark_gray")}`,
-        }
+            borderTop: `1px solid ${getColor("dark_gray")}`,
+            backgroundColor: "#0000",
+        },
     });
 
     return (
