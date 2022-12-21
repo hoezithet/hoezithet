@@ -293,7 +293,12 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
 
     const stepCorrect = (step: number) => {
         const stepAnswers = getStepAnswers(step);
-        return  stepAnswers?.every(a => a?.correct) || false;
+        const corrects = stepAnswers?.map(a => a?.correct);
+        if (corrects?.some(c => c === null)) {
+            return null;
+        } else {
+            return  corrects?.every(c => c) || false;;
+        }
     };
     
     const getScore = () => {
