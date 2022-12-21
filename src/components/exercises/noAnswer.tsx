@@ -21,7 +21,7 @@ const _NoAnswer = ({ children, solution }: NoAnswerProps) => {
         setAnswerValue("bla");
     }, []);
 
-    return <span></span>;
+    return <div><br/>(Noteer je antwoord zelf op papier.)</div>;
 };
 
 export const NoAnswer = withFeedback(_NoAnswer);
