@@ -19,6 +19,7 @@ import Markdown from "components/markdown";
 import _range from "lodash/range";
 import { Katex } from 'components/katex';
 import { toComma } from "../rico/drawings";
+import { toFrac } from "../rico/exercises";
 
 
 export const getVoorschrift1GStr = (m, q, useY=false) => {
@@ -226,11 +227,11 @@ export const FxTable = ({xs, ys}) => {
     );
 };
 
-export const Tekenschema1G = ({m, q, nSignId=null, pSignId=null, zeroId=null, useColors=false}) => {
+export const Tekenschema1G = ({m, q, useFrac=false, nSignId=null, pSignId=null, zeroId=null, useColors=false}) => {
     const plus = `\\htmlId{${pSignId}}{` + (useColors ? `\\green{+}` : `+`) + `}`;
     const minus = `\\htmlId{${nSignId}}{` + (useColors ? `\\red{-}` : `-`) + `}`;
     const zero = `0`;
-    const zeroStr = toComma(-q/m);
+    const zeroStr = useFrac ? toFrac(-q, m) : toComma(-q/m);
     const zeroValue = `\\htmlId{${zeroId}}{` + (useColors ? `\\orange{${zeroStr}}` : zeroStr) + `}`;
 
     const xs = [

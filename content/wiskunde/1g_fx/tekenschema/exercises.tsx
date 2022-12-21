@@ -41,16 +41,17 @@ export const FxTekenschemaSingle = ({m, q}) => {
     const voorschr = getVoorschrift1GStr(m, q);
     const zero = toFrac(-q, m);
     const zeroFrac = String.raw`\frac{${toComma(-q)}}{${toComma(m)}}`;
+    const schema = <Tekenschema1G m={m} q={q} useFrac />;
 
     return (
         <Exercise>
           Wat is <strong>het tekenschema</strong> van de functie <K>{voorschr}</K>?
-          <NoAnswer>
+          <NoAnswer solution={schema}>
           <div>
             Om het tekenschema te maken, zoeken we eerst de <em>nulwaarde</em> van de eerstegraadsfunctie. Die is altijd gelijk aan <K>{String.raw`\frac{-q}{m}`}</K>. In het voorschrift <K>{voorschr}</K> is <K>{`m=${toComma(m)}`}</K> en <K>{`q=${toComma(q)}`}</K>. De breuk <K>{String.raw`\frac{-q}{m}`}</K> is voor deze functie dus gelijk aan <K>{zeroFrac === zero ? zero : `${zeroFrac} = ${zero}`}</K>.<br/>
             <br/>
             Vervolgens kijken we naar het teken van <K>m</K>. Omdat <K>{`m=${toComma(m)}`}</K>, is <K>m</K> {m < 0 ? "negatief" : "positief"}. De grafiek van de functie {m < 0 ? "daalt" : "stijgt"} dus. Dat betekent dat de functie voor het nulpunt {m < 0 ? "positief" : "negatief"} is en na het nulpunt {m < 0 ? "negatief" : "positief"}. We krijgen dan het volgende tekenschema:
-            <Tekenschema1G m={m} q={q}/>
+            { schema }
           </div>
           </NoAnswer>
         </Exercise>
