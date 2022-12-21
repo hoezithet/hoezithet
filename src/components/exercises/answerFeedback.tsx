@@ -73,8 +73,8 @@ const NegativeFeedback = ({ solution }: NeutralFeedbackProps) => {
 
 
 const NeutralFeedback = ({ solution }: NeutralFeedbackProps) => {
-    const singleCorrectAnswerText = "Het juiste antwoord was ";
-    const multCorrectAnswersText = "De juiste antwoorden waren "; 
+    const singleCorrectAnswerText = "Het juiste antwoord is ";
+    const multCorrectAnswersText = "De juiste antwoorden zijn ";
     
     return (
         <span>
