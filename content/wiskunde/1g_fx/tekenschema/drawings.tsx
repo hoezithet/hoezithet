@@ -314,7 +314,7 @@ export const InteractiveTekenschema = ({
     };
 
     const sliderProps = {
-        step: 0.01,
+        step: 0.1,
         min: -15,
         max: 15,
         marks: _range(-15, 20, 5).map(valToMark),

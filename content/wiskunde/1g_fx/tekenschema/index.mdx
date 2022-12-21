@@ -48,7 +48,7 @@ Maar waar komt die $4$ juist vandaan? En hoe kunnen we zo'n tekenschema gaan mak
 
 ## Stappenplan om tekenschema van eerstegraadsfunctie op te stellen
 
-We weten dat [de grafiek van een eerstegraadsfunctie](../grafiek) een rechte is. Die rechte snijdt de x-as exact één keer. Dit snijpunt is het nulpunt van de grafiek. Hieronder zie je bijvoorbeeld de grafiek van de functie $f(x) = -3x + 12$ met het nulpunt aangeduid.
+We weten dat [de grafiek van een eerstegraadsfunctie](../grafiek) een rechte is. Die rechte snijdt de x-as exact één keer. Dit snijpunt is [het nulpunt](../nulpunt) van de functie. Hieronder zie je bijvoorbeeld de grafiek van $f(x) = -3x + 12$ met het nulpunt aangeduid.
 
 import {NulpuntGraph1G} from "./drawings"
 
@@ -56,7 +56,7 @@ import {NulpuntGraph1G} from "./drawings"
 
 Omdat de [rico](../rico) ($m$) van de functie kleiner is dan nul, daalt de grafiek. We zien dat de grafiek **vòòr het nulpunt *boven* de x-as** liggen en **na het nulpunt *onder* de x-as**. Vòòr het nulpunt hebben we dus *positieve* functiewaarden en na het nulpunt hebben we *negatieve* functiewaarden.
 
-In de onderstaande interactieve illustratie kan je zelf de waarde van $m$ veranderen naar andere negatieve waarden om zo de grafiek en het tekenschema van andere functies te verkrijgen. Je ziet dat voor eender welke negatieve waarde van $m$, de functie altijd *van positief naar negatief* gaat.
+In de onderstaande interactieve illustratie kan je zelf de waarde van $m$ veranderen naar andere negatieve waarden om zo de grafiek en het tekenschema van andere functies te verkrijgen. Je ziet dat voor eender welke negatieve waarde van $m$, de functie altijd *van positief naar negatief* gaat. Merk ook op dat de waarde van $q$ hier geen invloed op heeft.
 
 <InteractiveTekenschema m={-3} q={12} mSlider qSlider checkM={m => m < 0} />
 
@@ -91,8 +91,9 @@ import { Katex } from 'components/katex';
 >
 > <FxTable xs={['-\\infty', '', '\\frac{-q}{m}', '', '+\\infty'].map(x => <Katex children={x}/>)} ys={['', String.raw`\text{Tegengesteld}\\\text{teken van }m`, '0', String.raw`\text{Zelfde teken}\\\text{als }m`, ''].map(x => <Katex children={x} display/>)} />
 
-(oefening: stel het tekenschema op van een eerstegraadsfunctie)
+import { FxTekenschema } from "./exercises";
 
+<FxTekenschema />
 
 ## Samengevat
 
