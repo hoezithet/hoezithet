@@ -59,6 +59,7 @@ export function useAnswerValue<T> (
     evaluateAnswerValue: (v: T|null) => boolean|null,
     solution: string|string[],
     explanation: string,
+    isNoAnswer: boolean = false
 ): {answerValue: T|null, setAnswerValue: (newValue: T|null) => void, showingSolution: boolean} {
     const id = useId();
     const selectAnswerFromId = useMemo(makeSelectAnswerFromId, []);
@@ -74,7 +75,7 @@ export function useAnswerValue<T> (
                 id: id,
                 value: null,
                 correct: null,
-                answered: false,
+                answered: isNoAnswer,
                 solution: solution,
                 explanation: explanation,
                 showingSolution: false,

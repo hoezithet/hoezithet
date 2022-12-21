@@ -15,7 +15,7 @@ const _NoAnswer = ({ children, solution }: NoAnswerProps) => {
     const explanation = getChildAtIndex(children, 0) || null;
     const {answerValue, setAnswerValue, showingSolution} = useAnswerValue<null>((a: any) => {
           return null;
-      }, solution, explanation);
+      }, solution, explanation, true);
 
     React.useEffect(() => {
         setAnswerValue("bla");
