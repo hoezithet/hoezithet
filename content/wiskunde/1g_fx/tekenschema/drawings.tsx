@@ -267,6 +267,7 @@ export const Tekenschema1G = ({m, q, useFrac=false, nSignId=null, pSignId=null, 
                 q > 0 ? plus : (q < 0 ? minus : zero)
             ]
         ),
+        ''
     ].map(x => <Katex>{x}</Katex>);
 
     return <FxTable xs={xs} ys={ys}/>;
