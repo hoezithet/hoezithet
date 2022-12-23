@@ -14,7 +14,7 @@ import { Plot } from "components/drawings/plot";
 import { DiffQuotPoints, toComma } from "./drawings";
 
 
-const simplify = (numerator, denominator) => {
+export const simplify = (numerator, denominator) => {
     const getGCD = (a, b) => {
         return b ? getGCD(b, a%b) : a;
     };

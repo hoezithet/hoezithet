@@ -23,10 +23,20 @@ import { toFrac } from "../rico/exercises";
 
 
 export const getVoorschrift1GStr = (m, q, useY=false) => {
-    const mStr = toComma(m);
-    const qStr = toComma(`${q === 0 && m !== 0 ? "" : (
-        q >= 0 && m !== 0 ? "+" + q : q
-        )}`);
+    return getVoorschrift1GFracStr(m, 1, q, 1, useY);
+};
+
+
+export const getVoorschrift1GFracStr = (mNum, mDenom, qNum, qDenom, useY=false) => {
+    const m = mNum/mDenom;
+    const q = qNum/qDenom;
+    const mStr = toFrac(mNum, mDenom);
+    const qStr = q === 0 && m !== 0 ? "" : (
+        q >= 0 && m !== 0 ?
+        "+" + toFrac(qNum, qDenom)
+        :
+        "-" + toFrac(-qNum, qDenom)
+    );
     return String.raw`${useY ? "y" : "f(x)"} = ${
           m !== 0 ?
           (m === 1 ? 'x'
@@ -34,6 +44,7 @@ export const getVoorschrift1GStr = (m, q, useY=false) => {
                : `${mStr}\\cdot x`))
                : ""}${qStr}`;
 };
+
 
 export const Voorschrift1G = ({m, q, useY=false, ...props}) => {
   
