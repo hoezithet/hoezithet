@@ -33,15 +33,19 @@ interface ExerciseStepperProps {
     children: React.ReactNode;
 }
 
+const Wrapper = styled('div')(({ theme }) => ({
+    padding: `${theme.spacing(2)} 0`,
+}));
+
 const StyledPaper = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(2),
     margin: theme.spacing(1),
     breakInside: 'avoid',
 }));
 
-const StyledStepper = styled(Stepper)({
+const StyledStepper = styled(Stepper)(({ theme }) => ({
     backgroundColor: 'transparent',
-});
+}));
 
 const StyledStep = styled(Step)({
     cursor: 'pointer',
@@ -391,24 +395,26 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
     }
     return (
         <ExerciseStepperContext.Provider value={stepperCtx}>
-            <StyledStepper nonLinear activeStep={activeStep}>
-                {steps.map((_step, index) => (
-                    <StyledStep key={index}>
-                        <StepLabel
-                            StepIconComponent={ExerciseStepIcon}
-                            StepIconProps={
-                                {
-                                    active: activeStep === index,
-                                    completed: stepCompleted(index),
+            <Wrapper>
+                <StyledStepper nonLinear activeStep={activeStep}>
+                    {steps.map((_step, index) => (
+                        <StyledStep key={index}>
+                            <StepLabel
+                                StepIconComponent={ExerciseStepIcon}
+                                StepIconProps={
+                                    {
+                                        active: activeStep === index,
+                                        completed: stepCompleted(index),
+                                    }
                                 }
-                            }
-                            onClick={handleStep(index)} />
-                    </StyledStep>
-                ))}
-            </StyledStepper>
-            <SwipeableViews index={activeStep} onChangeIndex={handleStepChange} disableLazyLoading>
-                { views }
-            </SwipeableViews>
+                                onClick={handleStep(index)} />
+                        </StyledStep>
+                    ))}
+                </StyledStepper>
+                <SwipeableViews index={activeStep} onChangeIndex={handleStepChange} disableLazyLoading>
+                    { views }
+                </SwipeableViews>
+            </Wrapper>
         </ExerciseStepperContext.Provider>
     );
 }
