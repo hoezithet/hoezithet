@@ -3,7 +3,7 @@ title: Wat is een functie van de eerste graad?
 weight: 0
 ---
 
-De eerste keer wanneer je leert over functies, kan dat allemaal nogal abstract klinken. Op het eerste zicht is het niet zo duidelijk *waarom* zoiets bestaat en hoe iemand ooit op het idee is gekomen om dat te verzinnen... 🤨
+Wanneer je de eerste keer leert over functies, kan dat allemaal nogal abstract klinken. Op het eerste zicht is het niet zo duidelijk *waarom* zoiets bestaat en hoe iemand ooit op het idee is gekomen om dat te verzinnen... 🤨
 
 Dat gevoel is heel normaal en is zelfs vollédig terecht, want functies *zijn* abstract. En dat is *precies* waarom ze zo interessant en héél breed toepasbaar zijn! 🙌 Functies, en zo ook eerstegraadsfuncties, zijn een mooi voorbeeld van **het hele idee achter wiskunde**: we willen een **onderliggende werking** (die bij vele toepassingen hetzelfde is) blootleggen en bestuderen. Door de eigenschappen van die onderliggende werking te ontdekken, ontdekken we dan meteen ook eigenschappen van àl die toepassingen! 💃
 
@@ -20,7 +20,7 @@ import Onderhandeling from "./onderhandeling";
 
 <Onderhandeling/>
 
-Dirk drinkt al graag eens een goed glas melk wanneer hij op een festivalweide staat. Hij wil dan ook liefst zoveel mogelijk glazen melk kunnen drinken.
+Dirk drinkt al eens graag een goed glas melk wanneer hij op een festivalweide staat. Hij wil dan ook liefst zoveel mogelijk glazen melk kunnen drinken.
 
 import DirkFestival from "./dirk_festival";
 
@@ -42,7 +42,7 @@ We kunnen wat schrijfwerk besparen door de formule als volgt te schrijven:
 
 ### Voorbeeld 2: Maria eet pralines
 
-Maria eet al eens graag een praline. Ze toonde dan ook met plezier haar groot hart toen de lokale gymclub haar vorige week vroeg om hen te steunen door chocolade zeevruchten te kopen. 🤤 Ze kocht meteen een grote doos van $1~\si{kg}$. Zo'n doos bevat 64 pralines.
+Maria is dol van pralines. Ze toonde dan ook met plezier haar groot hart toen de lokale gymclub haar vorige week vroeg om hen te steunen door chocolade zeevruchten te kopen. 🤤 Ze kocht meteen een grote doos van $1~\si{kg}$. Zo'n doos bevat 64 pralines.
 
 import MariaPralines from './maria_pralines';
 
@@ -51,6 +51,18 @@ import MariaPralines from './maria_pralines';
 Maria weet natuurlijk wel dat ze die hele doos best niet op één dag naar binnen speelt. Ze heeft dan ook besloten om elke dag slechts 4 pralines te eten. Na enkele dagen vraagt ze zich af hoeveel pralines er nog in de doos zitten. Hoe kan ze dit berekenen?
 
 Er zitten oorspronkelijk $64$ pralines in de doos en er gaan er iedere dag $4$ uit. Het aantal pralines dat op een bepaalde dag nog in de doos zit, is dus gelijk aan $64$ min het aantal dagen maal $4$:
+
+$$
+\text{aantal pralines in doos} = 64~\si{pralines} - \text{aantal dagen}\cdot 4~\text{pralines per dag}
+$$
+
+Dit kunnen we herschrijven als:
+
+$$
+\text{aantal pralines in doos} = 64~\si{pralines} + \left(- 4~\text{pralines per dag}\cdot\text{aantal dagen}\right)
+$$
+
+Dit is dan weer hetzelfde als:
 
 $$
 \text{aantal pralines in doos} = \left(-4~\text{pralines per dag}\cdot\text{aantal dagen}\right) + 64~\si{pralines}
@@ -62,6 +74,39 @@ We kunnen weer wat schrijfwerk besparen door de formule als volgt te schrijven:
 
 <AnnotatedFx m={-4} mName="4 pralines minder per dag" q={64} qName="64 pralines op dag 0" yName="aantal pralines in doos" xName="aantal dagen ver" annotFontSize={75} />
 
+### Voorbeeld 3: Bevroren soep ontdooien
+
+Maria en Dirk maken regelmatig een grote kom soep die ze verdelen in verschillende potjes om in te vriezen. Zo'n potje hoeven ze dan enkel terug op te warmen om te kunnen genieten van een heerlijke en gezonde portie soep.
+
+import SoepEten from "./soep_eten";
+
+<SoepEten/>
+
+
+Wanneer ze zo'n portie uit de diepvriezer halen, heeft de soep een temperatuur van $-18\deg\si{C}$. Ze plaatsen de portie soep in de microgolfoven. Deze laat de temperatuur van de soep stijgen met $6\deg\si{C}$ per minuut. Wat is de temperatuur van de soep nadat die een bepaald aantal minuten in de microgolfoven heeft gestaan?
+
+De temperatuur van de soep bedraagt in het begin $-18\deg \si{C}$. Iedere minuut komt daar $6\deg \si{C}$ bij. De temperatuur van de soep is dus gelijk aan $-18\deg \si{C}$ plus het aantal minuten maal $6\deg \si{C}$:
+
+$$
+\text{temperatuur van soep} = -18\deg\si{C} + \left(\text{aantal minuten}\cdot 6\deg\si{C}~\text{per minuut}\right)
+$$
+
+Dit kunnen we ook schrijven als:
+
+$$
+\text{temperatuur van soep} = \left(6\deg\si{C}~\text{per minuut}\cdot \text{aantal minuten}\right) - 18\deg\si{C}
+$$
+
+Dat is dan weer hetzelfde als:
+
+$$
+\text{temperatuur van soep} = \left(6\deg\si{C}~\text{per minuut}\cdot \text{aantal minuten}\right) + (- 18\deg\si{C})
+$$
+
+Of, in symbolen:
+
+<AnnotatedFx m={6} mName="6°C meer per minuut" q={-18} qName="-18°C in het begin" yName="temperatuur van soep" xName="aantal minuten opgewarmd" annotFontSize={60} />
+
 ### Algemene vorm van een eerstegraadsfunctie
 
 Bij het eerste voorbeeld vonden we de volgende uitdrukking:
@@ -70,13 +115,19 @@ $$
 y = 3 x + 25
 $$
 
-Bij het tweede voorbeeld, kwamen we uit bij
+Bij het tweede voorbeeld kwamen we uit bij:
 
 $$
 y = -4 x + 64
 $$
 
-Als je beide uitdrukkingen eens naast elkaar legt, zie je dat ze een heel gelijkaardige vorm hebben. We rekenen telkens een $y$ uit door een $x$ te **vermenigvuldigen met een bepaald getal** en daar dan een ander **getal bij op te tellen**. Als we het eerste getal vervangen door een $m$ en het tweede getal door een $q$, dan krijgen we:
+Bij het derde voorbeeld kregen we:
+
+$$
+y = 6 x + (-18)
+$$
+
+Als je deze uitdrukkingen naast elkaar legt, zie je dat ze een heel gelijkaardige vorm hebben. We rekenen telkens een $y$ uit door een $x$ te **vermenigvuldigen met een bepaald getal** en daar dan een ander <Mute>(al dan niet negatief)</Mute> **getal bij op te tellen**. Als we het eerste getal vervangen door een $m$ en het tweede getal door een $q$, dan krijgen we:
 
 $$
 y = m x + q
@@ -111,7 +162,7 @@ We gebruiken de naam *eerstegraadsfunctie* omdat de hoogste macht van $x$ in $mx
 
 > ⚠️ Opgelet: $m$ en $q$ zijn géén variabelen!
 >
-> Al die letters in $y = mx + q$ kunnen nogal verwarrend zijn. De letters $m$ en $q$ hebben echter een **heel andere rol** dan $x$ en $y$! De letters **$x$ en $y$ zijn variabelen** en hebben geen vaste waarde voor een bepaalde functie. In het eerste voorbeeld zochten we het verband tussen een aantal glazen melk ($x$) en een totaalbudget ($y$). We kunnen dat verband voor eender welk aantal glazen melk gebruiken. We kunnen veel verschillende waarden kiezen voor $x$, waar dan ook veel verschillende waarden voor $y$ uit zullen volgen. De prijs per glas melk ($m$) en de prijs voor een toegangsticket ($q$) liggen echter **vast**. Zij bepalen hoe de functie zich zal gedragen, bv. hoe snel het budget stijgt per extra glas melk. We noemen $m$ en $q$ ook wel de **parameters** van de eerstegraadsfunctie.
+> Al die letters in $y = mx + q$ kunnen nogal verwarrend zijn. De letters $m$ en $q$ hebben echter een **heel andere rol** dan $x$ en $y$! De letters **$x$ en $y$ zijn variabelen** en hebben geen vaste waarde voor een bepaalde functie. In het eerste voorbeeld zochten we het verband tussen een aantal glazen melk ($x$) en een totaalbudget ($y$). We kunnen dat verband voor eender welk aantal glazen melk gebruiken. We kunnen veel verschillende waarden kiezen voor $x$, waar dan ook veel verschillende waarden voor $y$ uit zullen volgen. De prijs per glas melk ($m$) en de prijs voor een toegangsticket ($q$) liggen echter **vast**. Zij bepalen hoe de functie zich zal gedragen, bv. in welke mate het budget stijgt per extra glas melk. We noemen $m$ en $q$ ook wel de **parameters** van de eerstegraadsfunctie.
 
 > -Uitbreiding: Waarom moet $m$ verschillend zijn van $0$?
 >
@@ -123,7 +174,7 @@ import { Herken1GFxTexts, MariaSegway } from "./exercises";
 
 ## Intuïtie achter functies van de eerste graad
 
-Hoe komt het dat het voorbeeld van Dirk die naar een festival gaat en van Maria die pralines eet allebei leiden tot een functie van de eerste graad? Wel, per extra glas melk kwam er een **vast** bedrag van €3 bij het budget bij; en per extra dag ging er een **vast** aantal pralines uit de doos. Elke situatie waar er **voor elke extra $x$ een vast aantal weggaat of bijkomt bij een beginaantal**, kunnen we wiskundig beschrijven met een eerstegraadsfunctie. Het vast aantal dat per $x$ weggaat of bijkomt, is $m$. Het beginaantal (wanneer $x = 0$), is $q$.
+Hoe komt het dat de voorbeelden van Dirk die naar een festival gaat, van Maria die pralines eet en van bevroren soep die opgewarmd wordt allemaal leiden tot een functie van de eerste graad? Wel, per extra glas melk kwam er een **vast** bedrag van €3 bij het *budget bij; per extra dag ging er een **vast** aantal pralines uit de doos; en per extra minuut kwam er een **vast** aantal graden Celsius bij de begintemperatuur bij. Elke situatie waar er **voor elke extra $x$ een vast aantal weggaat of bijkomt bij een beginaantal** kunnen we wiskundig beschrijven met een eerstegraadsfunctie. Het vast aantal dat per $x$ weggaat of bijkomt, is $m$. Het beginaantal (wanneer $x = 0$), is $q$.
 
 Je ziet dat we met onze eerstegraadsfunctie inderdaad de **onderliggende werking** (waar we het in het begin van de les over hadden) blootleggen.
 

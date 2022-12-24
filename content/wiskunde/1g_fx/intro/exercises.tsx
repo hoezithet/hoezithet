@@ -7,6 +7,8 @@ import { FillString } from 'components/exercises/fillAnswer';
 import { NoAnswer } from 'components/exercises/noAnswer';
 import { Exercise } from 'components/exercises/exercise';
 import _random from "lodash/random";
+import _range from "lodash/range";
+import _shuffle from "lodash/shuffle";
 
 import { AnnotatedFx } from "./drawings";
 import MariaSegwaySvg from './maria_segway';
@@ -14,8 +16,8 @@ import MariaSegwaySvg from './maria_segway';
 
 
 export const WatIsMEnQ = () => {
-    let ms = Array.from({length: 5}, () => _random(-10, 10));
-    let qs = ms.map(() => _random(-10, 10));
+    let ms = _shuffle(_range(-10, 10)).slice(0, 5);
+    let qs = ms.map(m => _shuffle(_range(-10, 10).filter(x => x !== m))[0]);
     const rand_i = _random(ms.length - 1);
     ms[rand_i] = 0;
     qs[(rand_i + Math.round(ms.length/2)) % qs.length] = 0;
@@ -77,7 +79,7 @@ export const Herken1GFx = () => {
         "f(x) = (2 x + 1)^{-1}",
         "f(x) = \\frac{x + 2}{3}",
         "f(x) = 0x - 3",
-    ].map(t => <>Is <KX>{t}</KX> een eerstegraadsfunctie in <KX>x</KX>?</>);
+    ].map(t => <>Is <KX>{t}</KX> een eerstegraadsfunctie in <KX>x</KX>? Zo ja, waaraan zijn <KX>m</KX> en <KX>q</KX> gelijk? (Noteer dit zelf op papier)</>);
     const choices = texts.map(() => ["Ja", "Neen"]);
     const solutions = [
         0, 1, 1, 0, 1
@@ -90,7 +92,7 @@ export const Herken1GFx = () => {
         Je zou <KX>{"f(x) = 3"}</KX> kunnen herschrijven als <KX>{String.raw`f(x) = 0\cdot x + 3`}</KX>, zodat <KX>{"m = 0"}</KX> en <KX>{"q = 3"}</KX>. De definitie van een eerstegraadsfunctie zegt echter dat <KX>{"m"}</KX> niet gelijk mag zijn aan nul, omdat dan <KX>{"x"}</KX> wegvalt en de hoogste macht van <KX>{"x"}</KX> niet langer gelijk is aan <KX>{"1"}</KX>. Het is dus geen eerstegraadsfunctie (wel een <em>nuldegraadsfunctie</em>).
     </React.Fragment>,
     <React.Fragment>
-        <KX>{String.raw`f(x) = (2\cdot x + 1)^{-1}`}</KX> is hetzelfde als <KX>{String.raw`f(x) = \frac{1}{2\cdot x + 1}`}</KX>. Bij een eerstegraadsfunctie mag <KX>{"x"}</KX> niet in de noemer staan. Dit is dus geen eerstegraadsfunctie.
+        <KX>{String.raw`f(x) = (2\cdot x + 1)^{-1}`}</KX> is hetzelfde als <KX>{String.raw`f(x) = \frac{1}{2\cdot x + 1}`}</KX>. Bij een eerstegraadsfunctie staat <KX>{"x"}</KX> in de teller en niet in de noemer. Dit is dus geen eerstegraadsfunctie.
     </React.Fragment>,
     <React.Fragment>
         Je kan <KX>{String.raw`f(x) = \frac{x + 2}{3}`}</KX> herschrijven als <KX>{String.raw`f(x) = \frac{1}{3}\cdot x + \frac{2}{3}`}</KX>. Het is dus een eerstegraadsfunctie met <KX>{String.raw`m = \frac{1}{3}`}</KX> en <KX>{String.raw`q = \frac{2}{3}`}</KX>.

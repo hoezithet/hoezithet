@@ -32,8 +32,8 @@ export const getVoorschrift1GFracStr = (mNum, mDenom, qNum, qDenom, useY=false) 
     const q = qNum/qDenom;
     const mStr = toFrac(mNum, mDenom);
     const qStr = q === 0 && m !== 0 ? "" : (
-        q >= 0 && m !== 0 ?
-        "+" + toFrac(qNum, qDenom)
+        q >= 0 ?
+        (m !== 0 ? "+" : "") + toFrac(qNum, qDenom)
         :
         "-" + toFrac(-qNum, qDenom)
     );

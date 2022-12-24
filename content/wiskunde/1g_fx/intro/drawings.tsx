@@ -19,7 +19,7 @@ const AnnotatedFxChild = withDrawingScale(({
     const xNameId = useId();
     const mNameId = useId();
     const qNameId = useId();
-    const fx = String.raw`$\htmlId{${yId}}{\orange{y}} = \htmlId{${mId}}{\blue{${m}}} \htmlId{${xId}}{\orange{x}}` + (q !== null ? String.raw` + \htmlId{${qId}}{\blue{${q}}}$` : '');
+    const fx = String.raw`$\htmlId{${yId}}{\orange{y}} = \htmlId{${mId}}{\blue{${m}}} \htmlId{${xId}}{\orange{x}}` + (q !== null ? String.raw` + \htmlId{${qId}}{\blue{${q < 0 ? "(" + q + ")": q}}}$` : '');
 
     const [arrows, setArrows] = React.useState([]);
 
