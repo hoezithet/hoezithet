@@ -4,6 +4,7 @@ import { Exercise } from "components/exercises/exercise";
 import { ExerciseStepper } from "components/exercises/exerciseStepper";
 import { MultipleChoice } from "components/exercises/multipleChoice";
 import Md from "components/markdown";
+import { Katex as K } from 'components/katex';
 
 
 const ex1 = String.raw`
@@ -12,13 +13,13 @@ In deze oefening gaan we $1~\frac{\si{kg}}{\si{m}^3}$ proberen omzetten naar $\f
 We beginnen met de omzetting van $\si{kg}$ naar $\si{g}$. Hoeveel $\si{g}$ bedraagt $1~\si{kg}$?
 `;
 
-const ex1Choices = String.raw`
-$1~\si{kg} = 10^{3}~\si{g}$
-$1~\si{kg} = 10^{-3}~\si{g}$
-$1~\si{kg} = 10^{0}~\si{g}$
-$1~\si{kg} = 10^{-1}~\si{g}$
-$1~\si{kg} = 10^{1}~\si{g}$
-`.split('\n').slice(1, -1);
+const ex1Choices = [
+    <K>{String.raw`1~\si{kg} = 10^{3}~\si{g} `}</K>,
+    <K>{String.raw`1~\si{kg} = 10^{-3}~\si{g}`}</K>,
+    <K>{String.raw`1~\si{kg} = 10^{0}~\si{g} `}</K>,
+    <K>{String.raw`1~\si{kg} = 10^{-1}~\si{g}`}</K>,
+    <K>{String.raw`1~\si{kg} = 10^{1}~\si{g} `}</K>,
+];
 
 const ex1Expl = String.raw`
 We zoeken wat er in de volgende gelijkheid op de puntjes moet staan:
@@ -47,12 +48,12 @@ const ex2 = String.raw`
 De tweede omzetting die we moeten doen, gaat van $\si{m}^3$ naar $\si{cm}^3$. Hoeveel $\si{cm}^3$ is $1~\si{m}^3$?
 `;
 
-const ex2Choices = String.raw`
-$1~\si{m}^3 = 10^{6}~\si{cm}^3$
-$1~\si{m}^3 = 10^{-6}~\si{cm}^3$
-$1~\si{m}^3 = 10^{-2}~\si{cm}^3$
-$1~\si{m}^3 = 10^{2}~\si{cm}^3$
-`.split('\n').slice(1, -1);
+const ex2Choices = [
+    <K>{String.raw`1~\si{m}^3 = 10^{6}~\si{cm}^3 `}</K>,
+    <K>{String.raw`1~\si{m}^3 = 10^{-6}~\si{cm}^3`}</K>,
+    <K>{String.raw`1~\si{m}^3 = 10^{-2}~\si{cm}^3`}</K>,
+    <K>{String.raw`1~\si{m}^3 = 10^{2}~\si{cm}^3 `}</K>,
+];
 
 const ex2Expl = String.raw`
 We zoeken wat in de volgende gelijkheid op de puntjes moet staan:
@@ -83,12 +84,12 @@ We hebben nu zowel $\si{kg}$ naar $\si{g}$ als $\si{m}^3$ naar $\si{cm}^3$ omgez
 Duid het juiste antwoord aan.
 `;
 
-const ex3Choices = String.raw`
-$1~\frac{\si{kg}}{\si{m}^3} = 10^{-3}~\frac{\si{g}}{\si{cm}^3}$
-$1~\frac{\si{kg}}{\si{m}^3} = 10^{3}~\frac{\si{g}}{\si{cm}^3}$
-$1~\frac{\si{kg}}{\si{m}^3} = 10^{5}~\frac{\si{g}}{\si{cm}^3}$
-$1~\frac{\si{kg}}{\si{m}^3} = 10~\frac{\si{g}}{\si{cm}^3}$
-`.split('\n').slice(1, -1);
+const ex3Choices = [
+    <K>{String.raw`1~\frac{\si{kg}}{\si{m}^3} = 10^{-3}~\frac{\si{g}}{\si{cm}^3}`}</K>,
+    <K>{String.raw`1~\frac{\si{kg}}{\si{m}^3} = 10^{3}~\frac{\si{g}}{\si{cm}^3} `}</K>,
+    <K>{String.raw`1~\frac{\si{kg}}{\si{m}^3} = 10^{5}~\frac{\si{g}}{\si{cm}^3} `}</K>,
+    <K>{String.raw`1~\frac{\si{kg}}{\si{m}^3} = 10~\frac{\si{g}}{\si{cm}^3}     `}</K>,
+];
 
 const ex3Expl = String.raw`
 We vonden in de vorige vraag al dat:

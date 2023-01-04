@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useRef, useState } from 'r
 
 import { DrawingContext } from "./drawing";
 import { ArrowLine } from "./arrow";
+import isEqual from "lodash/isEqual";
 
 
 type Coordinate = {
@@ -85,52 +86,87 @@ const getAngleFromAlign = (hAlign, vAlign) => {
 }
 
 
-const getElCoord = (el: Element, hAlign: string, vAlign: string) => {
+const getNodeParents = node => (node.parentElement ? getNodeParents(node.parentElement) : []).concat([node]);
+
+
+const getGlobalToLocalMatrix = (el: Element): DOMMatrix => {
+    /**
+     * Transform a point defined in root SVG coordinates to a point in the
+     * local coordate system.
+     **/
+    let revParents = getNodeParents(el).reverse();
+
+    // Find matrix that undoes all transforms
+    const tfmMatrix = revParents.filter(node => node instanceof SVGGElement
+        && node.hasAttribute('transform')
+    ).reduce((prev, curr) =>
+        prev.multiply(curr.getCTM().inverse()),
+        new DOMMatrix()
+    );
+    return tfmMatrix;
+}
+
+
+const getElCoord = (el: Element, svgRoot: SVGElement, hAlign: string, vAlign: string) => {
     const rect = el.getBoundingClientRect()
-    const originRect = el.closest("svg.drawing")?.getBoundingClientRect();
+    const originRect = svgRoot.getBoundingClientRect();
+
     const [tLeft, tTop, tRight, tBottom] = [
-        rect?.left - (originRect?.x || 0),
-        rect?.top - (originRect?.y || 0),
-        rect?.right - (originRect?.x || 0),
-        rect?.bottom - (originRect?.y || 0),
+        rect?.left,
+        rect?.top,
+        rect?.right,
+        rect?.bottom,
     ];
     const [tCenterX, tCenterY] = [
         tLeft + rect?.width/2,
         tTop + rect?.height/2,
     ];
-    return {
-        x: hAlign === "left" ? tLeft : (hAlign === "right" ? tRight : tCenterX),
-        y: vAlign === "top" ? tTop : (vAlign === "bottom" ? tBottom : tCenterY),
+
+    const x = hAlign === "left" ? tLeft : (hAlign === "right" ? tRight : tCenterX);
+    const y = vAlign === "top" ? tTop : (vAlign === "bottom" ? tBottom : tCenterY);
+
+    const elPoint = new DOMPoint(x, y);
+
+    const tfmMatrix = getGlobalToLocalMatrix(svgRoot);
+    tfmMatrix.translateSelf(-originRect.x, -originRect.y);
+
+    return  elPoint.matrixTransform(tfmMatrix);
+}
+
+
+const convertToCoord = (annotOrTarget: string|Coordinate|Element, svgRoot: SVGElement, hAlign: string, vAlign: string) => {
+    if (annotOrTarget instanceof Element) {
+        return getElCoord(annotOrTarget, svgRoot, hAlign, vAlign);
+    } else if (Array.isArray(annotOrTarget) && annotOrTarget.length === 2 && typeof annotOrTarget[0] === "number" && typeof  annotOrTarget[1] === "number") {
+        return new DOMPoint(annotOrTarget[0], annotOrTarget[1]);
+    } else if (typeof annotOrTarget === 'object' && annotOrTarget !== null && 'x' in annotOrTarget && 'y' in annotOrTarget && typeof annotOrTarget.x === "number" && typeof annotOrTarget.y === "number") {
+        return new DOMPoint(annotOrTarget.x, annotOrTarget.y);
+    } else if (typeof annotOrTarget === "string") {
+        const el = selectNearest(svgRoot, annotOrTarget);
+        return convertToCoord(el, svgRoot, hAlign, vAlign);
+    } else {
+        return null;
     }
 }
 
 
-const convertToCoord = (annotOrTarget: string|Coordinate, hAlign: string, vAlign: string) => {
-    if (typeof document === "undefined") {
-        return null;
-    }
-    if (Array.isArray(annotOrTarget)) {
-        annotOrTarget = {
-            x: annotOrTarget[0],
-            y: annotOrTarget[1],
-        };
-    }
-    if (typeof annotOrTarget === "string") {
-        const el = document.querySelector(annotOrTarget);
-        if (el !== null) {
-            return getElCoord(el, hAlign, vAlign);
+const selectNearest = (el: Element, selector: string) => {
+    if (selector.startsWith('#')) {
+        if (typeof document !== "undefined") {
+            return document.querySelector(selector);
         } else {
             return null;
         }
     } else {
-        return annotOrTarget;
+        return el.closest(`:has(${selector})`)?.querySelector(selector);
     }
 }
 
 
 export const AnnotArrow = ({
-    annot, target,
+    annot=null, target=null,
     margin=5,
+    marginAnnot=null, marginTarget=null,
     anchorRadius=20,
     anchorRadiusTarget=null, anchorRadiusAnnot=null,
     annotAlign="top center",
@@ -138,17 +174,14 @@ export const AnnotArrow = ({
     color="light_gray", opacity=1, lineWidth=2,
     hideHead=false, dashed=false,
 }: AnnotArrowProps) => {
-    let [annotCoord, setAnnotCoord] = React.useState(null);
-    let [targetCoords, setTargetCoords] = React.useState(null);
     const [vAlignAnnot, hAlignAnnot] = annotAlign.split(" ");
     const [vAlignTarget, hAlignTarget] = targetAlign.split(" ");
 
     const anchorAngleAnnot = getAngleFromAlign(hAlignAnnot, vAlignAnnot);
     const anchorAngleTarget = getAngleFromAlign(hAlignTarget, vAlignTarget);
 
-    annotCoord = convertToCoord(annot, hAlignAnnot, vAlignAnnot);
-    const formattedTarget = Array.isArray(target) && target.length > 0 && typeof target[0] !== "number" ? target : [target];
-    targetCoords = formattedTarget.map(t => convertToCoord(t, hAlignTarget, vAlignTarget));
+    marginAnnot = marginAnnot === null ? margin : marginAnnot;
+    marginTarget = marginTarget === null ? margin : marginTarget;
 
     if (anchorRadiusTarget === null) {
         anchorRadiusTarget = anchorRadius;
@@ -157,22 +190,64 @@ export const AnnotArrow = ({
         anchorRadiusAnnot = anchorRadius;
     }
 
+    target = Array.isArray(target) && target.length > 0 && typeof target[0] !== "number" ? target : [target];
+
+    const annotArrowsRef = React.useRef(target.map(t => null));
+    const [svgNode, setSvgNode] = React.useState<SVGSVGElement|null>(null);
+    const svgNodeRef = React.useRef(null);
+
+    React.useEffect(() => {
+        setSvgNode(svgNodeRef.current);
+    }, []);
+
+    let annotCoord: DOMPoint|null = null;
+    let targetCoords: DOMPoint[] = target.map(t => null);
+    if (svgNode !== null) {
+        if (annot === null) {
+            annot = selectNearest(svgNode, ".annot");
+        }
+        target = target.map(t =>
+            t === null ? selectNearest(svgNode, ".target") : t
+        );
+        annotCoord = convertToCoord(annot, svgNode, hAlignAnnot, vAlignAnnot);
+        targetCoords = target.map(t =>
+            convertToCoord(t, svgNode, hAlignTarget, vAlignTarget)
+        );
+    }
+
     return (
-        <>
+        <svg ref={svgNodeRef} style={{overflow: "visible", position: "absolute", pointerEvents: "none"}}>
+            {/**The invisible rect fixes the SVG's coordinates.**/}
+            <rect width="1" height="1" opacity="0"/>
             {
-                annotCoord ?
-                targetCoords.filter(t => t !== null).map((targetCoord, i) => (
-                    <g key={i}>
-                        <ArrowLine xStart={annotCoord.x} yStart={annotCoord.y} xEnd={targetCoord.x} yEnd={targetCoord.y}
-                            margin={margin}
-                            anchorAngleStart={anchorAngleAnnot} anchorRadiusStart={anchorRadiusAnnot}
-                            anchorAngleEnd={anchorAngleTarget} anchorRadiusEnd={anchorRadiusTarget}
-                            color={color} lineWidth={lineWidth} dashed={dashed} showArrow={!hideHead}
-                            opacity={opacity} />
+                target.map((t, i) => (
+                    <g key={i} ref={node => { annotArrowsRef.current[i] = node }}>
+                       {
+                          targetCoords[i] !== null && annotCoord !== null ?
+                            <ArrowLine xStart={annotCoord.x} yStart={annotCoord.y} xEnd={targetCoords[i].x} yEnd={targetCoords[i].y}
+                              marginStart={marginAnnot}
+                              marginEnd={marginTarget}
+                              anchorAngleStart={anchorAngleAnnot} anchorRadiusStart={anchorRadiusAnnot}
+                              anchorAngleEnd={anchorAngleTarget} anchorRadiusEnd={anchorRadiusTarget}
+                              color={color} lineWidth={lineWidth} dashed={dashed} showArrow={!hideHead}
+                              opacity={opacity} />
+                          : null
+                       }
                     </g>
                 ))
-                : null
             }
-        </>
+        </svg>
     );
+};
+
+export const useAnnotArrow = (props: AnnotArrowProps, extraDeps=[]) => {
+    const [arrow, setArrow] = React.useState(null);
+
+    React.useEffect(() => {
+        setArrow(
+            <AnnotArrow {...props} />
+        );
+    }, [...Object.values(props), ...extraDeps]);
+
+    return arrow;
 };

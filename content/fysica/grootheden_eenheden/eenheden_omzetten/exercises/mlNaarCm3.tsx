@@ -4,6 +4,7 @@ import { Exercise } from "components/exercises/exercise";
 import { ExerciseStepper } from "components/exercises/exerciseStepper";
 import { MultipleChoice } from "components/exercises/multipleChoice";
 import Md from "components/markdown";
+import { Katex as K } from "components/katex";
 
 
 const ex1 = String.raw`
@@ -12,12 +13,12 @@ We gaan in deze oefening $250~\si{ml}$ proberen omzetten naar $\si{cm}^3$. Dat d
 We beginnen met de omzetting van $\si{ml}$ naar $\si{l}$. Hoeveel $\si{l}$ is $1~\si{ml}$?
 `;
 
-const ex1Choices = String.raw`
-$1~\si{ml} = 10^{-3}~\si{l}$
-$1~\si{ml} = 10^{-1}~\si{l}$
-$1~\si{ml} = 10^{1}~\si{l}$
-$1~\si{ml} = 10^{3}~\si{l}$
-`.split('\n').slice(1, -1);
+const ex1Choices = [
+    <K>{String.raw`1~\si{ml} = 10^{-3}~\si{l}`}</K>,
+    <K>{String.raw`1~\si{ml} = 10^{-1}~\si{l}`}</K>,
+    <K>{String.raw`1~\si{ml} = 10^{1}~\si{l} `}</K>,
+    <K>{String.raw`1~\si{ml} = 10^{3}~\si{l} `}</K>,
+];
 
 const ex1Expl = String.raw`
 We zoeken eigenlijk wat in de volgende gelijkheid op de puntjes moet staan:
@@ -48,12 +49,12 @@ We hebben $\si{ml}$ nu omgezet naar $\si{l}$. Die $\si{l}$ mogen we gewoon verva
 Reken dit zelf uit en duid vervolgens het juiste antwoord aan.
 `;
 
-const ex2Choices = String.raw`
-$1~\si{ml} = 1~\si{cm}^3$
-$1~\si{ml} = 10~\si{cm}^3$
-$1~\si{ml} = 10^{-1}~\si{cm}^3$
-$1~\si{ml} = 10^{-2}~\si{cm}^3$
-`.split('\n').slice(1, -1);
+const ex2Choices = [
+    <K>{String.raw`1~\si{ml} = 1~\si{cm}^3      `}</K>,
+    <K>{String.raw`1~\si{ml} = 10~\si{cm}^3     `}</K>,
+    <K>{String.raw`1~\si{ml} = 10^{-1}~\si{cm}^3`}</K>,
+    <K>{String.raw`1~\si{ml} = 10^{-2}~\si{cm}^3`}</K>,
+];
 
 const ex2Expl = String.raw`
 In de vorige oefening vonden we al dat
@@ -105,12 +106,12 @@ We hebben nu gevonden aan hoeveel $\si{cm}^3$ $1~\si{ml}$ gelijk is. Daarmee kun
 Duid het juiste antwoord aan.
 `;
 
-const ex3Choices = String.raw`
-$250~\si{ml} = 250~\si{cm}^3$
-$250~\si{ml} = 2{,}50~\si{cm}^3$
-$250~\si{ml} = 25{,}0~\si{cm}^3$
-$250~\si{ml} = 250\cdot 10~\si{cm}^3$
-`.split('\n').slice(1, -1);
+const ex3Choices = [
+    <K>{String.raw`250~\si{ml} = 250~\si{cm}^3        `}</K>,
+    <K>{String.raw`250~\si{ml} = 2{,}50~\si{cm}^3     `}</K>,
+    <K>{String.raw`250~\si{ml} = 25{,}0~\si{cm}^3     `}</K>,
+    <K>{String.raw`250~\si{ml} = 250\cdot 10~\si{cm}^3`}</K>,
+];
 
 const ex3Expl = String.raw`
 We vonden in de vorige vraag al dat:

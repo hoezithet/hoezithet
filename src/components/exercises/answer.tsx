@@ -56,9 +56,10 @@ export const makeSelectAnswerFromId = () => {
 };
 
 export function useAnswerValue<T> (
-    evaluateAnswerValue: (v: T|null) => boolean,
+    evaluateAnswerValue: (v: T|null) => boolean|null,
     solution: string|string[],
     explanation: string,
+    isNoAnswer: boolean = false
 ): {answerValue: T|null, setAnswerValue: (newValue: T|null) => void, showingSolution: boolean} {
     const id = useId();
     const selectAnswerFromId = useMemo(makeSelectAnswerFromId, []);
@@ -73,8 +74,8 @@ export function useAnswerValue<T> (
             answerAdded({
                 id: id,
                 value: null,
-                correct: false,
-                answered: false,
+                correct: null,
+                answered: isNoAnswer,
                 solution: solution,
                 explanation: explanation,
                 showingSolution: false,
@@ -94,12 +95,16 @@ export function useAnswerValue<T> (
     }, []);
 
     const setAnswerValue = (newValue: T|null) => {
+        const correct = evaluateAnswerValue(newValue);
+        const answered = correct === null || newValue !== null;
+        // If correct is null, the answer has no user input,
+        // so there's nothing to evaluate.
         dispatch(
             answerChanged({
                 ...answer,
                 value: newValue,
-                correct: evaluateAnswerValue(newValue),
-                answered: newValue !== null,
+                correct: correct,
+                answered: answered,
             })
         )
     };

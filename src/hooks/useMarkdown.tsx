@@ -5,6 +5,7 @@ import remark from 'remark-parse';
 import katex from 'rehype-katex';
 import katexOptions from "../katexOptions";
 import remark2rehype from 'remark-rehype';
+import rehypeRaw from 'rehype-raw'
 import rehype2react from 'rehype-react';
 import mathjaxOptions from "../mathjaxOptions";
 import rehypeMathjaxSvg from 'rehype-mathjax/svg.js';
@@ -18,7 +19,8 @@ const useMarkdown = (markdownSource, mathProcessor: string = 'mathjax') => {
 
         processor = processor
              .use(math)
-             .use(remark2rehype);
+             .use(remark2rehype, {allowDangerousHtml: true})
+             .use(rehypeRaw);
 
         if (mathProcessor === 'katex') {
             processor = processor.use(katex, katexOptions);

@@ -1,0 +1,220 @@
+---
+title: Wat is een functie van de eerste graad?
+weight: 0
+tags: ["eerstegraadsfunctie", "functie van de eerste graad", "veeltermfunctie", "eerste graad", "wat is een eerstegraadsfunctie", "oefeningen eerstegraadsfunctie", "oefeningen functie van de eerste graad"]
+description: "In deze les leggen we met illustraties en oefeningen uit wat een functie van de eerste graad is. We tonen hoe eerstegraadsfuncties kunnen helpen om vele situaties op dezelfde manier te beschrijven. Dit leidt tot een formele definitie voor functies van de eerste graad met m en q als parameters. Vervolgens tonen we hoe je kan herkennen dat een bepaalde situatie zich gedraagt als een eerstegraadsfunctie en hoe je daaruit m en q kan bepalen."
+image: dirk_festival.png
+---
+
+Wanneer je de eerste keer leert over functies, kan dat allemaal nogal abstract klinken. Op het eerste zicht is het niet zo duidelijk *waarom* zoiets bestaat en hoe iemand ooit op het idee is gekomen om dat te verzinnen... 🤨
+
+Dat gevoel is heel normaal en is zelfs vollédig terecht, want functies *zijn* abstract. En dat is *precies* waarom ze zo interessant en héél breed toepasbaar zijn! 🙌 Functies, en zo ook eerstegraadsfuncties, zijn een mooi voorbeeld van **het hele idee achter wiskunde**: we willen een **onderliggende werking** (die bij vele toepassingen hetzelfde is) blootleggen en bestuderen. Door de eigenschappen van die onderliggende werking te ontdekken, ontdekken we dan meteen ook eigenschappen van àl die toepassingen! 💃
+
+## Voorbeelden van eerstegraadsfuncties
+
+Laat ons dit even illustreren aan de hand van twee voorbeelden... 👨‍🎨
+
+### Voorbeeld 1: Dirk naar het festival 🤘
+
+Dirk gaat volgende week naar een muziekfestival en is in onderhandeling met Maria over hoeveel geld hij mag meenemen.
+
+import { AnnotatedFx } from "./drawings";
+import Onderhandeling from "./onderhandeling";
+
+<Onderhandeling/>
+
+Dirk drinkt al eens graag een goed glas melk wanneer hij op een festivalweide staat. Hij wil dan ook liefst zoveel mogelijk glazen melk kunnen drinken.
+
+import DirkFestival from "./dirk_festival";
+
+<DirkFestival/>
+
+Een toegangsticket voor het festival bedraagt €25 en voor een glas melk vraagt het festival €3. Dirk zou graag willen weten **welk budget** hij met Maria moet onderhandelen om een **bepaald aantal glazen melk** te kunnen drinken op het festival.
+
+We weten dat Dirk al minstens €25 nodig zal hebben om het toegangsticket te kunnen betalen. Maar dan heeft hij nog geen enkel glas melk natuurlijk. Voor **elk glas melk** dat hij wil drinken, komt er €3 bovenop die €25. Het budget dat hij moet onderhandelen is dus €25 plus het aantal glazen melk dat hij wil drinken maal de prijs van een glas melk:
+
+$$
+\text{budget} = \left(\euro 3~\text{per glas melk}\cdot \text{aantal glazen melk}\right) + \euro 25
+$$
+
+Als Dirk bijvoorbeeld $\orange{5}$ glazen melk wil drinken, dan zal hij een budget van $(\euro 3\cdot \orange{5}) + \euro 25 = \euro 40$ nodig hebben.
+
+We kunnen wat schrijfwerk besparen door de formule als volgt te schrijven:
+
+<AnnotatedFx m={3} mName="€3 extra per glas" q={25} qName="€25 bij 0 glazen" yName="benodigd budget" xName="aantal glazen melk" />
+
+### Voorbeeld 2: Maria eet pralines
+
+Maria is dol van pralines. Ze toonde dan ook met plezier haar groot hart toen de lokale gymclub haar vorige week vroeg om hen te steunen door chocolade zeevruchten te kopen. 🤤 Ze kocht meteen een grote doos van $1~\si{kg}$. Zo'n doos bevat 64 pralines.
+
+import MariaPralines from './maria_pralines';
+
+<MariaPralines/>
+
+Maria weet natuurlijk wel dat ze die hele doos best niet op één dag naar binnen speelt. Ze heeft dan ook besloten om elke dag slechts 4 pralines te eten. Na enkele dagen vraagt ze zich af hoeveel pralines er nog in de doos zitten. Hoe kan ze dit berekenen?
+
+Er zitten oorspronkelijk $64$ pralines in de doos en er gaan er iedere dag $4$ uit. Het aantal pralines dat op een bepaalde dag nog in de doos zit, is dus gelijk aan $64$ min het aantal dagen maal $4$:
+
+$$
+\text{aantal pralines in doos} = 64~\si{pralines} - \text{aantal dagen}\cdot 4~\text{pralines per dag}
+$$
+
+Dit kunnen we herschrijven als:
+
+$$
+\text{aantal pralines in doos} = 64~\si{pralines} + \left(- 4~\text{pralines per dag}\cdot\text{aantal dagen}\right)
+$$
+
+Dit is dan weer hetzelfde als:
+
+$$
+\text{aantal pralines in doos} = \left(-4~\text{pralines per dag}\cdot\text{aantal dagen}\right) + 64~\si{pralines}
+$$
+
+Na bijvoorbeeld $\orange{5}$ dagen zullen er nog $(-4\cdot \orange{5}) + 64 = 44$ pralines in de doos zitten.
+
+We kunnen weer wat schrijfwerk besparen door de formule als volgt te schrijven:
+
+<AnnotatedFx m={-4} mName="4 pralines minder per dag" q={64} qName="64 pralines op dag 0" yName="aantal pralines in doos" xName="aantal dagen ver" annotFontSize={75} />
+
+### Voorbeeld 3: Bevroren soep ontdooien
+
+Maria en Dirk maken regelmatig een grote kom soep die ze verdelen in verschillende potjes om in te vriezen. Zo'n potje hoeven ze dan enkel terug op te warmen om te kunnen genieten van een heerlijke en gezonde portie soep.
+
+import SoepEten from "./soep_eten";
+
+<SoepEten/>
+
+
+Wanneer ze zo'n portie uit de diepvriezer halen, heeft de soep een temperatuur van $-18\deg\si{C}$. Ze plaatsen de portie soep in de microgolfoven. Deze laat de temperatuur van de soep stijgen met $6\deg\si{C}$ per minuut. Wat is de temperatuur van de soep nadat die een bepaald aantal minuten in de microgolfoven heeft gestaan?
+
+De temperatuur van de soep bedraagt in het begin $-18\deg \si{C}$. Iedere minuut komt daar $6\deg \si{C}$ bij. De temperatuur van de soep is dus gelijk aan $-18\deg \si{C}$ plus het aantal minuten maal $6\deg \si{C}$:
+
+$$
+\text{temperatuur van soep} = -18\deg\si{C} + \left(\text{aantal minuten}\cdot 6\deg\si{C}~\text{per minuut}\right)
+$$
+
+Dit kunnen we ook schrijven als:
+
+$$
+\text{temperatuur van soep} = \left(6\deg\si{C}~\text{per minuut}\cdot \text{aantal minuten}\right) - 18\deg\si{C}
+$$
+
+Dat is dan weer hetzelfde als:
+
+$$
+\text{temperatuur van soep} = \left(6\deg\si{C}~\text{per minuut}\cdot \text{aantal minuten}\right) + (- 18\deg\si{C})
+$$
+
+Of, in symbolen:
+
+<AnnotatedFx m={6} mName="6°C meer per minuut" q={-18} qName="-18°C in het begin" yName="temperatuur van soep" xName="aantal minuten opgewarmd" annotFontSize={60} />
+
+### Algemene vorm van een eerstegraadsfunctie
+
+Bij het eerste voorbeeld vonden we de volgende uitdrukking:
+
+$$
+y = 3 x + 25
+$$
+
+Bij het tweede voorbeeld kwamen we uit bij:
+
+$$
+y = -4 x + 64
+$$
+
+Bij het derde voorbeeld kregen we:
+
+$$
+y = 6 x + (-18)
+$$
+
+Als je deze uitdrukkingen naast elkaar legt, zie je dat ze een heel gelijkaardige vorm hebben. We rekenen telkens een $y$ uit door een $x$ te **vermenigvuldigen met een bepaald getal** en daar dan een ander <Mute>(al dan niet negatief)</Mute> **getal bij op te tellen**. Als we het eerste getal vervangen door een $m$ en het tweede getal door een $q$, dan krijgen we:
+
+$$
+y = m x + q
+$$
+
+import { WatIsMEnQ, Herken1GFx } from "./exercises";
+
+<WatIsMEnQ/>
+
+Er zijn talloze situaties waar we een $y$ kunnen uitrekenen met een $x$ via $y=m x + q$. Dat komt zelfs zo vaak voor dat we er een speciale naam aan geven: **eerstegraadsfuncties**.
+
+Merk op dat we vaak in plaats van die $y$ ook wel $f(x)$ schrijven:
+
+$$
+f(x) = m x + q
+$$
+
+Met die $x$ tussen haakjes achter de $f$ bedoelen we dan dat de functie $f$ *afhangt van $x$* (en **niet** dat $f$ vermenigvuldigd wordt met $x$!). We noemen $f(x) = m x + q$ het [voorschrift](../../functies/voorschrift) van $f$. We definiëren een eerstegraadsfunctie dan als volgt:
+
+
+> 💡 Eerstegraadsfunctie in $x$
+>
+> Een functie $f(x)$ is een eerstegraadsfunctie in $x$ als en slechts als haar functievoorschrift geschreven kan worden als
+>
+> $$
+> f(x) = mx + q
+> $$
+>
+> Hierbij zijn $m\in\RR_0$ en $q\in\RR$.
+
+We gebruiken de naam *eerstegraadsfunctie* omdat de hoogste macht van $x$ in $mx + q$ gelijk is aan $1$. We noemen $mx + q$ ook wel een [veelterm](../../veeltermen/veelterm) van de *eerste graad* in $x$.
+
+> ⚠️ Opgelet: $m$ en $q$ zijn géén variabelen!
+>
+> Al die letters in $y = mx + q$ kunnen nogal verwarrend zijn. De letters $m$ en $q$ hebben echter een **heel andere rol** dan $x$ en $y$! De letters **$x$ en $y$ zijn variabelen** en hebben geen vaste waarde voor een bepaalde functie. In het eerste voorbeeld zochten we het verband tussen een aantal glazen melk ($x$) en een totaalbudget ($y$). We kunnen dat verband voor eender welk aantal glazen melk gebruiken. We kunnen veel verschillende waarden kiezen voor $x$, waar dan ook veel verschillende waarden voor $y$ uit zullen volgen. De prijs per glas melk ($m$) en de prijs voor een toegangsticket ($q$) liggen echter **vast**. Zij bepalen hoe de functie zich zal gedragen, bv. in welke mate het budget stijgt per extra glas melk. We noemen $m$ en $q$ ook wel de **parameters** van de eerstegraadsfunctie.
+
+> -Uitbreiding: Waarom moet $m$ verschillend zijn van $0$?
+>
+> Als $m$ gelijk zou zijn aan nul, dan is ook $m\cdot x=0$ en dan wordt $f(x)=0+q$ of korter $f(x)=q$. We hebben dan geen $x$ meer in ons functievoorschrift. De hoogste graad van $x$ is dan niet meer één, maar nul. $f(x)$ is dus geen eerstegraadsfunctie meer, maar een *nuldegraadsfunctie* of een *constante functie*.
+
+import { Herken1GFxTexts, MariaSegway } from "./exercises";
+
+<Herken1GFx/>
+
+## Intuïtie achter functies van de eerste graad
+
+Hoe komt het dat de voorbeelden van Dirk die naar een festival gaat, van Maria die pralines eet en van bevroren soep die opgewarmd wordt allemaal leiden tot een functie van de eerste graad? Wel, per extra glas melk kwam er een **vast** bedrag van €3 bij het *budget bij; per extra dag ging er een **vast** aantal pralines uit de doos; en per extra minuut kwam er een **vast** aantal graden Celsius bij de begintemperatuur bij. Elke situatie waar er **voor elke extra $x$ een vast aantal weggaat of bijkomt bij een beginaantal** kunnen we wiskundig beschrijven met een eerstegraadsfunctie. Het vast aantal dat per $x$ weggaat of bijkomt, is $m$. Het beginaantal (wanneer $x = 0$), is $q$.
+
+Je ziet dat we met onze eerstegraadsfunctie inderdaad de **onderliggende werking** (waar we het in het begin van de les over hadden) blootleggen.
+
+## Een functie van de eerste graad herkennen en omzetten naar $y = mx + q$
+
+Elke situatie waar er een vast aantal per $x$ weggaat of bijkomt bij een beginaantal (wanneer $x = 0$), gedraagt zich als een eerstegraadsfunctie. In het volgende kader vatten we samen hoe je in een **opgave kan herkennen dat het om een eerstegraadsfunctie gaat** en hoe je vervolgens het **voorschrift kan vinden** van die eerstegraadsfunctie. 
+
+> 💡 Een functie van de eerste graad herkennen en omzetten naar $y = mx + q$
+>
+> 1. **Zoek de betekenis van $x$ en $y$**: Vraag je eerst af welke grootheden van elkaar afhangen. Is het een prijs die afhankelijk is van een aantal gekochte producten? Is het een afstand die afhangt van de tijd? Is het een omtrek die afhangt van de lengte van een gekozen zijde? ... Dit geeft de betekenis van $y$ en $x$: **$y$ is de grootheid die afhankelijk is van $x$**.
+> 2. **Bepaal of $y$ een eerstegraadsfunctie is van $x$**: Ga na of er per $x$ een **vaste hoeveelheid** bijkomt bij (of weggaat van) $y$. Is dit zo, dan is $y$ een eerstegraadsfunctie van $x$, anders niet. 
+> 3. **Bepaal $m$**: Als $y$ een eerstegraadsfunctie is van $x$, bepaal dan hoeveel er bij $y$ bijkomt (of van afgaat) wanneer $x$ één eenheid groter wordt. Dit is $m$.
+> 4. **Bepaal $q$**: Zoek waaraan $y$ gelijk is als $x$ gelijk is aan nul. Dit is $q$.
+
+> We hebben ook een aparte les over [hoe je het voorschrift van een eerstegraadsfunctie kan berekenen](../voorschrift_opstellen) waar we iets dieper hierop ingaan.
+
+Probeer het voorgande nu zelf toe te passen op de volgende oefeningen.
+
+<MariaSegway />
+
+<Herken1GFxTexts/>
+
+## Samengevat
+
+> 💡 Eerstegraadsfunctie in $x$
+>
+> Een functie $f(x)$ is een eerstegraadsfunctie in $x$ als en slechts als haar functievoorschrift geschreven kan worden als
+>
+> $$
+> f(x) = mx + q
+> $$
+>
+> Hierbij zijn $m\in\RR_0$ en $q\in\RR$.
+
+> 💡 Een functie van de eerste graad herkennen en omzetten naar $y = mx + q$
+>
+> 1. **Zoek de betekenis van $x$ en $y$**: Vraag je eerst af welke grootheden van elkaar afhangen. Is het een prijs die afhankelijk is van een aantal gekochte producten? Is het een afstand die afhangt van de tijd? Is het een omtrek die afhangt van de lengte van een gekozen zijde? ... Dit geeft de betekenis van $y$ en $x$: **$y$ is de grootheid die afhankelijk is van $x$**.
+> 2. **Bepaal of $y$ een eerstegraadsfunctie is van $x$**: Ga na of er per $x$ een **vaste hoeveelheid** bijkomt bij (of weggaat van) $y$. Is dit zo, dan is $y$ een eerstegraadsfunctie van $x$, anders niet. 
+> 3. **Bepaal $m$**: Als $y$ een eerstegraadsfunctie is van $x$, bepaal dan hoeveel er bij $y$ bijkomt (of van afgaat) wanneer $x$ één eenheid groter wordt. Dit is $m$.
+> 4. **Bepaal $q$**: Zoek waaraan $y$ gelijk is als $x$ gelijk is aan nul. Dit is $q$.

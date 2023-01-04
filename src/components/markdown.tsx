@@ -11,7 +11,7 @@ const Markdown = ({children, mathProcessor = 'mathjax'}: MarkdownPropTypes) => {
     if (typeof children !== "string") {
         return children;
     }
-    return useMarkdown(children);
+    return useMarkdown(children, mathProcessor);
 };
 
 export default Markdown;
