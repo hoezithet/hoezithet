@@ -29,7 +29,7 @@ export default function ChapterTemplate({ pageContext, data }: ChapterData) {
         const cardImage = node.frontmatter.image || data.defaultImg;
         const link = node.fields.slug;
         return (<SectionCard key={ title } title={title} cardImage={cardImage} link={link}>
-                    { node.frontmatter.description ? node.frontmatter.description : node.excerpt }
+                    { node.frontmatter.description ? node.frontmatter.description : "" }
                 </SectionCard>
             );
     }
@@ -63,7 +63,6 @@ export const chapterQuery = graphql`
                     }
                     level
                 }
-                excerpt(pruneLength: 200, truncate: true)
             }
         }
         chapter: mdx(fields: {slug: {eq: $slug}}) {
