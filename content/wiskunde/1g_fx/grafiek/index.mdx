@@ -1,0 +1,93 @@
+---
+title: De grafiek van een eerstegraadsfunctie
+weight: 1
+description: "In deze les ontdek je hoe je de grafiek van een eerstegraadsfunctie kan tekenen. Met behulp van oefeningen en interactieve illustraties leer je wat de invloed is van m en q op de grafiek van de functie."
+tags: ["grafiek van eerstegraadsfunctie", "grafiek van functie van de eerste graad", "oefening", "invloed van m en q op de grafiek"]
+image: grafiek_1g_fx.png
+---
+
+import { AnnotArrow } from "components/drawings/annotArrow";
+
+
+Stel dat de volgende [eerstegraadsfunctie](../intro) gegeven is:
+
+$$
+f(x) = 0{,}5x - 2
+$$
+
+Door enkele x-waarden in te vullen in dit functievoorschrift, kunnen we de bijhorende functiewaarden berekenen. Als we bijvoorbeeld $\htmlClass{annot2}{\orange{2}}$ invullen, dan vinden we
+
+$$
+\begin{aligned}
+f(\htmlClass{tgt2}{\orange{2}}) &= 0{,}5\cdot \orange{2} - 2\\
+&= \htmlClass{annot}{-1}
+\end{aligned}
+$$
+
+Bij de x-waarde $\orange{2}$ hoort dus een functiewaarde van $\htmlClass{target}{-1}$. Het punt met coördinaten $(2, -1)$ ligt daarom op de grafiek van de functie $f(x) = 0{,}5x - 2$:
+
+import { OneDotGraph, DotsGraph, Graph1G } from "./drawings";
+
+<OneDotGraph x={2} y={-1} />
+
+We kunnen andere willekeurige x-waarden invullen in de gegeven functie $f(x) = 0{,}5x - 2$. Onze resultaten zetten we in een [waardentabel](../../functies/waardentabel):
+
+| x-waarde | functiewaarde |
+|----------|---------------|
+| -8 | -6 |
+| -2 | -3 |
+| 2 | -1 |
+| 6 | 1 |
+
+
+<DotsGraph xys={[[2, -1], [6, 1], [-2, -3], [-8, -6]]} hideAnnot />
+
+De verschillende punten lijken op **eenzelfde rechte lijn** te liggen. Dit is geen toeval: de punten op de grafiek van een eerstegraadsfunctie liggen altijd op een rechte lijn. Als je voor nog veel meer x-waarden de y-waarde zou berekenen, zal je zien dat al die punten *ook* op diezelfde lijn liggen. De grafiek van de functie $f(x) = 0{,}5x - 2$ is:
+
+
+<Graph1G m={0.5} q={-2} />
+
+
+> 💡 Punten op de grafiek van een eerstegraadsfunctie
+>
+> De punten op de grafiek van een eerstegraadsfunctie liggen altijd op een rechte lijn.
+
+## Invloed van $m$ op de grafiek
+
+We gaan nu eens bekijken wat er met de grafiek van een eerstegraadsfunctie gebeurt als we de $m$ in het functievoorschrift veranderen. Herinner je dat $m$ het getal is waarmee $x$ wordt vermenigvuldigd in het voorschrift.
+
+import { InteractGraph1G } from "./drawings";
+
+<InteractGraph1G m={1} q={0} mSlider />
+
+Verander de waarde van $m$ door het bolletje van de *slider* heen en weer te schuiven. Gebruik je bevindingen om onderstaande oefeningen op te lossen.
+
+import { InvloedM, InvloedQ } from "./exercises";
+
+<InvloedM />
+
+We zien dat het teken van $m$ bepaalt of de functie zal **stijgen of dalen** en dat de absolute waarde van $m$ de **steilheid** bepaalt. We zeggen daarom dat $m$ de **richting** bepaalt van de functie en noemen $m$ ook wel de **richtingscoëfficiënt** of **rico**. [De volgende les zoomt wat dieper in op de richtingscoëfficiënt](../rico).
+
+## Invloed van $q$ op de grafiek
+
+We bekijken nu ook wat er met de grafiek gebeurt wanneer $q$ van waarde verandert. Herinner je dat $q$ het getal is dat bij $mx$ wordt opgeteld in het voorschrift.
+
+<InteractGraph1G m={1} q={0} mSlider qSlider />
+
+Verschuif het bolletje op de slider van $q$ en gebruik opnieuw je bevindingen om onderstaande oefeningen op te lossen.
+
+<InvloedQ />
+
+Je merkt dat $q$ een invloed heeft op **hoe hoog** de grafiek van de functie ligt. Wanneer $q$ verandert, verandert het **snijpunt van de grafiek en de y-as**. Meer zelfs: het snijpunt van de grafiek en de y-as **heeft altijd $q$ als y-coördinaat**. De grafiek van een functie $y=m\cdot x + q$ snijdt de y-as dus altijd in het punt $(0, q)$.
+
+
+## Samengevat
+
+> 💡 Invloed van $m$ op de grafiek van een eerstegraadsfunctie
+>
+> De grafiek van een functie $y=m\cdot x + q$ **stijgt wanneer $m > 0$** en **daalt wanneer $m < 0$**. Hoe **groter de absolute waarde** van $m$, hoe **steiler** de grafiek.
+
+> 💡 Invloed van $q$ op de grafiek van een eerstegraadsfunctie
+>
+> De grafiek van een functie $y=m\cdot x + q$ snijdt de y-as in $(0, q)$.
+

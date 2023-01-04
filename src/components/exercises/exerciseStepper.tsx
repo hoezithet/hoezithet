@@ -33,15 +33,19 @@ interface ExerciseStepperProps {
     children: React.ReactNode;
 }
 
+const Wrapper = styled('div')(({ theme }) => ({
+    padding: `${theme.spacing(2)} 0`,
+}));
+
 const StyledPaper = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(2),
     margin: theme.spacing(1),
     breakInside: 'avoid',
 }));
 
-const StyledStepper = styled(Stepper)({
+const StyledStepper = styled(Stepper)(({ theme }) => ({
     backgroundColor: 'transparent',
-});
+}));
 
 const StyledStep = styled(Step)({
     cursor: 'pointer',
@@ -189,6 +193,7 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
     const dispatch = useDispatch();
 
     const [activeStep, setActiveStep] = useState(0);
+    const seenExercisesRef = useRef<number[]>([]);
 
     useEffect(() => {
         dispatch(
@@ -237,7 +242,11 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
     const handleBack = () => {
         handleStepChange(activeStep - 1);
     };
-    
+
+    if (!seenExercisesRef.current.includes(activeStep)) {
+        seenExercisesRef.current.push(activeStep);
+    }
+
     const showSolutions = () => {
         flatAnswers?.forEach(ans => {
             dispatch(
@@ -271,6 +280,7 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
             )
         });
         setActiveStep(0);
+        seenExercisesRef.current = [];
     };
 
     const isShowingSolutions = () => {
@@ -284,7 +294,7 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
     
     const stepCompleted = (step: number) => {
         const stepAnswers = getStepAnswers(step);
-        return stepAnswers?.every(a => a?.answered) || false;
+        return stepAnswers?.every(a => a?.answered) && seenExercisesRef.current.includes(step) || false;
     };
 
     const allStepsCompleted = () => {
@@ -293,11 +303,25 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
 
     const stepCorrect = (step: number) => {
         const stepAnswers = getStepAnswers(step);
-        return  stepAnswers?.every(a => a?.correct) || false;
+        const corrects = stepAnswers?.map(a => a?.correct);
+        if (corrects?.some(c => c === null)) {
+            return null;
+        } else {
+            return  corrects?.every(c => c) || false;;
+        }
     };
     
     const getScore = () => {
-        return answers?.reduce((acc, _exAnswers, idx) => stepCorrect(idx) ? acc + 1 : acc, 0) || 0;
+        return answers?.reduce((acc, _exAnswers, idx) => {
+            const correct = stepCorrect(idx);
+            if (acc === null || correct === null) {
+                // Stepper contains exercise without user input,
+                // so there's nothing to evaluate.
+                return null;
+            } else {
+                return correct ? acc + 1 : acc;
+            }
+        }, 0);
     };
 
     const views = (
@@ -371,24 +395,26 @@ export const ExerciseStepper = ({ children }: ExerciseStepperProps) => {
     }
     return (
         <ExerciseStepperContext.Provider value={stepperCtx}>
-            <StyledStepper nonLinear activeStep={activeStep}>
-                {steps.map((_step, index) => (
-                    <StyledStep key={index}>
-                        <StepLabel
-                            StepIconComponent={ExerciseStepIcon}
-                            StepIconProps={
-                                {
-                                    active: activeStep === index,
-                                    completed: stepCompleted(index),
+            <Wrapper>
+                <StyledStepper nonLinear activeStep={activeStep}>
+                    {steps.map((_step, index) => (
+                        <StyledStep key={index}>
+                            <StepLabel
+                                StepIconComponent={ExerciseStepIcon}
+                                StepIconProps={
+                                    {
+                                        active: activeStep === index,
+                                        completed: stepCompleted(index),
+                                    }
                                 }
-                            }
-                            onClick={handleStep(index)} />
-                    </StyledStep>
-                ))}
-            </StyledStepper>
-            <SwipeableViews index={activeStep} onChangeIndex={handleStepChange} disableLazyLoading>
-                { views }
-            </SwipeableViews>
+                                onClick={handleStep(index)} />
+                        </StyledStep>
+                    ))}
+                </StyledStepper>
+                <SwipeableViews index={activeStep} onChangeIndex={handleStepChange} disableLazyLoading>
+                    { views }
+                </SwipeableViews>
+            </Wrapper>
         </ExerciseStepperContext.Provider>
     );
 }

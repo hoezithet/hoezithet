@@ -12,6 +12,7 @@ import Paper from '../paper';
 import { RootState } from '../../state/store'
 import { exerciseAdded, exerciseAnswerAdded, removeExercise, exerciseNameChanged } from '../../state/exercisesSlice';
 import { answerChanged, showAnswerSolution, resetAnswer } from '../../state/answersSlice';
+import { exerciseStepperAdded, exerciseStepAdded, removeExerciseStepper } from '../../state/exerciseSteppersSlice';
 import BareLessonContext from "contexts/bareLessonContext";
 
 import useId from 'hooks/useId';
@@ -55,17 +56,16 @@ export const makeSelectExerciseById = () => {
 };
 
 export const makeSelectExerciseAnswers = () => {
-    const selectExerciseById = makeSelectExerciseStepperFromId();
+    const selectExerciseById = makeSelectExerciseById();
     const selectExerciseAnswers = createSelector(
         [
           (state: RootState, exId: string) => selectExerciseById(state, exId),
           (state: RootState) => selectAnswers(state),
-          (state: RootState, exId: string, ansId: string) => ansId, 
         ],
-        (exercise: ExerciseType, answers: AnswerType[], ansId: string) => {
-            return exercise?.answerIds.map(ansId =>
-                answers?.find(ans => ans.id === ansId)
-            );
+        (exercise: ExerciseType, answers: AnswerType[]) => {
+            return exercise?.answerIds.map(ansId => {
+                return answers?.find(ans => ans.id === ansId);
+            });
         }
     );
     return selectExerciseAnswers;
@@ -90,22 +90,7 @@ export const makeSelectExerciseRankInStepper = () => {
  *
  * The interactive parts of an exercise are provided by answering components like `MultipleChoice`,
  * `MultipleAnswer` and `FillString`. The user enters their response via the answering component and
- * can get feedback on their given answers. A simple exercise might look like this:
- *
- * ```jsx
- * <Exercise>
- *   2 + 5 is equal to
- *   <MultipleChoice shuffle={false} solution={1}>
- *
- *       - 4
- *       - 7
- *       - -5
- *
- *     <Explanation>
- *       If you'd be standing at number 2 on a number line and would take 5 steps to the right, you'll end up standing at number 7.
- *     </Explanation>
- *   </MultipleChoice>
- * </Exercise>
+ * can get feedback on their given answers.
  * ```
  *
  * @prop {React.ReactNode} children The children of the exercise. Should contain some question text and one or more answer components.
@@ -113,7 +98,18 @@ export const makeSelectExerciseRankInStepper = () => {
  * ```
  */
 export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
+    const stepperContext = useContext(ExerciseStepperContext);
+    const insideStepper = stepperContext !== null;
+
     const id = useId();
+    let stepperId = useId();
+
+    if (insideStepper) {
+        stepperId = stepperContext?.id;
+    }
+
+    const selectExerciseStepperFromId = React.useMemo(makeSelectExerciseStepperFromId, []);
+    const exerciseStepper = useSelector(state => selectExerciseStepperFromId(state, stepperId));
 
     const selectExerciseFromId = React.useMemo(makeSelectExerciseById, []);
     const exercise = useSelector(state => selectExerciseFromId(state, id));
@@ -123,16 +119,13 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
 
     const nodeRef = useRef<HTMLDivElement>(null);
 
-    const stepperContext = useContext(ExerciseStepperContext);
-    const addExerciseIdToStepper = stepperContext?.addExercise;
-    const stepperRank = stepperContext?.rank;
-    const stepperId = stepperContext?.id;
+    let stepperRank = exerciseStepper?.rank;
+
     const dispatch = useDispatch();
 
     const selectExerciseRankInStepperFromId = React.useMemo(makeSelectExerciseRankInStepper, []);
-    let rank = useSelector(state => selectExerciseRankInStepperFromId(state, stepperId, id));
-    rank = rank !== -1 ? rank : exercise?.rank;
-    const name = rank !== undefined ? getExerciseName({rank: rank, stepperRank: stepperRank}) : "";
+    const rank = useSelector(state => selectExerciseRankInStepperFromId(state, stepperId, id));
+    const name = getExerciseName({rank: rank, stepperRank: stepperRank, insideStepper: insideStepper});
 
     useEffect(() => {
         dispatch(
@@ -140,14 +133,36 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
                 id: id,
             })
         )
-        if (addExerciseIdToStepper !== null) {
-            addExerciseIdToStepper(id)
-        }
         return () =>  {
             dispatch(
                 removeExercise({ id: id })
             );
         };
+    }, []);
+
+    useEffect(() => {
+        if (insideStepper) {
+            return;
+        }
+        dispatch(
+            exerciseStepperAdded({
+                id: stepperId,
+            })
+        )
+        return () => {
+            dispatch(
+                removeExerciseStepper({ id: stepperId })
+            );
+        };
+    }, []);
+
+    useEffect(() => {
+        dispatch(
+            exerciseStepAdded({
+                exerciseStepperId: stepperId,
+                exerciseId: id,
+            })
+        )
     }, []);
 
     useEffect(() => {
@@ -169,7 +184,7 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
     }
 
     const allAnswered = (
-        Array.isArray(answers) && answers.length > 0 && answers.every(ans => ans?.answered)
+        Array.isArray(answers) && answers.length > 0 && answers.every(ans => ans?.answered || ans?.correct === null)
     );
 
     const allShowingSolutions = (
@@ -196,9 +211,8 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
         });
     };
 
-    const insideStepper = addExerciseIdToStepper !== null;
     const insideBare = React.useContext(BareLessonContext) !== null;
-	const title = (showTitle || insideBare) && name !== "" ? <h3>{ name }</h3> : null;
+	  const title = (showTitle || insideBare) && name !== "" ? <h3>{ name }</h3> : null;
 
     const ctxValRef = useRef<ExerciseContextValueType>({
         addAnswer: addAnswerId,
@@ -224,12 +238,12 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
                     : null
                     }
                     {
-                    !allShowingSolutions ?
+                    !allShowingSolutions && !insideBare ?
                     <Button variant="contained"
                         color="primary"
                         disabled={!allAnswered}
                         onClick={showSolutions} >
-                        {"Toon feedback"}
+                        {"Toon oplossing"}
                     </Button>
                     : null
                     }
@@ -243,13 +257,15 @@ export const Exercise = ({ children, showTitle=true}: ExerciseProps) => {
 type ExerciseTitleProps = {
     rank: number,
     stepperRank: number|null,
+    insideStepper: boolean,
 }
 
-const getExerciseName = ({ rank, stepperRank }: ExerciseTitleProps) => {
+const getExerciseName = ({ rank, stepperRank, insideStepper }: ExerciseTitleProps) => {
     rank = rank || 0;
     let name = '';
-    if (stepperRank === null) {
-        name += (rank + 1);
+    
+    if (!insideStepper) {
+        name += (stepperRank + 1);
     } else {
         const alphabet = "abcdefghijklmnopqrstuvwxyz";
         name += (stepperRank + 1) + alphabet.charAt(rank % 26);

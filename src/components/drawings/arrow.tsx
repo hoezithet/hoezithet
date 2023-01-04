@@ -15,6 +15,7 @@ const STROKE_DASHARRAY = "4";  // TODO: should be in separate line class?
 
 export const ArrowLine = ({
     xStart, yStart, xEnd, yEnd, margin=0,
+    marginStart=null, marginEnd=null,
     anchorAngleEnd=null, anchorRadiusEnd=0,
     anchorAngleStart=null, anchorRadiusStart=0,
     color="light_gray", lineWidth=2, dashed=false, showArrow=true,
@@ -22,7 +23,9 @@ export const ArrowLine = ({
 }) => {
     const [dx, dy] = [xEnd - xStart, yEnd - yStart];
     const eps = 0.0001;
-    
+    marginStart = marginStart === null ? margin : marginStart;
+    marginEnd = marginEnd === null ? margin : marginEnd;
+
     if (anchorAngleStart === null) {
         anchorAngleStart = toDeg(Math.atan(dy/(dx + eps)));
         anchorAngleStart = dx < 0 ? 180 + anchorAngleStart : anchorAngleStart;
@@ -43,8 +46,8 @@ export const ArrowLine = ({
     if (showArrow) {
         arrowAngle = anchorAngleEnd;
         arrowScale = lineWidth / 2.5;
-        arrowX = xEnd + margin * Math.cos(toRad(anchorAngleEnd));
-        arrowY = yEnd + margin * Math.sin(toRad(anchorAngleEnd));
+        arrowX = xEnd + marginEnd * Math.cos(toRad(anchorAngleEnd));
+        arrowY = yEnd + marginEnd * Math.sin(toRad(anchorAngleEnd));
         xEnd = xEnd + 2/3 * ARROW_WIDTH * arrowScale * Math.cos(toRad(anchorAngleEnd));
         yEnd = yEnd + 2/3 * ARROW_WIDTH * arrowScale * Math.sin(toRad(anchorAngleEnd));
     }
@@ -52,7 +55,7 @@ export const ArrowLine = ({
     color = ucColor in COLORS ? COLORS[ucColor] : color;
     return (
     <>
-        <Line xStart={xStart} yStart={yStart} xEnd={xEnd} yEnd={yEnd} color={color} margin={margin}
+        <Line xStart={xStart} yStart={yStart} xEnd={xEnd} yEnd={yEnd} color={color} marginStart={marginStart} marginEnd={marginEnd}
             anchorAngleEnd={anchorAngleEnd} anchorRadiusEnd={anchorRadiusEnd}
             anchorAngleStart={anchorAngleStart} anchorRadiusStart={anchorRadiusStart}
             lineWidth={lineWidth} dashed={dashed}

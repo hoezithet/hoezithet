@@ -21,64 +21,49 @@ IconLink.defaultProps = {
     rel: "noopener noreferrer",
 }
 
-
-const FooterGrid = styled(Grid)({
-    breakInside: 'avoid',
-});
-
-FooterGrid.defaultProps = {
-    container: true,
-    spacing: 0,
-    justify: "space-between",
-    direction: "column",
-    alignItems: "center",
-};
-
-const FooterItem = styled(Grid)({
-    textAlign: 'center',
-    color: COLORS.GRAY,
-})
-
-FooterItem.defaultProps = {
-    item: true,
+const FooterItem = ({children, ...props}) => {
+    return (
+        <Grid item sx={{textAlign: 'center', color: COLORS.GRAY}} {...props}>
+            {children}
+        </Grid>
+    );
 };
 
 const FooterTitle = styled(FooterItem)({
     fontWeight: 'bold',
 });
 
-const FooterIcon = styled(FooterItem)({});
-FooterIcon.defaultProps = {
-    xs: 1,
-}
+const FooterIcon = ({children, href}) => {
+    return (
+        <FooterItem xs={1}>
+            <IconLink href={href} >
+                {children}
+            </IconLink>
+        </FooterItem>
+    );
+};
 
 const Footer = () => {
     return (
-        <FooterGrid>
-            <FooterTitle>
-                Hoe Zit Het? vzw
-            </FooterTitle>
-            <FooterItem>
-                ON 0736.486.356 RPR Brussel
-            </FooterItem>
-        <Grid container justifyContent="center" >
-            <FooterIcon>
-                <IconLink href="https://creativecommons.org/licenses/by-nc-sa/4.0/" >
-                    <CCIcon/>
-                </IconLink>
+        <Grid container spacing={0} justify="space-between" direction="column" alignItems="center" sx={{breakInside: 'avoid'}}>
+          <FooterTitle>
+            Hoe Zit Het? vzw
+          </FooterTitle>
+          <FooterItem>
+            ON 0736.486.356 RPR Brussel
+          </FooterItem>
+          <Grid container justifyContent="center" >
+            <FooterIcon href="https://creativecommons.org/licenses/by-nc-sa/4.0/" >
+              <CCIcon/>
             </FooterIcon>
-            <FooterIcon>
-                <IconLink href="https://www.facebook.com/hoezithet">
-                    <Facebook/>
-                </IconLink>
+            <FooterIcon href="https://www.facebook.com/hoezithet">
+              <Facebook/>
             </FooterIcon>
-            <FooterIcon>
-                <IconLink href="https://github.com/hoezithet/hoezithet">
-                    <GitHub/>
-                </IconLink>
+            <FooterIcon href="https://github.com/hoezithet/hoezithet">
+              <GitHub/>
             </FooterIcon>
+          </Grid>
         </Grid>
-        </FooterGrid>
     );
 }
 

@@ -1,0 +1,143 @@
+---
+title: Het nulpunt van een eerstegraadsfunctie
+weight: 3
+tags: [nulpunt, eerstegraadsfunctie, oefening]
+description: "Wat is het nulpunt van een eerstegraadsfunctie en hoe kan je het berekenen? In deze les leggen we dit uit aan de hand van oefeningen en interactieve illustraties."
+image: 1g_fx_nulpunt.png
+---
+
+De [nulwaarden van een functie](../../functies/nulpunten) zijn de **x-waarden waar de functie gelijk is aan nul**. Stel dat de volgende [eerstegraadsfunctie](../intro) gegeven is:
+
+$$
+f(x) = 2x + 6
+$$
+
+Dan is $-3$ een nulwaarde van $f(x)$, aangezien
+
+$$
+\begin{aligned}
+f\left(\orange{-3}\right) &= 2\cdot(\orange{-3}) + 6\\
+&= -6 + 6\\
+&= 0
+\end{aligned}
+$$
+
+We noemen $\left(-3, 0\right)$ een **nulpunt** van $f$. Maar hoe zijn we aan die $-3$ gekomen? Is $-3$ de enige nulwaarde van $f$ of zijn er nog andere?
+
+## Voorbeeld: Nulpunt bepalen van een eerstegraadsfunctie
+
+De nulwaarden van een functie zijn de x-waarden die als functiewaarde $0$ hebben. Stel dat $a$ een nulwaarde is van de functie $f(x) = 2x + 6$. We kunnen de functiewaarde van een getal altijd vinden door dat getal in te vullen in het [functievoorschrift](../../functies/voorschrift). Voor $a$ wordt dat:
+
+$$
+f(\orange{a}) = 2\orange{a} + 6
+$$
+
+Als $a$ een nulwaarde is van $f(x)$, dan moet de functiewaarde van $a$ echter gelijk zijn aan $0$:
+
+$$
+\begin{aligned}
+\underbrace{f(\orange{a})}_{= 0} = 2\orange{a} + 6
+\end{aligned}
+$$
+
+Hieruit volgt dat
+
+$$
+2a + 6 = 0
+$$
+
+Dit is een [vergelijking van de eerste graad](../../1g_vgl/intro) in $a$. We kunnen dit oplossen naar $a$:
+
+$$
+\begin{aligned}
+2a + 6 &= 0\\
+&\Updownarrow\\
+2a &= -6\\
+&\Updownarrow\\
+a &= \frac{-6}{2}\\
+&\Updownarrow\\
+a &= -3
+\end{aligned}
+$$
+
+Hieruit volgt dat de functie $f(x) = 2x + 6$ juist één nulwaarde heeft, namelijk $-3$. Het enige nulpunt van deze functie is dus $\left(-3, 0\right)$.
+
+## Algemene formule voor het nulpunt van een eerstegraadsfunctie
+
+We gaan nu **een formule zoeken om het nulpunt van eender welke eerstegraadsfunctie te berekenen** zonder dat je een vergelijking moet oplossen zoals we in de vorige paragraaf deden. We weten dat iedere eerstegraadsfunctie geschreven kan worden als
+
+$$
+f(x) = mx + q
+$$
+
+met $m\in\RR_0$ en $q\in\RR$. We weten ook dat de nulwaarde van een eerstegraadsfunctie **het getal is waarvan de functiewaarde gelijk is aan $0$**. Als $a$ de nulwaarde is van de functie $f$, dan moet $f(a)$ dus gelijk zijn aan nul:
+
+$$
+\underbrace{f(\orange{a})}_{=0} = m\cdot\orange{a} + q
+$$
+
+Hieruit volgt dat
+
+$$
+m\cdot a + q = 0
+$$
+
+Deze vergelijking kunnen we oplossen naar $a$:
+
+$$
+\begin{aligned}
+m\cdot a + q &= 0\\
+&\Updownarrow\\
+m\cdot a &= -q\\
+&\Updownarrow\\
+a &= \frac{-q}{m}\\
+\end{aligned}
+$$
+
+De nulwaarde van een eerstegraadsfunctie is dus altijd gelijk aan $\frac{-q}{m}$.
+
+> 💡 Formule voor de nulwaarde en het nulpunt van een eerstegraadsfunctie
+>
+> De nulwaarde van een eerstegraadsfunctie met voorschrift $f(x) = mx + q$ is gelijk aan
+>
+> $$
+> \frac{-q}{m}
+> $$
+>
+> Het nulpunt van een eerstegraadsfunctie is dus altijd $\left(\frac{-q}{m}, 0\right)$.
+
+import { FxNulpunt, NulpuntGrafiek } from "./exercises";
+
+<FxNulpunt/>
+
+## Het nulpunt van een eerstegraadsfunctie aflezen op een grafiek
+
+Het nulpunt van een eerstegraadsfunctie $f(x)$ kan je aflezen op de grafiek van $f$ door te zoeken naar **het punt waar de grafiek de x-as snijdt**. In de onderstaande figuur hebben we de grafiek van de eerstegraadsfunctie $f(x) = 2x+6$ getekend en hebben we het nulpunt van de functie aangeduid met een oranje stip.
+
+import { InteractiveNulpuntGraph1G } from "./drawings";
+
+<InteractiveNulpuntGraph1G m={2} q={6} mSlider qSlider />
+
+Met de sliders kan je $m$ en $q$ aanpassen zodat je een nieuwe functie krijgt. Je ziet dat de nulwaarde van de functie altijd gelijk is aan $\frac{-q}{m}$.
+
+> 💡 Nulpunt van een eerstegraadsfunctie aflezen op een grafiek
+>
+> Het nulpunt van een eerstegraadsfunctie $f(x)$ is **het punt waar de grafiek van $f$ de x-as snijdt**.
+
+<NulpuntGrafiek/>
+
+## Samengevat
+
+> 💡 Formule voor de nulwaarde en het nulpunt van een eerstegraadsfunctie
+>
+> De nulwaarde van een eerstegraadsfunctie met voorschrift $f(x) = mx + q$ is gelijk aan
+>
+> $$
+> \frac{-q}{m}
+> $$
+>
+> Het nulpunt van een eerstegraadsfunctie is dus altijd $\left(\frac{-q}{m}, 0\right)$.
+
+> 💡 Nulpunt van een eerstegraadsfunctie aflezen op een grafiek
+>
+> Het nulpunt van een eerstegraadsfunctie $f(x)$ is **het punt waar de grafiek van $f$ de x-as snijdt**.

@@ -5,6 +5,7 @@ import { shuffle } from 'utils/array';
 
 import MultipleChoiceStepper from 'components/exercises/multipleChoiceStepper';
 import FillStepper from 'components/exercises/fillStepper';
+import { Katex as K } from 'components/katex';
 
 
 const getEx1 = (i) => {
@@ -19,14 +20,15 @@ const getEx1 = (i) => {
     const sign = _random(0, 1) === 1 ? '-' : '';
     const plainChoice = String.raw`$${sign}0{,}${zeros}${bcs}$`;
 
-    const choices = String.raw`
-$${sign}0{,}${zeros}\underline{\orange{${bcs}}}$
-$${sign}0{,}\underline{\orange{${zeros}${bcs}}}$
-$${sign}\underline{\orange{0{,}${zeros}${bcs}}}$
-$${sign}0{,}\underline{\orange{${zeros}}}${bcs}$
-`.split('\n').slice(1, -1);
+    const correctStr = String.raw`${sign}0{,}${zeros}\underline{\orange{${bcs}}}`;
+    const choices = [
+        <K>{correctStr}</K>,
+        <K>{String.raw`${sign}0{,}\underline{\orange{${zeros}${bcs}}}`}</K>,
+        <K>{String.raw`${sign}\underline{\orange{0{,}${zeros}${bcs}}}`}</K>,
+        <K>{String.raw`${sign}0{,}\underline{\orange{${zeros}}}${bcs}`}</K>,
+    ]
 
-    const explanation = bcsToExpl(bcs, choices[0]);
+    const explanation = bcsToExpl(bcs, correctStr);
 
     return [text, choices, explanation, plainChoice, numBcs];
 }
@@ -43,7 +45,7 @@ const bcsToExpl = (bcs, bcsInTeX) => {
     }
 
     let explanation = String.raw`De beduidende cijfers beginnen vanaf het eerste cijfer dat *niet* gelijk is aan nul. ${numBcs === 1 ? `Enkel ${bcText} is daarom een beduidend cijfer.` : `De beduidende cijfers zijn daarom ${bcText}.`} `;
-    explanation += String.raw`Aangeduid in de opgave: ${bcsInTeX}. `;
+    explanation += String.raw`Aangeduid in de opgave: $${bcsInTeX}$. `;
     explanation += numBcs === 1 ? "Er is dus **1** beduidend cijfer." : `Er zijn dus **${numBcs}** beduidende cijfers.`;
 
     return explanation;
@@ -92,14 +94,15 @@ const getEx2 = (i) => {
 
     const bcs = `${nonDecimals}${zeroDecimals}${nonZeroDecimals}`;
     const numBc = numNonDecimals + numZeros + numNonZeroDecimals;
-    const choices = String.raw`
-$${sign}\underline{\orange{${nonDecimals}{,}${zeroDecimals}${nonZeroDecimals}}}${powTen}$
-$${sign}${nonDecimals}{,}${zeroDecimals}\underline{\orange{${nonZeroDecimals}}}${powTen}$
-$${sign}\underline{\orange{${nonDecimals}{,}${zeroDecimals}${nonZeroDecimals}${powTen}}}$
-$${sign}${nonDecimals}{,}\underline{\orange{${zeroDecimals}}}${nonZeroDecimals}${powTen}$
-`.split('\n').slice(1, -1);
+    const correctStr = String.raw`${sign}\underline{\orange{${nonDecimals}{,}${zeroDecimals}${nonZeroDecimals}}}${powTen}`;
+    const choices = [
+        <K>{correctStr}</K>,
+        <K>{String.raw`${sign}${nonDecimals}{,}${zeroDecimals}\underline{\orange{${nonZeroDecimals}}}${powTen}`}</K>,
+        <K>{String.raw`${sign}\underline{\orange{${nonDecimals}{,}${zeroDecimals}${nonZeroDecimals}${powTen}}}`}</K>,
+        <K>{String.raw`${sign}${nonDecimals}{,}\underline{\orange{${zeroDecimals}}}${nonZeroDecimals}${powTen}`}</K>,
+    ];
 
-    const explanation = bcsToExpl(bcs, choices[0]);
+    const explanation = bcsToExpl(bcs, correctStr);
     return [text, choices, explanation, plainChoice, numBc];
 }
 

@@ -29,11 +29,12 @@ const answersSlice = createSlice({
         resetAnswer(state, action) {
             const answerIdx = getIdxFromId(state, action.payload.id);
             if (answerIdx === -1) { return }
+            const isNoAnswer = state[answerIdx].correct === null;
             state[answerIdx] = {
                 ...state[answerIdx],
                 value: null,
-                answered: false,
-                correct: false,
+                answered: isNoAnswer ? true : false,
+                correct: isNoAnswer ? null : false,
                 showingSolution: false,
                 trial: state[answerIdx].trial + 1,
             };

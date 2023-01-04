@@ -4,18 +4,18 @@ import { Exercise } from "components/exercises/exercise";
 import { ExerciseStepper } from "components/exercises/exerciseStepper";
 import { MultipleChoice } from "components/exercises/multipleChoice";
 import Md from "components/markdown";
-
+import { Katex as K } from "components/katex";
 
 const ex1 = String.raw`
 Bij de eenheid $\si{m}^3$ staat **geen voorvoegsel** en een **exponent $3$**. Welke macht van $10$ hoort hier dan bij?
 `;
 
-const ex1Choices = String.raw`
-$\left(10^{0}\right)^3$
-$\left(10^{-1}\right)^3$
-$\left(10^{1}\right)^3$
-$\left(10^{2}\right)^3$
-`.split('\n').slice(1, -1);
+const ex1Choices = [
+    <K>{String.raw`\left(10^{0}\right)^3 `}</K>,
+    <K>{String.raw`\left(10^{-1}\right)^3`}</K>,
+    <K>{String.raw`\left(10^{1}\right)^3 `}</K>,
+    <K>{String.raw`\left(10^{2}\right)^3 `}</K>,
+];
 
 const ex1Expl = String.raw`
 Zoals je in de tabel met voorvoegsels kan zien, komt *geen voorvoegsel* overeen met $10^{0}$. Er staat een exponent $3$ bij onze eenheid, die moeten we ook bij onze macht van $10$ zetten.
@@ -26,12 +26,12 @@ const ex2 = String.raw`
 Bij de eenheid $\si{dm}^3$ staat **het voorvoegsel $\si{d}$ (*deci-*)** en een **exponent $3$**. Welke macht van $10$ hoort hier dan bij?
 `;
 
-const ex2Choices = String.raw`
-$\left(10^{-1}\right)^3$
-$\left(10^{0}\right)^3$
-$\left(10^{1}\right)^3$
-$\left(10^{2}\right)^3$
-`.split('\n').slice(1, -1);
+const ex2Choices = [
+    <K>{String.raw`\left(10^{-1}\right)^3`}</K>,
+    <K>{String.raw`\left(10^{0}\right)^3 `}</K>,
+    <K>{String.raw`\left(10^{1}\right)^3 `}</K>,
+    <K>{String.raw`\left(10^{2}\right)^3 `}</K>,
+];
 
 const ex2Expl = String.raw`
 Zoals je in de tabel met voorvoegsels kan zien, komt *deci-* overeen met $10^{-1}$. Er staat een exponent $3$ bij onze eenheid, die moeten we ook bij onze macht van $10$ zetten.
@@ -42,12 +42,12 @@ const ex3 = String.raw`
 Zet $15{,}0~\si{m}^3$ om naar $\si{dm}^3$.
 `;
 
-const ex3Choices = String.raw`
-$15{,}0~\si{m}^3 = 15{,}0\cdot 10^{3}~\si{dm}^3$
-$15{,}0~\si{m}^3 = 15{,}0\cdot 10^{-3}~\si{dm}^3$
-$15{,}0~\si{m}^3 = 150~\si{dm}^3$
-$15{,}0~\si{m}^3 = 1{,}50~\si{dm}^3$
-`.split('\n').slice(1, -1);
+const ex3Choices = [
+    <K>{String.raw`15{,}0~\si{m}^3 = 15{,}0\cdot 10^{3}~\si{dm}^3 `}</K>,
+    <K>{String.raw`15{,}0~\si{m}^3 = 15{,}0\cdot 10^{-3}~\si{dm}^3`}</K>,
+    <K>{String.raw`15{,}0~\si{m}^3 = 150~\si{dm}^3                `}</K>,
+    <K>{String.raw`15{,}0~\si{m}^3 = 1{,}50~\si{dm}^3             `}</K>,
+];
 
 const ex3Expl = String.raw`
 Om $15{,}0~\si{m}^3$ om te kunnen zetten naar $\si{dm}^3$, moeten we eerst weten waaraan $1~\si{m}^3$ gelijk is:

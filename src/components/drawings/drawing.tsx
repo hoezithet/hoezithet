@@ -49,7 +49,7 @@ const OverlayElement = styled(IconButton)({
     position: 'relative',
 });
 
-const scaleLinear = ({range, domain}) => {
+export const scaleLinear = ({range, domain}) => {
     const m = (range[1] - range[0])/(domain[1] - domain[0]);
     const q = range[0] - m * domain[0];
     const scale = x => m*x + q;
@@ -155,13 +155,12 @@ export const Drawing = ({
     const height = width/aspect;
 
     const xScale = scaleLinear({
-        range: [maxWidth*margin, maxWidth*(1 - margin)],
+        range: [width*margin, width*(1 - margin)],
         domain: [left, right],
     });
 
-    const maxHeight = maxWidth/aspect;
     const yScale = scaleLinear({
-        range: [maxHeight*(1 - margin), maxHeight*margin],
+        range: [height*(1 - margin), height*margin],
         domain: [bottom, top],
     });
 
@@ -207,8 +206,8 @@ export const Drawing = ({
     return (
         <DrawingWrapper ref={parentRef} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
             <AnimationContext.Provider value={{addAnimation: addAnimation}}>
-                <DrawingContext.Provider value={{width: maxWidth, height: maxHeight, xScale: xScale, yScale: yScale, ref: drawingRef}}>
-                    <DrawingSvg width={width} height={height} ref={drawingRef} className="drawing" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox={`0 0 ${maxWidth} ${maxHeight}`}>
+                <DrawingContext.Provider value={{width: width, height: height, xScale: xScale, yScale: yScale, ref: drawingRef}}>
+                    <DrawingSvg width={width} height={height} ref={drawingRef} className="drawing" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox={`0 0 ${width} ${height}`}>
                         { children }
                     </DrawingSvg>
                 </DrawingContext.Provider>

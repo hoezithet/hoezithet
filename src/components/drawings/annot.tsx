@@ -36,7 +36,7 @@ const AnnotChild = styled('div',
     backgroundColor: backgroundColor,
     borderRadius: borderRadius,
     padding: textPadding,
-    color: color,
+    color: getColor(color),
     fontSize: fontSize,
 }));
 
@@ -55,7 +55,8 @@ export type AnnotProps = {
     textPadding?: string|number,
     borderRadius?: string|number,
     parentPadding?: string|number,
-    children: string
+    children: string,
+    id?: string|null,
 };
 
 
@@ -66,6 +67,8 @@ export const Annot = ({
     fontSize="inherit", color="inherit",
     textPadding=null, borderRadius=null,
     parentPadding=null,
+    id=null,
+    Wrapper=Markdown,
     children
 }: AnnotProps) => {
     [textPadding, borderRadius, parentPadding] = (
@@ -137,7 +140,9 @@ export const Annot = ({
                     textPadding={textPadding}
                     fontSize={fontSize}
                 >
-                    <Markdown>{ children }</Markdown>
+                   <div id={id} style={{display: 'table'}}>
+                     <Wrapper>{ children }</Wrapper>
+                   </div>
                 </AnnotChild>
             </div>
         </foreignObject>
