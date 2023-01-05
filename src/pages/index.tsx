@@ -91,7 +91,7 @@ function WhyHzhItem(props: WhyHzhItemProps) {
 }
 
 export default function Landing() {
-    const exampleUrl = "/lessen/fysica/krachten_1/krachtvector/";
+    const exampleUrl = "/lessen/wiskunde/1g_fx/intro/";
 
     return (
         <BaseLayout barColor="transparent" barElevation={ 0 } >
