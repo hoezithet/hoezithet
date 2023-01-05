@@ -2,6 +2,10 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useStaticQuery, graphql } from 'gatsby';
 import { getSrc } from "gatsby-plugin-image"
+import { useLocation } from '@reach/router';
+
+const absUrlRx = new RegExp('^(?:[a-z+]+:)?//', 'i');
+const isAbsUrl = url => absUrlRx.test(url);
 
 interface OpenGraphProps {
   title: string;
@@ -187,8 +191,7 @@ function Meta({description, keywords, author}: MetaProps) {
   );
 }
 
-function SEO({ crumbs, description = ``, tags = null,
-               image = `` }: SEOProps) {
+function SEO({ crumbs, description = ``, tags = null, image = null }: SEOProps) {
     const { site } = useStaticQuery(
       graphql`
         query {
@@ -214,11 +217,14 @@ function SEO({ crumbs, description = ``, tags = null,
         }
       `,
     );
-    
+
     const pageCrumb = crumbs.slice(-1)[0];
-    const url = `${new URL(pageCrumb.slug, site.siteMetadata.siteUrl)}`;
+    const location = useLocation();
     const title = pageCrumb.title;
-    const imgUrl = getSrc(image || site.siteMetadata.organization.logo);
+    let imgUrl = image === null ? getSrc(site.siteMetadata.organization.logo) : image;
+    if (!isAbsUrl(imgUrl)) {
+        imgUrl = String(new URL(imgUrl, location.origin));
+    }
 
     return (
       <>
@@ -261,7 +267,7 @@ function SEO({ crumbs, description = ``, tags = null,
           title={title}
           description={description || site.siteMetadata.description}
           image={imgUrl}
-          url={url}
+          url={location.href}
           siteName={site.siteMetadata.title}
         />
       </>
