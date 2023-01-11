@@ -30,6 +30,9 @@ const isSimplestFrac = (numer, denom) => {
 
 
 export const toFrac = (numerator, denominator) => {
+    if (denominator === 1) {
+        return `${numerator}`;
+    }
     [numerator, denominator] = simplify(numerator, denominator);
     if (denominator < 0 && numerator > 0) {
         numerator *= -1;
