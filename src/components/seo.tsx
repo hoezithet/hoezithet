@@ -2,7 +2,6 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useStaticQuery, graphql } from 'gatsby';
 import { getSrc } from "gatsby-plugin-image"
-import { useLocation } from '@reach/router';
 
 const absUrlRx = new RegExp('^(?:[a-z+]+:)?//', 'i');
 const isAbsUrl = url => absUrlRx.test(url);
@@ -219,11 +218,12 @@ function SEO({ crumbs, description = ``, tags = null, image = null }: SEOProps) 
     );
 
     const pageCrumb = crumbs.slice(-1)[0];
-    const location = useLocation();
+    const base = site.siteMetadata.siteUrl;
+    const pageUrl = `${new URL(pageCrumb.slug, base)}`;
     const title = pageCrumb.title;
     let imgUrl = image === null ? getSrc(site.siteMetadata.organization.logo) : image;
     if (!isAbsUrl(imgUrl)) {
-        imgUrl = String(new URL(imgUrl, location.origin));
+        imgUrl = String(new URL(imgUrl, base));
     }
 
     return (
@@ -267,7 +267,7 @@ function SEO({ crumbs, description = ``, tags = null, image = null }: SEOProps) 
           title={title}
           description={description || site.siteMetadata.description}
           image={imgUrl}
-          url={location.href}
+          url={pageUrl}
           siteName={site.siteMetadata.title}
         />
       </>
