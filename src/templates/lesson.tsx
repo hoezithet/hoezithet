@@ -127,14 +127,12 @@ export default function Template(
                 </MDXProvider>
                 <PrintLink to={ pdfLink } />
                 <Feedback />
+                <Sponsors />
                 <Box my={ 4 }>
                     <Grid container spacing={ 2 } justifyContent="space-between">
                         { prevSiblingCard }
                         { nextSiblingCard }
                     </Grid>
-                </Box>
-                <Box my={ 4 } textAlign="center" justifyContent="center">
-                    <Sponsors />
                 </Box>
                 <Comments />
                 <Matomo />

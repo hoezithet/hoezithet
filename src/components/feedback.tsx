@@ -72,7 +72,7 @@ const Feedback = (props) => {
     };
 
     return <>
-        <h2>Hoe duidelijke vond je deze les?</h2>
+        <h2>Hoe duidelijk vond je deze les?</h2>
         <Grid container spacing={ 2 }>
             {
                 selectedOption === null ?

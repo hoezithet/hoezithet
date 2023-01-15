@@ -20,7 +20,7 @@ const AboutImg = styled('img')({
     width: '75%',
 });
 
-const ProfileImg = styled('img')({
+export const ProfileImg = styled('img')({
     display: 'block',
     margin: 'auto',
     maxWidth: '100px',
