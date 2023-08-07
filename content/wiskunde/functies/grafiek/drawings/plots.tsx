@@ -6,6 +6,7 @@ import { Annot } from  "components/drawings/annot";
 import { AnnotArrow } from  "components/drawings/annotArrow";
 import { Point } from  "components/drawings/point";
 import { HairLines } from  "components/drawings/hairlines";
+import { MathJax as M } from "components/mathjax";
 import _ from "lodash";
 
 
@@ -17,7 +18,7 @@ const SinglePointChild = () => {
           <HairLines x={xScale(4)} y={yScale(2)} xStart={xScale(0)} yStart={yScale(0)}/>
           <AnnotArrow target={{x: xScale(4), y: yScale(2)}} annot={{x: xScale(8), y: yScale(4)}} annotAlign="bottom center" targetAlign="top right" />
           <Annot x={xScale(8)} y={yScale(4)} align="bottom center">
-            {String.raw`$(\orange{4};~\green{2})$`}
+              <M>{String.raw`(\orange{4};~\green{2})`}</M>
           </Annot>
           <Point x={xScale(4)} y={yScale(2)} size={5} />
         </>

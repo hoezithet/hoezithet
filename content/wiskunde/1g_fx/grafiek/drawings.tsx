@@ -11,7 +11,6 @@ import { Plot } from "components/drawings/plot";
 import { getColor } from "colors";
 import withDrawingScale from "components/withDrawingScale";
 import useId from 'hooks/useId';
-import Markdown from "components/markdown";
 import { Katex } from 'components/katex';
 
 

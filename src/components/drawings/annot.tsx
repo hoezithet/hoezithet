@@ -4,7 +4,6 @@ import { hexToRGB, getColor } from "../../colors";
 import { styled } from '@mui/system';
 
 import { DrawingContext } from "./drawing";
-import Markdown from "../markdown";
 import { isNumeric } from "../../utils/number";
 
 
@@ -68,7 +67,7 @@ export const Annot = ({
     textPadding=null, borderRadius=null,
     parentPadding=null,
     id=null,
-    Wrapper=Markdown,
+    Wrapper=React.Fragment,
     children
 }: AnnotProps) => {
     [textPadding, borderRadius, parentPadding] = (

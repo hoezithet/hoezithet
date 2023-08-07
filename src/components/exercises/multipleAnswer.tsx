@@ -3,7 +3,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Checkbox from '@mui/material/Checkbox';
 
-import Markdown from "components/markdown";
 import { shuffle as shuffleArray } from 'utils/array';
 import { getChildAtIndex } from "utils/children";
 
@@ -56,7 +55,7 @@ const _MultipleAnswer = ({ choices, children, solution, shuffle=true }: Multiple
                     <FormControlLabel
                         key={index}
                         control={<Checkbox value={index} checked={answerValue !== null ? answerValue.includes(index) : false} onChange={handleChange} />}
-                        label={<Markdown>{choices[index]}</Markdown>}
+                        label={choices[index]}
                         disabled={showingSolution} />
                 ))
             }

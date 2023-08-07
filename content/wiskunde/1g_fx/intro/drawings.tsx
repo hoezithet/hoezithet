@@ -4,6 +4,7 @@ import DrawingGrid from "components/drawings/drawingGrid";
 import { Annot } from "components/drawings/annot";
 import { AnnotArrow } from "components/drawings/annotArrow";
 import withDrawingScale from "components/withDrawingScale";
+import { Katex as K } from "components/katex";
 import useId from 'hooks/useId';
 
 
@@ -19,7 +20,7 @@ const AnnotatedFxChild = withDrawingScale(({
     const xNameId = useId();
     const mNameId = useId();
     const qNameId = useId();
-    const fx = String.raw`$\htmlId{${yId}}{\orange{y}} = \htmlId{${mId}}{\blue{${m}}} \htmlId{${xId}}{\orange{x}}` + (q !== null ? String.raw` + \htmlId{${qId}}{\blue{${q < 0 ? "(" + q + ")": q}}}$` : '');
+    const fx = <K>{String.raw`\htmlId{${yId}}{\orange{y}} = \htmlId{${mId}}{\blue{${m}}} \htmlId{${xId}}{\orange{x}}` + (q !== null ? String.raw` + \htmlId{${qId}}{\blue{${q < 0 ? "(" + q + ")": q}}}` : '')}</K>;
 
     const [arrows, setArrows] = React.useState([]);
 

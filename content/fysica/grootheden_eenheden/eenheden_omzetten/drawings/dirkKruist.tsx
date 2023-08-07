@@ -11,6 +11,7 @@ import withDrawingScale from "components/withDrawingScale";
 import { BreathingDirk } from "./dirk";
 import { Annot } from "components/drawings/annot";
 import { AnnotArrow } from "components/drawings/annotArrow";
+import { MathJax as M } from "components/mathjax";
 import withSizePositionAngle from "components/withSizePositionAngle";
 
 import { gsap } from "gsap";
@@ -93,7 +94,7 @@ const _DirkKruistChild = () => {
             <LoopingWolken speed={-10} width={2*1642.394890} height={346.619760} x={0} y={92.659100} />
             <InfScrollingPark width={3840} x={-1000} />
             <WalkingToStopPerson />
-            <TextBallon text={String.raw`Ik ben $1{,}84~\si{m}$ groot!`} gsapPosition={1}/>
+            <TextBallon text={<>Ik ben <M>{String.raw`1{,}84~\si{m}`}</M> groot!</>} gsapPosition={1}/>
             <BreathingDirk flipH height={dirkHeight} x={dirkX} y={dirkY} align="bottom left"/>
         </>
     )
@@ -121,7 +122,7 @@ const _DirkZegtTijdChild = () => {
             <LoopingWolken speed={-5} width={2*1642.394890} height={346.619760} x={0} y={92.659100} />
             <InfScrollingPark width={3840} x={-1000} />
             <BreathingPerson freq={0.5} height={600} x={1920*1/3} y={1080-50} align="bottom right"/>
-            <TextBallon text={String.raw`Ik loop al $5623~\si{s}$ rond in dit park!`} gsapPosition={0} width={1000}/>
+            <TextBallon text={<>Ik loop al <M>{String.raw`5623~\si{s}`}</M> rond in dit park!</>} gsapPosition={0} width={1000}/>
             <BreathingDirk flipH height={dirkHeight} x={dirkX} y={dirkY} align="bottom left"/>
         </>
     );

@@ -4,6 +4,8 @@ import AnimationContext from "components/drawings/animationContext";
 import DrawingGrid from "components/drawings/drawingGrid";
 import Dirk from "./dirk";
 import { Annot } from "components/drawings/annot";
+import { MathJax } from "components/mathjax";
+import { Katex as K } from 'components/katex';
 import { getColor } from "colors";
 import _ from "lodash";
 
@@ -26,7 +28,7 @@ const _Blocks = ({x, y, blockHeight, blockWidth, strokeWidth, hText=false, fontS
                         <g transform={`translate(${blockWidth/2},${blockHeight/2}) rotate(${textAngle + (hText ? 0 : -90)})`}>
                             <Annot align="center center"
                                  fontSize={fontSize}
-                                color={getColor("near_white")}>
+                                color={getColor("near_white")} Wrapper={MathJax}>
                                 {blockText}
                             </Annot>
                         </g>
@@ -103,7 +105,7 @@ const _Watis1M84 = () => {
     const blocksWidth = 0.2;
     const accWidth = 0.2;
     const blocksX = 1 + blocksWidth/2;
-    const blockText = String.raw`$1~\si{m}$`;
+    const blockText = String.raw`1~\si{m}`;
 
     const block1Ref = React.useRef(null);
     const dirkRef = React.useRef(null);
@@ -119,13 +121,13 @@ const _Watis1M84 = () => {
         <>
           {/** <DrawingGrid majorX={1} majorY={1} minorX={0.10} minorY={0.1} /> **/}
           <TextAccolade x1={xScale(0)} y={yScale(0)} ref={acc1Ref} color={getColor("gray")} width={xScale.metric(accWidth)} height={yScale.metric(1)} x1={xScale(2.5)} x2={xScale(blocksX)} dashLength={dashLength} strokeWidth={strokeWidth}>
-              {String.raw`**1** keer $1~\si{m}$`}
+              <b>1</b> keer <K>{String.raw`1~\si{m}`}</K>
           </TextAccolade>
           <TextAccolade x1={xScale(0)} y={yScale(0)} ref={acc184Ref} color={getColor("dark_green")} width={xScale.metric(accWidth)} height={yScale.metric(dirkHeight)} x1={xScale(3)} x2={xScale(blocksX)} dashLength={dashLength} strokeWidth={strokeWidth}>
-              {String.raw`**${dirkHeightStr}** keer $1~\si{m}$`}
+              <b>{dirkHeightStr}</b> keer <K>{String.raw`1~\si{m}`}</K>
           </TextAccolade>
           <TextAccolade x1={xScale(0)} y={yScale(0)} ref={acc2Ref} color={getColor("gray")} width={xScale.metric(accWidth)} height={yScale.metric(2)} x1={xScale(3.5)} x2={xScale(blocksX)} dashLength={dashLength} strokeWidth={strokeWidth}>
-              {String.raw`**2** keer $1~\si{m}$`}
+              <b>2</b> keer <K>{String.raw`1~\si{m}`}</K>
           </TextAccolade>
           <g ref={dirkRef}>
               <Dirk isFront height={yScale.metric(dirkHeight)} x={xScale(dirkX)} y={yScale(0)} align="bottom center"/>
@@ -196,16 +198,14 @@ const _MeterIs100Cm = () => {
     return (
         <>
             <g ref={meterBlockRef}>
-                <Annot x={xScale(1)} y={yScale(0.5)} align="center center">
-                    {String.raw`$=$`}
-                </Annot>
-                <Blocks x={xScale(0.75)} y={yScale(0)} blockText={String.raw`$1~\si{m}$`} textAngle={90} fontSize={yScale.metric(0.09)} blockHeight={yScale.metric(1)} blockWidth={xScale.metric(0.2)} numBlocks={1} color="blue" />
+                <Annot x={xScale(1)} y={yScale(0.5)} align="center center" Wrapper={K}>=</Annot>
+                <Blocks x={xScale(0.75)} y={yScale(0)} blockText={String.raw`1~\si{m}`} textAngle={90} fontSize={yScale.metric(0.09)} blockHeight={yScale.metric(1)} blockWidth={xScale.metric(0.2)} numBlocks={1} color="blue" />
             </g>
             <BlockCounter ref={blockCounterRef} blocksX={xScale(1.25)} accoladeX={xScale(1.5)} y={yScale(0)} numBlocks={0}
                 blockWidth={xScale.metric(0.2)} accoladeWidth={xScale.metric(0.2)} blockStrokeWidth={xScale.metric(0.002)}
                 accStrokeWidth={xScale.metric(0.01)}
                 blockHeight={yScale.metric(0.01)} fontSizePx={yScale.metric(0.08)}
-                textCallback={x => String.raw`**${x}** keer $1~\si{cm}$`} />
+                textCallback={x => <><b>{x}</b> keer <K>{String.raw`1~\si{cm}`}</K></>} />
         </>
     );
 };
@@ -248,16 +248,14 @@ const _DirkInCm = () => {
         <>
             {/** <DrawingGrid majorX={1} majorY={1} minorX={0.10} minorY={0.1} /> **/}
             <g ref={meterBlockRef}>
-                <Annot x={xScale(1)} y={yScale(1.1)} align="center center">
-                    {String.raw`$=$`}
-                </Annot>
+                <Annot x={xScale(1)} y={yScale(1.1)} align="center center"><K>=</K></Annot>
                 <Dirk isFront height={yScale.metric(1.84)} x={xScale(0.5)} y={yScale(0)} align="bottom center" />
             </g>
             <BlockCounter ref={blockCounterRef} blocksX={xScale(1.5)} accoladeX={xScale(1.65)} y={yScale(0)} numBlocks={0}
                   blockWidth={xScale.metric(0.2)} accoladeWidth={xScale.metric(0.2)}
                   blockHeight={yScale.metric(0.01)} fontSizePx={yScale.metric(0.12)} blockStrokeWidth={xScale.metric(0.002)}
                   accStrokeWidth={xScale.metric(0.01)}
-                  textCallback={(numBlocks) => String.raw`**${numBlocks}** keer $1~\si{cm}$`} />
+                  textCallback={(numBlocks) => <><b>{numBlocks}</b> keer <K>{String.raw`1~\si{cm}`}</K></>} />
         </>
     );
 };
