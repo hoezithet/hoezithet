@@ -30,7 +30,7 @@ const M3NaarDm3 = () => {
     return (
         <ExerciseStepper>
             <Exercise>
-                Bij de eenheid <K>{String.raw`\si{m}^3`}</K> staat <b>geen voorvoegsel</b> en een <b>exponent $3$</b>. Welke macht van <K>{String.raw`10`}</K> hoort hier dan bij?
+                Bij de eenheid <K>{String.raw`\si{m}^3`}</K> staat <b>geen voorvoegsel</b> en een <b>exponent <K>{String.raw`3`}</K></b>. Welke macht van <K>{String.raw`10`}</K> hoort hier dan bij?
                 <MultipleChoice choices={ex1Choices} solution={0}>
                     <div>
                         Zoals je in de tabel met voorvoegsels kan zien, komt <em>geen voorvoegsel</em> overeen met <K>{String.raw`10^{0}`}</K>. Er staat een exponent <K>{String.raw`3`}</K> bij onze eenheid, die moeten we ook bij onze macht van <K>{String.raw`10`}</K> zetten.

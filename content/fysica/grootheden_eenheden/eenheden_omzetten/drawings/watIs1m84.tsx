@@ -121,13 +121,13 @@ const _Watis1M84 = () => {
         <>
           {/** <DrawingGrid majorX={1} majorY={1} minorX={0.10} minorY={0.1} /> **/}
           <TextAccolade x1={xScale(0)} y={yScale(0)} ref={acc1Ref} color={getColor("gray")} width={xScale.metric(accWidth)} height={yScale.metric(1)} x1={xScale(2.5)} x2={xScale(blocksX)} dashLength={dashLength} strokeWidth={strokeWidth}>
-              <b>1</b> keer <K>{String.raw`1~\si{m}`}</K>
+              <b>1</b> keer <MathJax>{String.raw`1~\si{m}`}</MathJax>
           </TextAccolade>
           <TextAccolade x1={xScale(0)} y={yScale(0)} ref={acc184Ref} color={getColor("dark_green")} width={xScale.metric(accWidth)} height={yScale.metric(dirkHeight)} x1={xScale(3)} x2={xScale(blocksX)} dashLength={dashLength} strokeWidth={strokeWidth}>
-              <b>{dirkHeightStr}</b> keer <K>{String.raw`1~\si{m}`}</K>
+              <b>{dirkHeightStr}</b> keer <MathJax>{String.raw`1~\si{m}`}</MathJax>
           </TextAccolade>
           <TextAccolade x1={xScale(0)} y={yScale(0)} ref={acc2Ref} color={getColor("gray")} width={xScale.metric(accWidth)} height={yScale.metric(2)} x1={xScale(3.5)} x2={xScale(blocksX)} dashLength={dashLength} strokeWidth={strokeWidth}>
-              <b>2</b> keer <K>{String.raw`1~\si{m}`}</K>
+              <b>2</b> keer <MathJax>{String.raw`1~\si{m}`}</MathJax>
           </TextAccolade>
           <g ref={dirkRef}>
               <Dirk isFront height={yScale.metric(dirkHeight)} x={xScale(dirkX)} y={yScale(0)} align="bottom center"/>
@@ -198,14 +198,14 @@ const _MeterIs100Cm = () => {
     return (
         <>
             <g ref={meterBlockRef}>
-                <Annot x={xScale(1)} y={yScale(0.5)} align="center center" Wrapper={K}>=</Annot>
+                <Annot x={xScale(1)} y={yScale(0.5)} align="center center" Wrapper={MathJax}>=</Annot>
                 <Blocks x={xScale(0.75)} y={yScale(0)} blockText={String.raw`1~\si{m}`} textAngle={90} fontSize={yScale.metric(0.09)} blockHeight={yScale.metric(1)} blockWidth={xScale.metric(0.2)} numBlocks={1} color="blue" />
             </g>
             <BlockCounter ref={blockCounterRef} blocksX={xScale(1.25)} accoladeX={xScale(1.5)} y={yScale(0)} numBlocks={0}
                 blockWidth={xScale.metric(0.2)} accoladeWidth={xScale.metric(0.2)} blockStrokeWidth={xScale.metric(0.002)}
                 accStrokeWidth={xScale.metric(0.01)}
                 blockHeight={yScale.metric(0.01)} fontSizePx={yScale.metric(0.08)}
-                textCallback={x => <><b>{x}</b> keer <K>{String.raw`1~\si{cm}`}</K></>} />
+                textCallback={x => <><b>{x}</b> keer <MathJax>{String.raw`1~\si{cm}`}</MathJax></>} />
         </>
     );
 };
@@ -248,14 +248,14 @@ const _DirkInCm = () => {
         <>
             {/** <DrawingGrid majorX={1} majorY={1} minorX={0.10} minorY={0.1} /> **/}
             <g ref={meterBlockRef}>
-                <Annot x={xScale(1)} y={yScale(1.1)} align="center center"><K>=</K></Annot>
+                <Annot x={xScale(1)} y={yScale(1.1)} align="center center"><MathJax>=</MathJax></Annot>
                 <Dirk isFront height={yScale.metric(1.84)} x={xScale(0.5)} y={yScale(0)} align="bottom center" />
             </g>
             <BlockCounter ref={blockCounterRef} blocksX={xScale(1.5)} accoladeX={xScale(1.65)} y={yScale(0)} numBlocks={0}
                   blockWidth={xScale.metric(0.2)} accoladeWidth={xScale.metric(0.2)}
                   blockHeight={yScale.metric(0.01)} fontSizePx={yScale.metric(0.12)} blockStrokeWidth={xScale.metric(0.002)}
                   accStrokeWidth={xScale.metric(0.01)}
-                  textCallback={(numBlocks) => <><b>{numBlocks}</b> keer <K>{String.raw`1~\si{cm}`}</K></>} />
+                  textCallback={(numBlocks) => <><b>{numBlocks}</b> keer <MathJax>{String.raw`1~\si{cm}`}</MathJax></>} />
         </>
     );
 };
