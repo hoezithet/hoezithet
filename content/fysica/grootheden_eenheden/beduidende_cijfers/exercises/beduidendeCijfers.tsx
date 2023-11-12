@@ -18,14 +18,15 @@ const getEx1 = (i) => {
     const extras = Array.from({length: numBcs - 1}, () => _random(0, 9)).join("");
     const bcs = `${(i % 10) + 1}${extras}`;
     const sign = _random(0, 1) === 1 ? '-' : '';
-    const plainChoice = String.raw`$${sign}0{,}${zeros}${bcs}$`;
+    const suffix = String.raw`~\si{kN}`;
+    const plainChoice = String.raw`$${sign}0{,}${zeros}${bcs}${suffix}$`;
 
-    const correctStr = String.raw`${sign}0{,}${zeros}\underline{\orange{${bcs}}}`;
+    const correctStr = String.raw`${sign}0{,}${zeros}\underline{\orange{${bcs}}}${suffix}`;
     const choices = [
-        <K>{correctStr}</K>,
-        <K>{String.raw`${sign}0{,}\underline{\orange{${zeros}${bcs}}}`}</K>,
-        <K>{String.raw`${sign}\underline{\orange{0{,}${zeros}${bcs}}}`}</K>,
-        <K>{String.raw`${sign}0{,}\underline{\orange{${zeros}}}${bcs}`}</K>,
+        <K>{String.raw`${correctStr}`}</K>,
+        <K>{String.raw`${sign}0{,}\underline{\orange{${zeros}${bcs}}}${suffix}`}</K>,
+        <K>{String.raw`${sign}\underline{\orange{0{,}${zeros}${bcs}}}${suffix}`}</K>,
+        <K>{String.raw`${sign}0{,}\underline{\orange{${zeros}}}${bcs}${suffix}`}</K>,
     ]
 
     const explanation = bcsToExpl(bcs, correctStr);
@@ -90,16 +91,17 @@ const getEx2 = (i) => {
     let nonZeroDecimals = Array.from({length: numNonZeroDecimals - 1}, () => _random(0, 9)).join("");
     nonZeroDecimals += _random(1, 9);
     const powTen = String.raw`\cdot 10^{${exp}}`;
-    const plainChoice = String.raw`$${sign}${nonDecimals}{,}${zeroDecimals}${nonZeroDecimals}${powTen}$`;
+    const suffix = String.raw`~\si{m/s}`;
+    const plainChoice = String.raw`$${sign}${nonDecimals}{,}${zeroDecimals}${nonZeroDecimals}${powTen}${suffix}$`;
 
     const bcs = `${nonDecimals}${zeroDecimals}${nonZeroDecimals}`;
     const numBc = numNonDecimals + numZeros + numNonZeroDecimals;
-    const correctStr = String.raw`${sign}\underline{\orange{${nonDecimals}{,}${zeroDecimals}${nonZeroDecimals}}}${powTen}`;
+    const correctStr = String.raw`${sign}\underline{\orange{${nonDecimals}{,}${zeroDecimals}${nonZeroDecimals}}}${powTen}${suffix}`;
     const choices = [
-        <K>{correctStr}</K>,
-        <K>{String.raw`${sign}${nonDecimals}{,}${zeroDecimals}\underline{\orange{${nonZeroDecimals}}}${powTen}`}</K>,
-        <K>{String.raw`${sign}\underline{\orange{${nonDecimals}{,}${zeroDecimals}${nonZeroDecimals}${powTen}}}`}</K>,
-        <K>{String.raw`${sign}${nonDecimals}{,}\underline{\orange{${zeroDecimals}}}${nonZeroDecimals}${powTen}`}</K>,
+        <K>{String.raw`${correctStr}`}</K>,
+        <K>{String.raw`${sign}${nonDecimals}{,}${zeroDecimals}\underline{\orange{${nonZeroDecimals}}}${powTen}${suffix}`}</K>,
+        <K>{String.raw`${sign}\underline{\orange{${nonDecimals}{,}${zeroDecimals}${nonZeroDecimals}${powTen}}}${suffix}`}</K>,
+        <K>{String.raw`${sign}${nonDecimals}{,}\underline{\orange{${zeroDecimals}}}${nonZeroDecimals}${powTen}${suffix}`}</K>,
     ];
 
     const explanation = bcsToExpl(bcs, correctStr);

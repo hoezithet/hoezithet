@@ -6,31 +6,31 @@ tags: []
 ---
 
 De beduidende cijfers zijn de cijfers in een getal **vanaf het eerste cijfer 
-dat verschillend is van nul**. Ze zijn hieronder aangeduid:
+dat verschillend is van nul**. Ze zijn hieronder aangeduid voor bepaalde metingen:
 
 
 $$
--0{,}000\underline{\orange{50846}}
-$$
-
-
-$$
-0{,}\underline{\orange{950}}\cdot{10^3}
+-0{,}000\underline{\orange{50846}}~\si{m}
 $$
 
 
 $$
-\underline{\orange{1}{,}\orange{059}}
+0{,}\underline{\orange{950}}\cdot{10^3}~\si{kg}
 $$
 
 
 $$
--\underline{\orange{5000}}\cdot{10^{-9}}
+\underline{\orange{1}{,}\orange{059}}~\si{ml}
 $$
 
 
 $$
-0{,}0\underline{\orange{2}}
+-\underline{\orange{5000}}\cdot{10^{-9}}~\si{m/s}
+$$
+
+
+$$
+0{,}0\underline{\orange{2}}~\si{cm}^2
 $$
 
 import { DuidBCAan, DuidBCAan2, TelBCs } from './exercises/beduidendeCijfers';
@@ -44,16 +44,20 @@ import { DuidBCAan, DuidBCAan2, TelBCs } from './exercises/beduidendeCijfers';
 
 Bij [benaderingsregels](../benaderingsregels) zullen we soms het aantal beduidende cijfers moeten tellen. Eens we de beduidende cijfers van een getal kunnen aanduiden, tellen we gewoon hoeveel er zijn, en dat geeft ons het **aantal beduidende cijfers**.
 
-| Getal                 | Beduidende cijfers        | Aantal beduidende cijfers |
+| Meting                | Beduidende cijfers        | Aantal beduidende cijfers |
 | --------------------- | ------------------------- | ------------------------- |
-| $-0{,}00050846$       | $5$, $0$, $8$, $4$ en $6$ | 5                         |
-| $0{,}950\cdot{10^3}$  | $9$, $5$ en $0$           | 3                         |
-| $1{,}059$             | $1$, $0$, $5$ en $9$      | 4                         |
-| $-5000\cdot{10^{-9}}$ | $5$, $0$, $0$ en $0$      | 4                         |
-| $0{,}02$              | Enkel $2$                 | 1                         |
+| $-0{,}00050846~\si{m}$       | $5$, $0$, $8$, $4$ en $6$ | 5                         |
+| $0{,}950\cdot{10^{-2}}~\si{A}$  | $9$, $5$ en $0$           | 3                         |
+| $1{,}059~\si{cl}$             | $1$, $0$, $5$ en $9$      | 4                         |
+| $-5000\cdot{10^{3}}~\si{N}$ | $5$, $0$, $0$ en $0$      | 4                         |
+| $0{,}02~\si{W}$              | Enkel $2$                 | 1                         |
 
 <TelBCs />
 
 > 💡 Beduidende cijfers en benaderingsregels
 >
 > De beduidende cijfers zijn belangrijk bij de benaderingsregels. Lees [onze les over de benaderingsregels](../benaderingsregels) daarom zeker ook eens na!
+
+## Aantal beduidende cijfers bij wiskundige constanten
+
+We spreken typisch enkel van *beduidende cijfers* bij **metingen**. We houden geen rekening met beduidende cijfers voor wiskundige constanten, zoals $\pi$, of bij getallen die eigen zijn aan een formule, zoals de deling door $2$ bij het berekenen van de oppervlakte van een driehoek.
