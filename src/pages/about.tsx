@@ -42,7 +42,7 @@ export default function About() {
         </StyledCite>
         <AboutImg src={ demotivated } />
         <p>
-            Misschien herken je het bovenstaande verhaal wel, net als veel leerlingen van het middelbaar. Mijn naam is Floris De Feyter 👋 en tussen ons gezegd en gezwegen vind ik wiskunde en wetenschappen eigenlijk heel interessant. Het doet wat pijn om te zien dat de vakken die ik zelf heel graag doe zulke angst en paniek kunnen veroorzaken bij leerlingen. Het voelt alsof veel leerlingen bang zijn voor de Grote Vriendelijke Reus, terwijl ze hem <b>nooit echt hebben leren kennen</b>.
+            Misschien herken je het bovenstaande verhaal wel, net als veel leerlingen van het middelbaar. Mijn naam is Floris De Feyter 👋 en ik vind wiskunde en wetenschappen eigenlijk heel interessant. Het doet wat pijn om te zien dat de vakken die ik zelf heel graag doe zulke angst en paniek kunnen veroorzaken bij leerlingen. Het voelt alsof veel leerlingen bang zijn voor de Grote Vriendelijke Reus, terwijl ze hem <b>nooit echt hebben leren kennen</b>.
         </p>
         <Grid container spacing={ 2 } justifyContent="space-between">
             <Grid item xs={ 12 } sm={ 6 }>
@@ -70,7 +70,7 @@ export default function About() {
             <Grid item xs={ 12 } md={ 10 }>
                 <>
                 <p>
-                Van opleiding ben ik industrieel ingenieur elektronica-ICT en momenteel ben ik bezig aan een doctoraat over computervisie. Afgelopen jaren heb ik in mijn vrije tijd heel wat bijlessen wiskunde en fysica gegeven. Het leukste daaraan was om de blik van de leerlingen te zien opklaren eens <q>het lichtje ging branden</q>. Dat wil ik met Hoe Zit Het? ook graag bereiken door mijn uiterste best te doen om de leerstof helder uit te leggen aan de hand van sprekende illustraties.
+                Van opleiding ben ik industrieel ingenieur elektronica-ICT en heb ik een doctoraat behaald dat ging over computervisie. Afgelopen jaren heb ik in mijn vrije tijd heel wat bijlessen wiskunde en fysica gegeven. Het leukste daaraan was om de blik van de leerlingen te zien opklaren eens <q>het lichtje ging branden</q>. Dat wil ik met Hoe Zit Het? ook graag bereiken door mijn uiterste best te doen om de leerstof helder uit te leggen aan de hand van sprekende illustraties.
                 </p>
                 <p>
                 Als je vragen of opmerkingen over de site hebt, mag je me altijd een mailtje sturen via <a href="mailto:floris@hoezithet.nu">floris@hoezithet.nu</a> of me contacteren via de <a href="https://fb.me/hoezithet">Facebookpagina van Hoe Zit Het?</a>.
