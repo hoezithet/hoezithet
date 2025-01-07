@@ -92,4 +92,5 @@ module.exports = {
         `gatsby-plugin-material-ui`,
         `gatsby-plugin-catch-links`,
     ],
+    trailingSlash: "always",
 };
