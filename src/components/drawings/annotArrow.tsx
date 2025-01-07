@@ -3,6 +3,8 @@ import React, { createContext, useContext, useEffect, useRef, useState } from 'r
 import { DrawingContext } from "./drawing";
 import { ArrowLine } from "./arrow";
 import isEqual from "lodash/isEqual";
+import { getColor } from "colors";
+import { gsap } from "gsap";
 
 
 type Coordinate = {
@@ -172,7 +174,7 @@ export const AnnotArrow = ({
     annotAlign="top center",
     targetAlign="top center",
     color="light_gray", opacity=1, lineWidth=2,
-    hideHead=false, dashed=false,
+    hideHead=false, dashed=false, hidden=false
 }: AnnotArrowProps) => {
     const [vAlignAnnot, hAlignAnnot] = annotAlign.split(" ");
     const [vAlignTarget, hAlignTarget] = targetAlign.split(" ");
@@ -195,10 +197,27 @@ export const AnnotArrow = ({
     const annotArrowsRef = React.useRef(target.map(t => null));
     const [svgNode, setSvgNode] = React.useState<SVGSVGElement|null>(null);
     const svgNodeRef = React.useRef(null);
+    const cAnnotRef = React.useRef(null);
+    const cTargets = React.useRef(target.map(t => null));
+    const [shown, setShown] = React.useState(!hidden);
 
     React.useEffect(() => {
         setSvgNode(svgNodeRef.current);
     }, []);
+
+    const animCircle = (el) => {
+        if (el !== null) {
+            gsap.set(el, {
+                transformOrigin: "center"
+            });
+            gsap.to(el, {
+                scale: 2,
+                yoyo: true,
+                repeat: -1,
+                duration: 1.5,
+            });
+        }
+    };
 
     let annotCoord: DOMPoint|null = null;
     let targetCoords: DOMPoint[] = target.map(t => null);
@@ -214,6 +233,9 @@ export const AnnotArrow = ({
             convertToCoord(t, svgNode, hAlignTarget, vAlignTarget)
         );
     }
+    const DOT_RADIUS = "2px";
+    const CLICK_RADIUS = 20;
+    const toggleShown = () => setShown(prev => !prev);
 
     return (
         <svg ref={svgNodeRef} style={{overflow: "visible", position: "absolute", pointerEvents: "none"}}>
@@ -221,17 +243,31 @@ export const AnnotArrow = ({
             <rect width="1" height="1" opacity="0"/>
             {
                 target.map((t, i) => (
-                    <g key={i} ref={node => { annotArrowsRef.current[i] = node }}>
+                    <g key={i} ref={node => { annotArrowsRef.current[i] = node }} onClick={toggleShown} style={{cursor: "pointer"}}>
                        {
-                          targetCoords[i] !== null && annotCoord !== null ?
-                            <ArrowLine xStart={annotCoord.x} yStart={annotCoord.y} xEnd={targetCoords[i].x} yEnd={targetCoords[i].y}
-                              marginStart={marginAnnot}
-                              marginEnd={marginTarget}
-                              anchorAngleStart={anchorAngleAnnot} anchorRadiusStart={anchorRadiusAnnot}
-                              anchorAngleEnd={anchorAngleTarget} anchorRadiusEnd={anchorRadiusTarget}
-                              color={color} lineWidth={lineWidth} dashed={dashed} showArrow={!hideHead}
-                              opacity={opacity} />
+                          annotCoord !== null && !shown ?
+                          <>
+                            <circle cx={annotCoord.x} cy={annotCoord.y} r={CLICK_RADIUS} opacity={0} />
+                            <circle cx={annotCoord.x} cy={annotCoord.y} r={DOT_RADIUS} fill={getColor("light_gray")} ref={animCircle} />
+                          </>
                           : null
+                        }
+                       {
+                          targetCoords[i] !== null && annotCoord !== null ? (
+                              !shown ?
+                              <>
+                                <circle cx={targetCoords[i].x} cy={targetCoords[i].y} r={DOT_RADIUS} fill={getColor("light_gray")} ref={animCircle}/>
+                                <circle cx={targetCoords[i].x} cy={targetCoords[i].y} r={CLICK_RADIUS} opacity={0} />
+                              </>
+                              :
+                              <ArrowLine xStart={annotCoord.x} yStart={annotCoord.y} xEnd={targetCoords[i].x} yEnd={targetCoords[i].y}
+                                marginStart={marginAnnot}
+                                marginEnd={marginTarget}
+                                anchorAngleStart={anchorAngleAnnot} anchorRadiusStart={anchorRadiusAnnot}
+                                anchorAngleEnd={anchorAngleTarget} anchorRadiusEnd={anchorRadiusTarget}
+                                color={color} lineWidth={lineWidth} dashed={dashed} showArrow={!hideHead}
+                                opacity={opacity} />
+                            ) : null
                        }
                     </g>
                 ))
