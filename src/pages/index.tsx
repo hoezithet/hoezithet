@@ -91,7 +91,7 @@ function WhyHzhItem(props: WhyHzhItemProps) {
 }
 
 export default function Landing() {
-    const exampleUrl = "/lessen/wiskunde/1g_fx/intro/";
+    const exampleUrl = "/lessen/";
 
     return (
         <BaseLayout barColor="transparent" barElevation={ 0 } >
@@ -118,7 +118,7 @@ export default function Landing() {
                         </WhyHzhItem>
                         <Grid item>
                             <ShowLessonButton variant="contained" color="primary" size="large" to={ exampleUrl }>
-                                Toon mij een voorbeeld!
+                                Toon de lessen!
                             </ShowLessonButton> 
                         </Grid>
                     </Grid>
