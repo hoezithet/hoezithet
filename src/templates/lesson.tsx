@@ -25,7 +25,6 @@ import Color, {
 import Toc from "../components/toc";
 import Layout from "../components/layout";
 import Sponsors from '../components/sponsors';
-import Feedback from "../components/feedback";
 import PrintLink from "../components/printlink";
 import { Link } from 'gatsby-theme-material-ui';
 import Grid from '@mui/material/Grid';
@@ -126,7 +125,6 @@ export default function Template(
                   </MDXProvider>
                 </MDXProvider>
                 <PrintLink to={ pdfLink } />
-                <Feedback />
                 <Sponsors />
                 <Box my={ 4 }>
                     <Grid container spacing={ 2 } justifyContent="space-between">
