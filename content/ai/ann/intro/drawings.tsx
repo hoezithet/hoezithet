@@ -90,7 +90,7 @@ const WeightedSumStrChild = withDrawingScale(({
     return (
         <>
             { weightsName !== null ?
-                <Annot x={fxX} y={annFxHeight - yMargin} fontSize={annotFontSize} color={weightColor} color={weightColor} align="bottom center" id={weightNameId}>
+                <Annot x={fxX} y={annFxHeight - yMargin} fontSize={annotFontSize} color={weightColor} align="bottom center" id={weightNameId}>
                     <MD>{ weightsName }</MD>
                 </Annot>
                 : null
