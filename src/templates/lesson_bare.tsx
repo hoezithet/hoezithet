@@ -113,7 +113,7 @@ export default function Template({ data }: LessonData) {
                 </MDXProvider>
             </MDXProvider>
             <Box my={4} textAlign="center" justifyContent="center">
-                <Sponsors width="28mm" showTreat={false} />
+                <Sponsors width="28mm" />
             </Box>
             { appendixItems.length > 0 ?
                 <>

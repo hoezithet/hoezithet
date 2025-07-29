@@ -5,6 +5,7 @@ import { Annot } from "components/drawings/annot";
 import { getColor } from "colors";
 import { AnnotArrow } from "components/drawings/annotArrow";
 import { TextAccolade } from "./watIs1m84";
+import { MathJax as M } from "components/mathjax";
 import {isoTopTfm, isoLeftTfm, isoRightTfm} from "utils/isoTransform";
 import CowHead from "./cowHead";
 
@@ -17,9 +18,7 @@ const MilkCarton = ({x, y, width, height, depth}) => {
            <g transform={`translate(${-width*cos30},${-width*sin30}) ${isoLeftTfm}`}>
                <rect width={width} height={height} fill={getColor("near_white")} stroke={getColor("black")} strokeLinejoin="round" />
                <CowHead x={width/2} y={height/3} align="center center" width={width/2} height={height/2} />
-               <Annot x={width/2} y={height} align="bottom center" fontSize={height/3}>
-                   {String.raw`**1L**`}
-               </Annot>
+               <Annot x={width/2} y={height} align="bottom center" fontSize={height/3}><b>1L</b></Annot>
            </g>
            <g transform={`translate(${-depth*cos30},${-(width+depth)*sin30}) ${isoTopTfm}`} fill={getColor("near_white")} stroke={getColor("black")} strokeLinejoin="round" >
                <rect width={width} height={depth} />
@@ -62,9 +61,9 @@ const Cube = ({x, y, size, strokeWidth=5, accWidth=null, fontSizePx=null, text=n
 
 const _DrieKubussen = () => {
     const { xScale, yScale } = React.useContext(DrawingContext);
-    const [cube1X, cube1Y, cube1Size, cube1Text] = [xScale(2), yScale(0), xScale.metric(1), String.raw`$1~\si{m}$`];
-    const [cube2X, cube2Y, cube2Size, cube2Text] = [cube1X, yScale(3), xScale.metric(0.1), String.raw`$1~\si{dm}$`];
-    const [cube3X, cube3Y, cube3Size, cube3Text] = [cube2X, yScale(4), xScale.metric(0.01), String.raw`$1~\si{cm}$`];
+    const [cube1X, cube1Y, cube1Size, cube1Text] = [xScale(2), yScale(0), xScale.metric(1), <M>{String.raw`1~\si{m}`}</M>];
+    const [cube2X, cube2Y, cube2Size, cube2Text] = [cube1X, yScale(3), xScale.metric(0.1), <M>{String.raw`1~\si{dm}`}</M>];
+    const [cube3X, cube3Y, cube3Size, cube3Text] = [cube2X, yScale(4), xScale.metric(0.01), <M>{String.raw`1~\si{cm}`}</M>];
     const cubeStrokeWidth = xScale.metric(0.01);
     const fontSizePx = yScale.metric(0.2);
     const accWidth = xScale.metric(0.1);
@@ -108,13 +107,13 @@ const _DrieKubussenMetVolume = () => {
             <Cube x={cube2X} y={cube2Y} size={cube2Size} color="green" strokeWidth={cubeStrokeWidth} />
             <Cube x={cube3X} y={cube3Y} size={cube3Size} color="orange" strokeWidth={cubeStrokeWidth} />
             <Annot x={note1X} y={note1Y} align="center left" fontSize={fontSize}>
-                {String.raw`$1~\si{m}^3$`}
+                <M>{String.raw`1~\si{m}^3`}</M>
             </Annot>
             <Annot x={note2X} y={note2Y} align="center left" fontSize={fontSize}>
-                {String.raw`$1~\si{dm}^3$`}
+                <M>{String.raw`1~\si{dm}^3`}</M>
             </Annot>
             <Annot x={note3X} y={note3Y} align="center left" fontSize={fontSize}>
-                {String.raw`$1~\si{cm}^3$`}
+                <M>{String.raw`1~\si{cm}^3`}</M>
             </Annot>
             <AnnotArrow annot={[note1X, note1Y]} target={[cube1X + cube1Size*cos30, cube1Y - cube1Size*(1 + sin30)]} annotAlign="center left" targetAlign="top right" />
             <AnnotArrow annot={[note2X, note2Y]} target={[cube2X + cube2Size*cos30, cube2Y - cube2Size*(1 + sin30)]} annotAlign="center left" targetAlign="top right"/>
@@ -163,13 +162,13 @@ const _DrieKubussenMetMelk = () => {
             <MilkCarton x={carton2X} y={carton2Y} width={cartonWidth} height={cartonHeight} depth={cartonDepth} />
             <MilkCarton x={carton3X} y={carton3Y} width={cartonWidth} height={cartonHeight} depth={cartonDepth} />
             <Annot x={note1X} y={note1Y} align="center right" fontSize={fontSize}>
-                {String.raw`$~\neq~$`}
+                <M>{String.raw`~\neq~`}</M>
             </Annot>
             <Annot x={note2X} y={note2Y} align="center right" fontSize={fontSize}>
-                {String.raw`$~\approx~$`}
+                <M>{String.raw`~\approx~`}</M>
             </Annot>
             <Annot x={note3X} y={note3Y} align="center right" fontSize={fontSize}>
-                {String.raw`$~\neq~$`}
+                <M>{String.raw`~\neq~`}</M>
             </Annot>
         </>
     );
@@ -206,7 +205,7 @@ const _Dm3IsMelk = () => {
         <>
             <Cube x={cube2X} y={cube2Y} size={cube2Size} color="green" strokeWidth={cubeStrokeWidth} />
             <Annot x={note1dm3X} y={note1dm3Y} align="top center" fontSize={fontSize}>
-                {String.raw`$1~\si{dm}^3 = 1~\si{l}$`}
+                <M>{String.raw`1~\si{dm}^3 = 1~\si{l}`}</M>
             </Annot>
             <MilkCarton x={carton2X} y={carton2Y} width={cartonWidth} height={cartonHeight} depth={cartonDepth} />
         </>

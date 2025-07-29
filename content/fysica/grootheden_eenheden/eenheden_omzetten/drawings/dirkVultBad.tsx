@@ -4,6 +4,7 @@ import DrawingGrid from "components/drawings/drawingGrid";
 import Dirk from "./dirk";
 import { getColor } from "colors";
 import _ from "lodash";
+import { MathJax as M } from "components/mathjax";
 
 import { TextAccolade } from "./watIs1m84";
 
@@ -65,14 +66,14 @@ const Pool = ({strokeWidth=0.1, poolX=24, poolY=0, poolLength: _poolLength=25, p
                     color={getColor("orange")}
                     height={poolLength} width={poolBorderWidth}
                     fontSizePx={fontSize} strokeWidth={accStrokeWidth}>
-                    {String.raw`$l=${_poolLength.toFixed(1)}~\si{m}$`}
+                    <M>{String.raw`l=${_poolLength.toFixed(1)}~\si{m}`}</M>
                 </TextAccolade>
                 <g transform={`translate(${-poolWidth}) rotate(90)`}>
                     <TextAccolade x1={3*poolBorderWidth} x2={0} y={0} flipText
                         color={getColor("orange")}
                         height={poolWidth} width={poolBorderWidth}
                         fontSizePx={fontSize} strokeWidth={accStrokeWidth}>
-                        {String.raw`$b=${_poolWidth.toFixed(1)}~\si{m}$`}
+                        <M>{String.raw`b=${_poolWidth.toFixed(1)}~\si{m}`}</M>
                     </TextAccolade>
                 </g>
             </g>
@@ -104,7 +105,7 @@ const Pool = ({strokeWidth=0.1, poolX=24, poolY=0, poolLength: _poolLength=25, p
                 color={getColor("orange")}
                 height={poolDepth} width={poolBorderWidth}
                 fontSizePx={fontSize} strokeWidth={accStrokeWidth}>
-                {String.raw`$d=${_poolDepth.toFixed(2)}~\si{m}$`}
+                <M>{String.raw`d=${_poolDepth.toFixed(2)}~\si{m}`}</M>
             </TextAccolade>
             <Border />
         </g>

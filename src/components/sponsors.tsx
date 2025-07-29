@@ -1,26 +1,15 @@
 import React from 'react';
-import vivesLogo from "../../images/sponsor/VIVES.png";
 import { Link } from 'gatsby-theme-material-ui';
-import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import { TrakteerButtons } from 'pages/trakteer';
 
 
-export default function Sponsors({ width = "56mm", showTreat = true}) {
+export default function Sponsors({ width = "56mm" }) {
     const imgStyles = {width: width};
     return (
-        <div style={{breakInside: "avoid"}}>
-        <p style={{fontWeight: "bold"}}>Hoe Zit Het? wordt met trots gesteund door</p>
-        <Grid container spacing={ 4 } justifyContent="center" alignItems="center" >
-          <Grid item>
-            <a href="https://www.vives.be/">
-                <img src={ vivesLogo } style={imgStyles} alt="VIVES sponsor" />
-            </a>
-          </Grid>
-        </Grid>
-        { showTreat ?
-          <p>
-              Wil jij ook steunen? Trakteer Hoe Zit Het? op een drankje! 🥤 Ga daarvoor naar <Link to="/trakteer">de trakteer-pagina</Link>.
-          </p>
-          : null }
-        </div>
+        <Box style={{breakInside: "avoid"}} sx={{py: 3}}>
+            <h2>Steun Hoe Zit Het! ❤️</h2>
+            <TrakteerButtons />
+        </Box>
     );
 }

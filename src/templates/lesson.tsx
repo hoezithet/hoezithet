@@ -25,7 +25,6 @@ import Color, {
 import Toc from "../components/toc";
 import Layout from "../components/layout";
 import Sponsors from '../components/sponsors';
-import Feedback from "../components/feedback";
 import PrintLink from "../components/printlink";
 import { Link } from 'gatsby-theme-material-ui';
 import Grid from '@mui/material/Grid';
@@ -34,7 +33,6 @@ import Callout from "../components/callout";
 import { LayoutProps } from "../components/layout";
 import Comments from "../components/comments";
 import SectionCard, { CardImage } from "./sectionCard";
-import Matomo from 'components/matomo';
 
 export const shortcodes = {
     Mute,
@@ -126,18 +124,14 @@ export default function Template(
                   </MDXProvider>
                 </MDXProvider>
                 <PrintLink to={ pdfLink } />
-                <Feedback />
+                <Sponsors />
                 <Box my={ 4 }>
                     <Grid container spacing={ 2 } justifyContent="space-between">
                         { prevSiblingCard }
                         { nextSiblingCard }
                     </Grid>
                 </Box>
-                <Box my={ 4 } textAlign="center" justifyContent="center">
-                    <Sponsors />
-                </Box>
                 <Comments />
-                <Matomo />
             </Layout>
         </LessonContext.Provider>
     );

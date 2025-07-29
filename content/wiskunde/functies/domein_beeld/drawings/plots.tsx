@@ -5,6 +5,7 @@ import { Fx } from "components/drawings/fx";
 import { ArrowLine } from "components/drawings/arrow";
 import { Annot } from  "components/drawings/annot";
 import { AnnotArrow } from  "components/drawings/annotArrow";
+import { MathJax as M } from "components/mathjax";
 import { Point } from  "components/drawings/point";
 import { Line } from  "components/drawings/line";
 import _ from "lodash";
@@ -39,7 +40,7 @@ const FuncDomainChild = () => {
             <Line xStart={xScale(-5)} yStart={yScale(0)} xEnd={xScale(15)} yEnd={yScale(0)} color="green" lineWidth={4} />
             <Point x={xScale(-5)} y={yScale(0)} color="green" size={10} />
             <Annot x={xScale(-6)} y={yScale(5)} align="bottom center" showBackground backgroundOpacity={0.7} backgroundColor="near_white">
-                { String.raw`$\green{\mathrm{dom}~f = [-5; +\infty[}$` }
+                <M>{ String.raw`\green{\mathrm{dom}~f = [-5; +\infty[}` }</M>
             </Annot>
             <AnnotArrow target={{x: xScale(-5), y: yScale(0)}} annot={{x: xScale(-6), y: yScale(5)}} annotAlign="bottom center" targetAlign="top left" />
         </>
@@ -73,7 +74,7 @@ const FuncRangeChild = () => {
             <Line xStart={xScale(0)} yStart={yScale(-6)} xEnd={xScale(0)} yEnd={yScale(15)} color="green" lineWidth={4} />
             <Point x={xScale(0)} y={yScale(-6)} color="green" size={10} />
             <Annot x={xScale(2)} y={yScale(-8)} align="top center" showBackground backgroundOpacity={0.7} backgroundColor="near_white">
-                { String.raw`$\green{\mathrm{bld}~f = [-6; +\infty[}$` }
+                <M>{ String.raw`\green{\mathrm{bld}~f = [-6; +\infty[}` }</M>
             </Annot>
             <AnnotArrow target={{x: xScale(0), y: yScale(-6)}} annot={{x: xScale(2), y: yScale(-8)}} targetAlign="bottom right" annotAlign="top center"/>
         </>

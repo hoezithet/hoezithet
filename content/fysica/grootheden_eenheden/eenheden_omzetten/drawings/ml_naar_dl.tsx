@@ -3,6 +3,7 @@ import { Drawing, DrawingContext } from "components/drawings/drawing";
 import DrawingGrid from "components/drawings/drawingGrid";
 import { Annot } from "components/drawings/annot";
 import { AnnotArrow } from "components/drawings/annotArrow";
+import { Katex as K } from 'components/katex';
 import useId from 'hooks/useId';
 
 
@@ -13,12 +14,16 @@ const _MlNaarDl = () => {
     const annotNoemerId = useId();
     const {xScale, yScale} = React.useContext(DrawingContext);
 
-    const annotTeller = String.raw`We komen van *milli-,* dus in de **teller** komt $\htmlId{${annotTellerId}}{\orange{10^{-3}}}$`;
-    const annotNoemer = String.raw`We gaan naar *deci-,* dus in de **noemer** komt $\htmlId{${annotNoemerId}}{\blue{10^{-1}}}$`; 
+    const annotTeller = <React.Fragment>
+    We komen van <em>milli-,</em> dus in de <b>teller</b> komt <K>{String.raw`\htmlId{${annotTellerId}}{\orange{10^{-3}}}`}</K>
+    </React.Fragment>;
+    const annotNoemer = <>
+        We gaan naar <em>deci-,</em> dus in de <b>noemer</b> komt <K>{String.raw`\htmlId{${annotNoemerId}}{\blue{10^{-1}}}`}</K>
+    </>; 
 
-    const breuk = String.raw`$$
+    const breuk = <K display>{String.raw`
 1~\si{\orange{m}l} = \frac{\htmlId{${tellerId}}{\orange{10^{-3}}}}{\htmlId{${noemerId}}{\blue{10^{-1}}}}\si{\blue{d}l}
-$$`;
+`}</K>;
 
     const fontSize = `${yScale.metric(4)}px`;
     const anchorRadius = yScale.metric(10);

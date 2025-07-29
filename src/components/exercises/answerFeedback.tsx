@@ -5,7 +5,6 @@ import { styled } from '@mui/system';
 import { gsap } from "gsap";
 
 import { getRandomArrElement } from "utils/array";
-import Markdown from "components/markdown";
 import useExpandable from "hooks/useExpandable";
 
 import { ReadableAnswerSolution } from "./answerSolution";
@@ -96,7 +95,7 @@ type AnsFeedbackProps = {
     correct?: boolean|null,
 };
 
-export const AnswerFeedback = ({ solution, explanation, correct, ExplWrapper=Markdown }: AnsFeedbackProps) => {
+export const AnswerFeedback = ({ solution, explanation, correct }: AnsFeedbackProps) => {
     const [bodyRef, wrapperRef, isExpanded, setIsExpanded] = useExpandable(false, (isExpanded) => {
         isExpanded ? setButtonText(HIDE_TEXT) : setButtonText(SHOW_TEXT);
     });
@@ -121,7 +120,7 @@ export const AnswerFeedback = ({ solution, explanation, correct, ExplWrapper=Mar
                 <>
                     <div ref={wrapperRef} style={{overflow: "scroll"}}>
                         <div ref={bodyRef}>
-                            <ExplWrapper>{ explanation }</ExplWrapper>
+                            { explanation }
                         </div>
                     </div>
                     <Button onClick={() => setIsExpanded(prev => !prev)}>

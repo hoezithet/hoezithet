@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    inkscape:export-ydpi="94"
    inkscape:export-xdpi="94"
-   inkscape:export-filename="\\wsl$\Ubuntu-18.04\home\fdf\Downloads\title_landscape.png"
-   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
-   sodipodi:docname="title_landscape.svg"
+   inkscape:export-filename="landing_large.png"
+   inkscape:version="1.4 (1:1.4+202410161351+e7c3feb100)"
+   sodipodi:docname="landing_large.svg"
    id="svg860"
    viewBox="0 0 261.92 102.32"
    version="1.1"
    height="386.72"
-   width="989.95">
+   width="989.95"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata866">
     <rdf:RDF>
@@ -25,7 +25,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -33,16 +33,16 @@
      id="defs864" />
   <sodipodi:namedview
      inkscape:current-layer="svg860"
-     inkscape:window-maximized="1"
-     inkscape:window-y="161"
-     inkscape:window-x="55"
-     inkscape:cy="228.198"
-     inkscape:cx="490.33192"
+     inkscape:window-maximized="0"
+     inkscape:window-y="32"
+     inkscape:window-x="116"
+     inkscape:cy="228.74326"
+     inkscape:cx="489.89182"
      inkscape:zoom="0.78690842"
      showgrid="false"
      id="namedview862"
-     inkscape:window-height="877"
-     inkscape:window-width="1537"
+     inkscape:window-height="1011"
+     inkscape:window-width="1247"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0"
      guidetolerance="10"
@@ -50,7 +50,10 @@
      objecttolerance="10"
      borderopacity="1"
      bordercolor="#666666"
-     pagecolor="#ffffff" />
+     pagecolor="#ffffff"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
   <circle
      style="isolation:auto;mix-blend-mode:normal"
      stroke-width=".6717"
@@ -172,8 +175,8 @@
      font-family="Quicksand"
      fill="#ffffff"
      dominant-baseline="auto"
-     y="95.428108"
-     x="192.33945"
+     y="96.387955"
+     x="192.40347"
      id="button_text"><tspan
        id="tspan848"
        text-anchor="middle"
@@ -182,8 +185,8 @@
        font-weight="500"
        font-family="Quicksand"
        fill="#ffffff"
-       y="95.428108"
-       x="192.33945">Toon mij een les!</tspan></text>
+       y="96.387955"
+       x="192.40347">Toon de lessen!</tspan></text>
   <text
      transform="translate(0,12.818563)"
      xml:space="preserve"
@@ -199,19 +202,31 @@
      x="0.4222272"
      id="text"><tspan
        x="0.4222272"
-       y="63.141445"><tspan>Leer wetenschappen en wiskunde </tspan></tspan><tspan
+       y="63.141445"
+       id="tspan13">Leer wetenschappen en wiskunde </tspan><tspan
        x="0.4222272"
-       y="71.396445"><tspan
-         style="font-weight:bold">op een leuke manier</tspan><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Quicksand;-inkscape-font-specification:Quicksand"> te begrijpen, </tspan></tspan><tspan
+       y="71.396445"
+       id="tspan16"><tspan
+         style="font-weight:bold"
+         id="tspan14">op een leuke manier</tspan><tspan
+         style="-inkscape-font-specification:Quicksand"
+         id="tspan15"> te begrijpen, </tspan></tspan><tspan
        x="0.4222272"
-       y="79.651442"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Quicksand;-inkscape-font-specification:Quicksand">aan de hand van </tspan><tspan
-         style="font-weight:bold">veel illustraties</tspan><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Quicksand;-inkscape-font-specification:Quicksand"> </tspan></tspan><tspan
+       y="79.651442"
+       id="tspan20"><tspan
+         style="-inkscape-font-specification:Quicksand"
+         id="tspan17">aan de hand van </tspan><tspan
+         style="font-weight:bold"
+         id="tspan18">veel illustraties</tspan><tspan
+         style="-inkscape-font-specification:Quicksand"
+         id="tspan19"> </tspan></tspan><tspan
        x="0.4222272"
-       y="87.906439"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Quicksand;-inkscape-font-specification:Quicksand">en een </tspan><tspan
-         style="font-weight:bold">heldere uitleg</tspan><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Quicksand;-inkscape-font-specification:Quicksand">!</tspan></tspan></text>
+       y="87.906439"
+       id="tspan24"><tspan
+         style="-inkscape-font-specification:Quicksand"
+         id="tspan21">en een </tspan><tspan
+         style="font-weight:bold"
+         id="tspan22">heldere uitleg</tspan><tspan
+         style="-inkscape-font-specification:Quicksand"
+         id="tspan23">!</tspan></tspan></text>
 </svg>

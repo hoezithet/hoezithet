@@ -4,7 +4,6 @@ import { Exercise } from 'components/exercises/exercise';
 import { ExerciseStepper } from 'components/exercises/exerciseStepper';
 import { MultipleChoice } from 'components/exercises/multipleChoice';
 import { Katex as K } from 'components/katex';
-import { useAnnotArrow } from 'components/drawings/annotArrow';
 import _random from "lodash/random";
 import _range from "lodash/range";
 import { shuffle } from "utils/array";
@@ -30,6 +29,9 @@ const isSimplestFrac = (numer, denom) => {
 
 
 export const toFrac = (numerator, denominator) => {
+    if (denominator === 1) {
+        return `${numerator}`;
+    }
     [numerator, denominator] = simplify(numerator, denominator);
     if (denominator < 0 && numerator > 0) {
         numerator *= -1;
