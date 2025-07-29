@@ -1,0 +1,97 @@
+---
+title: Hoe werkt AI?
+weight: 1
+description: "In deze les leer je hoe Artificiële Intelligentie (AI) en meer bepaald (artificiële) een neuraal netwerk precies werkt. Hoe zit het in elkaar? Wat betekent het om een neuraal netwerk te trainen en hoe gebeurt dat juist?"
+tags: ["neuraal netwerk", "artificial neural network", "ai", "a.i."]
+image: ""
+---
+
+Sinds de komst van ChatGPT is **Artificial Intelligence** (Engels voor *Kunstmatige Intelligentie*), kortweg AI, enorm populair geworden. Met systemen als ChatGPT kan je tegenwoordig niet alleen conversaties voeren, je kan ook vragen om bijvoorbeeld *afbeeldingen* te genereren. Achterliggend maken al deze toepassingen gebruik van **artificiële neurale netwerken**.
+
+> -AI is meer dan neurale netwerken
+>
+> AI omvat veel meer dan artificiële neurale netwerken en zeker meer dan enkel ChatGPT. Tegenwoordig wordt met de term **AI** echter meestal verwezen naar "AI gebaseerd op grote neurale netwerken", oftewel **Deep Learning**. Een juistere titel voor deze post zou dus zijn: "Een inleiding tot artificiële neurale netwerken en deep learning", maar dan zou niemand deze pagina terugvinden denk ik... 😉
+
+Op deze pagina ga ik het volgende bespreken:
+- Wat zit er in een (artificieel) neuraal netwerk en hoe werkt het?
+- Wat betekent het om een neuraal netwerk te *trainen* en hoe gebeurt dat?
+- Hoe kan een neuraal netwerk herkennen wat er op een afbeelding staat?
+- Hoe kan een neuraal netwerk een tekst lezen?
+- Hoe kan een neuraal netwerk zelf een tekst schrijven?
+- Hoe kan een neuraal netwerk zelf een afbeelding maken?
+
+> -Waarom noemen we artificiële neurale netwerken *artificieel*?
+>
+> *Artificiële* neurale netwerken zijn gebaseerd op de (biologische) neurale netwerken in onze hersenen. Je zou de neurale netwerken die we voor AI gebruiken kunnen opvatten als een soort computersimulatie van hoe "echte" neurale netwerken in de natuur werken. Vandaar dat we ze "kunstmatig" of "artificieel" noemen.
+> 
+> Als ik in deze les de term "neurale netwerken" gebruik, bedoel ik uiteraard *artificiële* neurale netwerken.
+
+## De gewogen som is de basis van AI
+
+Aan de basis van AI <Mute>(of juister, **neurale netwerken**)</Mute> ligt eigenlijk een heel eenvoudige bewerking die iedereen al eens heeft gebruikt: de **gewogen som**. Wat is dat weer juist?
+
+Stel bijvoorbeeld dat je op school voor jouw dagelijks werk in totaal **68/100** behaalde en voor de examens een totaal van **76/100**. Om de totale score voor een schooljaar te berekenen, wordt meestal een verschillend **gewicht** toegekend aan het dagelijks werk en de examens. Het dagelijks werk telt bijvoorbeeld mee voor **25%** van het eindtotaal en de examens voor **75%**. Dan berekenen we de eindscore als volgt:
+
+import { WeightedSumStr, WeightedSum, ReLU } from "./drawings";
+
+<WeightedSum weights={[0.25, 0.75]} weightsName="**Gewichten**" values={[68, 76]} valuesName="Punten" />
+
+Op je jaarrapport zal dus een score van 74/100 komen te staan.
+
+### Prijs van een huis schatten via een gewogen som
+
+Wat heeft die gewogen som nu met een neuraal netwerk te maken? Om dat verder te verduidelijken, ga ik eerst een ander voorbeeld geven van een gewogen som: het schatten van de waarde van een huis. Met de volgende formule zouden we bijvoorbeeld een <Mute>(heel ruwe)</Mute> schatting kunnen maken op basis van de bewoonbare oppervlakte van het huis is ($\text{Opp},$ in $\si{m}^2$), en de afstand tot het dichtstbijzijnde stadscentrum ($\text{Afst},$ in $\si{km}$):
+
+<WeightedSumStr weights={["3000", "(-2500)"]} weightsName="**Gewichten**" values={["\\text{Opp}", "\\text{Afst}"]} lhs={String.raw`\begin{array}{c} \text{Waarde} \\ \text{(in euro)} \end{array}`} mathFontSize={75} annotFontSize={75} />
+
+Volgens deze formule is voor iedere extra $\si{m}^2$ (bewoonbare) oppervlakte een huis €3000 extra waard. Per extra $\si{km}$ verder van het centrum daalt de waarde van een huis dan weer met €2500.
+
+Een huis met een oppervlakte van $150~\si{m}^2$ op $5~\si{km}$ van het stadscentrum zou met deze berekening dus geschat worden op:
+
+$$
+\begin{aligned}
+    \text{Waarde in euro} &= {\orange{3000}}\cdot 150 + {\orange{(-2500)}}\cdot 5\\
+                  &= 437~500
+\end{aligned}
+$$
+
+En wat heeft dit voorbeeld nu met een neuraal netwerk te maken? Wel, **bovenstaande berekening komt dicht in de buurt bij wat er in een *neuron*** gebeurt. En een neuron is de **bouwsteen van een neuraal netwerk**.
+
+We kunnen onze formule om huisprijzen te schatten voorstellen als een neuron. Dat ziet er zo uit:
+
+(illustratie neuron)
+
+Het neuron heeft twee inputs en één output. De inputs zijn de bewoonbare oppervlakte en de afstand tot het centrum. De output is de geschatte waarde van het huis. Het neuron vermenigvuldigt iedere input met een apart **gewicht** (resp. 3000 en -2500) en telt de uitkomsten op:
+
+(interactieve illustratie neuron, gebruiker kan inputs kiezen)
+
+Je kan verschillende waarden uitproberen voor de oppervlakte en de afstand.
+
+Je zal merken dat voor bepaalde inputs de prijs *negatief* kan worden, bv. een huis van $70~\si{m}^2$ dat $100~\si{km}$ van het stadscentrum ligt. Dat is in werkelijkheid onmogelijk natuurlijk. Om zulke vreemde schattingen te voorkomen, moeten we een *activatiefunctie* toevoegen aan het neuron. Dit leggen we in de volgende paragraaf uit.
+
+### Activatiefunctie van een neuron
+
+In de vorige paragraaf zagen we een formule die de waarde van een huis schatte door een gewogen som te berekenen van de bewoonbare oppervlakte en de afstand tot het stadscentrum. We leerden ook dat we zo'n gewogen som konden voorstellen met een *neuron*.
+
+Het neuron uit de vorige paragraaf gaf echter klakkeloos de uitkomst van de gewogen som als schatting. Daardoor konden we ook *negatieve* schattingen krijgen, wat uiteraard op niets slaat.
+
+We kunnen dit oplossen door een **activatiefunctie** aan het neuron toe te voegen. De activatiefunctie van een neuron bepaalt hoe het neuron de uitkomst van de gewogen som moet **nabewerken**. We kunnen het neuron bijvoorbeeld de volgende nabewerking laten doen:
+
+**Als de uitkomst van de gewogen som negatief is, geef je $0$ als output. Anders geef je de uitkomst van de gewogen som als output.**
+
+Wiskundig zouden we zo'n activatiefunctie noteren als:
+
+$$
+f(x) = \max(x, 0)
+$$
+
+Hierbij geeft $\max(x, 0)$ het maximum van $x$ en $0$. Als $x<0$ is dit inderdaad gelijk aan $0$, anders aan $x$ zelf. De grafiek van deze functie ziet er als volgt uit:
+
+<ReLU/>
+
+Op de grafiek zie je inderdaad dat iedere x-waarde kleiner dan $0$ wordt vastgezet op $0$ en positieve waarden gewoon "doorgelaten".
+
+
+### Neuron trainen met data
+
+In het voorbeeld van het schatten van de waarde van een huis kwam onze formule nogal uit de lucht gevallen.
