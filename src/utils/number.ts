@@ -14,7 +14,7 @@ export function parseNumber(str: string) {
         return null;
     }
     str = str.replace("{,}", ".").replace(",", ".");
-    if (str.contains(".")) {
+    if (str.includes(".")) {
         return parseFloat(str);
     } else {
         return parseInt(str);
@@ -22,30 +22,48 @@ export function parseNumber(str: string) {
 }
 
 export function toLatexNumber(value: number, decimalSymbol: string = '{,}'): string {
-  const valueStr = value.toString();
+    const valueStr = value.toString();
 
-  // If it's an integer, return directly
-  if (Number.isInteger(value)) {
-    return value.toString();
-  }
+    function intToLatex(value: number|string): string {
+        let strValue = value.toString();
+        if (Math.abs(parseInt(strValue)) >= 10000) {
+            // Space after every thousandth
+            const chunkSize = 3;
+            const numChunks = Math.ceil(strValue.length / chunkSize)
+            const chunks = new Array(numChunks)
 
-  const [, decimalPart] = valueStr.split('.');
+            for (let k = numChunks - 1, i = strValue.length - chunkSize; k >= 0; --k, i -= chunkSize) {
+                const size = Math.min(chunkSize, i + chunkSize);
+                i = Math.max(0, i);
+                chunks[k] = strValue.substr(i, size);
+            }
+            strValue = chunks.join("~");
+        }
+        return strValue;
+    }
 
-  // Detect repeating decimal pattern
-  const repeatingPattern = findRepeatingPattern(decimalPart);
-  if (repeatingPattern) {
-    return `${Math.floor(value)}${decimalSymbol}${repeatingPattern.repeat(2)}\\ldots`;
-  }
+    // If it's an integer, return directly
+    if (Number.isInteger(value)) {
+        return intToLatex(value);
+    }
 
-  // Round to 6 decimal places
-  const rounded = value.toFixed(6);
-  const [intPart, decPart] = rounded.split('.');
+    const [, decimalPart] = valueStr.split('.');
 
-  const originalDecimalDigits = decimalPart.length;
-  const trimmedDecimals = decPart.replace(/0+$/, '');
-  const needsEllipsis = originalDecimalDigits > 6;
+    // Detect repeating decimal pattern
+    const repeatingPattern = findRepeatingPattern(decimalPart);
+    if (repeatingPattern) {
+        return `${Math.floor(value)}${decimalSymbol}${repeatingPattern.repeat(2)}\\ldots`;
+    }
 
-  return `${intPart}${decimalSymbol}${trimmedDecimals}${needsEllipsis ? '\\ldots' : ''}`;
+    // Round to 6 decimal places
+    const rounded = value.toFixed(6);
+    const [intPart, decPart] = rounded.split('.');
+
+    const originalDecimalDigits = decimalPart.length;
+    const trimmedDecimals = decPart.replace(/0+$/, '');
+    const needsEllipsis = originalDecimalDigits > 6;
+
+    return `${intToLatex(intPart)}${decimalSymbol}${trimmedDecimals}${needsEllipsis ? '\\ldots' : ''}`;
 }
 
 // Helper: Detects repeating sequence in decimal digits
