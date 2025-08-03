@@ -41,6 +41,7 @@ function MLPVisualizer({
         nodeRadius: 8,
     },
 }) {
+    console.log("MLPVisualizer");
     const mergedStyle = { ...defaultStyle, ...style };
     const [output, setOutput] = useState([]);
 
@@ -56,30 +57,13 @@ function MLPVisualizer({
         setupTF();
     }, []);
 
-    const params = backendReady ? {
-        weights: weights.map(w_l => tf.tensor(w_l)),
-        biases: biases.map(b_l => tf.tensor(b_l)),
-    } : null;
-
-    useEffect(() => {
-        if (!backendReady || params === null)
-            return;
-        // Clean up tensors when params change
-        return () => {
-            params.weights.forEach(w => w.dispose());
-            params.biases.forEach(b => b.dispose());
-        };
-    }, [params, backendReady]);
-
     const layers = weights.map(wl => wl.length);
-    if (params !== null) {
-        // Add number of outputs
-        // = number of neurons the last layer
-        const lastLayerWeights = weights[weights.length - 1];
-        const firstInputWeights = lastLayerWeights[0];  // For each neuron in last layer
-        // So length of firstInputWeights is the number of outputs
-        layers.push(firstInputWeights.length);
-    }
+    // Add number of outputs
+    // = number of neurons the last layer
+    const lastLayerWeights = weights[weights.length - 1];
+    const firstInputWeights = lastLayerWeights[0];  // For each neuron in last layer
+    // So length of firstInputWeights is the number of outputs
+    layers.push(firstInputWeights.length);
 
     const [minWeights, setMinWeights] = useState(
         weights.map(
@@ -90,9 +74,15 @@ function MLPVisualizer({
 
     // Perform forward pass
     useEffect(() => {
-        if (!backendReady || params === null)
+        if (!backendReady)
             return;
-        const forwardPass = async () => {
+        tf.tidy(() => {
+            console.log(tf.memory());
+            const params = {
+                weights: weights.map(w_l => tf.tensor(w_l)),
+                biases: biases.map(b_l => tf.tensor(b_l)),
+            };
+
             const input = tf.tensor(inputValues, [1, params.weights[0].shape[0]]);
             let x = input;
 
@@ -106,43 +96,41 @@ function MLPVisualizer({
                 .add(params.biases[params.biases.length - 1]);
             x = outputActivation(x); // Apply output activation
 
-            const result = await x.data();
-            setOutput(Array.from(result));
-            input.dispose();
-        };
-
-        forwardPass();
-    }, [inputValues, weights, biases, backendReady, params, hiddenActivation, outputActivation]);
+            x.data().then(result => setOutput(Array.from(result)));
+        });
+    }, [inputValues, weights, biases, backendReady]);
 
     // Initiate weight scales for edge widths
     useEffect(() => {
-        if (!backendReady || params === null)
+        if (!backendReady)
             return;
         if (_.flatten(maxWeights).every(x => x !== null) && minWeights.every(x => x !== null)) // We only set it once
             return;
-        params.weights.map((layerWeights, layerIdx) => {
-            tf.abs(layerWeights).array().then((absLayerWeights) => {
-                // layerWeights has shape (M, N) with
-                //   * M = num inputs per neuron
-                //   * N = num neurons
-                // We want the min & max for each neuron, so aggregate over axis 0
-                tf.max(absLayerWeights, 0).array().then((maxWeights) => {
-                    setMaxWeights((prevVal) => {
-                        const newVal = _.cloneDeep(prevVal);
-                        newVal[layerIdx] = maxWeights;
-                        return newVal;
+        tf.tidy(() => {
+            weights.map(w_l => tf.tensor(w_l)).map((layerWeights, layerIdx) => {
+                tf.abs(layerWeights).array().then((absLayerWeights) => {
+                    // layerWeights has shape (M, N) with
+                    //   * M = num inputs per neuron
+                    //   * N = num neurons
+                    // We want the min & max for each neuron, so aggregate over axis 0
+                    tf.max(absLayerWeights, 0).array().then((maxWeights) => {
+                        setMaxWeights((prevVal) => {
+                            const newVal = _.cloneDeep(prevVal);
+                            newVal[layerIdx] = maxWeights;
+                            return newVal;
+                        });
                     });
-                });
-                tf.min(absLayerWeights, 0).array().then((minWeights) => {
-                    setMinWeights((prevVal) => {
-                        const newVal = _.cloneDeep(prevVal); 
-                        newVal[layerIdx] = minWeights;
-                        return newVal;
+                    tf.min(absLayerWeights, 0).array().then((minWeights) => {
+                        setMinWeights((prevVal) => {
+                            const newVal = _.cloneDeep(prevVal); 
+                            newVal[layerIdx] = minWeights;
+                            return newVal;
+                        });
                     });
                 });
             });
         });
-    }, [backendReady, params]);
+    }, [backendReady, weights]);
 
     // SVG group
     const height = Math.max(...layers) * mergedStyle.nodeSpacing;
