@@ -72,16 +72,23 @@ function MLPVisualizer({
     );
     const [maxWeights, setMaxWeights] = useState(minWeights);  // Also initialize with nulls
 
+    const [params, setParams] = useState(null);
+    useEffect(() => {
+        setParams(oldParams => {
+            oldParams?.weights.forEach(w => w.dispose());
+            oldParams?.biases.forEach(b => b.dispose());
+            return {
+                weights: weights.map(w_l => tf.tensor(w_l)),
+                biases: biases.map(b_l => tf.tensor(b_l)),
+            };
+        });
+    }, [weights, biases, backendReady]);
+
     // Perform forward pass
     useEffect(() => {
         if (!backendReady)
             return;
         tf.tidy(() => {
-            console.log(tf.memory());
-            const params = {
-                weights: weights.map(w_l => tf.tensor(w_l)),
-                biases: biases.map(b_l => tf.tensor(b_l)),
-            };
 
             const input = tf.tensor(inputValues, [1, params.weights[0].shape[0]]);
             let x = input;
@@ -98,7 +105,7 @@ function MLPVisualizer({
 
             x.data().then(result => setOutput(Array.from(result)));
         });
-    }, [inputValues, weights, biases, backendReady]);
+    }, [inputValues, params, backendReady]);
 
     // Initiate weight scales for edge widths
     useEffect(() => {
