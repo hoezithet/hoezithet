@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Drawing, DrawingContext } from "components/drawings/drawing";
 import DrawingGrid from "components/drawings/drawingGrid";
 import { Annot } from "components/drawings/annot";
@@ -11,6 +11,10 @@ import { parseNumber, toLatexNumber } from "utils/number";
 import { Plot } from "components/drawings/plot";
 import { Fx } from "components/drawings/fx";
 import { getColor } from "colors";
+import * as tf from '@tensorflow/tfjs';
+import _ from "lodash";
+
+import { InteractiveMLP } from './drawing_files/mlp';
 
 
 const [annFxWidth, annFxHeight] = [1920, 750];
@@ -60,7 +64,7 @@ const WeightedSumStrChild = withDrawingScale(({
 
     const [fxX, fxY] = [annFxWidth/2, annFxHeight/2];
 
-    React.useEffect(() => {
+    useEffect(() => {
         let _arrows = [];
         for (let i = 0; i < weightIds.length; ++i) {
             let w = weights[i];
@@ -193,8 +197,12 @@ const _ReLU = ({}) => {
 }
 
 export const ReLU = ({}) => {
+    const divStyle = {fontSize: "x-small", fontWeight: "bold", maxWidth: "8em", lineHeight: "1.0"};
     return (
-        <Plot>
+        <Plot
+            xLabel=<div style={divStyle}>Uitkomst van gewogen som</div>
+        yLabel=<div style={divStyle}>Output van neuron</div>
+        gridProps={{minor: 2}}>
             <_ReLU />
         </Plot>
     );
@@ -241,3 +249,266 @@ const _Accolade = ({
 };
 
 export const Accolade = React.forwardRef(_Accolade);
+
+const SumNeuron = ({x, y, radius, color, activFunc}) => {
+    const m = 0.4 * radius;
+    const sW = 0.15 * radius;
+    return (
+        <>
+            <circle cx={x} cy={y} r={radius} stroke={color} strokeWidth={sW} fill={getColor("near_white")}/>
+            <path d={`M ${x},${y-radius+m} v ${2*radius - 2*m} M ${x-radius+m},${y} h ${2*radius - 2*m}`}
+                stroke={color} strokeWidth={sW / 2} strokeLinecap="round"/>
+            <CurvedTextCircle
+                cx={x}
+                cy={y}
+                radius={radius*1.15}
+                topText="Eriks"
+                bottomText="Huizenprijsneuron"
+                textProps={{
+                    fontSize: '8px',
+                    fontWeight: "bold",
+                    fill: color,
+                }}
+            />
+        </>
+    );
+};
+
+export const EriksNeuron1 = ({}) => {
+    return (
+        <InteractiveMLP
+            inputProps={[
+                {value: 230, min: 0, max: 500, step: 10, name: "\\text{Opp}", unit: "\\si{m}^2"},
+                {value: 5, min: 0, max: 100, step: 1, name: "\\text{Afst}", unit: "\\si{km}"},
+            ]}
+            outputProps={[
+                {name: "\\text{Waarde}", unit: "\\si{euro}"},
+            ]}
+            weightProps={[
+                [ // Layer 1
+                    [ // Input 1
+                        // Neuron 1
+                        {value: 3000, min: -5000, max: 5000, step: 100, name: "Gewicht"},
+                    ],
+                    [ // Input 2
+                        // Neuron 1
+                        {value: -2500, min: -5000, max: 5000, step: 100, name: "Gewicht"},
+                    ],
+                ],
+            ]}
+            style={{
+                weightFontSize: 10,
+                layerSpacing: 100,
+                outputLayerSpacing: 50,
+                nodeSpacing: 60,
+                nodeRadius: 25,
+                nodeColor: getColor("gold"),
+            }}
+            outputActivation={x => x}
+            NeuronComp={SumNeuron}
+            annotWeights
+        />
+    );
+};
+
+
+const CurvedTextCircle = ({
+  cx = 150,       // Center X
+  cy = 150,       // Center Y
+  radius = 100,   // Radius of the circle
+  topText = "Top Curved Text",
+  bottomText = "Bottom Curved Text",
+  textProps = {}, // Optional text styling
+}) => {
+  const topPathId = useId();
+  const bottomPathId = useId();
+
+  // SVG arc paths for top and bottom text
+  const topPath = describeArc(cx, cy, radius, -170, 170, true, true);
+  const bottomPath = describeArc(cx, cy, radius, -10, 10, true, false);
+
+  return (
+    <g>
+      <defs>
+        <path id={topPathId} d={topPath} fill="none"/>
+        <path id={bottomPathId} d={bottomPath} fill="none"/>
+      </defs>
+
+      <text {...textProps}>
+        <textPath href={`#${topPathId}`} startOffset="50%" textAnchor="middle">
+          {topText}
+        </textPath>
+      </text>
+
+      <text {...textProps}>
+        <textPath href={`#${bottomPathId}`} startOffset="50%" textAnchor="middle" alignmentBaseline="hanging">
+          {bottomText}
+        </textPath>
+      </text>
+  </g>
+  );
+};
+
+// Helper: SVG Arc Path Generator
+function describeArc(x, y, radius, startAngle, endAngle, isLargeArc, isSweep) {
+  const start = polarToCartesian(x, y, radius, startAngle);
+  const end = polarToCartesian(x, y, radius, endAngle);
+
+  return [
+    "M", start.x, start.y,
+    "A", radius, radius, 0, isLargeArc ? "1" : "0", isSweep ? "1" : "0", end.x, end.y
+  ].join(" ");
+}
+
+function polarToCartesian(cx, cy, r, angleInDegrees) {
+  const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
+
+  return {
+    x: cx + r * Math.cos(angleInRadians),
+    y: cy + r * Math.sin(angleInRadians)
+  };
+}
+
+
+
+const SumActNeuron = ({x, y, radius, color, activFunc}) => {
+    const m = 0.2 * radius;
+    const sW = 0.15 * radius;
+
+    const [plotD, setPlotD] = useState("");
+    useEffect(() => {
+        const plotLeft = x;
+        const plotRight = x + radius;
+        const dy = radius;
+        const plotTop = y - dy;
+        const plotBottom = y + dy;
+        const plotNSamples = 51;
+        const plotXStart = -10;
+        const plotXEnd = 10;
+        const plotYStart = -10;
+        const plotYEnd = 10;
+        const sampleIdxs = [...Array(plotNSamples + 1)].map((_, i) => i);
+        const xs = sampleIdxs.map(i => i*(plotXEnd - plotXStart) / plotNSamples + plotXStart);
+
+        const getSvgXY = (plotX, plotY) => {
+            const svgX = (plotX - plotXStart) / (plotXEnd - plotXStart) * (plotRight - plotLeft) + plotLeft;
+            const svgY = (plotY - plotYStart) / (plotYEnd - plotYStart) * (plotTop - plotBottom) + plotBottom;
+            return [svgX, svgY];
+        };
+        const getLineCommand = (plotX, plotY) => {
+            const [svgX, svgY] = getSvgXY(plotX, plotY);
+            return `L ${svgX} ${svgY}`;
+        };
+
+        tf.ready().then(() => {
+            tf.tidy(() => {
+                activFunc(tf.tensor(xs)).data().then(
+                    ys => {
+                        ys = Array.from(ys);
+                        let dStr = '';
+                        let useMove = true;
+                        _.zip(xs, ys).forEach(xy => {
+                            const [plotX, plotY] = xy;
+                            const [svgX, svgY] = getSvgXY(plotX, plotY);
+                            if (Math.sqrt(Math.pow(svgX - x, 2) + Math.pow(svgY - y, 2)) > radius) {
+                                // Outside circle
+                                useMove = true;
+                                return;
+                            }
+                            if (useMove) {
+                                dStr += `M ${svgX} ${svgY} `;
+                                useMove = false;
+                            } else {
+                                dStr += `L ${svgX} ${svgY} `;
+                                useMove = false;
+                            }
+                        });
+                        setPlotD(dStr);
+                    }
+                );
+            });
+        });
+    }, [m, radius, x, y, activFunc]);
+
+    const plusX = x - (radius / 2);
+    const plusSize = radius - 2*m;
+
+    return (
+        <>
+            {/**<path d={`M ${x},${y-radius} v ${2*radius}`} stroke={color} strokeWidth={sW} strokeLinecap="round"/>**/}
+            <circle cx={x} cy={y} r={radius} fill={getColor("white")}/>
+            {
+                /** Gridlines **/
+                [...Array(5)].map((_, i) => {
+                    if (i === 0) return null;
+                    const dx1 = i / 4 * radius;
+                    const dy1 = radius * Math.sin(Math.acos(dx1 / radius));
+                    let dStr = `M ${x + dx1},${y - dy1} v ${2*dy1} `;
+
+                    const dy2 = radius - i / 4 * radius;
+                    const dx2 = radius * Math.cos(Math.asin(dy2 / radius));
+                    dStr += `M ${x},${y - dy2} h ${dx2} `;
+                    dStr += `M ${x},${y + dy2} h ${dx2} `;
+                    return (
+                        <path key={`grid-${i}`} d={dStr} stroke={getColor("light_gray")} strokeWidth="1px"/>
+                    );
+                })
+            }
+            <path d={plotD} fill="none" stroke={color} strokeWidth={sW / 2} strokeLinecap="butt" strokeLinejoin="round"/>
+            <path d={`M ${plusX},${y - plusSize / 2} v ${plusSize} M ${plusX - plusSize / 2},${y} h ${plusSize}`}
+                stroke={color} strokeWidth={sW / 2} strokeLinecap="round"/>
+            <circle cx={x} cy={y} r={radius} stroke={color} strokeWidth={sW} fill="none"/>
+            <CurvedTextCircle
+                cx={x}
+                cy={y}
+                radius={radius*1.15}
+                topText="Eriks"
+                bottomText="Huizenprijsneuron 2.0"
+                textProps={{
+                    fontSize: '8px',
+                    fontWeight: "bold",
+                    fill: color,
+                }}
+            />
+        </>
+    );
+};
+
+export const EriksNeuron2 = ({}) => {
+    return (
+        <InteractiveMLP
+            inputProps={[
+                {value: 70, min: 0, max: 500, step: 10, name: "\\text{Opp}", unit: "\\si{m}^2"},
+                {value: 100, min: 0, max: 100, step: 1, name: "\\text{Afst}", unit: "\\si{km}"},
+            ]}
+            outputProps={[
+                {name: "\\text{Waarde}", unit: "\\si{euro}"},
+            ]}
+            weightProps={[
+                [ // Layer 1
+                    [ // Input 1
+                        // Neuron 1
+                        {value: 3000, min: -5000, max: 5000, step: 100, name: "Gewicht"},
+                    ],
+                    [ // Input 2
+                        // Neuron 1
+                        {value: -2500, min: -5000, max: 5000, step: 100, name: "Gewicht"},
+                    ],
+                ],
+            ]}
+            style={{
+                weightFontSize: 10,
+                layerSpacing: 100,
+                outputLayerSpacing: 50,
+                nodeSpacing: 75,
+                nodeRadius: 25,
+                nodeColor: getColor("blue"),
+                edgeColor: getColor("light_gray"),
+                weightColor: "blue",
+            }}
+            outputActivation={x => tf.tidy(() => tf.relu(x))}
+            NeuronComp={SumActNeuron}
+            annotWeights
+        />
+    );
+};

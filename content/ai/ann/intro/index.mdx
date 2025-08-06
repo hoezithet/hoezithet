@@ -71,12 +71,11 @@ Wat heeft Erik zijn berekening nu met een neuraal netwerk te maken? Wel, zijn fo
 
 We kunnen de formule als volgt voorstellen als een neuron:
 
-(illustratie van *Eriks Huizenprijsneuron<sup>TM</sup>*)
+import { EriksNeuron1 } from "./drawings";
 
-Het neuron heeft twee inputs en één output. De inputs zijn de bewoonbare oppervlakte en de afstand tot het centrum. De output is de geschatte waarde van het huis. Het neuron vermenigvuldigt iedere input met een apart **gewicht** (resp. 3000 en -2500) en telt de uitkomsten op:
+<EriksNeuron1 />
 
-(interactieve illustratie neuron, gebruiker kan inputs kiezen)
-
+Het neuron heeft twee inputs en één output. De inputs zijn de bewoonbare oppervlakte en de afstand tot het centrum. De output is de geschatte waarde van het huis. Het neuron vermenigvuldigt iedere input met een apart **gewicht** (resp. 3000 en -2500) en telt de uitkomsten op.
 Probeer gerust enkele verschillende waarden uit voor de oppervlakte en de afstand.
 
 ### Activatiefunctie van een neuron
@@ -89,7 +88,9 @@ Het probleem is dat Eriks Huizenprijsneuron<sup>TM</sup> klakkeloos de uitkomst 
 
 Dit soort nabewerking noemen we een **activatiefunctie**. Door deze activatiefunctie aan Eriks Huizenprijsneuron<sup>TM</sup> toe te voegen, zien we dat de geschatte waarde van een huis nooit kleiner kan zijn dan €0:
 
-(interactieve illustratie Eriks Huizenprijsneuron 2.0<sup>TM</sup> mét activatiefunctie, gebruiker kan inputs kiezen, default 70m2 en 100km)
+import { EriksNeuron2 } from "./drawings";
+
+<EriksNeuron2 />
 
 In de bovenstaande figuur is de activatiefunctie voorgesteld als een geknikte lijn. Dat doen we omdat de grafiek van de activatiefunctie die we gebruiken er zo uit ziet:
 
@@ -102,10 +103,6 @@ x \mapsto \max(x, 0)
 $$
 
 De functie zet iedere $x$ om naar $\max(x, 0)$, waarbij $\max(x, 0)$ het maximum van $x$ en $0$ geeft <Mute>(dus ofwel $x$ ofwel $0$, afhankelijk welke het grootst is)</Mute>. Als $x<0$ is dit inderdaad gelijk aan $0$, anders aan $x$ zelf.
-
-import { InteractiveMLP } from "./drawing_files/mlp";
-
-<InteractiveMLP/>
 
 ### Neuron trainen met data
 

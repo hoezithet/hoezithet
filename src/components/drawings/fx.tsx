@@ -6,7 +6,7 @@ import { StyledPath } from "./line";
 
 
 export const Fx = ({fx, nSamples=null, xStart=null, xEnd=null, color="blue", opacity=1, lineWidth=3}) => {
-    const {xScale, yScale, xMargin, yMargin} = useContext(DrawingContext);
+    const {xScale, yScale} = useContext(DrawingContext);
     const [xMin, xMax] = xScale.domain();
     xStart = xStart === null ? xMin - 0.5*(xMax - xMin) : xStart;
     xEnd = xEnd === null ? xMax + 0.5*(xMax - xMin) : xEnd;

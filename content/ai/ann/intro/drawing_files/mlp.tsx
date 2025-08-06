@@ -10,14 +10,17 @@ import { Drawing, DrawingContext } from "components/drawings/drawing";
 import DrawingGrid from "components/drawings/drawingGrid";
 import { Annot } from "components/drawings/annot";
 import _ from "lodash";
+import { getColor } from "colors";
 
 const defaultStyle = {
     nodeRadius: 10,
-    nodeColor: 'steelblue',
-    edgeColor: '#ccc',
+    nodeColor: getColor('gold'),
+    edgeColor: getColor("dark_gray"),
+    activeEdgeColor: 'steelblue',
     minEdgeWidth: 1,
     maxEdgeWidth: 3,
     layerSpacing: 50,
+    outputLayerSpacing: 30,
     nodeSpacing: 50,
     outputFontSize: 12,
     outputTextPadding: ".5em",
@@ -27,6 +30,7 @@ const defaultStyle = {
     weightColor: "orange",
 };
 
+
 function MLPVisualizer({
     weights,
     biases,
@@ -35,16 +39,18 @@ function MLPVisualizer({
     outputProps,
     hiddenActivation = x => tf.tidy(() => tf.relu(x)),
     outputActivation = x => tf.tidy(() => tf.relu(x)),
-    style = {
-        nodeColor: 'orange',
-        edgeColor: 'gray',
-        nodeRadius: 8,
-    },
+    annotWeights = false,
+    style = defaultStyle,
+    NeuronComp = null,
 }) {
     console.log("MLPVisualizer");
     const mergedStyle = { ...defaultStyle, ...style };
     const [output, setOutput] = useState([]);
-
+    if (NeuronComp === null) {
+        NeuronComp = ({x, y, radius, color, activFunc}) => (
+            <circle cx={x} cy={y} r={radius} fill={color}/>
+        );
+    }
     const [backendReady, setBackendReady] = useState(false);
 
     useEffect(() => {
@@ -143,9 +149,14 @@ function MLPVisualizer({
     const height = Math.max(...layers) * mergedStyle.nodeSpacing;
 
     const getNodePosition = (layerIdx, nodeIdx) => {
-        const x = layerIdx * mergedStyle.layerSpacing;
-        const layerHeightIdx = Math.min(layerIdx, layers.length - 1);
-        const layerHeight = layers[layerHeightIdx] * mergedStyle.nodeSpacing;
+        let x, layerHeight;
+        if (layerIdx === layers.length) {
+            x = (layerIdx - 1) * mergedStyle.layerSpacing + mergedStyle.outputLayerSpacing;
+            layerHeight = layers[layerIdx - 1] * mergedStyle.nodeSpacing;
+        } else {
+            x = layerIdx * mergedStyle.layerSpacing;
+            layerHeight = layers[layerIdx] * mergedStyle.nodeSpacing;
+        }
         const y = height / 2 - layerHeight / 2 + nodeIdx * mergedStyle.nodeSpacing;
         return { x, y };
     };
@@ -200,14 +211,11 @@ function MLPVisualizer({
         [...Array(layerSize)].map((_, nodeIdx) => {
             const { x, y } = getNodePosition(i+1, nodeIdx);
             return (
-                <circle
-                    key={`node-${i+1}-${nodeIdx}`}
-                    cx={x}
-                    cy={y}
-                    r={mergedStyle.nodeRadius}
-                    fill={mergedStyle.nodeColor}
-                />
-                );
+                <React.Fragment key={`node-${i+1}-${nodeIdx}`}>
+                    <NeuronComp x={x} y={y} layerIdx={i+1} nodeIdx={nodeIdx} radius={mergedStyle.nodeRadius} color={mergedStyle.nodeColor}
+                        activFunc={i+1 < layers.length - 1 ? hiddenActivation : outputActivation}/> 
+                </React.Fragment>
+            );
         })
     )}
 
@@ -254,7 +262,7 @@ function MLPVisualizer({
     }
 
     {/** Annots at edge weights **/}
-    {maxWeights.some(x => x === null) || minWeights.some(x => x === null) ? null :
+    {!annotWeights || maxWeights.some(x => x === null) || minWeights.some(x => x === null) ? null :
      layers.slice(0, -1).map((layerSize, layerIdx) =>
         [...Array(layerSize)].map((_, i) =>
             [...Array(layers[layerIdx + 1])].map((_, j) => {
@@ -266,6 +274,10 @@ function MLPVisualizer({
 
                 // Calculate the angle in radians, then convert to degrees
                 const angleRad = Math.atan2(to.y - from.y, to.x - from.x);
+
+                mid.x -= mergedStyle.nodeRadius * Math.cos(angleRad) / 2;
+                mid.y -= mergedStyle.nodeRadius * Math.sin(angleRad) / 2;
+
                 const angleDeg = (angleRad * 180) / Math.PI;
 
                 const weight = weights[layerIdx][i][j];
@@ -278,7 +290,7 @@ function MLPVisualizer({
                 // Create the transform string
                 const transform = `rotate(${angleDeg} ${mid.x} ${mid.y})`;
                 return (
-                    <g transform={transform}>
+                    <g transform={transform} key={`weightAnnot-${layerIdx}-${i}-${j}`}>
                         <Annot
                             key={`weight-${layerIdx}-${i}-${j}`}
                             Wrapper={MathJax}
@@ -315,56 +327,26 @@ export const InteractiveMLP = ({
     ],
     outputProps = [
         {name: "\\text{Waarde}", unit: "\\si{euro}"},
-        {name: "\\text{Waarde}", unit: "\\si{euro}"},
-        {name: "\\text{Waarde}", unit: "\\si{euro}"},
     ],
-    layerName = "Laag",
     weightProps = [
         [ // Layer 1
             [ // Input 1
                 // Neuron 1
                 {value: 3000, min: -5000, max: 5000, step: 100, name: "Gewicht"},
-                // Neuron 2
-                {value: 500, min: -5000, max: 5000, step: 100, name: "Gewicht"},
-                // Neuron 3
-                {value: 1800, min: -5000, max: 5000, step: 100, name: "Gewicht"},
             ],
             [ // Input 2
                 // Neuron 1
                 {value: -2500, min: -5000, max: 5000, step: 100, name: "Gewicht"},
-                // Neuron 2
-                {value: 1000, min: -5000, max: 5000, step: 100, name: "Gewicht"},
-                // Neuron 3
-                {value: 1400, min: -5000, max: 5000, step: 100, name: "Gewicht"},
             ],
         ],
-        [ // Layer 2
-            [ // Input 1
-                // Neuron 1
-                {value: 3000, min: -5000, max: 5000, step: 100, name: "Gewicht"},
-                // Neuron 2
-                {value: 500, min: -5000, max: 5000, step: 100, name: "Gewicht"},
-                // Neuron 3
-                {value: 1800, min: -5000, max: 5000, step: 100, name: "Gewicht"},
-            ],
-            [ // Input 2
-                // Neuron 1
-                {value: -2500, min: -5000, max: 5000, step: 100, name: "Gewicht"},
-                // Neuron 2
-                {value: 1000, min: -5000, max: 5000, step: 100, name: "Gewicht"},
-                // Neuron 3
-                {value: 1400, min: -5000, max: 5000, step: 100, name: "Gewicht"},
-            ],
-            [ // Input 3
-                // Neuron 1
-                {value: -2500, min: -5000, max: 5000, step: 100, name: "Gewicht"},
-                // Neuron 2
-                {value: 1000, min: -5000, max: 5000, step: 100, name: "Gewicht"},
-                // Neuron 3
-                {value: 1400, min: -5000, max: 5000, step: 100, name: "Gewicht"},
-            ],
-        ],
-    ]
+    ],
+    layerName = "Laag",
+    controlWeights = false,
+    annotWeights = false,
+    style = defaultStyle,
+    hiddenActivation = x => tf.tidy(() => tf.relu(x)),
+    outputActivation = x => tf.tidy(() => tf.relu(x)),
+    NeuronComp = null,
 }) => {
     const [inputValues, setInputValues] = useState(inputProps.map(r => r.value));
 
@@ -377,7 +359,7 @@ export const InteractiveMLP = ({
             )
         )
     );
-    const [biases, setBiases] = useState([[0, 0, 0], [0,0,0]]);
+    const [biases, setBiases] = useState([[0]]); // 1 for each neuron in each layer
 
     const handleInputChanges = inputValues.map((_, idx) => (event, newValue) => {
         setInputValues((currInputs) => {
@@ -417,9 +399,9 @@ export const InteractiveMLP = ({
 
     return (
         <Stack alignItems="center">
-            <Drawing left={-50} right={50} bottom={50} top={-50} noWatermark>
-                <MLPVisualizerWrapper inputValues={inputValues} inputProps={inputProps} outputProps={outputProps} weights={weights} biases={biases}/>
-                <DrawingGrid major={20} minor={10} showText/>
+            <Drawing left={-45} right={50} bottom={25} top={-5} noWatermark>
+                <MLPVisualizerWrapper inputValues={inputValues} inputProps={inputProps} outputProps={outputProps} weights={weights} biases={biases} annotWeights={annotWeights} style={style} hiddenActivation={hiddenActivation} outputActivation={outputActivation} NeuronComp={NeuronComp} />
+                {/** <DrawingGrid major={20} minor={10} showText/> **/}
             </Drawing>
             {
                 inputValues.map((v, i) => (
@@ -430,28 +412,30 @@ export const InteractiveMLP = ({
                     )
                 )
             }
-            <Stack direction="row">
-                {
-                    weights.map((layerWeights, layerIdx) => (
-                        <React.Fragment key={`layer-${layerIdx}`}>
-                            <Stack>
-                                {[
-                                    <MD>{`**${layerName} ${layerIdx + 1}**`}</MD>,
-                                    ...layerWeights.map((weightRow, i) =>
-                                    weightRow.map((weight, j) =>
-                                    <React.Fragment key={`weight-${layerIdx}-${i}-${j}`}>
-                                        <MD>{ `$\\text{${weightProps[layerIdx][i][j].name}}~(${i+1}, ${j+1}) = ${toLatexNumber(weight)}$` }</MD>
-                                        <Slider aria-label={`weight-${layerIdx}-${i}-${j}`} onChange={handleWeightChanges[layerIdx][i][j]} {...weightProps[layerIdx][i][j]} value={weight} />
-                                    </React.Fragment>
-                                    )
-                                )]}
-                            </Stack>
-                        </React.Fragment>
-                    ))
-                }
-            </Stack>
-        </Stack>
-    );
+            {!controlWeights ? null :
+                <Stack direction="row">
+                    {
+                        weights.map((layerWeights, layerIdx) => (
+                            <React.Fragment key={`layer-${layerIdx}`}>
+                                <Stack>
+                                    {[
+                                    <MD key={`layer-${layerIdx}`}>{`**${layerName} ${layerIdx + 1}**`}</MD>,
+                                        ...layerWeights.map((weightRow, i) =>
+                                            weightRow.map((weight, j) =>
+                                            <React.Fragment key={`weight-${layerIdx}-${i}-${j}`}>
+                                                <MD>{ `$\\text{${weightProps[layerIdx][i][j].name}}~(${i+1}, ${j+1}) = ${toLatexNumber(weight)}$` }</MD>
+                                                <Slider aria-label={`weight-${layerIdx}-${i}-${j}`} onChange={handleWeightChanges[layerIdx][i][j]} {...weightProps[layerIdx][i][j]} value={weight} />
+                                            </React.Fragment>
+                                            )
+                                        )]}
+                                    </Stack>
+                                </React.Fragment>
+                            ))
+                    }
+                </Stack>
+            }
+    </Stack>
+);
 }
 
 export default MLPVisualizer;
