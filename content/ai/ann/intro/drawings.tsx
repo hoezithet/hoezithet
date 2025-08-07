@@ -120,8 +120,8 @@ const WeightedSumStrChild = withDrawingScale(({
 }, annFxWidth, annFxHeight)
 
 export const WeightedSumStr = ({
-    weights, weightsName, weightColor="orange",
-    bias=null, biasName=null, biasColor="orange",
+    weights, weightsName, weightColor="blue",
+    bias=null, biasName=null, biasColor="blue",
     values, valuesName=null,
     rhs=null, lhs=null,
     annotFontSize=100, mathFontSize=100
@@ -140,8 +140,8 @@ export const WeightedSumStr = ({
 };
 
 export const WeightedSum = ({
-    weights, weightsName=null, weightColor="orange",
-    bias=null, biasName=null, biasColor="orange",
+    weights, weightsName=null, weightColor="blue",
+    bias=null, biasName=null, biasColor="blue",
     values, valuesName=null,
     annotFontSize=100, mathFontSize=100
 }) => {
@@ -189,9 +189,9 @@ const _ReLU = ({}) => {
     return (
         <>
             <Fx fx={x => Math.max(0, x)} />
-            <Accolade color="black" x1={xScale(-15)} x2={xScale(0)}
+            {/**<Accolade color="black" x1={xScale(-15)} x2={xScale(0)}
                 y1={yScale(-2)} y2={yScale(-2)} height={yScale.metric(1)} width={xScale.metric(1)}
-                strokeWidth={xScale.metric(0.1)}/>
+                strokeWidth={xScale.metric(0.1)}/>**/}
         </>
     );
 }
@@ -200,9 +200,9 @@ export const ReLU = ({}) => {
     const divStyle = {fontSize: "x-small", fontWeight: "bold", maxWidth: "8em", lineHeight: "1.0"};
     return (
         <Plot
-            xLabel=<div style={divStyle}>Uitkomst van gewogen som</div>
-        yLabel=<div style={divStyle}>Output van neuron</div>
-        gridProps={{minor: 2}}>
+            xLabel=<div style={divStyle}>Uitkomst van gewogen som (&times; 10<sup>5</sup>)</div>
+            yLabel=<div style={divStyle}>Output van neuron (&times; 10<sup>5</sup>)</div>
+            gridProps={{minor: 2}}>
             <_ReLU />
         </Plot>
     );
@@ -250,13 +250,17 @@ const _Accolade = ({
 
 export const Accolade = React.forwardRef(_Accolade);
 
-const SumNeuron = ({x, y, radius, color, activFunc}) => {
+const SumNeuron = ({x, y, sumOutput, radius, color, activFunc}) => {
     const m = 0.4 * radius;
     const sW = 0.15 * radius;
+
+    const plusX = x;
+    const plusSize = 2*radius - 2*m;
+
     return (
         <>
             <circle cx={x} cy={y} r={radius} stroke={color} strokeWidth={sW} fill={getColor("near_white")}/>
-            <path d={`M ${x},${y-radius+m} v ${2*radius - 2*m} M ${x-radius+m},${y} h ${2*radius - 2*m}`}
+            <path d={`M ${plusX},${y - plusSize / 2} v ${plusSize} M ${plusX - plusSize / 2},${y} h ${plusSize}`}
                 stroke={color} strokeWidth={sW / 2} strokeLinecap="round"/>
             <CurvedTextCircle
                 cx={x}
@@ -279,7 +283,7 @@ export const EriksNeuron1 = ({}) => {
         <InteractiveMLP
             inputProps={[
                 {value: 230, min: 0, max: 500, step: 10, name: "\\text{Opp}", unit: "\\si{m}^2"},
-                {value: 5, min: 0, max: 100, step: 1, name: "\\text{Afst}", unit: "\\si{km}"},
+                {value: 5, min: 0, max: 200, step: 1, name: "\\text{Afst}", unit: "\\si{km}"},
             ]}
             outputProps={[
                 {name: "\\text{Waarde}", unit: "\\si{euro}"},
@@ -300,9 +304,11 @@ export const EriksNeuron1 = ({}) => {
                 weightFontSize: 10,
                 layerSpacing: 100,
                 outputLayerSpacing: 50,
-                nodeSpacing: 60,
+                nodeSpacing: 75,
                 nodeRadius: 25,
-                nodeColor: getColor("gold"),
+                nodeColor: getColor("blue"),
+                edgeColor: getColor("light_gray"),
+                weightColor: "blue",
             }}
             outputActivation={x => x}
             NeuronComp={SumNeuron}
@@ -371,35 +377,36 @@ function polarToCartesian(cx, cy, r, angleInDegrees) {
 
 
 
-const SumActNeuron = ({x, y, radius, color, activFunc}) => {
+const SumActNeuron = ({x, y, sumOutput, radius, color, activFunc}) => {
+    sumOutput /= 1e5;
     const m = 0.2 * radius;
     const sW = 0.15 * radius;
 
+    function isInCircle(svgX, svgY) {
+        return Math.sqrt(Math.pow(svgX - x, 2) + Math.pow(svgY - y, 2)) <= radius;
+    }
+
     const [plotD, setPlotD] = useState("");
+    const [activOutput, setActivOutput] = useState(null);
+    const plotLeft = x;
+    const plotRight = x + radius;
+    const dy = radius;
+    const plotTop = y - dy;
+    const plotBottom = y + dy;
+    const plotNSamples = 51;
+    const plotXStart = -20;
+    const plotXEnd = 20;
+    const plotYStart = -20;
+    const plotYEnd = 20;
+    const sampleIdxs = [...Array(plotNSamples + 1)].map((_, i) => i);
+    const xs = sampleIdxs.map(i => i*(plotXEnd - plotXStart) / plotNSamples + plotXStart);
+
+    const getSvgXY = (plotX, plotY) => {
+        const svgX = (plotX - plotXStart) / (plotXEnd - plotXStart) * (plotRight - plotLeft) + plotLeft;
+        const svgY = (plotY - plotYStart) / (plotYEnd - plotYStart) * (plotTop - plotBottom) + plotBottom;
+        return [svgX, svgY];
+    };
     useEffect(() => {
-        const plotLeft = x;
-        const plotRight = x + radius;
-        const dy = radius;
-        const plotTop = y - dy;
-        const plotBottom = y + dy;
-        const plotNSamples = 51;
-        const plotXStart = -10;
-        const plotXEnd = 10;
-        const plotYStart = -10;
-        const plotYEnd = 10;
-        const sampleIdxs = [...Array(plotNSamples + 1)].map((_, i) => i);
-        const xs = sampleIdxs.map(i => i*(plotXEnd - plotXStart) / plotNSamples + plotXStart);
-
-        const getSvgXY = (plotX, plotY) => {
-            const svgX = (plotX - plotXStart) / (plotXEnd - plotXStart) * (plotRight - plotLeft) + plotLeft;
-            const svgY = (plotY - plotYStart) / (plotYEnd - plotYStart) * (plotTop - plotBottom) + plotBottom;
-            return [svgX, svgY];
-        };
-        const getLineCommand = (plotX, plotY) => {
-            const [svgX, svgY] = getSvgXY(plotX, plotY);
-            return `L ${svgX} ${svgY}`;
-        };
-
         tf.ready().then(() => {
             tf.tidy(() => {
                 activFunc(tf.tensor(xs)).data().then(
@@ -410,7 +417,7 @@ const SumActNeuron = ({x, y, radius, color, activFunc}) => {
                         _.zip(xs, ys).forEach(xy => {
                             const [plotX, plotY] = xy;
                             const [svgX, svgY] = getSvgXY(plotX, plotY);
-                            if (Math.sqrt(Math.pow(svgX - x, 2) + Math.pow(svgY - y, 2)) > radius) {
+                            if (!isInCircle(svgX, svgY)) {
                                 // Outside circle
                                 useMove = true;
                                 return;
@@ -427,11 +434,22 @@ const SumActNeuron = ({x, y, radius, color, activFunc}) => {
                     }
                 );
             });
+            tf.tidy(() => {
+                activFunc(tf.tensor(sumOutput)).data().then(y => setActivOutput(y[0]));
+            });
         });
-    }, [m, radius, x, y, activFunc]);
+    }, [m, radius, x, y, activFunc, sumOutput]);
 
     const plusX = x - (radius / 2);
     const plusSize = radius - 2*m;
+
+    let activDot = null;
+    if (activOutput !== null && typeof activOutput !== 'undefined') {
+        const [svgX, svgY] = getSvgXY(sumOutput, activOutput);
+        if (isInCircle(svgX, svgY)) {
+            activDot = {x: svgX, y: svgY};
+        }
+    }
 
     return (
         <>
@@ -457,6 +475,8 @@ const SumActNeuron = ({x, y, radius, color, activFunc}) => {
             <path d={plotD} fill="none" stroke={color} strokeWidth={sW / 2} strokeLinecap="butt" strokeLinejoin="round"/>
             <path d={`M ${plusX},${y - plusSize / 2} v ${plusSize} M ${plusX - plusSize / 2},${y} h ${plusSize}`}
                 stroke={color} strokeWidth={sW / 2} strokeLinecap="round"/>
+            {/** Activation dot in plot **/}
+            {activDot === null ? null : <circle cx={activDot.x} cy={activDot.y} fill={getColor("orange")} r={2}/>}
             <circle cx={x} cy={y} r={radius} stroke={color} strokeWidth={sW} fill="none"/>
             <CurvedTextCircle
                 cx={x}
@@ -479,7 +499,7 @@ export const EriksNeuron2 = ({}) => {
         <InteractiveMLP
             inputProps={[
                 {value: 70, min: 0, max: 500, step: 10, name: "\\text{Opp}", unit: "\\si{m}^2"},
-                {value: 100, min: 0, max: 100, step: 1, name: "\\text{Afst}", unit: "\\si{km}"},
+                {value: 100, min: 0, max: 200, step: 1, name: "\\text{Afst}", unit: "\\si{km}"},
             ]}
             outputProps={[
                 {name: "\\text{Waarde}", unit: "\\si{euro}"},

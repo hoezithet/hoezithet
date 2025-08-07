@@ -60,7 +60,7 @@ Het huis van Maria en Dirk heeft een oppervlakte van $230~\si{m}^2$ en ligt op $
 
 $$
 \begin{aligned}
-    \text{Waarde in euro} &= {\orange{3000}}\cdot 230 + {\orange{(-2500)}}\cdot 5\\
+    \text{Waarde in euro} &= {\blue{3000}}\cdot 230 + {\blue{(-2500)}}\cdot 5\\
                   &= 677~500
 \end{aligned}
 $$
@@ -80,23 +80,25 @@ Probeer gerust enkele verschillende waarden uit voor de oppervlakte en de afstan
 
 ### Activatiefunctie van een neuron
 
-Bij het invoeren van bepaalde waarden in Eriks Huizenprijsneuron<sup>TM</sup> zal je merken dat de prijs *negatief* kan worden. Een huis van $70~\si{m}^2$ dat $100~\si{km}$ van het stadscentrum ligt, zou bijvoorbeeld een waarde van $€-40~000$ hebben. Dat is in werkelijkheid onmogelijk natuurlijk.
+Bij het invoeren van bepaalde waarden in Eriks Huizenprijsneuron zal je merken dat de prijs *negatief* kan worden. Een huis van $70~\si{m}^2$ dat $100~\si{km}$ van het stadscentrum ligt, zou bijvoorbeeld een waarde van $€-40~000$ hebben. Dat is in werkelijkheid onmogelijk natuurlijk.
 
-Het probleem is dat Eriks Huizenprijsneuron<sup>TM</sup> klakkeloos de uitkomst van de gewogen som als schatting van de huisprijs geeft. Het zou beter zijn als het neuron nog een soort **nabewerking** deed van de uitkomst van die som. Bijvoorbeeld:
+Het probleem is dat Eriks Huizenprijsneuron klakkeloos de uitkomst van de gewogen som als schatting van de huisprijs geeft. Het zou beter zijn als het neuron nog een soort **nabewerking** deed van de uitkomst van die som. Bijvoorbeeld:
 
 **Als de uitkomst van de gewogen som negatief is, geef je $0$ als output. Anders geef je de uitkomst van de gewogen som als output.**
 
-Dit soort nabewerking noemen we een **activatiefunctie**. Door deze activatiefunctie aan Eriks Huizenprijsneuron<sup>TM</sup> toe te voegen, zien we dat de geschatte waarde van een huis nooit kleiner kan zijn dan €0:
+Dit soort nabewerking noemen we een **activatiefunctie**. Door deze activatiefunctie aan Eriks Huizenprijsneuron toe te voegen, zien we dat de geschatte waarde van een huis nooit *kleiner* kan zijn dan €0 <Mute>(een huisprijs van €0 is ook onrealistisch, maar dat laten we voor de eenvoud even zo)</Mute>:
 
 import { EriksNeuron2 } from "./drawings";
 
 <EriksNeuron2 />
 
-In de bovenstaande figuur is de activatiefunctie voorgesteld als een geknikte lijn. Dat doen we omdat de grafiek van de activatiefunctie die we gebruiken er zo uit ziet:
+In de bovenstaande figuur is de activatiefunctie voorgesteld als een **geknikte lijn**. Het bolletje op de lijn geeft aan wat de uitkomst van de gewogen som is en hoe de activatiefunctie die uitkomst omzet naar een output. Door bovenstaande sliders te verschuiven, zal je merken dat het bolletje verplaatst. Is de gewogen som negatief, dan bevindt het bolletje zich op een plateau waarmee een output van $0$ overeenkomt.
+
+Hieronder vind je een gedetailleerdere grafiek van de actievatiefunctie:
 
 <ReLU/>
 
-Op de grafiek zie je inderdaad dat iedere x-waarde kleiner dan $0$ wordt vastgezet op $0$ en positieve waarden gewoon worden "doorgelaten". Wiskundig noteren we deze activatiefunctie als:
+Op de grafiek zie je inderdaad dat gewogen sommen kleiner dan $0$ worden vastgezet op een output van $0$ en positieve gewogen sommen gewoon worden "doorgelaten". Wiskundig noteren we deze activatiefunctie als:
 
 $$
 x \mapsto \max(x, 0)

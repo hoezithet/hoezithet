@@ -9,7 +9,7 @@ const Ticks = ({
     scale, numTicks=10, isVertical=false,
     tickLength=5,
     labelMargin=5,
-    tickFormat=x => x.toFixed(),
+    tickFormat=(tickValue: number, tickX: number, tickY: number, isVertical: boolean) => tickValue.toFixed(),
     color=null,
     fontSize="12px",
 }) => {
@@ -19,9 +19,19 @@ const Ticks = ({
         <g>
             <path d={d} stroke={color} strokeLinecap="round" strokeWidth="2px"/>
             {
-                ticksValues.map((x, i) =>
-                    <text x={isVertical ? - tickLength - labelMargin : scale(x)} y={isVertical ? scale(x) : tickLength + labelMargin} key={i} textAnchor={isVertical ? "end" : "middle"} fill={color} fontSize={fontSize} dominantBaseline={isVertical ? "middle" : "hanging"}>{ tickFormat(x) }</text>
-                )
+                ticksValues.map((tickValue, i) => {
+                    const tickX = isVertical ? - tickLength - labelMargin : scale(tickValue);
+                    const tickY = isVertical ? scale(tickValue) : tickLength + labelMargin;
+                    const tickLabel = tickFormat(tickValue, tickX, tickY, isVertical);
+                    if (
+                        typeof tickLabel === 'string' || tickLabel instanceof String
+                        || typeof tickLabel === 'number' || tickLabel instanceof Number
+                    ) {
+                        return <text x={tickX} y={tickY} key={i} textAnchor={isVertical ? "end" : "middle"} fill={color} fontSize={fontSize} dominantBaseline={isVertical ? "middle" : "hanging"}>{ tickLabel }</text>;
+                    } else {
+                        return <React.Fragment key={i}>{tickLabel}</React.Fragment>;
+                    }
+                })
             }
         </g>
     );

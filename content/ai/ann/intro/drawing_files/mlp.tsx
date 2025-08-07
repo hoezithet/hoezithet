@@ -43,9 +43,9 @@ function MLPVisualizer({
     style = defaultStyle,
     NeuronComp = null,
 }) {
-    console.log("MLPVisualizer");
     const mergedStyle = { ...defaultStyle, ...style };
-    const [output, setOutput] = useState([]);
+    const [sumOutputs, setSumOutputs] = useState([]);
+    const [activOutputs, setActivOutputs] = useState([]);
     if (NeuronComp === null) {
         NeuronComp = ({x, y, radius, color, activFunc}) => (
             <circle cx={x} cy={y} r={radius} fill={color}/>
@@ -94,22 +94,33 @@ function MLPVisualizer({
     useEffect(() => {
         if (!backendReady)
             return;
+        const input = tf.tensor(inputValues, [1, params.weights[0].shape[0]]);
+        let x = input;
+
         tf.tidy(() => {
-
-            const input = tf.tensor(inputValues, [1, params.weights[0].shape[0]]);
-            let x = input;
-
+            const sumOutputs = [];
+            const activOutputs = [];
             for (let i = 0; i < params.weights.length - 1; i++) {
                 x = x.matMul(params.weights[i]).add(params.biases[i]);
+                sumOutputs.push(x);
                 x = hiddenActivation(x); // Apply activation
+                activOutputs.push(x);
             }
 
             // Output layer
             x = x.matMul(params.weights[params.weights.length - 1])
                 .add(params.biases[params.biases.length - 1]);
-            x = outputActivation(x); // Apply output activation
+            sumOutputs.push(x);
+            x = outputActivation(x); // Apply out activation
+            activOutputs.push(x);
 
-            x.data().then(result => setOutput(Array.from(result)));
+            x.data().then(result => {
+                setSumOutputs(sumOutputs.map(x => x.dataSync()));
+                setActivOutputs(activOutputs.map(x => x.dataSync()));
+                sumOutputs.forEach(x => x.dispose());
+                activOutputs.forEach(x => x.dispose());
+            });
+            return [sumOutputs, activOutputs];  // Avoids disposal
         });
     }, [inputValues, params, backendReady]);
 
@@ -175,7 +186,7 @@ function MLPVisualizer({
                     const from = getNodePosition(layerIdx, neuron1idx);
                     let to, edgeWidth;
                     if (layerIdx + 1 === layers.length) {
-                        // Final layer to output layer
+                        // Final layer to out layer
                         to = getNodePosition(layerIdx + 1, neuron1idx);
                         edgeWidth = mergedStyle.minEdgeWidth + dWidth / 2;
                     }
@@ -212,7 +223,7 @@ function MLPVisualizer({
             const { x, y } = getNodePosition(i+1, nodeIdx);
             return (
                 <React.Fragment key={`node-${i+1}-${nodeIdx}`}>
-                    <NeuronComp x={x} y={y} layerIdx={i+1} nodeIdx={nodeIdx} radius={mergedStyle.nodeRadius} color={mergedStyle.nodeColor}
+                    <NeuronComp x={x} y={y} layerIdx={i+1} sumOutput={sumOutputs[i]?.[nodeIdx]} nodeIdx={nodeIdx} radius={mergedStyle.nodeRadius} color={mergedStyle.nodeColor}
                         activFunc={i+1 < layers.length - 1 ? hiddenActivation : outputActivation}/> 
                 </React.Fragment>
             );
@@ -239,14 +250,16 @@ function MLPVisualizer({
         })
     }
 
-    {/* Annots at output */}
+    {/* Annots at out */}
     {
         [...Array(layers.slice(-1)[0])].map((_, nodeIdx) => {
-            if (output.length <= nodeIdx)
+            let lastLayerOutputs = activOutputs.slice(-1);
+            if (lastLayerOutputs.length === 0 || lastLayerOutputs[0].length <= nodeIdx)
                 return null;
 
+            lastLayerOutputs = lastLayerOutputs[0];
             const { x, y } = getNodePosition(layers.length, nodeIdx);
-            const value = output[nodeIdx];
+            const value = lastLayerOutputs[nodeIdx];
             const text = `${toLatexNumber(value)}~(${outputProps[nodeIdx].unit})`;
             return (
                 <Annot key={`annot-${-1}-${nodeIdx}`}

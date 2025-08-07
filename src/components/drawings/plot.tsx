@@ -19,7 +19,7 @@ export const Plot = ({
     xMin=-10, yMin=-10, xMax=10, yMax=10,
     xTicks=10, yTicks=10,
     xLabel="x", yLabel="y",
-    xTickFormat=(d, i) => d, yTickFormat=(d, i) => d,
+    xTickFormat=(d) => d, yTickFormat=(d) => d,
     xColor="gray", yColor="gray",
     xFontSize=14, yFontSize=14,
     axisMargin=0.05,
