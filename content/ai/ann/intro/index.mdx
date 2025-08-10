@@ -67,6 +67,8 @@ $$
 
 (illustratie, Maria en Dirk voor hun huis, Erik met schatting)
 
+### Van gewogen som naar neuron
+
 Wat heeft Erik zijn berekening nu met een neuraal netwerk te maken? Wel, zijn formule **komt dicht in de buurt bij wat er in een *neuron*** gebeurt. En een neuron is de **bouwsteen van een neuraal netwerk**.
 
 We kunnen de formule als volgt voorstellen als een neuron:
@@ -78,7 +80,7 @@ import { EriksNeuron1 } from "./drawings";
 Het neuron heeft twee inputs en één output. De inputs zijn de bewoonbare oppervlakte en de afstand tot het centrum. De output is de geschatte waarde van het huis. Het neuron vermenigvuldigt iedere input met een apart **gewicht** (resp. 3000 en -2500) en telt de uitkomsten op.
 Probeer gerust enkele verschillende waarden uit voor de oppervlakte en de afstand.
 
-### Activatiefunctie van een neuron
+## Activatiefunctie van een neuron
 
 Bij het invoeren van bepaalde waarden in Eriks Huizenprijsneuron zal je merken dat de prijs *negatief* kan worden. Een huis van $70~\si{m}^2$ dat $100~\si{km}$ van het stadscentrum ligt, zou bijvoorbeeld een waarde van $€-40~000$ hebben. Dat is in werkelijkheid onmogelijk natuurlijk.
 
@@ -106,6 +108,83 @@ $$
 
 De functie zet iedere $x$ om naar $\max(x, 0)$, waarbij $\max(x, 0)$ het maximum van $x$ en $0$ geeft <Mute>(dus ofwel $x$ ofwel $0$, afhankelijk welke het grootst is)</Mute>. Als $x<0$ is dit inderdaad gelijk aan $0$, anders aan $x$ zelf.
 
-### Neuron trainen met data
+## Neuron trainen met data
 
-In het voorbeeld van het schatten van de waarde van een huis kwam onze formule nogal uit de lucht gevallen.
+De voorspelling die Eriks Huizenprijsneuron maakt voor een gegeven woonoppervlakte en afstand tot het centrum is afhankelijk van de **gewichten** die Erik gekozen heeft op basis van zijn kennis van de vastgoedmarkt. Hoe goed komen deze gewichten overeen met de werkelijkheid? Kunnen we ze eventueel bijstellen zodat het neuron **nauwkerigere schattingen** maakt? Dat kan door het neuron te **trainen**. Hoe dat precies in z'n werk gaat, zien we in deze paragraaf.
+
+Als voorbeeld gaan we Eriks neuron trainen op een **kleine hoeveelheid fictieve data**. Hieronder vind je een tabel van verkochte huizen met hun woonoppervlakte, afstand en prijs.
+
+|   Bewoonbare oppervlakte | Afstand tot centrum |      Prijs |
+|-------------------------:|--------------------:|-----------:|
+|           $104~\si{m}^2$ |       $9  ~\si{km}$ |  € 333 000 |
+|           $107~\si{m}^2$ |       $9.7~\si{km}$ |  € 342 000 |
+|           $124~\si{m}^2$ |       $4.1~\si{km}$ |  € 416 000 |
+|           $127~\si{m}^2$ |       $8  ~\si{km}$ |  € 426 000 |
+|           $127~\si{m}^2$ |       $5.5~\si{km}$ |  € 418 000 |
+|            $69~\si{m}^2$ |       $5.9~\si{km}$ |  € 221 000 |
+|           $143~\si{m}^2$ |       $9.3~\si{km}$ |  € 453 000 |
+|            $81~\si{m}^2$ |       $1.2~\si{km}$ |  € 283 000 |
+|            $96~\si{m}^2$ |       $1.3~\si{km}$ |  € 331 000 |
+|           $147~\si{m}^2$ |       $0.7~\si{km}$ |  € 519 000 |
+
+### Gemiddelde kwadratische fout berekenen
+
+Alvorens we de gewichten van Eriks neuron proberen verbeteren, vragen we ons eerst af *hoe goed* (of *hoe slecht*) de gewichten nu al zijn. Dat doen we door het neuron prijsschattingen te laten maken voor de huizen in de tabel hierboven en de schattingen te vergelijken met de werkelijke verkoopprijs.
+
+Als we de oppervlakten en afstanden uit de tabel invoeren in Eriks neuron, krijgen we de volgende resultaten.
+
+|   Bewoonbare oppervlakte | Afstand tot centrum |      Prijs |  <Blue>Schatting door neuron</Blue> |
+|-------------------------:|--------------------:|-----------:|------------------------------------:|
+|           $104~\si{m}^2$ |       $9  ~\si{km}$ |  € 333 000 |              <Blue>€ 289 500</Blue> |
+|           $107~\si{m}^2$ |       $9.7~\si{km}$ |  € 342 000 |              <Blue>€ 296 750</Blue> |
+|           $124~\si{m}^2$ |       $4.1~\si{km}$ |  € 416 000 |              <Blue>€ 361 750</Blue> |
+|           $127~\si{m}^2$ |       $8  ~\si{km}$ |  € 426 000 |              <Blue>€ 361 000</Blue> |
+|           $127~\si{m}^2$ |       $5.5~\si{km}$ |  € 418 000 |              <Blue>€ 367 250</Blue> |
+|            $69~\si{m}^2$ |       $5.9~\si{km}$ |  € 221 000 |              <Blue>€ 192 250</Blue> |
+|           $143~\si{m}^2$ |       $9.3~\si{km}$ |  € 453 000 |              <Blue>€ 405 750</Blue> |
+|            $81~\si{m}^2$ |       $1.2~\si{km}$ |  € 283 000 |              <Blue>€ 240 000</Blue> |
+|            $96~\si{m}^2$ |       $1.3~\si{km}$ |  € 331 000 |              <Blue>€ 284 750</Blue> |
+|           $147~\si{m}^2$ |       $0.7~\si{km}$ |  € 519 000 |              <Blue>€ 439 250</Blue> |
+
+Controleer gerust zelf door de sliders van het neuron in te stellen:
+
+<EriksNeuron2 opp={104} afst={9} />
+
+We kunnen nu meten hoe ver de schattingen liggen van de echte prijzen. Dat doen we typisch als volgt:
+
+1. Bereken voor ieder huis het **verschil tussen de geschatte prijs en de echte prijs**, dit noemen we de **fout** <Mute>(of de **afwijking**)</Mute>;
+2. **Kwadrateer ieder verschil**, dit noemen we de **kwadratische fout** <Mute>(of de **kwadratische afwijking**)</Mute>;
+3. Bereken het **gemiddelde van de kwadratische fouten**.
+
+De *gemiddelde kwadratische fout* die we zo krijgen geeft ons een soort <Mute>(kwadratische)</Mute> afstand tussen de schattingen van Eriks neuron en de werkelijke data. Hoe kleiner die is, hoe beter de schattingen overeenkomen met de data.
+
+> +Uitbreiding: Waarom kwadrateren we de fouten?
+>
+> Het kwadrateren van de fouten zorgt ervoor dat we nadien een gemiddelde berekenen van **allemaal positieve getallen**. Als een model bv. voor een bepaald huis €100&nbsp;000 *onder* de prijs schat en voor een ander huis €100&nbsp;000 *boven* de prijs, dan is de fout de ene keer €-100&nbsp000 en de andere keer €100&000. *Zonder* een kwadraat zou dit een gemiddelde geven van 0 terwijl het model twee heel foute voorspellingen heeft gemaakt.
+>
+> -------
+>
+> Bovenstaande uitleg geeft al een intuïtieve verklaring. De gemiddelde kwadratische fout is echter **theoretisch gezien ook een zeer zinnige keuze**. Dit volledig uitleggen zou ons te ver drijven, maar als je graag wat dieper in de wiskunde duikt, moet je de zoektermenen **Minimizing Mean Squared Error is Maximizing Log Likelihood** maar eens googelen.
+
+Om wat schrijfwerk te besparen, korten we *gemiddelde kwadratische fout* af als **MSE**, wat komt van het Engelse **Mean Squared Error**. In de volgende tabel hebben we de verschillende stappen van de berekening van de MSE toegevoegd:
+
+|   Bewoonbare oppervlakte | Afstand tot centrum |      Prijs |  <Blue>Schatting door neuron</Blue> |      <DarkRed>Fout</DarkRed> |                <DarkRed>Kwadratische fout</DarkRed> |
+|-------------------------:|--------------------:|-----------:|------------------------------------:|-----------------------:|----------------------------------------------:|
+|           $104~\si{m}^2$ |       $9  ~\si{km}$ |  €&nbsp;333&nbsp;000 |              <Blue>€ 289 500</Blue> |  <DarkRed>€&nbsp;-43&nbsp;500</DarkRed> |  <DarkRed>1,9&nbsp;miljard&nbsp;(€<sup>2</sup>)</DarkRed> |
+|           $107~\si{m}^2$ |       $9{,}7~\si{km}$ |  €&nbsp;342&nbsp;000 |              <Blue>€ 296 750</Blue> |  <DarkRed>€&nbsp;-45&nbsp;250</DarkRed> |  <DarkRed>2,0&nbsp;miljard&nbsp;(€<sup>2</sup>)</DarkRed> |
+|           $124~\si{m}^2$ |       $4{,}1~\si{km}$ |  €&nbsp;416&nbsp;000 |              <Blue>€ 361 750</Blue> |  <DarkRed>€&nbsp;-54&nbsp;250</DarkRed> |  <DarkRed>2,9&nbsp;miljard&nbsp;(€<sup>2</sup>)</DarkRed> |
+|           $127~\si{m}^2$ |       $8  ~\si{km}$ |  €&nbsp;426&nbsp;000 |              <Blue>€ 361 000</Blue> |  <DarkRed>€&nbsp;-65&nbsp;000</DarkRed> |  <DarkRed>4,2&nbsp;miljard&nbsp;(€<sup>2</sup>)</DarkRed> |
+|           $127~\si{m}^2$ |       $5{,}5~\si{km}$ |  €&nbsp;418&nbsp;000 |              <Blue>€ 367 250</Blue> |  <DarkRed>€&nbsp;-50&nbsp;750</DarkRed> |  <DarkRed>2,6&nbsp;miljard&nbsp;(€<sup>2</sup>)</DarkRed> |
+|            $69~\si{m}^2$ |       $5{,}9~\si{km}$ |  €&nbsp;221&nbsp;000 |              <Blue>€ 192 250</Blue> |  <DarkRed>€&nbsp;-28&nbsp;750</DarkRed> |  <DarkRed>0,8&nbsp;miljard&nbsp;(€<sup>2</sup>)</DarkRed> |
+|           $143~\si{m}^2$ |       $9{,}3~\si{km}$ |  €&nbsp;453&nbsp;000 |              <Blue>€ 405 750</Blue> |  <DarkRed>€&nbsp;-47&nbsp;250</DarkRed> |  <DarkRed>2,2&nbsp;miljard&nbsp;(€<sup>2</sup>)</DarkRed> |
+|            $81~\si{m}^2$ |       $1{,}2~\si{km}$ |  €&nbsp;283&nbsp;000 |              <Blue>€ 240 000</Blue> |  <DarkRed>€&nbsp;-43&nbsp;000</DarkRed> |  <DarkRed>1,8&nbsp;miljard&nbsp;(€<sup>2</sup>)</DarkRed> |
+|            $96~\si{m}^2$ |       $1{,}3~\si{km}$ |  €&nbsp;331&nbsp;000 |              <Blue>€ 284 750</Blue> |  <DarkRed>€&nbsp;-46&nbsp;250</DarkRed> |  <DarkRed>2,1&nbsp;miljard&nbsp;(€<sup>2</sup>)</DarkRed> |
+|           $147~\si{m}^2$ |       $0{,}7~\si{km}$ |  €&nbsp;519&nbsp;000 |              <Blue>€ 439 250</Blue> |  <DarkRed>€&nbsp;-79&nbsp;750</DarkRed> |  <DarkRed>6,4&nbsp;miljard&nbsp;(€<sup>2</sup>)</DarkRed> |
+
+Het gemiddelde van de rechterkolom levert ons een MSE van maar liefst **2,7&nbsp;miljard** <Mute>(€<sup>2</sup>)</Mute>. Dit getal is zo groot omdat ons model typisch ongeveer €50&nbsp;000 onder de werkelijke waarde van een huis schat. Als je dit kwadrateert kom je inderdaad ruim boven de 2&nbsp;miljard uit.
+
+We zouden nu ook eens andere gewichten kunnen proberen en nagaan of de MSE voor die gewichten kleiner is.
+
+### Het foutenlandschap
+
+Ons doel is om de gewichten voor Eriks Huizenprijsneuron te vinden waarvoor de MSE t.o.v. de gegeven verkoopsdata het laagst is.

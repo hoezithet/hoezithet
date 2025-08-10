@@ -1,5 +1,9 @@
 .venv
 
+.ipynb_checkpoints
+__pycache__
+*.ipynb
+
 # Logs
 logs
 *.log
