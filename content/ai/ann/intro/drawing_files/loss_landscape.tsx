@@ -1,9 +1,12 @@
-import React, { useRef, useMemo, useState, useCallback } from 'react';
+import React, { useRef, useMemo, useState, useCallback, useEffect } from 'react';
+import Stack from '@mui/material/Stack';
+import Slider from '@mui/material/Slider';
 
 import { scaleLinear } from 'components/drawings/drawing';
 import { getColor } from "colors";
 import { intToStr } from "utils/number";
 import { Plot3D, PLOT_MIN_VALUE, PLOT_MAX_VALUE, PointProjection } from "components/drawings/plot3d";
+import MD from "components/markdown";
 
 const BILLION_STR = "mld.";
 const MILLION_STR = "mln.";
@@ -11,7 +14,10 @@ const DECIMAL_CHAR = ",";
 
 // Demo component with example data
 export function LossLandscapeSamples() {
-    const point = useMemo(() => [3000, 2.7e9, -2500], []);
+    const [wOpp, setWOpp] = useState(3000);
+    const [wAfst, setWAfst] = useState(-2500);
+
+    const point = useMemo(() => [wOpp, 2.7e9, wAfst], [wOpp, wAfst]);
 
     const xRange = useMemo(() => [-5000, 5000], []);
     const yRange = useMemo(() => [1e8, 3e9], []);
@@ -53,6 +59,10 @@ export function LossLandscapeSamples() {
     const yColor = useMemo(() => getColor("darkred"), []);
     const zColor = useMemo(() => getColor("blue"), []);
 
+    const weightProps = useMemo(() => ({
+        min: -5000, max: 5000, step: 10
+    }), []);
+
     return (
         <div>
             <Plot3D
@@ -87,6 +97,16 @@ export function LossLandscapeSamples() {
                     formatTickZ={formatTickZ}
                 />
             </Plot3D>
+            <Stack alignItems="center">
+                <div style={{width: "100%"}}>
+                    <MD>{ `Gewicht voor Opp = ${wOpp}`}</MD>
+                    <Slider aria-label={`gewicht_opp`} onChange={(event, newValue) => setWOpp(newValue)} {...weightProps} value={wOpp} />
+                </div>
+                <div style={{width: "100%"}}>
+                    <MD>{ `Gewicht voor Afst = ${wAfst}`}</MD>
+                    <Slider aria-label={`gewicht_afst`} onChange={(event, newValue) => setWAfst(newValue)} {...weightProps} value={wAfst} />
+                </div>
+            </Stack>
         </div>
     );
 }

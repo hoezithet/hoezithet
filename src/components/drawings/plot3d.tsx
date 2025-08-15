@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useState, useCallback } from 'react';
+import React, { useRef, useMemo, useState, useCallback, useEffect } from 'react';
 import { Canvas, useFrame, extend, useThree } from '@react-three/fiber';
 import { OrbitControls, Text, Html } from '@react-three/drei';
 import * as THREE from 'three';
@@ -61,7 +61,7 @@ export function ArrowHead({ position, direction, color = "red", transparent = fa
         return { geometry, material };
     }, [color, size]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (mesh.current) {
             const dir = new THREE.Vector3(...direction).normalize();
             const up = new THREE.Vector3(0, 1, 0);
@@ -320,99 +320,113 @@ export function PointProjection({
     formatTickY = (tick) => tick.toFixed(0),
     formatTickZ = (tick) => tick.toFixed(0),
 }) {
-  const [x, y, z] = point;
+    const [x, y, z] = point;
 
-  return (
-    <group>
-      {/* X-axis projection */}
-      <mesh position={[xScale(x), 0, 0]}>
-        <sphereGeometry args={[0.15, 8, 8]} />
-        <meshBasicMaterial color={xColor} />
-      </mesh>
-      <CameraFacingText 
-        position={[xScale(x), -PLOT_FONT_SIZE_LARGE, 0]} 
-        size={PLOT_FONT_SIZE_LARGE}
-        color={xColor}
-      >
-        {formatTickX(x)}
-      </CameraFacingText>
+    const lineXRef = useRef();
+    const lineYRef = useRef();
+    const lineZRef = useRef();
 
-      {/* Y-axis projection */}
-      <mesh position={[xScale(x), yScale(y), zScale(z)]}>
-        <sphereGeometry args={[0.15, 8, 8]} />
-        <meshBasicMaterial color={yColor} />
-      </mesh>
-      <CameraFacingText 
-        position={[xScale(x), yScale(y) + Math.sign(yScale(y)) * PLOT_FONT_SIZE_LARGE, zScale(z)]} 
-        size={PLOT_FONT_SIZE_LARGE}
-        color={yColor}
-        anchorY={yScale(y) >= 0 ? "bottom" : "top"}
-      >
-        {formatTickY(y)}
-      </CameraFacingText>
+    useEffect(() => {
+        lineXRef.current.array.set([
+            xScale(x), 0, 0,
+            xScale(x), 0, zScale(z)
+        ]);
+        lineXRef.current.needsUpdate = true;
 
-      {/* Z-axis projection */}
-      <mesh position={[0, 0, zScale(z)]}>
-        <sphereGeometry args={[0.15, 8, 8]} />
-        <meshBasicMaterial color={zColor} />
-      </mesh>
-      <CameraFacingText 
-        position={[0, -PLOT_FONT_SIZE_LARGE, zScale(z)]} 
-        size={PLOT_FONT_SIZE_LARGE}
-        color={zColor}
-      >
-        {formatTickZ(z)}
-      </CameraFacingText>
+        lineYRef.current.array.set([
+            xScale(x), yScale(y), zScale(z),
+            xScale(x), 0, zScale(z)
+        ]);
+        lineYRef.current.needsUpdate = true;
 
-      {/* Lines parallel to axes to form rectangular projection */}
-      {/* From point to XZ plane (Y projection plane) */}
-      <line>
-        <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            count={2}
-            array={new Float32Array([
-                xScale(x), yScale(y), zScale(z),
-                xScale(x), 0, zScale(z)
-            ])}
-            itemSize={3}
-          />
-        </bufferGeometry>
-        <lineBasicMaterial color="gray" transparent />
-      </line>
+        lineZRef.current.array.set([
+            xScale(x), 0, zScale(z),
+            0, 0, zScale(z)
+        ]);
+        lineZRef.current.needsUpdate = true;
+    }, [x, y, z, xScale, yScale, zScale]);
 
-      <line>
-        <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            count={2}
-            array={new Float32Array([
-                xScale(x), 0, 0,
-                xScale(x), 0, zScale(z)
-            ])}
-            itemSize={3}
-          />
-        </bufferGeometry>
-        <lineBasicMaterial color="gray" transparent />
-      </line>
+    return (
+        <group>
+            {/* X-axis projection */}
+            <mesh position={[xScale(x), 0, 0]}>
+                <sphereGeometry args={[0.15, 8, 8]} />
+                <meshBasicMaterial color={xColor} />
+            </mesh>
+            <CameraFacingText 
+                position={[xScale(x), -PLOT_FONT_SIZE_LARGE, 0]} 
+                size={PLOT_FONT_SIZE_LARGE}
+                color={xColor}
+            >
+                {formatTickX(x)}
+            </CameraFacingText>
 
-      {/* From XZ plane projection to Z axis */}
-      <line>
-        <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            count={2}
-            array={new Float32Array([
-                xScale(x), 0, zScale(z),
-                0, 0, zScale(z)
-            ])}
-            itemSize={3}
-          />
-        </bufferGeometry>
-        <lineBasicMaterial color="gray" transparent />
-      </line>
+        {/* Y-axis projection */}
+        <mesh position={[xScale(x), yScale(y), zScale(z)]}>
+            <sphereGeometry args={[0.15, 8, 8]} />
+            <meshBasicMaterial color={yColor} />
+        </mesh>
+        <CameraFacingText 
+            position={[xScale(x), yScale(y) + Math.sign(yScale(y)) * PLOT_FONT_SIZE_LARGE, zScale(z)]} 
+            size={PLOT_FONT_SIZE_LARGE}
+            color={yColor}
+            anchorY={yScale(y) >= 0 ? "bottom" : "top"}
+        >
+            {formatTickY(y)}
+        </CameraFacingText>
+
+        {/* Z-axis projection */}
+        <mesh position={[0, 0, zScale(z)]}>
+            <sphereGeometry args={[0.15, 8, 8]} />
+            <meshBasicMaterial color={zColor} />
+        </mesh>
+        <CameraFacingText 
+            position={[0, -PLOT_FONT_SIZE_LARGE, zScale(z)]} 
+            size={PLOT_FONT_SIZE_LARGE}
+            color={zColor}
+        >
+            {formatTickZ(z)}
+        </CameraFacingText>
+
+        {/* Lines parallel to axes to form rectangular projection */}
+        <line>
+            <bufferGeometry>
+                <bufferAttribute
+                    ref={lineXRef}
+                    attach="attributes-position"
+                    count={2}
+                    array={new Float32Array(6)}
+                    itemSize={3}
+                />
+            </bufferGeometry>
+            <lineBasicMaterial color="gray" transparent />
+        </line>
+        <line>
+            <bufferGeometry>
+                <bufferAttribute
+                    ref={lineYRef}
+                    attach="attributes-position"
+                    count={2}
+                    array={new Float32Array(6)}
+                    itemSize={3}
+                />
+            </bufferGeometry>
+            <lineBasicMaterial color="gray" transparent />
+        </line>
+        <line>
+            <bufferGeometry>
+                <bufferAttribute
+                    ref={lineZRef}
+                    attach="attributes-position"
+                    count={2}
+                    array={new Float32Array(6)}
+                    itemSize={3}
+                />
+            </bufferGeometry>
+            <lineBasicMaterial color="gray" transparent />
+        </line>
     </group>
-  );
+);
 }
 
 // Surface plot component
