@@ -21,25 +21,30 @@ export function parseNumber(str: string) {
     }
 }
 
+export function intToStr(value: number|string, thousandthSep: string = ' ') {
+    let strValue = value.toString();
+    if (Math.abs(parseInt(strValue)) >= 10000) {
+        // Space after every thousandth
+        const chunkSize = 3;
+        const numChunks = Math.ceil(strValue.length / chunkSize)
+        const chunks = new Array(numChunks)
+
+        for (let k = numChunks - 1, i = strValue.length - chunkSize; k >= 0; --k, i -= chunkSize) {
+            const size = Math.min(chunkSize, i + chunkSize);
+            i = Math.max(0, i);
+            chunks[k] = strValue.substr(i, size);
+        }
+        strValue = chunks.join(thousandthSep);
+    }
+
+    return strValue;
+}
+
 export function toLatexNumber(value: number, decimalSymbol: string = '{,}'): string {
     const valueStr = value.toString();
 
     function intToLatex(value: number|string): string {
-        let strValue = value.toString();
-        if (Math.abs(parseInt(strValue)) >= 10000) {
-            // Space after every thousandth
-            const chunkSize = 3;
-            const numChunks = Math.ceil(strValue.length / chunkSize)
-            const chunks = new Array(numChunks)
-
-            for (let k = numChunks - 1, i = strValue.length - chunkSize; k >= 0; --k, i -= chunkSize) {
-                const size = Math.min(chunkSize, i + chunkSize);
-                i = Math.max(0, i);
-                chunks[k] = strValue.substr(i, size);
-            }
-            strValue = chunks.join("~");
-        }
-        return strValue;
+        return intToStr(value, "~");
     }
 
     // If it's an integer, return directly

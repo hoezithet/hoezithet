@@ -127,7 +127,7 @@ Als voorbeeld gaan we Eriks neuron trainen op een **kleine hoeveelheid fictieve 
 |            $96~\si{m}^2$ |       $1.3~\si{km}$ |  € 331 000 |
 |           $147~\si{m}^2$ |       $0.7~\si{km}$ |  € 519 000 |
 
-### Gemiddelde kwadratische fout berekenen
+### Gemiddelde kwadratische fout (MSE) berekenen
 
 Alvorens we de gewichten van Eriks neuron proberen verbeteren, vragen we ons eerst af *hoe goed* (of *hoe slecht*) de gewichten nu al zijn. Dat doen we door het neuron prijsschattingen te laten maken voor de huizen in de tabel hierboven en de schattingen te vergelijken met de werkelijke verkoopprijs.
 
@@ -158,9 +158,9 @@ We kunnen nu meten hoe ver de schattingen liggen van de echte prijzen. Dat doen 
 
 De *gemiddelde kwadratische fout* die we zo krijgen geeft ons een soort <Mute>(kwadratische)</Mute> afstand tussen de schattingen van Eriks neuron en de werkelijke data. Hoe kleiner die is, hoe beter de schattingen overeenkomen met de data.
 
-> +Uitbreiding: Waarom kwadrateren we de fouten?
+> -Uitbreiding: Waarom kwadrateren we de fouten?
 >
-> Het kwadrateren van de fouten zorgt ervoor dat we nadien een gemiddelde berekenen van **allemaal positieve getallen**. Als een model bv. voor een bepaald huis €100&nbsp;000 *onder* de prijs schat en voor een ander huis €100&nbsp;000 *boven* de prijs, dan is de fout de ene keer €-100&nbsp000 en de andere keer €100&000. *Zonder* een kwadraat zou dit een gemiddelde geven van 0 terwijl het model twee heel foute voorspellingen heeft gemaakt.
+> Het kwadrateren van de fouten zorgt ervoor dat we nadien een gemiddelde berekenen van **allemaal positieve getallen**. Als een model bv. voor een bepaald huis €100&nbsp;000 *onder* de prijs schat en voor een ander huis €100&nbsp;000 *boven* de prijs, dan is de fout de ene keer €-100&nbsp000 en de andere keer €100&nbsp;000. *Zonder* een kwadraat zou dit een gemiddelde geven van 0 terwijl het model twee heel foute voorspellingen heeft gemaakt.
 >
 > -------
 >
@@ -187,4 +187,8 @@ We zouden nu ook eens andere gewichten kunnen proberen en nagaan of de MSE voor 
 
 ### Het foutenlandschap
 
-Ons doel is om de gewichten voor Eriks Huizenprijsneuron te vinden waarvoor de MSE t.o.v. de gegeven verkoopsdata het laagst is.
+Ons doel is om de gewichten voor Eriks Huizenprijsneuron te vinden waarvoor de MSE t.o.v. de echte verkoopsprijzen het laagst is. In de vorige paragraaf zagen we dat de MSE met de huidige gewichten gelijk was aan **2,7&nbsp;miljard** <Mute>(we laten de eenheid voor de eenvoud achterwege)</Mute>. Omdat er maar twee gewichten zijn in dat neuron, kunnen we de toestand van het huidige neuron visualiseren **als een punt in een 3D-grafiek**. In het **horizontaal vlak plaatsen we de twee gewichten** elk op een eigen as: **<Blue>-2500</Blue>** voor de afstand, **<Blue>3000</Blue>** voor de bewoonbare oppervlakte. Op de verticale as plaatsen we de MSE van **<DarkRed>2,7&nbsp;mld.</DarkRed>** die we met die gewichten behaalde.
+
+import { LossLandscapeSamples } from "./drawing_files/loss_landscape";
+
+<LossLandscapeSamples/>
