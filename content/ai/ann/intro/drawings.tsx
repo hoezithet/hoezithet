@@ -494,12 +494,12 @@ const SumActNeuron = ({x, y, sumOutput, radius, color, activFunc}) => {
     );
 };
 
-export const EriksNeuron2 = ({opp=70, afst=100}) => {
+export const EriksNeuron2 = ({opp=70, afst=100, maxOpp=500, maxAfst=200}) => {
     return (
         <InteractiveMLP
             inputProps={[
-                {value: opp, min: 0, max: 500, step: 1, name: "\\text{Opp}", unit: "\\si{m}^2"},
-                {value: afst, min: 0, max: 200, step: 0.1, name: "\\text{Afst}", unit: "\\si{km}"},
+                {value: opp, min: 0, max: maxOpp, step: 1, name: "\\text{Opp}", unit: "\\si{m}^2"},
+                {value: afst, min: 0, max: maxAfst, step: 0.1, name: "\\text{Afst}", unit: "\\si{km}"},
             ]}
             outputProps={[
                 {name: "\\text{Waarde}", unit: "\\si{euro}"},

@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useState, useCallback, useEffect } from 'react';
+import React, { useRef, useMemo, useState, useCallback, useEffect, createContext, useContext } from 'react';
 import { Canvas, useFrame, extend, useThree } from '@react-three/fiber';
 import { OrbitControls, Text, Html } from '@react-three/drei';
 import * as THREE from 'three';
@@ -15,6 +15,13 @@ const PLOT_CAM_POS = [16, 16, 16];
 const PLOT_FONT_SIZE = 0.4;
 const PLOT_FONT_SIZE_LARGE = 0.5;
 
+export const Plot3DContext = createContext({
+    width: null,
+    height: null,
+    xScale: scaleLinear({range: [PLOT_MIN_VALUE, PLOT_MAX_VALUE], domain: [-10, 10]}), 
+    yScale: scaleLinear({range: [PLOT_MIN_VALUE, PLOT_MAX_VALUE], domain: [-10, 10]}), 
+    zScale: scaleLinear({range: [PLOT_MIN_VALUE, PLOT_MAX_VALUE], domain: [-10, 10]}), 
+});
 
 // Camera-facing text component
 export function CameraFacingText({
@@ -79,9 +86,6 @@ export function ArrowHead({ position, direction, color = "red", transparent = fa
 
 // Axes component
 export function Axes({ 
-    xScale = scaleLinear({range: [PLOT_MIN_VALUE, PLOT_MAX_VALUE], domain: [-10, 10]}), 
-    yScale = scaleLinear({range: [PLOT_MIN_VALUE, PLOT_MAX_VALUE], domain: [-10, 10]}), 
-    zScale = scaleLinear({range: [PLOT_MIN_VALUE, PLOT_MAX_VALUE], domain: [-10, 10]}), 
     xLabel = "x",
     yLabel = "y", 
     zLabel = "z",
@@ -95,10 +99,11 @@ export function Axes({
     tickOpacity = 0.5,
     projectedPoints = [],
     hideThreshold = 0.3,
-    formatTickX = (tick) => tick.toFixed(0),
-    formatTickY = (tick) => tick.toFixed(0),
-    formatTickZ = (tick) => tick.toFixed(0),
+    formatTickX = (tick: Number) => tick.toFixed(0),
+    formatTickY = (tick: Number) => tick.toFixed(0),
+    formatTickZ = (tick: Number) => tick.toFixed(0),
 }) {
+    const { xScale, yScale, zScale } = useContext(Plot3DContext);
     const xTicks = useMemo(() => {
         return xScale.ticks(tickCountX);
     }, [tickCountX, xScale]);
@@ -313,9 +318,6 @@ export function PointProjection({
     xColor = "red",
     yColor = "green",
     zColor = "blue",
-    xScale = scaleLinear({range: [PLOT_MIN_VALUE, PLOT_MAX_VALUE], domain: [-10, 10]}), 
-    yScale = scaleLinear({range: [PLOT_MIN_VALUE, PLOT_MAX_VALUE], domain: [-10, 10]}), 
-    zScale = scaleLinear({range: [PLOT_MIN_VALUE, PLOT_MAX_VALUE], domain: [-10, 10]}), 
     formatTickX = (tick) => tick.toFixed(0),
     formatTickY = (tick) => tick.toFixed(0),
     formatTickZ = (tick) => tick.toFixed(0),
@@ -325,6 +327,8 @@ export function PointProjection({
     const lineXRef = useRef();
     const lineYRef = useRef();
     const lineZRef = useRef();
+
+    const { xScale, yScale, zScale } = useContext(Plot3DContext);
 
     useEffect(() => {
         lineXRef.current.array.set([
@@ -431,6 +435,7 @@ export function PointProjection({
 
 // Surface plot component
 export function SurfacePlot({ data, color = "white", wireframe = false, opacity=0.8 }) {
+    const { xScale, yScale, zScale } = useContext(Plot3DContext);
     const mesh = useMemo(() => {
         const rows = data.length;
         const cols = data[0].length;
@@ -441,7 +446,7 @@ export function SurfacePlot({ data, color = "white", wireframe = false, opacity=
         // Create vertices
         for (let i = 0; i < rows; i++) {
             for (let j = 0; j < cols; j++) {
-                vertices.push(data[i][j][0], data[i][j][1], data[i][j][2]);
+                vertices.push(xScale(data[i][j][0]), yScale(data[i][j][1]), zScale(data[i][j][2]));
             }
         }
 
@@ -512,6 +517,7 @@ export function Plot3D({
     formatTickX = (tick) => tick.toFixed(0),
     formatTickY = (tick) => tick.toFixed(0),
     formatTickZ = (tick) => tick.toFixed(0),
+    tickHideThreshold = 0.,
     children = null,
 }) {
 
@@ -524,25 +530,25 @@ export function Plot3D({
 
                 <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
 
-                {showAxes && (
-                    <Axes 
-                        xScale={xScale}
-                        yScale={yScale} 
-                        zScale={zScale}
-                        xLabel={xLabel}
-                        yLabel={yLabel}
-                        zLabel={zLabel}
-                        xColor={xColor}
-                        yColor={yColor}
-                        zColor={zColor}
-                        showTicks={showTicks}
-                        projectedPoints={[[1, 2, 3]]}
-                        formatTickX={formatTickX}
-                        formatTickY={formatTickY}
-                        formatTickZ={formatTickZ}
-                    />
-                )}
-               { children }
+                <Plot3DContext.Provider value={{width: width, height: height, xScale: xScale, yScale: yScale, zScale: zScale}}>
+                    {showAxes && (
+                        <Axes 
+                            xLabel={xLabel}
+                            yLabel={yLabel}
+                            zLabel={zLabel}
+                            xColor={xColor}
+                            yColor={yColor}
+                            zColor={zColor}
+                            showTicks={showTicks}
+                            projectedPoints={[[1, 2, 3]]}
+                            formatTickX={formatTickX}
+                            formatTickY={formatTickY}
+                            formatTickZ={formatTickZ}
+                            hideThreshold={tickHideThreshold}
+                        />
+                    )}
+                   { children }
+               </Plot3DContext.Provider>
            </Canvas>
        </div>
     );
